@@ -1,15 +1,19 @@
 ---
+// 改动点 ✅：合并两个 collection
 import { getCollection } from 'astro:content';
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Subscribe from '../../components/Subscribe.astro';
 import { sortItemsByDateDesc, getAllTags, getPostsByTag } from '../../utils/data-utils';
 
-const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+const blogPosts = await getCollection('blog');
+const projectPosts = await getCollection('projects');
+const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 合并
+
 const tags = getAllTags(posts).sort((tagA, tagB) => {
-    const postCountTagA = getPostsByTag(posts, tagA.id).length;
-    const postCountTagB = getPostsByTag(posts, tagB.id).length;
-    return postCountTagB - postCountTagA;
+  const postCountTagA = getPostsByTag(posts, tagA.id).length;
+  const postCountTagB = getPostsByTag(posts, tagB.id).length;
+  return postCountTagB - postCountTagA;
 });
 ---
 

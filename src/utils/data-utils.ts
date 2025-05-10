@@ -6,13 +6,14 @@ export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>,
 }
 
 export const TAG_SLUG_MAP: Record<string, string> = {
-    创作手记: 'diary'
+    创作手记: 'diary',
+    事典: "encyclopedia"
 };
 
 // 反转映射（英文 id → 中文 name）
 export const SLUG_TAG_MAP: Record<string, string> = Object.fromEntries(Object.entries(TAG_SLUG_MAP).map(([cn, en]) => [en, cn]));
 
-export function getAllTags(posts: CollectionEntry<'blog'>[]) {
+export function getAllTags(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>) {
     const rawTags = posts.flatMap((post) => post.data.tags || []).filter(Boolean);
 
     // 统一将英文 tag 也映射为其中文源（如果可能）
@@ -33,7 +34,6 @@ export function getAllTags(posts: CollectionEntry<'blog'>[]) {
         .filter((obj, pos, arr) => arr.map((mapObj) => mapObj.id).indexOf(obj.id) === pos);
 }
 
-export function getPostsByTag(posts: CollectionEntry<'blog'>[], tagId: string) {
-    const filteredPosts: CollectionEntry<'blog'>[] = posts.filter((post) => (post.data.tags || []).map((tag) => slugify(tag)).includes(tagId));
-    return filteredPosts;
+export function getPostsByTag(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>, tagId: string) {
+    return posts.filter((post) => (post.data.tags || []).map((tag) => slugify(tag)).includes(tagId));
 }

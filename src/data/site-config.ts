@@ -52,10 +52,10 @@ const siteConfig: SiteConfig = {
             text: '主页',
             href: '/'
         },
-        // {
-        //     text: 'Wiki',
-        //     href: '/projects'
-        // },
+        {
+            text: 'Wiki',
+            href: '/projects'
+        },
         {
             text: '日志',
             href: '/blog'
