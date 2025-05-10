@@ -1,67 +1,20 @@
 ---
-title: Your Roadmap to Framework Selection Success
-excerpt: Choosing the right framework for your web project is a critical decision that can significantly impact the development process and the success of your project. With so many options available, it's essential to consider various factors before making a choice.
-publishDate: 'Jan 11 2024'
-isFeatured: true
+title: 郭嘉
+excerpt: 郭嘉素来给我的感觉便是慵懒，完全和兢兢业业勤勤恳恳的荀彧相反；除非是遇到明主，那郭嘉宁愿为之弃命而定事。这个形象挺典型的，我也很难再加发挥。至于什么前算五百年后算五百年当个笑话听就得了，当世之事尚且不尽，哪有什么余力前算后算。
+publishDate: '2025-02-11'
 tags:
-  - Web
-  - Guide
+  - diary
+isFeatured: true
 seo:
   image:
-    src: '/post-14.jpg'
-    alt: Wavy lines
+    src: '/post-13.jpg'
+    alt: Abstract snow
 ---
 
-![Wavy lines](/post-14.jpg)
+郭嘉素来给我的感觉便是慵懒，完全和兢兢业业勤勤恳恳的荀彧相反；除非是遇到明主，那郭嘉宁愿为之弃命而定事。这个形象挺典型的，我也很难再加发挥。至于什么前算五百年后算五百年当个笑话听就得了，当世之事尚且不尽，哪有什么余力前算后算。
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+郭嘉的数值如何安排却着实使我犯难——无论统智武魅运抑或胆识冷静均是如此。考虑到郭嘉并无统兵经验，荀彧则正儿八经守住了鄄城，统御比荀彧低个20+并不过分，30~50统也大概是纯文官的标准区间。智略90+大概是没问题的，但个位数应该是多少？本传按演义和光荣风格给了个99，外传时间线在诸葛亮之前，那百智要不要给他？结果外传百智给了荀彧，99智给了荀攸，98智差点按顺序给了程昱，思虑再三，（以及演义徐庶十倍于程昱，徐庶比诸葛亮又犹萤光之于皓月，可怜的仲德，折合下来智力约等于1）还是给了98智。武勇郭嘉肯定是低的，但给了13确实太低……这么说罢，外传武勇倒数第二是郭嘉两倍有余。
 
-**Choosing the right framework** for your web project is a critical decision that can significantly impact the development process and the success of your project. With so many options available, it's essential to consider various factors before making a choice. Here's a step-by-step guide on how to choose the right framework for your web project.
+而魅力和气运更是举棋不定：抛开老三国电视剧、光荣游戏、幻想三国志等等等等不谈，郭嘉没什么容貌的记载，定成80+肯定是不妥的；何况程昱那老帅哥还因为干粮之故被扣到了68魅力，郭嘉被陈群参了个不治行检，又没有石苞容仪伟丽的记载，本传给到71已然是各种二创带来的加成；至于外传魅力被砍20点，那便是排除了二创加成之故。气运也比较微妙，给高罢，人家三十多就死了；给低罢，孙策、乌桓那几件事儿虽有史家附会之嫌，但终归太玄学；而若气运再给30+，那郭嘉五维和也太过可怜，最后遂采取折中+同情分的方法，本身给高气运，专属道具则倒扣气运。
 
-> Web frameworks are the architectural blueprints that empower developers to build the digital landscapes of tomorrow.
-
-## Understand Your Project Requirements
-
-Start by thoroughly understanding the specific requirements of your web project. Consider factors such as the project's scope, complexity, and the features you need. Ask questions like:
-
-- What is the project's purpose?
-- What are the key functionalities it should have?
-- Are there any specific technical or performance requirements?
-
-## Define Your Tech Stack
-
-Determine your preferred technology stack. This includes choices for the frontend (HTML, CSS, JavaScript), backend (programming language, database), and any other technologies you plan to use. Your framework should align with your chosen tech stack.
-
-## Consider Your Team's Expertise
-
-Assess the skills and expertise of your development team. Choose a framework that your team is comfortable with or is willing to learn. If your team is experienced in a particular language or framework, it may be more efficient to stick with what they know.
-
-## Community and Ecosystem
-
-The strength and vitality of a framework's community and ecosystem are paramount considerations when making your choice. A thriving community signifies that the framework is actively used and supported by developers worldwide. Here's why this matters.
-
-> Good code is its own best documentation. As you're about to add a comment, ask yourself, 'How can I improve the code so that this comment isn't needed? - **Steve McConnell**
-
-**Support and Problem Solving:** A robust community ensures that you won't be left in the dark when you encounter issues or challenges during development. It's a vast network of developers who are willing to help and share their knowledge. You can turn to forums, Stack Overflow, GitHub discussions, and various online communities for assistance. The more active the community, the faster you're likely to get answers and solutions to your problems.
-
-**Third-Party Libraries and Plugins:** An active ecosystem often means a wealth of third-party libraries, plugins, and extensions that can extend the functionality of your chosen framework. This can significantly speed up development by providing pre-built solutions for common features and functionalities.
-
-**Continuous Improvement:** A large and engaged community usually translates to continuous improvement of the framework. Developers are more likely to contribute bug fixes, enhancements, and new features, leading to faster updates and a more stable platform. These contributions keep the framework up-to-date and aligned with industry standards.
-
-**Tutorials and Learning Resources:** A thriving community often generates a plethora of tutorials, blog posts, video courses, and documentation. This abundance of learning resources can be immensely valuable for both beginners and experienced developers looking to master the framework. It makes the learning curve smoother and promotes the adoption of best practices.
-
-**Long-Term Viability:** A framework with a strong community is more likely to have a longer lifespan. It's reassuring to know that the framework you choose today will still be supported and updated in the years to come, reducing the risk of your project becoming obsolete due to a lack of maintenance.
-
-## Documentation and Learning Resources
-
-Check the quality and availability of documentation and learning resources for the framework. Well-documented frameworks are easier for developers to learn and work with.
-
-## Scalability and Performance
-
-Consider whether the framework can scale to meet your project's future needs. Will it handle increased traffic and data without performance bottlenecks?
-
-## Security
-
-Security is crucial for any web project. Ensure that the framework has security features built in and is actively maintained to address security vulnerabilities promptly.
-
-In conclusion, choosing the right framework for your web project involves a careful evaluation of your project's requirements, your team's expertise, community support, and various technical factors. Taking the time to make an informed decision at the outset can save you time, resources, and headaches as your project progresses.
+胆识冷静则有个我私下定的不成文规矩——总和尽量不超过16。郭嘉用计主打一个心跳，6/10实在太低估郭嘉那胆子了，但10/6感觉也不太对；外传改到了8/8，还是觉得挺奇怪……
