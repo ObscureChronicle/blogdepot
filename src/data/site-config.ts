@@ -40,8 +40,8 @@ export type SiteConfig = {
 
 const siteConfig: SiteConfig = {
     website: 'https://example.com',
-    title: 'Dante',
-    subtitle: 'Minimal Astro.js theme',
+    title: '后汉稽异录',
+    subtitle: '2019-2025',
     description: 'Astro.js and Tailwind CSS theme for blog and portfolio by justgoodui.com',
     image: {
         src: '/dante-preview.jpg',
@@ -49,73 +49,77 @@ const siteConfig: SiteConfig = {
     },
     headerNavLinks: [
         {
-            text: 'Home',
+            text: '主页',
             href: '/'
         },
+        // {
+        //     text: 'Wiki',
+        //     href: '/projects'
+        // },
         {
-            text: 'Projects',
-            href: '/projects'
-        },
-        {
-            text: 'Blog',
+            text: '日志',
             href: '/blog'
         },
         {
-            text: 'Tags',
+            text: '索引',
             href: '/tags'
         }
     ],
     footerNavLinks: [
+        // {
+        //     text: '关于',
+        //     href: '/about'
+        // },
         {
-            text: 'About',
-            href: '/about'
-        },
-        {
-            text: 'Contact',
+            text: '联系作者',
             href: '/contact'
         },
         {
-            text: 'Terms',
-            href: '/terms'
+            text: 'QQ群',
+            href: 'https://qm.qq.com/q/VAy5a0wUEK'
         },
         {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
-        }
-    ],
-    socialLinks: [
-        {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
-        },
-        {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
+            text: 'Steam',
+            href: 'https://store.steampowered.com/app/2010900/_/'
         },
         {
             text: 'X/Twitter',
-            href: 'https://twitter.com/'
+            href: 'https://x.com/IsaacXBZhang'
         }
     ],
+    // socialLinks: [
+    //     {
+    //         text: 'Steam',
+    //         href: 'https://store.steampowered.com/app/2010900/_/'
+    //     },
+    //     {
+    //         text: 'Instagram',
+    //         href: 'https://instagram.com/'
+    //     },
+    //     {
+    //         text: 'X/Twitter',
+    //         href: 'https://twitter.com/'
+    //     }
+    // ],
     hero: {
-        title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Ethan Donovan**, a web developer at Amazing Studio, dedicated to the realms of collaboration and artificial intelligence. My approach involves embracing intuition, conducting just enough research, and leveraging aesthetics as a catalyst for exceptional products. I have a profound appreciation for top-notch software, visual design, and the principles of product-led growth. Feel free to explore some of my coding endeavors on <a href='https://github.com/JustGoodUI/dante-astro-theme'>GitHub</a> or follow me on <a href='https://twitter.com/justgoodui'>Twitter/X</a>.",
+        // title: 'Hi There & Welcome to My Corner of the Web!',
+        text: '这是一款「虚构的，但也应当是合理的」剧情向战棋类游戏，又似可将它看作是一段异位面的三国历史。因而诸君或将发现，游戏前期的剧情尚可称作较为熟知的三国故事，但是剧情愈后，和本位面差别愈大。许多在正史上着墨甚少乃至寥寥数笔的人物，亦可能在这段迥异的时空中绽放出别样的光芒。',
         image: {
-            src: '/hero.jpeg',
-            alt: 'A person sitting at a desk in front of a computer'
+            src: '/title.png',
+            alt: '后汉稽异录 Obscure Chronicle of Dynasty'
         },
         actions: [
             {
-                text: 'Get in Touch',
-                href: '/contact'
+                text: '前往Steam游戏商店页面',
+                href: 'https://store.steampowered.com/app/2010900/_/'
             }
         ]
     },
-    subscribe: {
-        title: 'Subscribe to Dante Newsletter',
-        text: 'One update per week. All the latest posts directly in your inbox.',
-        formUrl: '#'
-    },
+    // subscribe: {
+    //     title: 'Subscribe to Dante Newsletter',
+    //     text: 'One update per week. All the latest posts directly in your inbox.',
+    //     formUrl: '#'
+    // },
     postsPerPage: 8,
     projectsPerPage: 8
 };

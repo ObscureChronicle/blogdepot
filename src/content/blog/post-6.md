@@ -1,54 +1,21 @@
 ---
-title: 'The Evolution of Front-End Development: A Journey Through Time'
-excerpt: Choosing the right framework for your web project is a critical decision that can significantly impact the development process and the success of your project. With so many options available, it's essential to consider various factors before making a choice.
-publishDate: 'October 9 2023'
+title: 宝物
+excerpt: 《后汉》做到鄄城之战吕布出场，才想到设定宝物——毕竟方天画戟实在知名。与《三国志》系列类似，宝物从一开始便设定为纯加成的不可用道具，方天戟也不过是武勇+8的装饰品而已。甚至还更进一步：名马（赤兔马）统统删掉，药品与宝书也未曾出现，这下连「撤退必成」和「延长寿命」也没了。
+publishDate: '2025-03-02'
 tags:
-  - Web
-  - Guide
+  - diary
 seo:
   image:
     src: '/post-6.jpg'
     alt: Walking person silhouette
 ---
 
-![Walking person silhouette](/post-6.jpg)
+《后汉》做到鄄城之战吕布出场，才想到设定宝物——毕竟方天画戟实在知名。与《三国志》系列类似，宝物从一开始便设定为纯加成的不可用道具，方天戟也不过是武勇+8的装饰品而已。甚至还更进一步：名马（赤兔马）统统删掉，药品与宝书也未曾出现，这下连「撤退必成」和「延长寿命」也没了。
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+第二个出场的宝物便是曹操的倚天剑，这东西也不好学《三国群英传2》的直接武+30，又或是《三国志5》武+10；最终给了武勇+3，但又出现了新的问题：有方天戟在，谁会想要曹操的那把破剑呢？这时想起了曹操传里的辅助格挡，寻思着要不要给宝物加点特殊功效，也好体现人物的特质——那时候刚上手SS，人物的特质和军略都是不存在的——而辅助格挡做不出来，遂简单粗暴地给倚天剑加了个暴击无效，之后的宝物也便如法炮制；唯有天师道的那两件宝物「五火神焰扇」与「天师道袍」乃是暗中吐槽《曹操传》的法术设定与《后汉》体系不相容，因而也基本沦为换钱的真·宝物。
 
-Front-end development has come a long way since the early days of the World Wide Web. From static HTML pages to dynamic and interactive web applications, the evolution of front-end development has been nothing short of remarkable. In this post, we'll take a fascinating journey through time to explore how front-end development has evolved over the years.
+彼时宝物的名称还都是全称，介绍也并不花哨：倚天剑，介绍便是「曹操的配剑」；方天画戟，介绍便是「传说中吕布的武器」；青龙偃月刀，介绍便是「演义中关羽的武器」。直到后来测试时，或问曰「为什么荀彧（很早期的版本是刀兵）拿了倚天剑不能攻击」，我愣了一下，答曰「荀彧带的八百余人的部队怎么可能人手一把倚天剑呢」，然后意识到——如果我不把这些「宝物」改成武器，那便是时候让它们「更不像武器」了。
 
-## The Static HTML Era (1990s - Early 2000s)
+首先开刀的便是名称，什么「剑」「刀」，统统删掉，只留下前面那个形容词；后来更是犯了强迫症，几乎统一成了二字。唯有「方天戟」「丈八蛇矛」「白羽扇」难以拆开——「方天」词义不通，「丈八」更是滑稽，至于诸葛亮的羽扇我曾经想仿照无双叫「朱雀」，但似乎太中二，遂作罢。
 
-In the early days of the web, front-end development primarily involved creating static HTML pages. These pages were simple, text-heavy, and often lacked the visual and interactive elements we take for granted today. Cascading Style Sheets (CSS) started to gain popularity during this era, allowing developers to style web pages and make them more visually appealing.
-
-## The Rise of JavaScript (Late 1990s - Early 2000s)
-
-JavaScript emerged as a powerful tool for adding interactivity to web pages. This era witnessed the birth of technologies like DHTML (Dynamic HTML), which allowed developers to create dynamic and animated web content. This marked the beginning of a more engaging web experience.
-
-## The Era of Browser Wars (Late 1990s - Early 2000s)
-
-During this period, web developers faced challenges due to the "browser wars" between Internet Explorer and Netscape Navigator. Cross-browser compatibility became a significant concern, leading to the development of various JavaScript libraries and frameworks to help tackle these issues.
-
-## The Web 2.0 Revolution (Mid-2000s)
-
-Web 2.0 brought about a shift in front-end development. Websites started to become more interactive and user-centric. Ajax (Asynchronous JavaScript and XML) became a key technology, enabling seamless data retrieval and updates without requiring full page reloads.
-
-## Responsive Web Design (2010s)
-
-With the proliferation of smartphones and tablets, responsive web design became essential. Front-end developers had to adapt to building websites that could gracefully resize and restructure themselves to fit various screen sizes. This era saw the widespread use of CSS frameworks like Bootstrap and Foundation.
-
-## The Era of JavaScript Frameworks (2010s - Present)
-
-JavaScript frameworks like Angular, React, and Vue.js transformed front-end development. They introduced concepts like component-based architecture and virtual DOM, making it easier to build complex, dynamic web applications. Single-page applications (SPAs) became increasingly popular, providing smoother user experiences.
-
-## The Progressive Web App (PWA) Movement (2010s - Present)
-
-PWAs combined the best of web and mobile app experiences. Front-end developers started focusing on creating websites that not only worked well on browsers but also functioned offline, provided push notifications, and offered a more app-like experience to users.
-
-## WebAssembly and Beyond (Present - Future)
-
-WebAssembly (Wasm) is an emerging technology that allows running compiled code in web browsers at near-native speed. It opens up possibilities for front-end developers to build high-performance web applications and even port existing applications from other languages.
-
-## Conclusion
-
-Front-end development has evolved significantly, from static HTML pages to dynamic, responsive, and highly interactive web applications. With emerging technologies and ongoing advancements, the journey of front-end development continues to be exciting. As front-end developers, it's essential to stay updated, adapt to new trends, and embrace the ever-changing landscape of web development to create compelling user experiences on the internet.
+下一个动刀的便是介绍，思路便是一般武器介绍更加详细，为此还翻了好几本讲古兵器的书和数十篇论文，总之「短矛，基础矛类兵器」的介绍是不会有了；而一般武器既已说明文化，则不妨让宝物介绍更隐晦一些——也算是某种对《红楼梦》判词的拙劣模仿。这时想起了课外读的第一首曹操的诗（其实也是因为这是中华书局出版的《曹操集》的第一首），「驾六龙，乘风而行」，岂不正合「倚天」之名？于是介绍不说人话便成了《后汉》的一大特色——宝物说明用一句诗滥竽充数，至少就我所见，大抵还是仅此一家罢。

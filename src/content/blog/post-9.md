@@ -1,56 +1,17 @@
 ---
-title: Front-End Techniques for Optimizing Website Performance
-excerpt: Slow-loading websites can frustrate users, affect search engine rankings, and ultimately lead to loss of traffic and revenue. Front-end optimization is the key to ensuring a fast, responsive, and user-friendly website.
-publishDate: 'October 12 2023'
+title: 荀彧
+excerpt: 几个主要人物的手记究竟该如何写一直困扰着我，尤其由于幼时对荀彧近乎无感，高中受到一位同学的影响才逐渐开始了解此君，接触到的其余三国作品中的形象也并不算多，故而生怕言多必失，以上姑且算是事先加的免责声明。
+publishDate: '2025-02-04'
 tags:
-  - Web
-  - Web development
+  - diary
 seo:
   image:
     src: '/post-9.jpg'
     alt: Mountains
 ---
 
-![Mountains](/post-9.jpg)
+几个主要人物的手记究竟该如何写一直困扰着我，尤其由于幼时对荀彧近乎无感，高中受到一位同学的影响才逐渐开始了解此君，接触到的其余三国作品中的形象也并不算多，故而生怕言多必失，以上姑且算是事先加的免责声明。
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+在创作时我有意识地让荀彧和沮授形象分别开来，试图让荀彧在道德上成为近乎完美的化身（下一个有如此待遇的大概是夏侯玄），总之是我理想中的却也达不到的境界。大概来说，《后汉》中的荀彧以「义」为主，沮授则以「利」优先；荀彧更接近于「纯儒」，而沮授则像是先秦的「士」。正史荀彧为汉室而死，「秉忠贞之诚，守退让之实；君子爱人以德，不宜如此」；而在《后汉》中，荀彧则诸葛亮的定位更加接近，都是有太平理想的政治家，其最终目标都是回复治世，而汉朝四百年治世的标尺，才是两人心存汉室的根本原因。这当然未必接近正史中的荀彧，但文学创作毕竟是需要改编的嘛。
 
-In an age where instant gratification is the norm, website performance is paramount. Slow-loading websites can frustrate users, affect search engine rankings, and ultimately lead to loss of traffic and revenue. Front-end optimization is the key to ensuring a fast, responsive, and user-friendly website. In this post, we'll explore some essential front-end techniques for optimizing website performance.
-
-1. **Image Optimization:**
-   Images are often the largest assets on a web page. Optimizing them is crucial. Use modern image formats like WebP, which offer better compression and quality. Compress images to reduce their file size while maintaining quality. Consider lazy loading images to load them only when they enter the user's viewport.
-
-2. **Minification and Compression:**
-   Minify your HTML, CSS, and JavaScript files to remove unnecessary whitespace and reduce file size. Additionally, enable server-side compression like Gzip or Brotli to further reduce data transfer. Smaller files mean faster load times.
-
-3. **CDN (Content Delivery Network):**
-   Implement a CDN to distribute your website's assets across multiple servers located in various geographic regions. This reduces latency and accelerates content delivery to users, regardless of their location.
-
-4. **Reduce HTTP Requests:**
-   Each HTTP request made by the browser adds latency. Minimize the number of requests by combining CSS and JavaScript files and using image sprites to reduce the number of image requests. Also, consider asynchronous loading of non-essential scripts.
-
-5. **Caching:**
-   Leverage browser caching by setting appropriate cache headers for your assets. This allows returning visitors to load your website more quickly since their browsers will already have cached some of the resources.
-
-6. **Critical CSS and Font Loading:**
-   Implement critical CSS to load only the essential styles needed for the above-the-fold content. For fonts, use the "font-display" property to specify how fonts are loaded to ensure that text content remains visible while fonts are being fetched.
-
-7. **Responsive Design:**
-   Design with mobile in mind and use responsive design techniques. This includes using media queries to adjust layouts and optimizing images for different screen sizes. Mobile users expect fast load times.
-
-8. **Prefetching and Preloading:**
-   Utilize HTML tags like `<link rel="preload">` and `<link rel=prefetch">` to give browsers hints about which resources to fetch ahead of time. This can improve the perceived performance of your website.
-
-9. **Reducing Third-Party Scripts:**
-   Limit the number of third-party scripts on your website, as they can significantly slow down load times. Evaluate the necessity of each script and consider asynchronous loading to prevent blocking the rendering of your page.
-
-10. **Progressive Web App (PWA):**
-    Implementing a PWA can drastically improve website performance and user experience. PWAs allow for offline access, fast loading times, and provide an app-like experience on the web.
-
-11. **Monitoring and Testing:**
-    Continuously monitor your website's performance using tools like Google PageSpeed Insights, GTmetrix, or WebPageTest. Regularly run performance tests to identify and address bottlenecks.
-
-12. **Reducing Animations and Effects:**
-    While animations and effects can enhance user experience, excessive use can slow down your website. Use them sparingly and consider reducing their complexity.
-
-In conclusion, optimizing front-end performance is a never-ending journey. It's crucial to balance aesthetics and functionality with the need for speed. Regularly assess your website's performance and implement the most appropriate front-end techniques to ensure a fast, responsive, and user-friendly experience for your visitors. By following these tips, you'll not only please your users but also boost your search engine rankings and drive better business results.
+从数值上或许也能看出一些端倪：同为智士，荀彧与沮授在其余四维上基本上完全相反，而荀彧魅力更是达到了97，加上世族特性的加成魅力排名第二；我军队友中，同为颍川世族，钟繇会增加我军世族化程度，而荀彧则只会增加我军的民心。另外看过zg整理的军略表后，我才发现给荀彧分配了这么多专属且超模的军略，所谓偏爱，盖如是观。

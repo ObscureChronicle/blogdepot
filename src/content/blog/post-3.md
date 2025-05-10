@@ -1,61 +1,15 @@
 ---
-title: Communication and Collaboration for Front-End Developers
-excerpt: Front-end development is not just about writing code; it's also about working seamlessly with others to create outstanding user experiences.
-publishDate: 'October 6 2023'
+title: 2025年创作手记・代目录
+excerpt: 要写这些人物之前，zg曾给我发来两份长长的人物名单，短的那份叫做「手记人选」，因加入备选人物而更长的那份则以「多一点」之故，被我命名为「手记大选」。
+publishDate: '2025-01-31'
 tags:
-  - Web
-  - UX
-  - Web development
+  - diary
 seo:
   image:
     src: '/post-3.jpg'
     alt: Beach ocean shore
 ---
 
-![Beach ocean shore](/post-3.jpg)
+要写这些人物之前，zg曾给我发来两份长长的人物名单，短的那份叫做「手记人选」，因加入备选人物而更长的那份则以「多一点」之故，被我命名为「手记大选」。然而甫一下笔，顿觉文思枯竭，不得已又删去一半，改为「手记优选」；写着写着又删掉一些，成了「手记遴选」，权列在此作索引之用；实际能写出来的恐怕还不到二分之一，有些不在名单之中也可能一时兴起便写了，实在没有发挥目录之功效，故称之为「代目录」。
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
-
-Front-end development is not just about writing code; it's also about working seamlessly with others to create outstanding user experiences. Effective communication and collaboration are essential skills for front-end developers to succeed in today's dynamic and interdependent tech industry. In this post, we'll explore why these skills matter and provide practical tips for front-end developers looking to excel in these areas.
-
-## The Significance of Communication and Collaboration
-
-1. **Cross-Functional Teams:** Front-end development is rarely a solitary endeavor. You'll often collaborate with designers, back-end developers, project managers, and other stakeholders. Effective communication ensures that everyone is on the same page and working toward a common goal.
-
-2. **User-Centric Focus:** Front-end developers play a crucial role in shaping the user experience. Clear communication with designers and user researchers is essential to understand user needs and deliver an intuitive interface.
-
-3. **Continuous Learning:** Staying updated in the rapidly evolving world of web development requires engaging with the community, reading documentation, and sharing knowledge with others. Effective communication facilitates this process.
-
-## Tips for Effective Communication
-
-1. **Active Listening:** Pay close attention to what others are saying. Understanding their perspectives and concerns is the first step to effective communication.
-
-2. **Ask Questions:** Don't hesitate to ask for clarification if something is unclear. This helps avoid misunderstandings and ensures you're on the right track.
-
-3. **Use Clear and Concise Language:** Avoid jargon and technical terms when speaking with non-technical stakeholders. Explain complex concepts in simple, understandable terms.
-
-4. **Documentation:** Keep detailed records of project decisions and discussions. This helps in case of disputes and provides a valuable reference.
-
-5. **Regular Updates:** Keep your team informed about your progress. Share updates on what you've accomplished and any challenges you've encountered.
-
-6. **Feedback:** Be open to feedback from others, whether it's about your code, your design choices, or your communication style. Constructive criticism is a valuable tool for growth.
-
-## Tips for Effective Collaboration
-
-1. **Establish a Workflow:** Define a clear workflow and responsibilities within your team. Tools like project management software and version control systems can help streamline collaboration.
-
-2. **Design Reviews:** Regularly meet with designers and other team members to review designs and discuss how to implement them effectively.
-
-3. **Code Reviews:** Collaborate with other developers through code reviews. This ensures code quality, identifies issues early, and fosters knowledge sharing.
-
-4. **Empathy:** Put yourself in the shoes of other team members. Understand their constraints, priorities, and challenges.
-
-5. **Conflict Resolution:** Conflicts can arise, but approach them with a problem-solving mindset. Seek compromises and solutions that benefit the project.
-
-6. **Celebrate Achievements:** Recognize and celebrate both small and large achievements with your team. This builds morale and a positive collaborative environment.
-
-## Building a Collaborative Culture
-
-Ultimately, effective communication and collaboration are not just individual skills; they're also cultural aspects of your development team. Encourage a culture of openness, transparency, and continuous improvement. As a front-end developer, you can play a pivotal role in fostering this culture by leading through example and actively participating in team discussions and initiatives.
-
-In the world of front-end development, where innovation and user experience are paramount, the ability to communicate and collaborate effectively is a game-changer. By honing these skills, you'll not only improve the quality of your work but also contribute to the success of your projects and your career as a front-end developer.
+枣祗、沮授、逄纪、荀彧、刘虞、张邈、田丰、郭嘉、刘晔（刘陶）、袁谭、刘备、沮鹄、于禁、阎圃、夏侯渊、荀粲（陈泰）、夏侯尚（夏侯玄）、麹义（麹演）、张郃、曹真、王淩、魏延、诸葛亮、李严、蒋琬、费祎、杨仪、廖立、谯周、孙权（陆逊）、曹爽（曹羲）、荀顗、司马师、邓艾、王基、王昶、司马懿、王双、王广、姜维、郝昭、曹髦、夏侯和、毌丘俭、州泰、诸葛诞

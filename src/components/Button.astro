@@ -13,7 +13,7 @@ const buttonClasses =
 
 {
     href ? (
-        <a href={href} class:list={[buttonClasses, className]} {...rest}>
+        <a href={href} class:list={[buttonClasses, className]} target="_blank" {...rest}>
             <slot />
         </a>
     ) : (

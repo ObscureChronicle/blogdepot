@@ -1,72 +1,15 @@
 ---
-title: The Ultimate Front-End Developer Career Roadmap
-excerpt: Are you interested in embarking on a rewarding career as a front-end developer or looking to advance your existing skills in this dynamic field?
-publishDate: 'Dec 15 2023'
+title: 刘备
+excerpt: 《三国演义》电视剧中，编剧将关羽死后刘备兴兵报仇时，对张飞说的话由书中「朕与卿同去」改为「兄与弟同去」，实在是神来之笔。
+publishDate: '2025-02-11'
 tags:
-  - Web
-  - Guide
+  - diary
 seo:
   image:
     src: '/post-11.jpg'
     alt: Empty road into the Horizon
 ---
 
-![Empty road into the Horizon](/post-11.jpg)
+《三国演义》电视剧中，编剧将关羽死后刘备兴兵报仇时，对张飞说的话由书中「朕与卿同去」改为「兄与弟同去」，实在是神来之笔。刘备本自出身涿郡，自有燕赵游侠儿之气；若其真为汉室宗亲，彼时与关张推杯换盏，抵足而眠，恩同兄弟，何尝不是「三杯吐然诺，五岳倒为轻」之豪情？《侠客风云传》也有个「三人为侠」之说（俠……呃其实从字形上来看应该是四人，算了不要在意），因而我给其赋予的性格底色便是「侠气」，而「仁德」倒在其次。至于毛本《演义》中那个刘备则找不到半点影子——百折不挠终不为下，方是英杰本色；又何必学演义中动辄哭哭啼啼，作小儿女态？
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
-
-Are you interested in embarking on a rewarding career as a front-end developer or looking to advance your existing skills in this dynamic field? Front-end development is an exciting and ever-evolving realm of the tech industry, and to succeed, having a well-defined roadmap can make all the difference. In this post, we'll provide you with "The Ultimate Front-End Developer Career Roadmap" to guide you through the journey from a beginner to an expert.
-
-## Stage 1: Getting Started
-
-**Learn HTML, CSS, and Basic JavaScript:** Begin your journey by mastering the fundamentals. Understand how HTML, CSS, and JavaScript work together to create web pages.
-
-**Create Simple Websites:** Practice by building basic websites and web pages. Get comfortable with the structure and layout.
-
-**Version Control:** Learn the basics of version control with Git and GitHub to track changes in your code.
-
-**Responsive Web Design:** Understand the principles of responsive design to make your websites look great on all devices.
-
-## Stage 2: Building a Solid Foundation
-
-**Advanced JavaScript:** Dive deeper into JavaScript, learning about ES6 features, asynchronous programming, and the DOM (Document Object Model).
-
-**CSS Preprocessors:** Explore CSS preprocessors like SASS or LESS to streamline your stylesheets.
-
-**Learn a Front-End Framework:** Start with a framework like Tailwind CSS to enhance your website-building capabilities.
-
-**8. Web Performance:** Study web performance optimization techniques to ensure fast-loading websites.
-
-## Stage 3: Mastering Modern Front-End Technologies
-
-**JavaScript Frameworks:** Learn popular front-end frameworks like React, Angular, or Vue.js.
-
-**Build Single Page Applications (SPAs):** Create interactive web applications using your chosen framework.
-
-**Package Managers:** Get comfortable with package managers like npm and yarn to manage your project dependencies.
-
-**Module Bundlers:** Explore module bundlers like Webpack or Parcel for efficient code organization.
-
-## Stage 4: Specialization and Advanced Topics
-
-**Advanced CSS:** Dive deep into CSS with techniques like Flexbox, Grid, and CSS-in-JS.
-
-**Accessibility:** Ensure your websites are accessible to all users by learning WCAG guidelines.
-
-**Performance Optimization:** Continue improving performance with advanced techniques like lazy loading and code splitting.
-
-**Testing and Debugging:** Master unit testing and debugging tools for front-end development.
-
-## Stage 5: Real-World Experience and Career Advancement
-
-**Building Projects:** Create a portfolio of real-world projects to showcase your skills.
-
-**Networking:** Attend meetups, conferences, and online communities to connect with other front-end developers.
-
-**Soft Skills:** Hone your communication and collaboration skills, as they are invaluable in a professional setting.
-
-**Job Search:** Prepare a strong resume and online portfolio. Start applying for front-end development positions or freelance opportunities.
-
-**Continuous Learning:** Stay up-to-date with the latest front-end technologies and trends. Consider advanced topics like Progressive Web Apps (PWAs) and serverless architecture.
-
-Remember, the journey of a front-end developer is continuous. The field is always evolving, and staying curious and adaptable is key to your success. The ultimate career roadmap is not a one-size-fits-all guide, but it provides a clear path to help you navigate the world of front-end development. By following this roadmap and continuously learning and improving, you can build a rewarding and successful career in this dynamic field. Good luck on your journey!
+如方诗铭等先生曾提到刘备「反复难养」的「枭雄」身份，这点我也试着借陈登之口为其辩白一二，不必再加赘述。又游侠本好以武犯禁，且多对高位者有一种经常之鄙夷，「求田问舍，怕应羞见，刘郎才气」，碌碌小人刘备自是难加青眼；即便是对曹操，也曾先「曹公自来，未可知耳」后「曹公虽来，无能为也」，公孙瓒、陶谦、袁绍、刘表等人，又岂能入刘备之法眼？汉末群雄中，刘备数值看似甚是乎庸，实则五维综合排名第二，在所有人物中也能排到第四，纵是「机权干略不逮魏武」，但也足以被曹操评为「吾俦」了。

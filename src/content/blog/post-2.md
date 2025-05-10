@@ -1,70 +1,19 @@
 ---
-title: Building an Impressive Front-End Developer Portfolio
-excerpt: In the competitive world of front-end development, a strong portfolio is your ticket to showcasing your skills, making a lasting impression on potential employers or clients, and advancing your career.
-publishDate: 'October 5 2023'
+title: 2025年创作手记・代总叙
+excerpt: 2023年发宣传片时曾写过一些手记，现在看来也很适合当作提纲挈领式的前言，正好免去了我重写总叙的麻烦。以下大概是对剧中一些人物的絮絮叨叨，想到哪里便写到哪里，条理自然是没有的；间或参杂一些并非人物的条目，也使我不好径称其为「人物手记」。
+publishDate: '2025-01-30'
 tags:
-  - Web
-  - Web development
+  - diary
 seo:
   image:
     src: '/post-2.jpg'
     alt: Half open laptop on a desk
 ---
 
-![Half open laptop on a desk](/post-2.jpg)
+2023年发宣传片时曾写过一些手记，现在看来也很适合当作提纲挈领式的前言，正好免去了我重写总叙的麻烦。以下大概是对剧中一些人物的絮絮叨叨，想到哪里便写到哪里，条理自然是没有的；间或参杂一些并非人物的条目，也使我不好径称其为「人物手记」。此外，想补充的还有三处：
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+其一，剧本在撰写之前便已定下了几项原则，虽不能说这些原则贯彻始终，但至少大体做到了如下三点，即「不是穿越，并非玄幻」「不以今人视角评判剧中人物行为之对错」「对古人抱有一种同情之理解」，至于什么辉格史观唯物史观之类的随它去罢，毋须在意；
 
-In the competitive world of front-end development, a strong portfolio is your ticket to showcasing your skills, making a lasting impression on potential employers or clients, and advancing your career. Your portfolio is your digital business card, and it should be a reflection of your talent, creativity, and expertise. In this post, we'll walk you through the steps to create an impressive front-end developer portfolio that will help you stand out in the crowd.
+其二，笔者并非专业的魏晋南北朝史学者，精力也委实有限，浩如烟海的专业书无论如何是看不完的，写剧情的时候亦曾每每权衡究竟如何在史书、演义与学界研究三者间取得平衡，瞻前顾后则疏漏在所难免，因而无论是名词解释抑或剧情可能都会有不甚妥当之处，也欢迎各位有识方家见教；
 
-## 1. Showcase a Diverse Range of Projects
-
-Your portfolio should be a testament to your versatility. Include a variety of projects that demonstrate your skills in different areas of front-end development. Consider including projects like:
-
-- **Responsive Websites:** Showcase your ability to create websites that adapt seamlessly to various screen sizes and devices.
-
-- **Interactive Web Applications:** Feature web applications that engage users with dynamic features and functionalities.
-
-- **E-commerce Websites:** If you've worked on e-commerce sites, include them to demonstrate your expertise in handling complex web development tasks.
-
-- **Open Source Contributions:** Highlight your involvement in open-source projects or contributions to online coding communities.
-
-## 2. Highlight Your Coding Skills
-
-Your portfolio should provide a clear view of your coding proficiency. Consider the following:
-
-- **Clean and Organized Code:** Present your code in a clean and well-organized manner. Use proper indentation, comments, and coding standards.
-
-- **Use of Version Control:** Showcase your use of version control systems like Git and GitHub to demonstrate your collaboration and code management skills.
-
-- **Code Samples:** Include snippets of code from your projects to give visitors an insight into your coding style and problem-solving abilities.
-
-## 3. Emphasize Responsive Design
-
-As a front-end developer, responsive design is paramount. Ensure that your portfolio itself is a shining example of responsive design. It should look and function flawlessly on a variety of devices, including desktops, tablets, and smartphones.
-
-## 4. User Experience (UX) Matters
-
-Front-end development is not just about writing code; it's about creating a great user experience. Explain your thought process behind the user interface (UI) and UX decisions you made in your projects. Discuss how you optimized performance and accessibility.
-
-## 5. Document Your Projects
-
-Accompany each project with a detailed description. Explain the project's goals, your role in it, the technologies and tools you used, and any challenges you overcame. This documentation provides context and depth to your work.
-
-## 6. Regularly Update Your Portfolio
-
-A stagnant portfolio can give the impression of inactivity or lack of progress. Regularly update your portfolio with your latest work and projects. Remove outdated or less impressive work to keep your portfolio relevant and impactful.
-
-## 7. Test and Optimize Load Times
-
-Slow-loading websites can turn visitors away. Ensure your portfolio loads quickly by optimizing images and using proper techniques to minimize load times.
-
-## 8. Seek Feedback
-
-Before finalizing your portfolio, seek feedback from peers, mentors, or online communities. Constructive criticism can help you refine your portfolio and make it even more impressive.
-
-## 9. Personalize Your Portfolio
-
-Your portfolio is not just about your work; it's also about you. Add a personal touch by including an **"About Me"** section that tells your story, your passions, and what makes you unique as a front-end developer.
-
-Remember, your front-end developer portfolio is an ongoing project. Keep refining it, stay up-to-date with the latest trends, and let it evolve as your skills and experience grow. An impressive portfolio not only serves as a testament to your abilities but also opens doors to exciting opportunities in the world of front-end development.
+其三，参考书目的格式严格来说颇不符合学术规范，但私以为在书名后加上出版社出版年份版次然后英文专著写上原名和译者等等等等实在过于繁琐，其实也未必适于非研究者去检索，倒不如汉字人名+书名来的简洁明快——另外，SS这破引擎也不支持我一行写那么多字，所以就按现在这样罢。

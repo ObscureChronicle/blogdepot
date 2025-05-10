@@ -1,51 +1,17 @@
 ---
-title: Exploring the Future of Front-End Development with Astro.js
-excerpt: In recent years, we've seen the rise of various tools and frameworks that have revolutionized the way we build web applications. One such exciting addition to the front-end development landscape is Astro.js.
-publishDate: 'October 10 2023'
+title: 军略
+excerpt: 军略算是一种变相的技能，诞生的原因也很简单：相对于曹操传的玄幻法师，我还是更喜欢前两代英杰传的策略；而角色习得一套特定的军略则有参照第三、四代英杰传让特定武将学得意技的意思，也不妨美其名曰「能更好体现这个人物的性格和特质」——虽然根本原因是早期我低下的技术力搓不出来技能树这种东西，待到技术爆炸之时，底层数据又已经累积到无法改动的地步了。
+publishDate: '2025-04-12'
 tags:
-  - Web
-  - UX
-  - Web development
+  - diary
 seo:
   image:
     src: '/post-7.jpg'
     alt: Bright lines on a dark background
 ---
 
-![Bright lines on a dark background](/post-7.jpg)
+军略算是一种变相的技能，诞生的原因也很简单：相对于曹操传的玄幻法师，我还是更喜欢前两代英杰传的策略；而角色习得一套特定的军略则有参照第三、四代英杰传让特定武将学得意技的意思，也不妨美其名曰「能更好体现这个人物的性格和特质」——虽然根本原因是早期我低下的技术力搓不出来技能树这种东西，待到技术爆炸之时，底层数据又已经累积到无法改动的地步了。
 
-**Note:** This post was created using Chat GPT to demonstrate the features of the _[Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/)_.
+或有见到沮授是弓骑兵，荀彧是弓兵后，对我提建议曰「我觉得应该加一些放法术的兵种」者，我婉言谢绝多次后，似乎对曹操传的法师产生了一种逆反心理，故而军略并无水火雷风等超能力之俦——唯有当时犯强迫症非要凑108这个天罡+地煞之数的军略总数时，阎圃因为与天师道相关多了一堆神神鬼鬼的军略，也因此获得了「阎老道」的美称——玄幻的雷风暂且不论，水计火计因为要判定地形也最终被我放弃，毕竟无论是在沼地里放一把大火，或是召唤激流冲走高山上的敌军似乎都太过诡异。
 
-Front-end development is a dynamic field that continually evolves to meet the demands of modern web development. In recent years, we've seen the rise of various tools and frameworks that have revolutionized the way we build web applications. One such exciting addition to the front-end development landscape is Astro.js. In this post, we'll explore what Astro.js is and how it promises to shape the future of front-end development.
-
-## What Is Astro.js?
-
-Astro.js is a new static site generator and front-end framework that is gaining traction within the web development community. It was created by the team at Vercel, the company behind popular tools like Next.js and Vercel Hosting. Astro.js aims to provide a new approach to front-end development that combines the best of both static site generation (SSG) and server-rendered frameworks.
-
-## Key Features of Astro.js
-
-1. **Faster Loading Times:** Astro.js takes a unique approach by only sending the JavaScript required for a specific page, reducing the initial load time and enhancing performance.
-
-2. **Partial Hydration:** It allows for selective hydration of components, optimizing the interactivity of your web pages while maintaining fast loading speeds.
-
-3. **Universal Rendering:** Astro.js enables you to use a single codebase for both server-rendered and static sites, simplifying development and maintenance.
-
-4. **Framework Agnostic:** It's designed to work with any JavaScript framework or library, allowing developers to choose their preferred tools.
-
-5. **Incremental Adoption:** Astro.js is flexible and can be incrementally adopted into existing projects, making it accessible for developers transitioning from other frameworks.
-
-## The Future of Front-End Development with Astro.js
-
-1. **Enhanced Performance:** Astro.js's focus on performance optimization will be a driving force in the future of front-end development. Faster-loading web applications are crucial for user retention and SEO ranking.
-
-2. **Seamless Integration:** As Astro.js gains popularity, we can expect more integration with popular JavaScript libraries and frameworks, making it even easier to use in a variety of projects.
-
-3. **Simplified Development Workflow:** Astro.js's universal rendering and framework-agnostic approach will streamline the development process, reducing the complexity of maintaining web applications.
-
-4. **Improved SEO:** With faster loading times and server-rendered content, Astro.js can significantly boost SEO performance, making it a preferred choice for websites aiming to rank higher in search engine results.
-
-5. **Community Growth:** As more developers and companies adopt Astro.js, we can anticipate a growing community that will contribute to its development and create a rich ecosystem of extensions and plugins.
-
-## Conclusion
-
-Astro.js is a promising addition to the front-end development landscape, offering a new approach that prioritizes performance, developer experience, and future scalability. As the web development community continues to evolve, Astro.js is well-positioned to play a significant role in shaping the future of front-end development. Whether you're an experienced developer or just starting your journey, keeping an eye on Astro.js and exploring its capabilities could be a valuable investment in your web development toolkit.
+即便如此，军略也大致分成了妨害增益两大类，加上对智/武/魅/特殊要求，想必还是稍有些类似法师/战士/辅助之间的差别。空谈为下，倒不妨举几个例子：郭嘉几乎全拿了智略系的妨害型军略，唯一的一个增益型「神速」还是出自兵贵神速之典，至于文官半标配「建言」更是没有的；相比之下，荀彧前期以智略系为主，后期以魅力系为主，且有为数不少的辅助单体的增益型军略；沮授则几乎全是辅助全军的增益型军略，这三人便大概是谋士/王佐/监军的区别。至于武将，郝昭擅守、张郃巧变，与突突突的一干猛将自然有所差别；同为统帅，诸葛亮持正而曹操用奇，风格亦是迥异，大抵便是如此。
