@@ -1,24 +1,34 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-type AnchorProps = HTMLAttributes<'a'> & { type?: never };
+type AnchorProps = HTMLAttributes<'a'> & {
+  type?: never;
+  target?: '_blank' | '_self' | '_parent' | '_top' | string;
+};
 type ButtonProps = HTMLAttributes<'button'> & { href?: never };
 
-type Props = ButtonProps | AnchorProps;
+type Props = AnchorProps | ButtonProps;
 
-const { href, class: className, ...rest } = Astro.props;
+const props = Astro.props as Props;
+const { class: className, ...rest } = props;
+
 const buttonClasses =
-    'inline-flex items-center justify-center px-6 py-2 font-serif leading-tight italic text-main bg-main border border-main rounded-full transition hover:bg-muted';
----
+  'inline-flex items-center justify-center px-6 py-2 font-serif leading-tight italic text-main bg-main border border-main rounded-full transition hover:bg-muted';
 
-{
-    href ? (
-        <a href={href} class:list={[buttonClasses, className]} target="_blank" {...rest}>
-            <slot />
-        </a>
-    ) : (
-        <button class:list={[buttonClasses, 'cursor-pointer', className]} {...rest}>
-            <slot />
-        </button>
-    )
-}
+const isAnchor = 'href' in props;
+---
+{isAnchor ? (
+  <a
+    href={(props as AnchorProps).href}
+    target={(props as AnchorProps).target}
+    class:list={[buttonClasses, className]}
+    {...rest}
+  >
+    <slot />
+    {(props as AnchorProps).target === "_blank" && <img src="/up-right-arrow.png" class="w-[1em] h-[1em] ml-[5px] mb-[2px]"/>}
+  </a>
+) : (
+  <button class:list={[buttonClasses, 'cursor-pointer', className]} {...rest}>
+    <slot />
+  </button>
+)}

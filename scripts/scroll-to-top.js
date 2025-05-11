@@ -1,6 +1,8 @@
+let isScrollBtnInitialized = false;
+
 function setupScrollToTopButton() {
     const btn = document.getElementById('scroll-top-button');
-    if (!btn) return;
+    if (!btn || isScrollBtnInitialized) return;
 
     const toggleBtn = () => {
         if (window.scrollY > 300) {
@@ -15,9 +17,9 @@ function setupScrollToTopButton() {
     btn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    isScrollBtnInitialized = true; // 防止重复绑定
 }
 
-// 页面加载完毕后执行一次
 document.addEventListener('DOMContentLoaded', setupScrollToTopButton);
-// 页面跳转后再次绑定
 document.addEventListener('astro:after-swap', setupScrollToTopButton);

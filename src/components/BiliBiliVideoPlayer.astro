@@ -1,0 +1,13 @@
+---
+// 接收 bvid 和 cid 等参数作为 Props（可拓展）
+const { bvid, aid, cid, page = 1 } = Astro.props;
+const src = `https://player.bilibili.com/player.html?isOutside=true&aid=${aid}&bvid=${bvid}&cid=${cid}&p=${page}&autoplay=0`;
+---
+
+<div class="relative w-full overflow-hidden pt-[56.25%] mb-8"> {/* 16:9 响应式比例容器 */}
+  <iframe
+    src={src}
+    class="absolute top-0 left-0 h-full w-full border-0"
+    allowfullscreen
+  ></iframe>
+</div>

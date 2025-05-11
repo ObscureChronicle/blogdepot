@@ -1,11 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BiliBiliVideoPlayer from '../components/BiliBiliVideoPlayer.astro';
 import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
 import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../utils/data-utils';
 
 const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
@@ -25,24 +26,29 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
                 <div class="mt-12 sm:mt-16">
-                    <Button href="/blog">所有日志</Button>
+                    <Button href="/blog" target="_self">所有日志</Button>
                 </div>
             </div>
         )
     }
-    <!-- Wiki待施工 -->
-
-        {
-            featuredProjects?.length > 0 && (
-                <div class="mb-16 sm:mb-24">
-                    <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">Wiki</h2>
-                    {featuredProjects.slice(0, 5).map((project) => (
-                        <ProjectPreview project={project} class="mb-4 sm:mb-4" headingLevel="h3" />
-                    ))}
-                    <div class="mt-12 sm:mt-16">
-                        <Button href="/projects">所有Wiki</Button>
-                    </div>
+    {
+        featuredProjects?.length > 0 && (
+            <div class="mb-16 sm:mb-24">
+                <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">Wiki</h2>
+                {featuredProjects.slice(0, 5).map((project) => (
+                    <ProjectPreview project={project} class="mb-4 sm:mb-4" headingLevel="h3" />
+                ))}
+                <div class="mt-12 sm:mt-16">
+                    <Button href="/projects" target="_self">所有Wiki</Button>
                 </div>
-            )
-        }
+            </div>
+        )
+    }
+    <div class="mb-16 sm:mb-24">
+        <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">攻略+全流程视频</h2>
+        <h3 class="mb-4 text-base font-serif sm:mb-4 sm:text-lg text-center">后汉篇</h3>
+        <BiliBiliVideoPlayer aid="113916977877284" bvid="BV1nvFLeNEY6" cid="28504950572" page="1" />
+        <h3 class="mb-4 text-base font-serif sm:mb-4 sm:text-lg text-center">三国篇</h3>
+        <BiliBiliVideoPlayer bvid="BV1CZR9YNEw5" aid="114284650566825" cid="29247604058" />
+    </div>
 </BaseLayout>

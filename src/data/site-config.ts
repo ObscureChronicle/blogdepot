@@ -44,7 +44,7 @@ const siteConfig: SiteConfig = {
     subtitle: '2019-2025',
     description: '后汉稽异录的资料站。',
     image: {
-        src: '/dante-preview.jpg',
+        src: '/title.png',
         alt: 'Dante - Astro.js and Tailwind CSS theme'
     },
     headerNavLinks: [
