@@ -7,6 +7,7 @@ import PostPreview from '../../components/PostPreview.astro';
 import Subscribe from '../../components/Subscribe.astro';
 import { SLUG_TAG_MAP, sortItemsByDateDesc } from '../../utils/data-utils';
 import { slugify } from '../../utils/common-utils';
+import WalineComments from '../../components/WalineComments.tsx';
 
 export async function getStaticPaths() {
     const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
@@ -75,7 +76,7 @@ const { Content } = await render(post);
             </div>
         )
     }
-    <Subscribe class="my-16 sm:my-24" />
+<WalineComments client:load />
 </BaseLayout>
 
 <script>

@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
+import WalineComments from '../../components/WalineComments.tsx';
 
 export async function getStaticPaths() {
     const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
@@ -39,10 +40,11 @@ const { Content } = await render(project);
     </article>
     {
         (prevProject || nextProject) && (
-            <div class="my-16 sm:my-24 flex justify-between">
+            <div class="my-4 flex justify-between">
                 {prevProject && <div><h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl">←上一篇</h2> <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" /></div>}
                 {nextProject && <div><h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl text-right">下一篇→</h2> <ProjectPreview project={nextProject} class="mb-10 sm:mb-12" headingLevel="h3" /></div>}
             </div>
         )
     }
+    <WalineComments client:load />
 </BaseLayout>

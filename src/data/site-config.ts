@@ -85,6 +85,10 @@ const siteConfig: SiteConfig = {
         {
             text: 'X/Twitter',
             href: 'https://x.com/IsaacXBZhang'
+        },
+        {
+            text: 'RSS订阅',
+            href: 'https://ocod.netlify.app/rss.xml'
         }
     ],
     // socialLinks: [
