@@ -41,7 +41,7 @@ export type SiteConfig = {
 const siteConfig: SiteConfig = {
     website: 'https://ocod.netlify.app/',
     title: '后汉稽异录',
-    subtitle: '2019-2025',
+    subtitle: 'IsaacZhang',
     description: '后汉稽异录的资料站。',
     image: {
         src: '/title.png',

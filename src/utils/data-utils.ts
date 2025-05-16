@@ -6,9 +6,11 @@ export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>,
 }
 
 export const TAG_SLUG_MAP: Record<string, string> = {
+    参考文献: "reference",
     创作手记: 'diary',
+    更新日志: "changelog",
     事典: "encyclopedia",
-    更新日志: "changelog"
+    文存: "wen-yan"
 };
 
 // 反转映射（英文 id → 中文 name）
