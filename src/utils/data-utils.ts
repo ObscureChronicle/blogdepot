@@ -10,7 +10,8 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     创作手记: 'diary',
     更新日志: "changelog",
     事典: "encyclopedia",
-    文存: "wen-yan"
+    文存: "wen-yan",
+    'Wiki-D': 'wiki-d'
 };
 
 // 反转映射（英文 id → 中文 name）

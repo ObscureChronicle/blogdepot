@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Subscribe from '../../../components/Subscribe.astro';
+import ArrowRight from '../../../icons/ArrowRight.astro';
+import { getCollection } from 'astro:content';
+import { sortItemsByDateDesc, getAllTags, getPostsByTag } from '../../../utils/data-utils';
+
+const blogPosts = await getCollection('blog');
+const projectPosts = await getCollection('projects');
+const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc);
+
+// ✅ 筛选所有以 wiki- 开头但不是聚合页本身的标签
+const allTags = getAllTags(posts);
+const wikiTags = allTags.filter(tag =>
+  tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading'
+);
+console.log(wikiTags);
+---
+
+<BaseLayout
+  title="Wiki 音序检索"
+  description="按音序快速查找 Wiki 文章标签"
+  showHeader={false}
+>
+  <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">Wiki 音序检索</h1>
+  {
+    wikiTags.map((tag) => {
+      const postCount = getPostsByTag(posts, tag.id).length;
+      return (
+        <a class="mb-10 flex justify-between items-start gap-8 group sm:mb-12" href={`/tags/${tag.id}`}>
+          <div class="grow">
+            <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+              {tag.name}
+            </h2>
+            <div class="mt-1 text-sm leading-normal">
+              {postCount} {postCount === 1 ? 'post' : 'posts'}
+            </div>
+          </div>
+          <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+            查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
+          </div>
+        </a>
+      );
+    })
+  }
+</BaseLayout>
