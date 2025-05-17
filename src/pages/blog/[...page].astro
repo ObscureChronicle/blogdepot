@@ -10,21 +10,28 @@ import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
     const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
-    return paginate(posts, { pageSize: siteConfig.postsPerPage || 4 });
+    const paginated = paginate(posts, { pageSize: siteConfig.postsPerPage || 4 });
+    return paginated.map((pageData) => ({
+        ...pageData,
+        props: {
+            ...pageData.props,
+            latestSlug: posts[0].id,
+        },
+    }));
 }
 
-type Props = { page: Page<CollectionEntry<'blog'>> };
+type Props = { page: Page<CollectionEntry<'blog'>>, latestSlug: string };
 
-const { page } = Astro.props;
+const { page, latestSlug } = Astro.props;
 const blog = page.data;
 ---
 
 <BaseLayout title="Blog" description="创作手记及更新日志" image={{ src: '/title.png', alt: 'The preview of the site' }} showHeader={false}>
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">日志</h1>
     {
-        blog.map((post, index) => (
+        blog.map((post) => (
             <div>
-                {index === 0 && <sup class="inline text-xs text-white bg-gray-500 rounded px-1 py-px">NEW</sup>}
+                {post.id === latestSlug && <sup class="inline text-xs text-white bg-gray-500 rounded px-1 py-px">NEW</sup>}
                 <PostPreview post={post} class="mb-10 sm:mb-12"/>
             </div>
         ))
