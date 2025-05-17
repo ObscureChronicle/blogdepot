@@ -2,6 +2,7 @@
 title: 南匈奴
 tags:
   - encyclopedia
+  - wiki-n
 isFeatured: true
 publishDate: 
 excerpt: 

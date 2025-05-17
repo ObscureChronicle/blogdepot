@@ -2,6 +2,7 @@
 title: 赤壁之战
 tags:
   - encyclopedia
+  - wiki-c
 isFeatured: true
 publishDate: 
 excerpt: 

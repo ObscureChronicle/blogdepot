@@ -2,6 +2,7 @@
 title: 谶纬
 tags:
   - encyclopedia
+  - wiki-c
 isFeatured: true
 publishDate: 
 excerpt: 

@@ -2,6 +2,7 @@
 title: 孙吴政治
 tags:
   - encyclopedia
+  - wiki-s
 isFeatured: true
 publishDate: 
 excerpt: 

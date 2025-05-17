@@ -2,6 +2,7 @@
 title: 四聪八达
 tags:
   - encyclopedia
+  - wiki-s
 isFeatured: true
 publishDate: 
 excerpt: 

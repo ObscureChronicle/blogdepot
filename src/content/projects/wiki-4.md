@@ -2,6 +2,7 @@
 title: 黄巾之乱
 tags:
   - encyclopedia
+  - wiki-h
 isFeatured: true
 publishDate: 
 excerpt: 

@@ -2,6 +2,7 @@
 title: 十常侍之乱
 tags:
   - encyclopedia
+  - wiki-s
 isFeatured: true
 publishDate: 
 excerpt: 

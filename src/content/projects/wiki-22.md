@@ -2,6 +2,7 @@
 title: 利城兵变
 tags:
   - encyclopedia
+  - wiki-l
 isFeatured: true
 publishDate: 
 excerpt: 

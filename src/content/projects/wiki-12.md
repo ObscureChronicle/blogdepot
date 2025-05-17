@@ -2,6 +2,7 @@
 title: 黑山军
 tags:
   - encyclopedia
+  - wiki-h
 isFeatured: true
 publishDate: 
 excerpt: 

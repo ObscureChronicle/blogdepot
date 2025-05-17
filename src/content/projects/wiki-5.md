@@ -2,6 +2,7 @@
 title: 青徐豪霸
 tags:
   - encyclopedia
+  - wiki-q
 isFeatured: true
 publishDate: 
 excerpt: 

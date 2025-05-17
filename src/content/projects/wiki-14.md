@@ -2,6 +2,7 @@
 title: 霸府
 tags:
   - encyclopedia
+  - wiki-b
 isFeatured: true
 publishDate: 
 excerpt: 

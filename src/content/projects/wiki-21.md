@@ -2,6 +2,7 @@
 title: 九品官人法
 tags:
   - encyclopedia
+  - wiki-j
 isFeatured: true
 publishDate: 
 excerpt: 

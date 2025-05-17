@@ -2,6 +2,7 @@
 title: 五斗米道
 tags:
   - encyclopedia
+  - wiki-w
 isFeatured: true
 publishDate: 
 excerpt: 

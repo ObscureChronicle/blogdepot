@@ -2,6 +2,7 @@
 title: 太和浮华案
 tags:
   - encyclopedia
+  - wiki-t
 isFeatured: true
 publishDate: 
 excerpt: 

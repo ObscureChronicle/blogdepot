@@ -6,12 +6,37 @@ export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>,
 }
 
 export const TAG_SLUG_MAP: Record<string, string> = {
-    参考文献: "reference",
+    参考文献: 'reference',
     创作手记: 'diary',
-    更新日志: "changelog",
-    事典: "encyclopedia",
-    文存: "wen-yan",
-    'Wiki-D': 'wiki-d'
+    更新日志: 'changelog',
+    事典: 'encyclopedia',
+    文存: 'wen-yan',
+    A: 'wiki-a',
+    B: 'wiki-b',
+    C: 'wiki-c',
+    D: 'wiki-d',
+    E: 'wiki-e',
+    F: 'wiki-f',
+    G: 'wiki-g',
+    H: 'wiki-h',
+    I: 'wiki-i',
+    J: 'wiki-j',
+    K: 'wiki-k',
+    L: 'wiki-l',
+    M: 'wiki-m',
+    N: 'wiki-n',
+    O: 'wiki-o',
+    P: 'wiki-p',
+    Q: 'wiki-q',
+    R: 'wiki-r',
+    S: 'wiki-s',
+    T: 'wiki-t',
+    U: 'wiki-u',
+    V: 'wiki-v',
+    W: 'wiki-w',
+    X: 'wiki-x',
+    Y: 'wiki-y',
+    Z: 'wiki-z'
 };
 
 // 反转映射（英文 id → 中文 name）

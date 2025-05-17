@@ -2,6 +2,7 @@
 title: 世家大族
 tags:
   - encyclopedia
+  - wiki-s
 isFeatured: true
 publishDate: 
 excerpt: 

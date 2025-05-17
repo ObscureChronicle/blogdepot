@@ -2,6 +2,7 @@
 title: 羌
 tags:
   - encyclopedia
+  - wiki-q
 isFeatured: true
 publishDate: 
 excerpt: 

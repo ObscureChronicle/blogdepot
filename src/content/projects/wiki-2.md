@@ -2,6 +2,7 @@
 title: 两汉州制
 tags:
   - encyclopedia
+  - wiki-l
 isFeatured: true
 excerpt: 
 publishDate: 

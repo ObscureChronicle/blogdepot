@@ -2,6 +2,7 @@
 title: 才性论
 tags:
   - encyclopedia
+  - wiki-c
 isFeatured: true
 publishDate: 
 excerpt: 

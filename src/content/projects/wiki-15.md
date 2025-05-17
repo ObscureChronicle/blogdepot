@@ -2,6 +2,7 @@
 title: 荧惑守心
 tags:
   - encyclopedia
+  - wiki-y
 isFeatured: true
 publishDate: 
 excerpt: 
