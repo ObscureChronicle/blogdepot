@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function RadarChart({ data }) {
+export default function RadarChart_DLC({ data }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const [tooltipValue, setTooltipValue] = useState('');
     const maxValues = [100, 100, 100, 100, 100];
-    const labels = ['统御', '气运', '武勇', '智略', '魅力']
+    const labels = ['统御', '运势', '武勇', '智略', '魅力']
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -76,14 +76,14 @@ export default function RadarChart({ data }) {
                 else ctx.lineTo(x, y);
             });
             ctx.closePath();
-            ctx.fillStyle = 'rgba(27, 167, 132, 0.4)';
-            ctx.strokeStyle = '#1ba784';
+            ctx.fillStyle = 'rgba(242, 206, 43, 0.4)';
+            ctx.strokeStyle = '#ffd111';
             ctx.lineWidth = 2;
             ctx.fill();
             ctx.stroke();
 
             // 小圆点
-            ctx.fillStyle = '#1ba784';
+            ctx.fillStyle = '#ffd111';
             points.forEach((p, i) => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
@@ -96,14 +96,14 @@ export default function RadarChart({ data }) {
                 ctx.save(); // 保存当前绘图状态
 
                 ctx.fillStyle = '#fff';
-                ctx.strokeStyle = '#1ba784';
+                ctx.strokeStyle = '#ffd111';
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.roundRect(p.x + 10, p.y - 20, 40, 20, 4);
                 ctx.fill();
                 ctx.stroke();
 
-                ctx.fillStyle = '#1ba784';
+                ctx.fillStyle = '#ffd111';
                 ctx.font = '12px sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';

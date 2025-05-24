@@ -11,6 +11,7 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     更新日志: 'changelog',
     事典: 'encyclopedia',
     文存: 'wen-yan',
+    列传: 'biography',
     A: 'wiki-a',
     B: 'wiki-b',
     C: 'wiki-c',
