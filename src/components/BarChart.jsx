@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function RadarChart({ data }) {
+export default function BarChart({ data }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const [tooltipValue, setTooltipValue] = useState('');
-    const maxValues = [100, 100, 100, 100, 100];
-    const labels = ['统御', '气运', '武勇', '智略', '魅力']
+    const maxValues = [100, 100];
+    const labels = ['胆识', '冷静']
 
     useEffect(() => {
         const canvas = canvasRef.current;
