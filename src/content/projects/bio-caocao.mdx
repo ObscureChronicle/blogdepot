@@ -17,6 +17,8 @@ seo:
 
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
@@ -29,33 +31,8 @@ import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
   </div>
 </div>
 
-<table class='border-2 w-[260px]'>
-  <thead>
-    <tr class='border-1'>
-      <th>特质</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>地域</td>
-        <td>中原</td>
-      </tr>
-      <tr>
-        <td class='border-1'>个人</td>
-        <td style="color: #2775b6">霸者</td>
-      </tr>
-      <tr>
-        <td class='border-1'>个人</td>
-        <td>先发</td>
-      </tr>
-      <tr>
-        <td class='border-1'>个人</td>
-        <td>英杰</td>
-      </tr>
-      <tr>
-        <td class='border-1'>个人</td>
-        <td>号令</td>
-      </tr>
-</table>
+<BarChart client:load data={[8, 9]} />
+<FiveStringTable data={['中原', '霸者', '先发', '英杰', '号令']} />
 
 ## 列传
 
@@ -65,7 +42,7 @@ import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
 <div class='mt-12'/>
 <div class='flex flex-col pl-4 mt-0'>
 <a href="../../blog/post-caocao">创作手记</a>
-<a href="https://ctext.org/text.pl?node=601875&if=gb&remap=gb" target="_blank">《三国志·武帝纪》</a>
+<a href="https://ctext.org/sanguozhi/1/zhs" target="_blank">《三国志·武帝纪》</a>
 <a href="https://www.hanyucidian.org/dictionary/entry?dictionaryCode=lishi&entryName=%E6%9B%B9%E6%93%8D" target="_blank">中国历史大辞典（需注册）</a>
 <a href="https://en.wikipedia.org/wiki/Cao_Cao" target="_blank">Wikipedia - English Version</a>
 </div>

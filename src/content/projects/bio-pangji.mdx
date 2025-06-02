@@ -13,77 +13,34 @@ seo:
 
 ---
 
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">属性</span></h1>
+
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
-    <RadarChart client:load data={[47, 72, 41, 93, 38
-    ]} />
-    <small class="indent-0">本传</small>
+    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
+    <RadarChart client:load data={[47, 72, 41, 93, 38]} />
+    <BarChart client:load data={[5, 8]} />
+    <FiveStringTable client:load data={['中原', '毒士', '桀犬']} /> 
   </div>
   <div class="flex flex-col items-center">
-    <RadarChart_DLC client:load data={[47, 62, 41, 96, 38
-    ]} />
-    <small class="indent-0">星命诀</small>
+    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
+    <RadarChart_DLC client:load data={[47, 62, 41, 96, 38]} />
+    <BarChart client:load data={[6, 8]} />
+    <FiveStringTable data={['淮扬', '机心', '自矜', '狷狭', '桀犬']} /> 
   </div>
 </div>
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <thead>
-        <tr class='border-1'>
-          <th>特质</th>
-        </tr>
-      </thead>
-          <tr>
-            <td class='border-1'>地域</td>
-            <td>中原</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>毒士</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>桀犬</td>
-          </tr>
-    </table>
-    <small class="indent-0">本传</small>
-  </div>
-  <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <thead>
-        <tr class='border-1'>
-          <th>特质</th>
-        </tr>
-      </thead>
-          <tr>
-            <td class='border-1'>地域</td>
-            <td>淮扬</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #2775b6">机心</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #de1c31">自矜</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #de1c31">狷狭</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #de1c31">桀犬</td>
-          </tr>
-    </table>
-    <small class="indent-0">星命诀</small>
-  </div>
-</div>
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
 
 或讹作逢纪，一作庞纪，字元图，籍贯不详。被何进以智谋之士征辟，又最早追随袁绍起兵，深得袁绍信任。用计夺取韩馥的冀州，帮助袁绍获得立足之地。但气量狭小，被荀彧评价为「果而自用」，官渡之战后进言使袁绍处斩为其所不喜的田丰。与审配一同拥立袁尚，后被派往袁谭处，袁谭被曹操击败后，责怪袁尚不肯发兵救援，因而见杀。
 
 ㊟《资治通鉴・汉纪五十二》：「及南阳许攸，逢纪，颍川荀谌，皆为谋主。」然遍查前代史料，均未记逄纪籍贯，《通鉴》记载并不可信。又方诗铭以为其姓盖出北海，可备一说。游戏中称其为「南阳人」，则系剧情需要。
+
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">更多</span></h1>
+
+<a href="../../blog/post-yuan-officer">创作手记</a>

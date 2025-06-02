@@ -13,15 +13,14 @@ seo:
 
 ---
 
+import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <RadarChart_DLC client:load data={[71, 88, 76, 87, 91
-    ]} />
-    <small class="indent-0">星命诀</small>
-  </div>
-</div>
+<RadarChart_DLC client:load data={[71, 88, 76, 87, 91]} />
+<BarChart client:load data={[9, 6]} />
+<FiveStringTable client:load data={['幽并', '明候', '凛然', '侠气', '豪桀']} /> 
 
 字子泰，右北平无终人。好读书击剑，少年时即被人认为有奇才。受刘虞派遣前往献帝处，刘虞被公孙瓒杀死后归来，于刘虞墓前拜祭并上陈朝廷表章，随后离去，公孙瓒亦以其为义士而未加诛杀。遂于徐无山中建立坞壁，制定轨则，教化民众，镇抚乌桓、鲜卑，归附之百姓有五千余家。曹操北征乌桓时，招纳汉民并作为曹军向导击破蹋顿。拒绝袁绍、袁尚征辟，亦不受曹操所封爵位，四十六岁时去世。
 

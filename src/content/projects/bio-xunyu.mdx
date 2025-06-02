@@ -15,6 +15,8 @@ seo:
 
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
@@ -29,84 +31,22 @@ import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <tr>
-        <td class='border-1 pl-4' style="color: #de1c31">胆识</td>
-        <td>4</td>
-      </tr>
-      <tr>
-        <td class='border-1 pl-4' style="color: #2775b6">冷静</td>
-        <td>10</td>
-      </tr>
-    </table>
+    <BarChart client:load data={[4, 10]} />
     <small class="indent-0">本传</small>
   </div>
   <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <tr>
-        <td class='border-1 pl-4' style="color: #de1c31">胆识</td>
-        <td>5</td>
-      </tr>
-      <tr>
-        <td class='border-1 pl-4' style="color: #2775b6">冷静</td>
-        <td>10</td>
-      </tr>
-    </table>
+    <BarChart client:load data={[5, 10]} />
     <small class="indent-0">星命诀</small>
   </div>
 </div>
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <thead>
-        <tr class='border-1'>
-          <th>特质</th>
-        </tr>
-      </thead>
-          <tr>
-            <td class='border-1'>地域</td>
-            <td>中原</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>世家</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>机鉴</td>
-          </tr>
-    </table>
+    <FiveStringTable client:load data={['中原', '世家', '机鉴']} /> 
     <small class="indent-0">本传</small>
   </div>
   <div class="flex flex-col items-center">
-    <table class='border-2 w-[260px]'>
-      <thead>
-        <tr class='border-1'>
-          <th>特质</th>
-        </tr>
-      </thead>
-          <tr>
-            <td class='border-1'>地域</td>
-            <td>中原</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #ba2f7b">内圣</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td style="color: #2775b6">木秀</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>机鉴</td>
-          </tr>
-          <tr>
-            <td class='border-1'>个人</td>
-            <td>先识</td>
-          </tr>
-    </table>
+    <FiveStringTable data={['中原', '内圣', '木秀', '机鉴', '先识']} /> 
     <small class="indent-0">星命诀</small>
   </div>
 </div>

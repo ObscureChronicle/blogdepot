@@ -3,137 +3,141 @@ import { useEffect, useRef, useState } from 'react';
 export default function BarChart({ data }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
-    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-    const [tooltipValue, setTooltipValue] = useState('');
-    const maxValues = [100, 100];
-    const labels = ['胆识', '冷静']
+    const labels = ['胆识', '冷静'];
+    const maxValue = 10;
+    const colors = ['#de1c31', '#2775b6']; // 胆识(红)和冷静(蓝绿)的颜色
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas || !data) return;
         const ctx = canvas.getContext('2d');
-        const RADIUS = 80;
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const total = data.length;
-        const layers = 5;
+        const width = canvas.width;
+        const height = canvas.height;
 
-        const points = [];
+        // 图表绘制区域参数
+        const margin = { top: 50, right: 20, bottom: 40, left: 40 };
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+
+        // 柱状图参数
+        const barCount = 2;
+        const barWidth = 20;
+        const barSpacing = (chartWidth - barWidth * barCount) / (barCount + 1);
 
         const render = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, width, height);
 
-            // 分层背景
-            for (let layer = layers; layer >= 1; layer--) {
-                const radius = (RADIUS * layer) / layers;
-                ctx.beginPath();
-                for (let i = 0; i < total; i++) {
-                    const angle = (Math.PI * 2 * i) / total;
-                    const x = centerX + radius * Math.sin(angle);
-                    const y = centerY - radius * Math.cos(angle);
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.closePath();
-                ctx.strokeStyle = '#ccc';
-                ctx.stroke();
-            }
-
-            // 坐标轴 + 标签
-            for (let i = 0; i < total; i++) {
-                const angle = (Math.PI * 2 * i) / total;
-                const x = centerX + RADIUS * Math.sin(angle);
-                const y = centerY - RADIUS * Math.cos(angle);
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.lineTo(x, y);
-                ctx.strokeStyle = '#ccc';
-                ctx.stroke();
-
-                // 文字标签
-                if (labels?.[i]) {
-                    ctx.font = '16px sans-serif';
-                    ctx.fillStyle = '#333';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    const labelX = centerX + (RADIUS + 20) * Math.sin(angle);
-                    const labelY = centerY - (RADIUS + 20) * Math.cos(angle);
-                    ctx.fillText(labels[i], labelX, labelY);
-                }
-            }
-
-            // 雷达图路径
+            // 绘制坐标轴
             ctx.beginPath();
-            points.length = 0;
-            data.forEach((val, i) => {
-                const angle = (Math.PI * 2 * i) / total;
-                const rate = val / maxValues[i];
-                const x = centerX + RADIUS * rate * Math.sin(angle);
-                const y = centerY - RADIUS * rate * Math.cos(angle);
-                points.push({ x, y, value: val });
-
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(27, 167, 132, 0.4)';
-            ctx.strokeStyle = '#1ba784';
-            ctx.lineWidth = 2;
-            ctx.fill();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
             ctx.stroke();
 
-            // 小圆点
-            ctx.fillStyle = '#1ba784';
-            points.forEach((p, i) => {
+            // 绘制网格线和刻度
+            ctx.strokeStyle = '#eee';
+            ctx.lineWidth = 0.5;
+            ctx.font = '12px sans-serif';
+            ctx.fillStyle = '#333';
+
+            // Y轴刻度和网格线
+            const ySteps = 5;
+            for (let i = 0; i <= ySteps; i++) {
+                const y = margin.top + chartHeight - (i * chartHeight / ySteps);
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + chartWidth, y);
+                ctx.stroke();
+
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText((i * maxValue / ySteps).toString(), margin.left - 5, y);
+            }
+
+            // 绘制柱子
+            data.forEach((value, i) => {
+                const x = margin.left + barSpacing + i * (barWidth + barSpacing);
+                const barHeight = (value / maxValue) * chartHeight;
+                const y = margin.top + chartHeight - barHeight;
+
+                // 柱子主体
+                ctx.fillStyle = hoverIndex === i ? `${colors[i]}CC` : colors[i];
+                ctx.fillRect(x, y, barWidth, barHeight);
+
+                // 柱子边框
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x, y, barWidth, barHeight);
+
+                // 柱子标签
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.font = '14px sans-serif';
+                ctx.fillText(labels[i], x + barWidth / 2, margin.top + chartHeight + 10);
+
+                // 显示数值（在柱子顶部）
+                if (hoverIndex !== i || hoverIndex === null) {
+                    ctx.fillStyle = hoverIndex === i ? '#333' : '#666';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(value, x + barWidth / 2, y - 5);
+                }
             });
 
-            // hover 显示气泡
+            // 悬停提示框
             if (hoverIndex !== null) {
-                const p = points[hoverIndex];
-                ctx.save(); // 保存当前绘图状态
+                const value = data[hoverIndex];
+                const x = margin.left + barSpacing + hoverIndex * (barWidth + barSpacing);
+                const barHeight = (value / maxValue) * chartHeight;
+                const y = margin.top + chartHeight - barHeight;
 
-                ctx.fillStyle = '#fff';
-                ctx.strokeStyle = '#1ba784';
-                ctx.lineWidth = 1;
+                // 绘制提示框
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.strokeStyle = colors[hoverIndex];
+                ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.roundRect(p.x + 10, p.y - 20, 40, 20, 4);
+                const tooltipWidth = 40;
+                const tooltipHeight = 20;
+                const tooltipX = x + barWidth / 2 - tooltipWidth / 2;
+                const tooltipY = y - tooltipHeight - 10;
+                ctx.roundRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight, 4);
                 ctx.fill();
                 ctx.stroke();
 
-                ctx.fillStyle = '#1ba784';
-                ctx.font = '12px sans-serif';
+                // 提示框文字
+                ctx.fillStyle = '#333';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(`${p.value}`, p.x + 30, p.y - 10);
-
-                ctx.restore(); // 恢复上一次的 strokeStyle/lineWidth 设置
+                ctx.font = 'sans-serif';
+                ctx.fillText(`${value}`, x + barWidth / 2, tooltipY + tooltipHeight / 2);
             }
-
         };
 
         render();
 
-        // 鼠标事件监听
+        // 鼠标事件处理
         const handleMouseMove = (e) => {
             const rect = canvas.getBoundingClientRect();
             const mx = e.clientX - rect.left;
             const my = e.clientY - rect.top;
 
             let found = null;
-            points.forEach((p, i) => {
-                const dx = mx - p.x;
-                const dy = my - p.y;
-                if (Math.sqrt(dx * dx + dy * dy) < 15) {
+            data.forEach((_, i) => {
+                const x = margin.left + barSpacing + i * (barWidth + barSpacing);
+                const barHeight = (data[i] / maxValue) * chartHeight;
+                const y = margin.top + chartHeight - barHeight;
+
+                if (mx >= x && mx <= x + barWidth &&
+                    my >= y && my <= margin.top + chartHeight) {
                     found = i;
                 }
             });
 
             if (found !== hoverIndex) {
                 setHoverIndex(found);
-                render(); // 重新渲染
+                render();
             }
         };
 
@@ -146,7 +150,17 @@ export default function BarChart({ data }) {
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [data, maxValues, labels, hoverIndex]);
+    }, [data, hoverIndex]);
 
-    return <canvas ref={canvasRef} width={300} height={250} class='mx-auto' style={{ display: 'block' }} />;
+    return (
+        <div className="bar-chart-container">
+            <canvas
+                ref={canvasRef}
+                width={300}
+                height={250}
+                className="mx-auto"
+                style={{ display: 'block' }}
+            />
+        </div>
+    );
 }

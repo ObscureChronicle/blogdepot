@@ -15,6 +15,8 @@ seo:
 
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
 <div class="flex justify-evenly sm:flex-row flex-col">
   <div class="flex flex-col items-center">
@@ -25,6 +27,28 @@ import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
   <div class="flex flex-col items-center">
     <RadarChart_DLC client:load data={[45, 95, 12, 98, 51
     ]} />
+    <small class="indent-0">星命诀</small>
+  </div>
+</div>
+
+<div class="flex justify-evenly sm:flex-row flex-col">
+  <div class="flex flex-col items-center">
+    <BarChart client:load data={[6, 10]} />
+    <small class="indent-0">本传</small>
+  </div>
+  <div class="flex flex-col items-center">
+    <BarChart client:load data={[9, 7]} />
+    <small class="indent-0">星命诀</small>
+  </div>
+</div>
+
+<div class="flex justify-evenly sm:flex-row flex-col">
+  <div class="flex flex-col items-center">
+    <FiveStringTable client:load data={['中原', '鬼谋', '急行', '先发']} /> 
+    <small class="indent-0">本传</small>
+  </div>
+  <div class="flex flex-col items-center">
+    <FiveStringTable data={['中原', '鬼谋', '奇才', '自若', '恣睢']} /> 
     <small class="indent-0">星命诀</small>
   </div>
 </div>
