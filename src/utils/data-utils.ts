@@ -13,6 +13,7 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     文存: 'wen-yan',
     人物: 'biography',
     物品: 'equipment',
+    特性与军略: 'trait',
     A: 'wiki-a',
     B: 'wiki-b',
     C: 'wiki-c',
