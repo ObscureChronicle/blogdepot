@@ -57,16 +57,12 @@ export default function FiveStringTable({ data }) {
     const handleTraitClick = (trait, event) => {
         const link = getTraitLink(trait);
         if (link) {
-            event.preventDefault();
             setActiveTrait(trait);
-            // 在实际应用中，这里可以执行路由跳转
-            router.push(link); // 如果使用Next.js等框架
-            //alert(`即将跳转到特质详情页: ${trait}\n链接: ${link}`);
         }
     };
 
     return (
-        <div className="mx-auto min-w-[280px] max-w-md overflow-hidden rounded-lg shadow-md relative">
+        <div className="mx-auto min-w-[280px] max-w-md overflow-hidden rounded-lg relative">
             <table className="w-full border-collapse">
                 <thead>
                     <tr>
@@ -91,10 +87,10 @@ export default function FiveStringTable({ data }) {
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
-                                <td className="px-4 py-2 font-medium text-gray-700 border-b border-gray-200 w-1/3">
+                                <td className="px-4 py-2 font-medium text-gray-700 border-b border-gray-200 w-1/3 text-center border-r">
                                     {rowTitles[index] || '特质'}
                                 </td>
-                                <td className={`px-4 py-2 border-b border-gray-200 font-medium ${hoveredIndex === index ? 'text-green-700' : ''
+                                <td className={`text-center px-4 py-2 border-b border-gray-200 font-medium ${hoveredIndex === index ? 'text-green-700' : ''
                                     }`}>
                                     <div className="flex items-center justify-between">
                                         {hasLink ? (

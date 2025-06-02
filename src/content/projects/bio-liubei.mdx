@@ -4,8 +4,8 @@ tags:
   - biography
   - wiki-l
 isFeatured: true
-publishDate: 
-excerpt: 
+publishDate:
+excerpt:
 seo:
   image:
     src: '/post-13.jpg'
@@ -13,100 +13,45 @@ seo:
 
 ---
 
-刘备是登场于后汉稽异录与后汉稽异录外传的主要角色。
+import CharacterWiki from "../../components/BiographyLayout.astro";
 
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">能力</span></h1>
-
-import RadarChart from '../../components/RadarChart.jsx';
-import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
-import BarChart from '../../components/BarChart.jsx';
-import FiveStringTable from '../../components/Table_Traits.jsx';
-
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
-    <RadarChart client:load data={[77, 100, 81, 80, 100]} />
-    <BarChart client:load data={[7, 6]} />
-    <FiveStringTable client:load data={['幽并', '仁王', '侠气']} /> 
-  </div>
-  <div class="flex flex-col items-center">
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
-    <RadarChart_DLC client:load data={[77, 100, 81, 80, 97]} />
-    <BarChart client:load data={[8, 7]} />
-    <FiveStringTable client:load data={['幽并', '仁德', '景从', '英杰', '侠气']} /> 
-  </div>
-</div>
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
-
-字玄德，涿郡涿县人，或为汉室宗亲，汉昭烈帝。先祖刘贞因未缴纳「酎金」而被剥夺爵位，幼时又家贫丧父，因此只能以织席贩履为业。黄巾之乱时，作为义军征讨黄巾，因此逐渐获得声名。曹操征伐徐州时，前往援助陶谦，受其上表推荐为豫州刺史，又于其死时受托徐州，却被吕布袭取，被迫投奔曹操，并与之一同击斩吕布。后藉攻打袁术之机重夺徐州，又被曹操击败，被迫投奔袁绍，因见袁绍不能成事，又转投刘表，刘表死后被曹操再度击败，遂与孙权联合，于赤壁之战中取得胜利。而后夺取荆南四郡，又在鲁肃建议下自孙权处借得荆州，复诈取益州，北上进攻曹操，最终大胜，夺取汉中，并自称汉中王。曹丕称帝后，接续汉帝之位于益州称帝，亦即「蜀汉」。随后向东征伐孙权，虽初期多胜，却在猇亭被陆逊大败，不久后去世。
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">登场</span></h1>
-
-<table class='border-2 w-[360px]'>
-  <thead>
-    <tr class='border-1'>
-      <th>本传</th>
-    </tr>
-  </thead>
-  <tr>
-    <td class='border-1'>关卡</td>
-    <td>阵营</td>
-  </tr>
-  <tr>
-    <td class='border-1'>小沛之战</td>
-    <td style="color: #1ba784">盟军</td>
-  </tr>
-  <tr>
-    <td class='border-1'>长坂坡之战</td>
-    <td style="color: #de1c31">敌军</td>
-  </tr>
-  <tr>
-    <td class='border-1'>定军山之战</td>
-    <td style="color: #de1c31">敌军</td>
-  </tr>
-</table>
-
-<table class='border-2 w-[360px]'>
-  <thead>
-    <tr class='border-1'>
-      <th>星命诀</th>
-    </tr>
-  </thead>
-  <tr>
-    <td class='border-1'>关卡</td>
-    <td>阵营</td>
-  </tr>
-  <tr>
-    <td class='border-1'>界桥之战</td>
-    <td style="color: #2775b6">敌军</td>
-  </tr>
-  <tr>
-    <td class='border-1'>白马之战</td>
-    <td style="color: #f2ce2b">盟军</td>
-  </tr>
-  <tr>
-    <td class='border-1'>延津之战</td>
-    <td style="color: #f2ce2b">盟军</td>
-  </tr>
-  <tr>
-    <td class='border-1'>官渡之战*</td>
-    <td style="color: #de1c31">我军</td>
-  </tr>
-</table>
-*：特定情况下。
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">关联装备</span></h1>
-<div class='flex flex-col pl-4 mt-0'>
-<a href="">双股</a>
-<a href="">桃夭</a>
-<div class='mb-18'/>
-</div>
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">更多</span></h1>
-<div class='flex flex-col pl-4 mt-0'>
-<a href="../../blog/post-liubei">创作手记</a>
-<a href="https://ctext.org/sanguozhi/32/zhs" target="_blank">《三国志·先主传》</a>
-<a href="https://en.wikipedia.org/wiki/Liu_Bei" target="_blank">Wikipedia - English Version</a>
-<div class='mb-18'/>
-</div>
+<CharacterWiki
+  intro={`刘备是登场于后汉稽异录与后汉稽异录外传的主要角色。`}
+  baseData={[77, 100, 81, 80, 100]}
+  dlcData={[77, 100, 81, 80, 97]}
+  traitsBase={["幽并", "仁王", "侠气"]}
+  traitsDLC={["幽并", "仁德", "景从", "英杰", "侠气"]}
+  biography={`字玄德，涿郡涿县人，或为汉室宗亲，汉昭烈帝。先祖刘贞因未缴纳「酎金」而被剥夺爵位，幼时又家贫丧父，因此只能以织席贩履为业。黄巾之乱时，作为义军征讨黄巾，因此逐渐获得声名。
+曹操征伐徐州时，前往援助陶谦，受其上表推荐为豫州刺史，又于其死时受托徐州，却被吕布袭取，被迫投奔曹操，并与之一同击斩吕布。
+后藉攻打袁术之机重夺徐州，又被曹操击败，被迫投奔袁绍，因见袁绍不能成事，又转投刘表，刘表死后被曹操再度击败，遂与孙权联合，于赤壁之战中取得胜利。
+而后夺取荆南四郡，又在鲁肃建议下自孙权处借得荆州，复诈取益州，北上进攻曹操，最终大胜，夺取汉中，并自称汉中王。
+曹丕称帝后，接续汉帝之位于益州称帝，亦即「蜀汉」。随后向东征伐孙权，虽初期多胜，却在猇亭被陆逊大败，不久后去世。`}
+  battlesBase={
+    [
+      ["小沛之战", "盟军"],
+      ["长坂坡之战", "敌军"],
+      ["定军山之战", "敌军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["界桥之战", "敌军"],
+      ["白马之战", "盟军"],
+      ["延津之战", "盟军"],
+      ["官渡之战*", "我军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "双股", href: ""},
+      {label: "桃夭", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../blog/post-liubei"},
+      {label: "《三国志·先主传》", href: "https://ctext.org/sanguozhi/32/zhs"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Liu_Bei"}
+    ]
+  }
+/>
