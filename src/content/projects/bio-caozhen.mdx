@@ -15,14 +15,16 @@ seo:
 
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <RadarChart client:load data={[96, 77, 79, 81, 88
-    ]} />
-    <small class="indent-0">本传</small>
-  </div>
+<div class="flex flex-col items-center">
+<span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
 </div>
+
+<RadarChart client:load data={[96, 77, 79, 81, 88]} />
+<BarChart client:load data={[6, 8]} />
+<FiveStringTable data={['中原', '柱石', '赤心', '雅量', '齐心']} />
 
 
 字子丹，沛国谯县人。本姓秦，父亲秦邵为曹操募兵，被当地州郡人杀害，因此被曹操收为养子，与曹丕等人一起生活。因有勇略被曹操任命为虎豹骑统领，在汉中攻防战中作为征蜀护军对抗刘备。曹丕称帝后，被任命为镇西将军，假节，都督雍、凉二州诸军事务，黄初三年又被封为上军大将军，曹丕临终前，被指定为辅政大臣。曹叡登基后，被拜为大将军，抵抗诸葛亮前三次北伐，随后出兵讨伐蜀国，却被暴雨阻挡，无功而返，旋即病死。

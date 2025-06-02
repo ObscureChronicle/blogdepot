@@ -15,13 +15,15 @@ seo:
 
 import RadarChart from '../../components/RadarChart.jsx';
 import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <RadarChart client:load data={[98, 98, 30, 98, 98
-    ]} />
-    <small class="indent-0">本传</small>
-  </div>
+<div class="flex flex-col items-center">
+<span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
 </div>
+
+<RadarChart client:load data={[98, 98, 30, 98, 98]} />
+<BarChart client:load data={[8, 9]} />
+<FiveStringTable data={['关中', '武库*', '穷经', '号令', '矫然']} />
 
 字元凯，京兆杜陵人。因与司马昭为姻亲而受启用，虽不擅武艺，然长于军略，于钟会、秃发树机能、刘猛之乱中皆有筹策，又与羊祜、张华主张伐吴，并被羊祜举荐任伐吴统帅，攻灭吴国。好《左传》，作《春秋左氏经传集解》，又于法律、历法、农政、金石、水利方面皆有建树，因而有「杜武库」之称。

@@ -12,14 +12,21 @@ const TRAIT_MAP = {
     '内圣': { color: TraitColor.Oridinary, link: '' },
     '仁王': { color: TraitColor.Oridinary, link: '' },
     '仁德': { color: TraitColor.Oridinary, link: '' },
+    '绝伦': { color: TraitColor.Oridinary, link: '' },
     '鬼谋': { color: TraitColor.Oridinary, link: '' },
     '机心': { color: TraitColor.Oridinary, link: '' },
     '木秀': { color: TraitColor.Super, link: '' },
     '国士': { color: TraitColor.Super, link: '' },
+    '桓武*': { color: TraitColor.Super, link: '' },
+    '武库*': { color: TraitColor.Super, link: '' },
+    '柱石': { color: TraitColor.Super, link: '' },
     '恣睢': { color: TraitColor.Bad, link: '' },
     '桀犬': { color: TraitColor.Bad, link: '' },
     '自矜': { color: TraitColor.Bad, link: '' },
+    '傲上': { color: TraitColor.Bad, link: '' },
     '狷狭': { color: TraitColor.Bad, link: '' },
+    '无谋': { color: TraitColor.Bad, link: '' },
+    '功名': { color: TraitColor.Bad, link: '' },
 };
 
 export default function FiveStringTable({ data }) {

@@ -1,0 +1,88 @@
+---
+title: 沮授
+tags:
+  - biography
+  - wiki-j
+isFeatured: true
+publishDate: 
+excerpt: 
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">能力</span></h1>
+
+import RadarChart from '../../components/RadarChart.jsx';
+import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
+import BarChart from '../../components/BarChart.jsx';
+import FiveStringTable from '../../components/Table_Traits.jsx';
+
+<div class="flex justify-evenly sm:flex-row flex-col">
+  <div class="flex flex-col items-center">
+    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
+    <RadarChart client:load data={[90, 38, 61, 97, 73]} />
+    <BarChart client:load data={[5, 9]} />
+    <FiveStringTable client:load data={['河北', '景从', '赤心']} /> 
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
+    <RadarChart_DLC client:load data={[96, 36, 61, 95, 67]} />
+    <BarChart client:load data={[5, 9]} />
+    <FiveStringTable client:load data={['河北', '镇心', '赤心', '率然', '水鉴']} /> 
+  </div>
+</div>
+
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
+
+正史阙字，广平人。少有大志，多智略，被韩馥任命为骑都尉。袁绍夺取冀州后，为袁绍提出了发展的战略，因此被袁绍任命为监军。此后又提出「挟天子而令诸侯」的战略，阻止袁绍令四子分治四州，又多次阻止袁绍分兵冒进的行动，但均未被采纳，反而因触怒袁绍而被关押。官渡之战后被曹操俘获，不肯投降，后为曹操所杀。
+
+㊟《三国志》注引《献帝纪》：「沮授，广平（郡）人。」按，景帝中元六年，始分巨鹿郡为广平郡，武帝以广平郡为国。光武帝建武十三年，省广平国并入巨鹿郡，此后至魏文帝黄初二年方复以魏郡西部为广平郡。史书未载沮授籍贯为何县，游戏中称其为「巨鹿广平人」，指东汉巨鹿郡广平县，则系剧情需要。又《资治通鉴・汉纪五十二》：「以广平沮授为奋武将军。」注：「广平县，属巨鹿郡」，似无依据。
+
+<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">初始设定</span></h1>
+
+<table class='border-2 w-[360px]'>
+  <thead>
+    <tr class='border-1'>
+      <th>本传</th>
+    </tr>
+  </thead>
+  <tr>
+    <td class='border-1'>兵力</td>
+    <td>1000</td>
+  </tr>
+  <tr>
+    <td class='border-1'>兵种</td>
+    <td>弓骑兵</td>
+  </tr>
+  <tr>
+    <td class='border-1'>入队</td>
+    <td>邺城之战后</td>
+  </tr>
+</table>
+
+<table class='border-2 w-[360px]'>
+  <thead>
+    <tr class='border-1'>
+      <th>星命诀</th>
+    </tr>
+  </thead>
+  <tr>
+    <td class='border-1'>秩级</td>
+    <td>六百石</td>
+  </tr>
+  <tr>
+    <td class='border-1'>兵力</td>
+    <td>2702</td>
+  </tr>
+  <tr>
+    <td class='border-1'>兵种</td>
+    <td>民兵</td>
+  </tr>
+  <tr>
+    <td class='border-1'>要职</td>
+    <td>监军</td>
+  </tr>
+</table>
