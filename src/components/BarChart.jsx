@@ -94,7 +94,7 @@ export default function BarChart({ data }) {
                 const y = margin.top + chartHeight - barHeight;
 
                 // 绘制提示框
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0)';
                 ctx.strokeStyle = colors[hoverIndex];
                 ctx.lineWidth = 2;
                 ctx.beginPath();

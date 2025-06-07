@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function RadarChart_DLC({ data }) {
+export default function RadarChart_DLC({ data, attributefigure }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -53,7 +53,13 @@ export default function RadarChart_DLC({ data }) {
                 // 文字标签
                 if (labels?.[i]) {
                     ctx.font = '16px sans-serif';
-                    ctx.fillStyle = '#333';
+                    ctx.fillStyle = '#333'
+                    if (attributefigure?.[i] > 0) {
+                        ctx.fillStyle = '#1ba784';
+                    }
+                    else if (attributefigure?.[i] < 0) {
+                        ctx.fillStyle = '#de1c31';
+                    }
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     const labelX = centerX + (RADIUS + 20) * Math.sin(angle);
