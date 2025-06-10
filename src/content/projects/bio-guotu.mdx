@@ -13,28 +13,40 @@ seo:
 
 ---
 
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">能力</span></h1>
+import CharacterWiki from "../../components/BiographyLayout.astro";
 
-import RadarChart from '../../components/RadarChart.jsx';
-import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
-import BarChart from '../../components/BarChart.jsx';
-import FiveStringTable from '../../components/Table_Traits.jsx';
-
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
-    <RadarChart client:load data={[43, 64, 42, 81, 78]} />
-    <BarChart client:load data={[0, 7]} />
-    <FiveStringTable client:load data={['中原', '能吏']} /> 
-  </div>
-  <div class="flex flex-col items-center">
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
-    <RadarChart_DLC client:load data={[59, 74, 42, 81, 50]} />
-    <BarChart client:load data={[3, 9]} />
-    <FiveStringTable client:load data={['中原', '能吏', '反间', '自矜', '功名']} /> 
-  </div>
-</div>
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
-
-字公则，颍川人。本被韩馥征辟，袁绍取得冀州后成为其谋士，多次献计反对沮授的观点。在官渡之战前力主决战，更说服袁绍分割沮授兵权，官渡之战后又诬称张郃、高览未能尽力，审配怀有二心。在袁绍死后拥立长子袁谭，建安十年，曹操攻破南皮，被杀。
+<CharacterWiki
+  intro={``}
+  baseData={[43, 64, 42, 81, 78]}
+  AttributeFigure={[0, 0, 0, 0, 0]}
+  dlcData={[59, 74, 42, 81, 50]}
+  dlcAttributeFigure={[-1, 1, 0, 0, -1]}
+  baseData2={[0, 7]}
+  dlcData2={[3, 9]}
+  traitsBase={['中原', '能吏']}
+  traitsDLC={['中原', '能吏', '反间', '自矜', '功名']}
+  biography={`字公则，颍川人。本被韩馥征辟，袁绍取得冀州后成为其谋士，多次献计反对沮授的观点。在官渡之战前力主决战，更说服袁绍分割沮授兵权，官渡之战后又诬称张郃、高览未能尽力，审配怀有二心。在袁绍死后拥立长子袁谭，建安十年，曹操攻破南皮，被杀。`}
+  battlesBase={
+    [
+      ["官渡之战", "敌军"],
+      ["南皮之战", "敌军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["延津之战", "盟军"],
+      ["官渡之战", "盟军"]
+    ]
+  }
+  equipments={
+    [
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../blog/post-yuan-officer"},
+      {label: "《三国志·武帝纪》", href: "https://ctext.org/sanguozhi/1/zhs"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Guo_Jia"}
+    ]
+  }
+/>

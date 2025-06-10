@@ -13,44 +13,42 @@ seo:
 
 ---
 
-import RadarChart from '../../components/RadarChart.jsx';
-import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
-import BarChart from '../../components/BarChart.jsx';
-import FiveStringTable from '../../components/Table_Traits.jsx';
+import CharacterWiki from "../../components/BiographyLayout.astro";
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <RadarChart client:load data={[44, 80, 13, 99, 71
-    ]} />
-    <small class="indent-0">本传</small>
-  </div>
-  <div class="flex flex-col items-center">
-    <RadarChart_DLC client:load data={[45, 95, 12, 98, 51
-    ]} />
-    <small class="indent-0">星命诀</small>
-  </div>
-</div>
-
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <BarChart client:load data={[6, 10]} />
-    <small class="indent-0">本传</small>
-  </div>
-  <div class="flex flex-col items-center">
-    <BarChart client:load data={[9, 7]} />
-    <small class="indent-0">星命诀</small>
-  </div>
-</div>
-
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <FiveStringTable client:load data={['中原', '鬼谋', '急行', '先发']} /> 
-    <small class="indent-0">本传</small>
-  </div>
-  <div class="flex flex-col items-center">
-    <FiveStringTable data={['中原', '鬼谋', '奇才', '自若', '恣睢']} /> 
-    <small class="indent-0">星命诀</small>
-  </div>
-</div>
-
-字奉孝，颍川阳翟人。最初被袁绍征用，但看出袁绍不知用人的方法，于是离开。建安元年被荀彧推荐给曹操，曹操赞扬他「使孤成大业者，必此人也」。与荀攸一同献计水攻下邳，擒获吕布，并准确预测了孙策之死。建安十二年曹操北征乌桓时，献计以轻兵掩袭，大破蹋顿，旋即因病身亡。
+<CharacterWiki
+  intro={``}
+  baseData={[44, 80, 13, 99, 71]}
+  AttributeFigure={[-1, -1, -2, 5, 0]}
+  dlcData={[45, 95, 12, 98, 51]}
+  dlcAttributeFigure={[-1, -2, -2, 3, 0]}
+  baseData2={[6, 10]}
+  dlcData2={[9, 7]}
+  traitsBase={['中原', '鬼谋', '急行', '先发']}
+  traitsDLC={['中原', '鬼谋', '奇才', '自若', '恣睢']}
+  biography={`字奉孝，颍川阳翟人。最初被袁绍征用，但看出袁绍不知用人的方法，于是离开。建安元年被荀彧推荐给曹操，曹操赞扬他「使孤成大业者，必此人也」。与荀攸一同献计水攻下邳，擒获吕布，并准确预测了孙策之死。建安十二年曹操北征乌桓时，献计以轻兵掩袭，大破蹋顿，旋即因病身亡。`}
+  battlesBase={
+    [
+      ["下邳之战", "助战军"],
+      ["官渡之战", "盟军"],
+      ["邺城之战", "助战军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["官渡之战", "敌军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "流光", href: ""},
+      {label: "鬼谷子", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../blog/post-guojia"},
+      {label: "《三国志·武帝纪》", href: "https://ctext.org/sanguozhi/1/zhs"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Guo_Jia"}
+    ]
+  }
+/>

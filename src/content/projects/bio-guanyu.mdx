@@ -13,30 +13,44 @@ seo:
 
 ---
 
-关羽是登场于后汉稽异录与后汉稽异录外传的角色。
+import CharacterWiki from "../../components/BiographyLayout.astro";
 
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">能力</span></h1>
-
-import RadarChart from '../../components/RadarChart.jsx';
-import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
-import BarChart from '../../components/BarChart.jsx';
-import FiveStringTable from '../../components/Table_Traits.jsx';
-
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
-    <RadarChart client:load data={[96, 69, 100, 75, 97]} />
-    <BarChart client:load data={[10, 7]} />
-    <FiveStringTable client:load data={['中原', '国士', '桓武*', '号令', '摧锋']} /> 
-  </div>
-  <div class="flex flex-col items-center">
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
-    <RadarChart_DLC client:load data={[94, 69, 100, 75, 95]} />
-    <BarChart client:load data={[10, 6]} />
-    <FiveStringTable client:load data={['河北', '绝伦', '国士', '气焰', '傲上']} /> 
-  </div>
-</div>
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
-
-字云长，本字长生，河东解人。与张飞一同追随刘备起兵，三人之间恩情宛如兄弟。建安五年，曹操击败刘备，欲劝降之而倍加礼遇，然不为所动，为曹操斩杀颜良后离开曹操，前往刘备之处。刘备入川后，镇守荆州，刘备称汉中王后，被拜为前将军，假节钺。同年，北上攻打樊城，将曹仁逼入绝境，又歼灭前来支援的于禁，斩杀庞德，威震华夏，使曹操一度欲迁都以避其锋芒。但因性格孤高自傲，触怒孙权，被吕蒙袭取荆州，又受麋芳、士仁背叛，被孙权俘获并处斩。
+<CharacterWiki
+  intro={``}
+  baseData={[96, 69, 100, 75, 97]}
+  AttributeFigure={[2, -2, 3, 0, 1]}
+  dlcData={[94, 69, 100, 75, 95]}
+  dlcAttributeFigure={[1, -2, 3, 0, 2]}
+  baseData2={[10, 7]}
+  dlcData2={[10, 6]}
+  traitsBase={['中原', '国士', '桓武*', '号令', '摧锋']}
+  traitsDLC={['河北', '绝伦', '国士', '气焰', '傲上']}
+  biography={`字云长，本字长生，河东解人。与张飞一同追随刘备起兵，三人之间恩情宛如兄弟。建安五年，曹操击败刘备，欲劝降之而倍加礼遇，然不为所动，为曹操斩杀颜良后离开曹操，前往刘备之处。刘备入川后，镇守荆州，刘备称汉中王后，被拜为前将军，假节钺。同年，北上攻打樊城，将曹仁逼入绝境，又歼灭前来支援的于禁，斩杀庞德，威震华夏，使曹操一度欲迁都以避其锋芒。但因性格孤高自傲，触怒孙权，被吕蒙袭取荆州，又受麋芳、士仁背叛，被孙权俘获并处斩。`}
+  battlesBase={
+    [
+      ["小沛之战", "盟军"],
+      ["长坂坡之战", "敌军"],
+      ["赤壁救援战", "敌军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["界桥之战", "敌军"],
+      ["白马之战", "敌军"],
+      ["延津之战", "敌军"],
+      ["官渡之战*", "敌军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "偃月", href: ""},
+      {label: "春秋左氏传", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·赵云传》", href: "https://ctext.org/text.pl?node=603557&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Guan_Yu"}
+    ]
+  }
+/>

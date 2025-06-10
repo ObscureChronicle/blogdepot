@@ -15,8 +15,8 @@ const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
     const blogPosts = await getCollection('blog');
-const projectPosts = await getCollection('projects');
-const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 合并
+    const projectPosts = await getCollection('projects');
+    const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 合并
     // const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
     const tags = getAllTags(posts);
 
@@ -51,8 +51,7 @@ const sortedBlog = isWikiTag ? sortPostsByTitlePinyin(blog) : blog;
     image={{ src: '/title.png', alt: 'The preview of the site' }}
     showHeader={false}
 >
-    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{currentTag?.name}"
-    </h1>
+    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{currentTag?.name}"</h1>
     {sortedBlog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
     <Pagination page={page} class="my-16 sm:my-24" />
     <Subscribe class="my-16 sm:my-24" />
