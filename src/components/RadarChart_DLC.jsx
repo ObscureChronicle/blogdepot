@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 export default function RadarChart_DLC({ data, attributefigure }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
-    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-    const [tooltipValue, setTooltipValue] = useState('');
+    const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
     const maxValues = [100, 100, 100, 100, 100];
     const labels = ['统御', '运势', '武勇', '智略', '魅力']
 
@@ -19,6 +18,7 @@ export default function RadarChart_DLC({ data, attributefigure }) {
         const layers = 5;
 
         const points = [];
+        const labelPositions = [];
 
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -53,7 +53,7 @@ export default function RadarChart_DLC({ data, attributefigure }) {
                 // 文字标签
                 if (labels?.[i]) {
                     ctx.font = '16px sans-serif';
-                    ctx.fillStyle = '#333'
+                    ctx.fillStyle = '#333';
                     if (attributefigure?.[i] > 0) {
                         ctx.fillStyle = '#1ba784';
                     }
@@ -65,6 +65,18 @@ export default function RadarChart_DLC({ data, attributefigure }) {
                     const labelX = centerX + (RADIUS + 20) * Math.sin(angle);
                     const labelY = centerY - (RADIUS + 20) * Math.cos(angle);
                     ctx.fillText(labels[i], labelX, labelY);
+
+                    const labelWidth = ctx.measureText(labels[i]).width;
+                    const labelHeight = 16;
+                    labelPositions.push({
+                        index: i,
+                        x: labelX - labelWidth / 2,
+                        y: labelY - labelHeight / 2,
+                        width: labelWidth,
+                        height: labelHeight,
+                        cx: labelX,
+                        cy: labelY,
+                    });
                 }
             }
 
@@ -90,7 +102,7 @@ export default function RadarChart_DLC({ data, attributefigure }) {
 
             // 小圆点
             ctx.fillStyle = '#ffd111';
-            points.forEach((p, i) => {
+            points.forEach((p) => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
                 ctx.fill();
@@ -100,7 +112,6 @@ export default function RadarChart_DLC({ data, attributefigure }) {
             if (hoverIndex !== null) {
                 const p = points[hoverIndex];
                 ctx.save(); // 保存当前绘图状态
-
                 ctx.fillStyle = '#fff';
                 ctx.strokeStyle = '#ffd111';
                 ctx.lineWidth = 1;
@@ -118,6 +129,29 @@ export default function RadarChart_DLC({ data, attributefigure }) {
                 ctx.restore(); // 恢复上一次的 strokeStyle/lineWidth 设置
             }
 
+            if (hoverLabelIndex !== null && attributefigure?.[hoverLabelIndex] !== undefined) {
+                const labelPos = labelPositions.find(p => p.index === hoverLabelIndex);
+                if (labelPos && attributefigure[hoverLabelIndex] !== 0) {
+                    ctx.save();
+                    ctx.fillStyle = '#fff';
+                    ctx.strokeStyle = '#ffd111';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.roundRect(labelPos.cx + 10, labelPos.cy - 30, 80, 40, 6);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#333';
+                    ctx.font = '12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    const addValue = attributefigure[hoverLabelIndex];
+                    ctx.fillText(labels[hoverLabelIndex] + '上限' + (addValue < 0 ? '' : '+') + (3 * addValue), labelPos.cx + 50, labelPos.cy - 18);
+                    ctx.fillText('加点消耗' + (addValue > 0 ? '' : '+') + (-1 * addValue), labelPos.cx + 50, labelPos.cy - 4);
+
+                    ctx.restore();
+                }
+            }
         };
 
         render();
@@ -137,8 +171,21 @@ export default function RadarChart_DLC({ data, attributefigure }) {
                 }
             });
 
-            if (found !== hoverIndex) {
+            let labelFound = null;
+            labelPositions.forEach((pos) => {
+                if (
+                    mx >= pos.x &&
+                    mx <= pos.x + pos.width &&
+                    my >= pos.y &&
+                    my <= pos.y + pos.height
+                ) {
+                    labelFound = pos.index;
+                }
+            });
+
+            if (found !== hoverIndex || labelFound !== hoverLabelIndex) {
                 setHoverIndex(found);
+                setHoverLabelIndex(labelFound);
                 render(); // 重新渲染
             }
         };
@@ -146,13 +193,14 @@ export default function RadarChart_DLC({ data, attributefigure }) {
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('mouseleave', () => {
             setHoverIndex(null);
+            setHoverLabelIndex(null);
             render();
         });
 
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [data, maxValues, labels, hoverIndex]);
+    }, [data, maxValues, labels, hoverIndex, hoverLabelIndex, attributefigure]);
 
-    return <canvas ref={canvasRef} width={300} height={250} class='mx-auto' style={{ display: 'block' }} />;
+    return <canvas ref={canvasRef} width={300} height={250} className='mx-auto' style={{ display: 'block' }} />;
 }

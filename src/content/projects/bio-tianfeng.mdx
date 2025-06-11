@@ -13,33 +13,40 @@ seo:
 
 ---
 
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">能力</span></h1>
+import CharacterWiki from "../../components/BiographyLayout.astro";
 
-import RadarChart from '../../components/RadarChart.jsx';
-import RadarChart_DLC from '../../components/RadarChart_DLC.jsx';
-import BarChart from '../../components/BarChart.jsx';
-import FiveStringTable from '../../components/Table_Traits.jsx';
+<CharacterWiki
+  intro={``}
+  baseData={[44, 39, 35, 90, 41]}
+  AttributeFigure={[0, -1, 0, 1, -1]}
+  dlcData={[44, 38, 50, 88, 59]}
+  dlcAttributeFigure={[0, -1, 0, 1, -2]}
+  baseData2={[10, 3]}
+  dlcData2={[10, 4]}
+  traitsBase={['河北', '素心', '刚胆', '忠志']}
+  traitsDLC={['河北', '一心', '刚烈', '骨鲠', '书蠹']}
+  biography={`字元皓，巨鹿人。因其才略闻名乡党，被太尉府征辟，任侍御史，认为十常侍擅据朝政，遂弃官回乡。袁绍夺取冀州后，应其征召为别驾。献策帮助袁绍平定了公孙瓒，与沮授的战略观点也常常相近，但被荀彧认为「刚而犯上」，又为逄纪所忌惮，因此渐被袁绍疏远。官渡之战前力主不能决战，屡次劝谏而触怒袁绍，被袁绍关押。官渡之战后，被逄纪谮称「面有喜色」，因而为袁绍下令处死。`}
+  battlesBase={
+    [
+    ]
+  }
+  battlesDLC={
+    [
+    ]
+  }
+  equipments={
+    [
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../blog/post-yuan-officer"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Tian_Feng"}
+    ]
+  }
+/>
 
-<div class="flex justify-evenly sm:flex-row flex-col">
-  <div class="flex flex-col items-center">
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
-    <RadarChart client:load data={[44, 39, 35, 90, 41]} />
-    <BarChart client:load data={[10, 3]} />
-    <FiveStringTable client:load data={['河北', '素心', '刚胆', '忠志']} /> 
-  </div>
-  <div class="flex flex-col items-center">
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">星命诀</span>
-    <RadarChart_DLC client:load data={[44, 38, 50, 88, 59]} />
-    <BarChart client:load data={[10, 4]} />
-    <FiveStringTable client:load data={['河北', '一心', '刚烈', '骨鲠', '书蠹']} /> 
-  </div>
-</div>
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">列传</span></h1>
-
-字元皓，巨鹿人。因其才略闻名乡党，被太尉府征辟，任侍御史，认为十常侍擅据朝政，遂弃官回乡。袁绍夺取冀州后，应其征召为别驾。献策帮助袁绍平定了公孙瓒，与沮授的战略观点也常常相近，但被荀彧认为「刚而犯上」，又为逄纪所忌惮，因此渐被袁绍疏远。官渡之战前力主不能决战，屡次劝谏而触怒袁绍，被袁绍关押。官渡之战后，被逄纪谮称「面有喜色」，因而为袁绍下令处死。
-
-<h1 class="flex items-center text-5xl font-extrabold dark:text-white"><span class="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-2">初始设定</span></h1>
+<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">初始设定</h2>
 
 <table class='border-2 w-[360px]'>
   <thead>

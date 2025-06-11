@@ -21,6 +21,7 @@ const { showHeader = true, ...head } = Astro.props;
             }
         </script>
         <ClientRouter />
+        <script src="/cursor-click.js" defer></script>
     </head>
     <body class="bg-main text-main">
         <div class="flex flex-col min-h-screen px-4 md:px-8">
@@ -29,16 +30,16 @@ const { showHeader = true, ...head } = Astro.props;
             <main class="grow w-full max-w-3xl mx-auto">
                 <slot />
             </main>
-            <ScrollToTop client:load/>
+            <ScrollToTop client:load />
             <Footer />
         </div>
         <script type="module">
             import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
             init({
-              el: '#waline',
-              serverURL: 'https://your-domain.vercel.app',
+                el: '#waline',
+                serverURL: 'https://your-domain.vercel.app'
             });
-          </script>
+        </script>
     </body>
 </html>
