@@ -63,7 +63,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
     <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">索引</h1>
     <div>
       <h3>检索框（测试中）</h3>
-      <div  id="search" class="mb-6"></div>
+      <div id="search" class="mb-6"></div>
     {
         tags.map((tag) => {
             const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
