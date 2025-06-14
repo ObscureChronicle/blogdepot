@@ -53,17 +53,17 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'Wiki',
-            href: '/projects'
+            text: '百科',
+            href: '/tags'
         },
         {
             text: '日志',
             href: '/blog'
-        },
-        {
-            text: '索引',
-            href: '/tags'
         }
+        //{
+        //    text: 'Wiki',
+        //    href: '/projects'
+        //}
     ],
     footerNavLinks: [
         // {

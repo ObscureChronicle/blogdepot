@@ -14,8 +14,8 @@ const wikiTags = allTags.filter((tag) => !tag.id.startsWith('wiki-') && tag.id !
 console.log(wikiTags);
 ---
 
-<BaseLayout title="Wiki 分类检索" description="按分类快速查找 Wiki 文章标签" showHeader={false}>
-    <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">Wiki 分类检索</h1>
+<BaseLayout title="百科分类检索" description="按分类快速查找百科条目标签" showHeader={false}>
+    <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">百科分类检索</h1>
     {
         wikiTags
             .sort((a, b) => {

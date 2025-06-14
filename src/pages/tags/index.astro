@@ -29,7 +29,7 @@ const wikiPosts = posts.filter((post) => {
 // ✅ 构造虚拟标签，并加入统计字段
 const virtualTag: TagItem = {
     id: 'wiki-index-by-reading',
-    name: 'Wiki 音序检索',
+    name: '音序检索',
     count: wikiPosts.length // ✅ 文章总数
 };
 
@@ -44,7 +44,7 @@ const nonWikiPosts = posts.filter((post) => {
 // ✅ 构造虚拟标签对象，表示“非 Wiki 标签合集”
 const virtualTagByCatogory: TagItem = {
     id: 'wiki-index-by-catogory',
-    name: 'Wiki 分类检索',
+    name: '分类检索',
     count: nonWikiPosts.length
 };
 
@@ -60,30 +60,29 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
     description="Explore tag directory for easy navigation and discovery. Find a wide range of topics, articles, and insights organized by tags, making it effortless to locate the content that interests you most."
     showHeader={false}
 >
-    <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">索引</h1>
+    <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
     <div>
-      <h3>检索框（测试中）</h3>
-      <div id="search" class="mb-6"></div>
-    {
-        tags.map((tag) => {
-            const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
-            return (
-                <a class="mb-10 flex justify-between items-start gap-8 group sm:mb-12" href={`/tags/${tag.id}`}>
-                    <div class="grow">
-                        <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
-                            {tag.name}
-                        </h2>
-                        <div class="mt-1 text-sm leading-normal">
-                            {postCount} {postCount === 1 ? 'post' : 'posts'}
+        <div id="search" class="mb-12"></div>
+        {
+            tags.map((tag) => {
+                const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
+                return (
+                    <a class="mb-10 flex justify-between items-start gap-8 group sm:mb-12" href={`/tags/${tag.id}`}>
+                        <div class="grow">
+                            <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                {tag.name}
+                            </h2>
+                            <div class="mt-1 text-sm leading-normal">
+                                {postCount} {postCount === 1 ? 'post' : 'posts'}
+                            </div>
                         </div>
-                    </div>
-                    <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
-                        查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
-                    </div>
-                </a>
-            );
-        })
-    }
+                        <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                            查看所有条目 <ArrowRight class="fill-current w-4 h-4" />
+                        </div>
+                    </a>
+                );
+            })
+        }
     </div>
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>
