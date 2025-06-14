@@ -43,16 +43,41 @@ const { showHeader = true, ...head } = Astro.props;
                 serverURL: 'https://your-domain.vercel.app'
             });
         </script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
+        <!-- 引入一次脚本 -->
+        <script src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
 
-        <script type="text/javascript">
-            algoliasearchNetlify({
-                appId: 'QA1MFGCDRA',
-                apiKey: 'a560f1d39f35e83a20ffe953d23b3809',
-                siteId: '72fc77ee-5596-45f9-95f3-7ceb21f85fdc',
-                branch: 'main',
-                selector: 'div#search'
-            });
+        <!-- 初始化 -->
+        <script>
+            // @ts-ignore
+            declare global {
+                interface Window {
+                    algoliasearchNetlify?: (...args: any[]) => void;
+                }
+            }
+
+            function initSearchIfNeeded() {
+                const el = document.querySelector('#search') as HTMLElement;
+                if (!el || el.dataset.initialized) return;
+                el.dataset.initialized = 'true';
+
+                if (typeof window.algoliasearchNetlify === 'function') {
+                    window.algoliasearchNetlify({
+                        appId: 'QA1MFGCDRA',
+                        apiKey: 'a560f1d39f35e83a20ffe953d23b3809',
+                        siteId: '72fc77ee-5596-45f9-95f3-7ceb21f85fdc',
+                        branch: 'main',
+                        selector: 'div#search'
+                    });
+                } else {
+                    console.error('Algolia script not loaded.');
+                }
+            }
+
+            // 首次加载
+            window.addEventListener('DOMContentLoaded', initSearchIfNeeded);
+
+            // Astro 页面跳转后
+            document.addEventListener('astro:after-swap', initSearchIfNeeded);
         </script>
     </body>
 </html>
