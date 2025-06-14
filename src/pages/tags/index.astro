@@ -60,8 +60,10 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
     description="Explore tag directory for easy navigation and discovery. Find a wide range of topics, articles, and insights organized by tags, making it effortless to locate the content that interests you most."
     showHeader={false}
 >
-    <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">索引</h1>
-    <div id="search"></div>
+    <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">索引</h1>
+    <div>
+      <h3>检索框（测试中）</h3>
+      <div  id="search" class="mb-6"></div>
     {
         tags.map((tag) => {
             const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
@@ -82,5 +84,6 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
             );
         })
     }
+    </div>
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>
