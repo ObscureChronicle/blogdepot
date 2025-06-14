@@ -1,54 +1,58 @@
 ---
 // 改动点 ✅：合并两个 collection
 import { getCollection } from 'astro:content';
+import Subscribe from '../../components/Subscribe.astro';
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Subscribe from '../../components/Subscribe.astro';
-import { sortItemsByDateDesc, getAllTags, getPostsByTag } from '../../utils/data-utils';
+import { getAllTags, getPostsByTag, sortItemsByDateDesc } from '../../utils/data-utils';
 
 const blogPosts = await getCollection('blog');
 const projectPosts = await getCollection('projects');
 const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 合并
 
 type TagItem = {
-  id: string;
-  name: string;
-  count?: number;
+    id: string;
+    name: string;
+    count?: number;
 };
 
 const realTags: TagItem[] = getAllTags(posts);
 
 // ✅ 所有 wiki-* 标签（不包含聚合页本身）
-const wikiChildTags = realTags.filter(tag =>
-  tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading'
-);
+const wikiChildTags = realTags.filter((tag) => tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading');
 
 // ✅ 汇总所有属于 wiki-* 标签的文章
 const wikiPosts = posts.filter((post) => {
-  return post.data.tags?.some((tag) =>
-    tag.startsWith('wiki-') && tag !== 'wiki-index-by-reading'
-  );
+    return post.data.tags?.some((tag) => tag.startsWith('wiki-') && tag !== 'wiki-index-by-reading');
 });
 
 // ✅ 构造虚拟标签，并加入统计字段
-const virtualTag : TagItem = {
-  id: 'wiki-index-by-reading',
-  name: 'Wiki 音序检索',
-  count: wikiPosts.length, // ✅ 文章总数
+const virtualTag: TagItem = {
+    id: 'wiki-index-by-reading',
+    name: 'Wiki 音序检索',
+    count: wikiPosts.length // ✅ 文章总数
 };
 
-const tags : TagItem[] = [
-  virtualTag,
-  ...realTags.filter(tag =>
-    tag.id !== virtualTag.id && !tag.id.startsWith('wiki') // ✅ 过滤掉 wiki-*
-  )
-].sort((tagA, tagB) => {
-  const postCountA = getPostsByTag(posts, tagA.id).length;
-  const postCountB = getPostsByTag(posts, tagB.id).length;
-  return postCountB - postCountA;
+// ✅ 排除所有 wiki-* 标签
+const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
+
+// ✅ 排除所有包含 wiki-* 标签的文章
+const nonWikiPosts = posts.filter((post) => {
+    return !post.data.tags?.some((tag) => tag.startsWith('wiki-'));
 });
 
+// ✅ 构造虚拟标签对象，表示“非 Wiki 标签合集”
+const virtualTagByCatogory: TagItem = {
+    id: 'wiki-index-by-catogory',
+    name: 'Wiki 分类检索',
+    count: nonWikiPosts.length
+};
 
+const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => {
+    const postCountA = getPostsByTag(posts, tagA.id).length;
+    const postCountB = getPostsByTag(posts, tagB.id).length;
+    return postCountB - postCountA;
+});
 ---
 
 <BaseLayout
@@ -57,6 +61,7 @@ const tags : TagItem[] = [
     showHeader={false}
 >
     <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">索引</h1>
+    <div id="search"></div>
     {
         tags.map((tag) => {
             const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
