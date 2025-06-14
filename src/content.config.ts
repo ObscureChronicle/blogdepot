@@ -43,7 +43,7 @@ const projects = defineCollection({
         isFeatured: z.boolean().default(false),
         seo: seoSchema.optional(),
         tags: z.array(z.string()).optional()
-    })
+    }),
 });
 
 export const collections = { blog, pages, projects };
