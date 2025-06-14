@@ -8,9 +8,9 @@ const TraitColor = {
 }
 
 const TRAIT_MAP = {
-    '霸者': { color: TraitColor.Oridinary, link: '/projects/trait_bazhe' },
+    '霸者': { color: TraitColor.Oridinary, link: '/projects/trait/trait_bazhe' },
     '内圣': { color: TraitColor.Oridinary, link: '' },
-    '仁王': { color: TraitColor.Oridinary, link: '/projects/trait_renwang' },
+    '仁王': { color: TraitColor.Oridinary, link: '/projects/trait/trait_renwang' },
     '仁德': { color: TraitColor.Oridinary, link: '' },
     '绝伦': { color: TraitColor.Oridinary, link: '' },
     '鬼谋': { color: TraitColor.Oridinary, link: '' },
@@ -23,11 +23,11 @@ const TRAIT_MAP = {
     '桓武*': { color: TraitColor.Super, link: '' },
     '武库*': { color: TraitColor.Super, link: '' },
     '柱石': { color: TraitColor.Super, link: '' },
-    '中原': { link: '/projects/trait_zhongyuan' },
-    '河北': { link: '/projects/trait_hebei' },
-    '幽并': { link: '/projects/trait_youbing' },
-    '淮扬': { link: '/projects/trait_huaiyang' },
-    '青徐': { link: '/projects/trait_qingxu' },
+    '中原': { link: '/projects/trait/trait_zhongyuan' },
+    '河北': { link: '/projects/trait/trait_hebei' },
+    '幽并': { link: '/projects/trait/trait_youbing' },
+    '淮扬': { link: '/projects/trait/trait_huaiyang' },
+    '青徐': { link: '/projects/trait/trait_qingxu' },
     '恣睢': { color: TraitColor.Bad, link: '' },
     '桀犬': { color: TraitColor.Bad, link: '' },
     '自矜': { color: TraitColor.Bad, link: '' },
