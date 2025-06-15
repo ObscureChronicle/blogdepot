@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
     const projectCount = projects.length;
     return projects.map((project, index) => ({
-        params: { id: project.id, },
+        params: { id: project.id },
         props: {
             project,
             prevProject: index + 1 !== projectCount ? projects[index + 1] : null,
@@ -41,8 +41,18 @@ const { Content } = await render(project);
     {
         (prevProject || nextProject) && (
             <div class="my-4 flex justify-between">
-                {prevProject && <div><h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl">←上一篇</h2> <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" /></div>}
-                {nextProject && <div><h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl text-right">下一篇→</h2> <ProjectPreview project={nextProject} class="mb-10 sm:mb-12 text-right" headingLevel="h3" /></div>}
+                {prevProject && (
+                    <div>
+                        <h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl">←上一篇</h2>{' '}
+                        <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />
+                    </div>
+                )}
+                {nextProject && (
+                    <div>
+                        <h2 class="mb-12 text-xl font-serif italic sm:mb-10 sm:text-2xl text-right">下一篇→</h2>{' '}
+                        <ProjectPreview project={nextProject} class="mb-10 sm:mb-12 text-right" headingLevel="h3" />
+                    </div>
+                )}
             </div>
         )
     }
