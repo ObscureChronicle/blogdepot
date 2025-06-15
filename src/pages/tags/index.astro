@@ -38,7 +38,7 @@ const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
 
 // ✅ 排除所有包含 wiki-* 标签的文章
 const nonWikiPosts = posts.filter((post) => {
-    return !post.data.tags?.some((tag) => tag.startsWith('wiki-'));
+    return post.data.tags?.some((tag) => !tag.startsWith('wiki-'));
 });
 
 // ✅ 构造虚拟标签对象，表示“非 Wiki 标签合集”
