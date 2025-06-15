@@ -13,6 +13,7 @@
     --bg-muted: #eae9e1;
     --border-main: #171717;
 }
+
 html.dark {
     --text-main: #f2f1ec;
     --bg-main: #171717;
@@ -71,6 +72,7 @@ html.dark {
     z-index: 1000;
     backdrop-filter: blur(4px);
 }
+
 .scroll-top svg {
     width: 20px;
     height: 20px;
@@ -78,11 +80,13 @@ html.dark {
     margin: auto;
     fill: white;
 }
+
 .scroll-top.visible {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
+
 .scroll-top:not(.visible) {
     transform: translateY(20px);
 }
@@ -134,12 +138,17 @@ html.dark {
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
+
+.wiki a {
+    color: #2775b6;
 }

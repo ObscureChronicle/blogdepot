@@ -27,10 +27,15 @@ const TRAIT_MAP = {
     '中原': { link: '/projects/trait/trait_zhongyuan' },
     '河北': { link: '/projects/trait/trait_hebei' },
     '幽并': { link: '/projects/trait/trait_youbing' },
+    '荆扬': { link: '/projects/trait/trait_jingyang' },
+    '荆楚': { link: '/projects/trait/trait_jingyang' },
     '淮扬': { link: '/projects/trait/trait_huaiyang' },
+    '巴蜀': { link: '/projects/trait/trait_bashu' },
     '青徐': { link: '/projects/trait/trait_qingxu' },
     '关中': { link: '/projects/trait/trait_guanzhong' },
     '关陇': { link: '/projects/trait/trait_guanzhong' },
+    '雍凉': { link: '/projects/trait/trait_yongliang' },
+    '西凉': { link: '/projects/trait/trait_yongliang' },
     '恣睢': { color: TraitColor.Bad, link: '' },
     '桀犬': { color: TraitColor.Bad, link: '' },
     '自矜': { color: TraitColor.Bad, link: '' },
@@ -52,6 +57,9 @@ export default function FiveStringTable({ data }) {
     // 行标题（可自定义）
     const TableTitle = '特质';
     const rowTitles = ['地域', '个人', '个人', '个人', '个人'];
+
+    // 添加地域特质的链接
+    const regionTraitLink = '/projects/trait/trait_00_regional';
 
     // 获取特质颜色（如果存在）
     const getTraitColor = (trait) => {
@@ -106,7 +114,17 @@ export default function FiveStringTable({ data }) {
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
                                 <td className="px-4 py-2 font-medium text-gray-700 border-b border-gray-200 w-1/3 text-center border-r">
-                                    {rowTitles[index] || '特质'}
+                                    {/* 为第一行的标题添加链接 */}
+                                    {index === 0 ? (
+                                        <a
+                                            href={regionTraitLink}
+                                        //className="text-blue-600 hover:underline cursor-pointer"
+                                        >
+                                            {rowTitles[index]}
+                                        </a>
+                                    ) : (
+                                        rowTitles[index] || '特质'
+                                    )}
                                 </td>
                                 <td className={`text-center px-4 py-2 border-b border-gray-200 font-medium ${hoveredIndex === index ? 'text-green-700' : ''
                                     }`}>

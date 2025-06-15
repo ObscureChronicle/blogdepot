@@ -1,9 +1,9 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
+import WalineComments from '../../components/WalineComments.tsx';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
-import WalineComments from '../../components/WalineComments.tsx';
 
 export async function getStaticPaths() {
     const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
@@ -34,7 +34,7 @@ const { Content } = await render(project);
         <header class="mb-8">
             <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
         </header>
-        <div class="max-w-none prose sm:prose-lg font-serif">
+        <div class="max-w-none prose sm:prose-lg font-serif wiki">
             <Content />
         </div>
     </article>
