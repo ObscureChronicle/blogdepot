@@ -152,3 +152,8 @@ html.dark {
 .wiki a {
     color: #2775b6;
 }
+
+table th:where(thead th:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
+tbody td:where(tbody td:last-child, tfoot td:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    padding-inline-end: 0.75em;
+}

@@ -63,26 +63,81 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
     <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
     <div>
         <div id="search" class="mb-12"></div>
-        {
-            tags.map((tag) => {
-                const postCount = tag.count ?? getPostsByTag(posts, tag.id).length;
-                return (
-                    <a class="mb-10 flex justify-between items-start gap-8 group sm:mb-12" href={`/tags/${tag.id}`}>
-                        <div class="grow">
-                            <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
-                                {tag.name}
-                            </h2>
-                            <div class="mt-1 text-sm leading-normal">
-                                {postCount} {postCount === 1 ? 'post' : 'posts'}
-                            </div>
-                        </div>
-                        <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
-                            查看所有条目 <ArrowRight class="fill-current w-4 h-4" />
-                        </div>
-                    </a>
-                );
-            })
-        }
+        <h2 class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6">
+            分类检索
+        </h2>
+        <div class="flex flex-wrap mb-10">
+            {
+                nonWikiTags
+                    .sort((a, b) => {
+                        const nameA = a.name.toUpperCase(); // 忽略大小写
+                        const nameB = b.name.toUpperCase(); // 忽略大小写
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+
+                        // name 必须相等
+                        return 0;
+                    })
+                    .map((tag) => {
+                        const postCount = getPostsByTag(posts, tag.id).length;
+                        return (
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[400px]" href={`/tags/${tag.id}`}>
+                                <div class="">
+                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                        {tag.name}
+                                    </h2>
+                                    <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
+                                </div>
+                                <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                                    查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
+                                </div>
+                            </a>
+                        );
+                    })
+            }
+        </div>
+        <h2 class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6">
+            音序检索
+        </h2>
+        <div class="flex flex-wrap">
+            {
+                wikiChildTags
+                    .sort((a, b) => {
+                        const nameA = a.name.toUpperCase(); // 忽略大小写
+                        const nameB = b.name.toUpperCase(); // 忽略大小写
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+
+                        // name 必须相等
+                        return 0;
+                    })
+                    .map((tag) => {
+                        const postCount = getPostsByTag(posts, tag.id).length;
+                        return (
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[240px]" href={`/tags/${tag.id}`}>
+                                <div class="sm:w-[85px]">
+                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                        {tag.name}
+                                    </h2>
+                                    <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
+                                </div>
+                                <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                                    查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
+                                </div>
+                            </a>
+                        );
+                    })
+            }
+        </div>
+
     </div>
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>

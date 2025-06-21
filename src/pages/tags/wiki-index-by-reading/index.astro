@@ -39,9 +39,7 @@ console.log(wikiTags);
                             <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                 {tag.name}
                             </h2>
-                            <div class="mt-1 text-sm leading-normal">
-                                {postCount} {postCount === 1 ? 'post' : 'posts'}
-                            </div>
+                            <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
                         </div>
                         <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
                             查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
