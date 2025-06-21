@@ -3,6 +3,8 @@
 import BarChart from '../components/BarChart.jsx';
 import RadarChart from '../components/RadarChart';
 import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
+import DLCStageStringTable from '../components/Table_Stage_DLC.jsx';
+import StageStringTable from '../components/Table_Stages.jsx';
 import FiveStringTable from '../components/Table_Traits.jsx';
 
 type CharacterWikiProps = {
@@ -82,53 +84,21 @@ const nonedata = '无';
 <div class="flex flex-col pl-4 gap-4">
     {!battlesBase && !battlesDLC ? nonedata : ''}
     {
-        battlesBase && (
-            <table class="border-2 w-[360px]">
-                <thead>
-                    <tr class="border-1">
-                        <th>{basename_short}</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <>
-                        <td class="border-1">关卡</td>
-                        <td>阵营</td>
-                    </>
-                </tr>
-                {battlesBase.map(([stage, camp]) => (
-                    <tr>
-                        <>
-                            <td class="border-1">{stage}</td>
-                            <td>{camp}</td>
-                        </>
-                    </tr>
-                ))}
-            </table>
+        baseData && (
+            <div class="flex flex-col items-center">
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
+                <StageStringTable client:load data={battlesBase} />
+            </div>
         )
     }
     {
         battlesDLC && (
-            <table class="border-2 w-[360px]">
-                <thead>
-                    <tr class="border-1">
-                        <th>{dlcname_short}</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <>
-                        <td class="border-1">关卡</td>
-                        <td>阵营</td>
-                    </>
-                </tr>
-                {battlesDLC.map(([stage, camp]) => (
-                    <tr>
-                        <>
-                            <td class="border-1">{stage}</td>
-                            <td>{camp}</td>
-                        </>
-                    </tr>
-                ))}
-            </table>
+            <div class="flex flex-col items-center">
+                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                    {dlcname_short}
+                </span>
+                <DLCStageStringTable client:load data={battlesDLC} />
+            </div>
         )
     }
 </div>
