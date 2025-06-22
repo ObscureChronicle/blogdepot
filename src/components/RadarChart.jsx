@@ -202,5 +202,5 @@ export default function RadarChart({ data, attributefigure }) {
         };
     }, [data, maxValues, labels, hoverIndex, hoverLabelIndex, attributefigure]);
 
-    return <canvas ref={canvasRef} width={300} height={250} className='mx-auto' style={{ display: 'block' }} />;
+    return <canvas ref={canvasRef} width={400} height={300} className='mx-auto' style={{ display: 'block' }} />;
 }

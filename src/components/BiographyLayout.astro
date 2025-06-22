@@ -77,36 +77,48 @@ const nonedata = '无';
     }
 </div>
 
-<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">列传</h2>
-<p class="whitespace-pre-line text-base leading-relaxed">{biography}</p>
+{
+    biography && (
+        <>
+            <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">列传</h2>
+            <p class="whitespace-pre-line text-base leading-relaxed">{biography}</p>
+        </>
+    )
+}
 
-<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">登场战役</h2>
-<div class="flex flex-col pl-4 gap-4">
-    {!battlesBase && !battlesDLC ? nonedata : ''}
-    {
-        baseData && (
-            <div class="flex flex-col items-center">
-                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
-                <StageStringTable client:load data={battlesBase} />
+{
+    !battlesBase && !battlesDLC ? null : (
+        <>
+            <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">登场战役</h2>
+            <div class="flex flex-col pl-4 gap-4">
+                {baseData && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                            {basename_short}
+                        </span>
+                        <StageStringTable client:load data={battlesBase} />
+                    </div>
+                )}
+                {battlesDLC && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                            {dlcname_short}
+                        </span>
+                        <DLCStageStringTable client:load data={battlesDLC} />
+                    </div>
+                )}
             </div>
-        )
-    }
-    {
-        battlesDLC && (
-            <div class="flex flex-col items-center">
-                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
-                    {dlcname_short}
-                </span>
-                <DLCStageStringTable client:load data={battlesDLC} />
-            </div>
-        )
-    }
-</div>
-
-<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">关联装备</h2>
-<div class="flex flex-col pl-4">
-    {equipments ? equipments.map((e) => <a href={e.href}>{e.label}</a>) : nonedata}
-</div>
+        </>
+    )
+}
+{
+    equipments ? (
+        <>
+            <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">关联装备</h2>
+            <div class="flex flex-col pl-4">{equipments ? equipments.map((e) => <a href={e.href}>{e.label}</a>) : nonedata}</div>
+        </>
+    ) : null
+}
 
 <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">更多</h2>
 <div class="flex flex-col pl-4">
