@@ -63,7 +63,9 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
     <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
     <div>
         <div id="search" class="mb-12"></div>
-        <h2 class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6">
+        <h2
+            class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6"
+        >
             分类检索
         </h2>
         <div class="flex flex-wrap mb-10">
@@ -85,7 +87,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
                     .map((tag) => {
                         const postCount = getPostsByTag(posts, tag.id).length;
                         return (
-                            <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[400px]" href={`/tags/${tag.id}`}>
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[390px]" href={`/tags/${tag.id}`}>
                                 <div class="">
                                     <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                         {tag.name}
@@ -100,7 +102,9 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
                     })
             }
         </div>
-        <h2 class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6">
+        <h2
+            class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6"
+        >
             音序检索
         </h2>
         <div class="flex flex-wrap">
@@ -137,7 +141,6 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
                     })
             }
         </div>
-
     </div>
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>

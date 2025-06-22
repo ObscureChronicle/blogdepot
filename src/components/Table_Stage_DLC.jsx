@@ -10,6 +10,10 @@ const FACTION_LINKS = {
     '盟军': ''
 };
 
+const CLASS_LINKS = {
+    '刀兵': '',
+};
+
 const NOTE_LINKS = {
     '主将': '',
 };
@@ -26,13 +30,13 @@ export default function DLCStageStringTable({ data }) {
             // 确保每行都是数组
             const rowArray = Array.isArray(row) ? [...row] : [row];
 
-            // 补全到三个元素
-            while (rowArray.length < 3) {
+            // 补全到四个元素
+            while (rowArray.length < 4) {
                 rowArray.push('');
             }
 
-            // 只取前三个元素
-            return rowArray.slice(0, 3);
+            // 只取前四个元素
+            return rowArray.slice(0, 4);
         });
     };
 
@@ -40,7 +44,7 @@ export default function DLCStageStringTable({ data }) {
     const tableData = normalizeData(data);
 
     // 固定标题行
-    const headers = ['关卡', '阵营', '说明'];
+    const headers = ['关卡', '阵营', '兵种', '说明'];
 
     // 获取单元格链接（根据列类型）
     const getCellLink = (value, colIndex) => {
@@ -49,7 +53,9 @@ export default function DLCStageStringTable({ data }) {
                 return CAMPAIGN_LINKS[value] || null;
             case 1: // 阵营列
                 return FACTION_LINKS[value] || null;
-            case 2: // 说明列
+            case 2: // 兵种列
+                return CLASS_LINKS[value] || null;
+            case 3: // 说明列
                 return NOTE_LINKS[value] || null;
             default:
                 return null;

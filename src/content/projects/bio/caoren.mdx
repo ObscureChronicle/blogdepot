@@ -1,0 +1,49 @@
+---
+title: 曹仁
+tags:
+  - biography
+  - wiki-c
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[91, 77, 85, 73, 72]}
+  AttributeFigure={[1, 0, 1, 0, 0]}
+  baseData2={[8, 6]}
+  traitsBase={['荆扬', '骁勇', '后至', '宿将', '铁壁']}
+  dlcData={[91, 77, 90, 73, 72]}
+  dlcAttributeFigure={[1, 0, 1, 0, 0]}
+  dlcData2={[8, 5]}
+  traitsDLC={['淮泗', '一心', '骁勇', '气焰', '武库']}
+  biography={`字子孝，沛国谯县人，曹操族弟。年少时喜爱弓马游猎，不修行检，后招揽士卒千余，追随曹操，攻打袁术、陶谦、吕布、袁绍，屡有斩获，其勇武为曹操所器重，曹操平定荆州后任行征南将军，驻守江陵，赤壁之战后与周瑜交战一年余，最终败走。后驻扎樊城，抵挡关羽至其兵败。曹丕称帝后，历任车骑将军、大将军、大司马，黄初二年奉命讨伐孙权，被朱桓击败，黄初四年去世，时年五十六岁。`}
+  baseclass={['刀兵']}
+  dlcclass={['刀骑兵']}
+  battlesBase={
+    [
+      ["荥阳之战", "盟军", "刀兵"],
+      ["濮阳之战（二）", "盟军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["延津之战", "敌军", "刀骑兵", "特定情况下"],
+      ["官渡之战", "敌军", "-", "特定情况下"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·曹仁传》", href: "https://ctext.org/text.pl?node=602347&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Cao_Hong"}
+    ]
+  }
+/>
