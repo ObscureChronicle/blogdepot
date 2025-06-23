@@ -1,0 +1,38 @@
+---
+title: 陈式
+tags:
+  - biography
+  - wiki-c
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[79, 90, 78, 70, 75]}
+  baseData2={[6, 6]}
+  traitsBase={['荆扬', '掎角', '将才']}
+  biography={`或讹作陈戒，正史阙字，籍贯不详。诸葛亮第三次北伐时，奉命夺取武都、阴平二郡。此后事迹不详。`}
+  baseclass={["重装刀兵"]}
+  battlesBase={
+    [
+      ["阴平之战", "敌军", "重装刀兵", "主将"],
+      ["成都攻略战", "敌军"],
+      ["成都平叛战", "敌军"],
+      ["武威决死战", "敌军", "-", "有条件出现"]
+    ]
+  }
+  links={
+    [
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Chen_Shi_(Three_Kingdoms)"}
+    ]
+  }
+/>
