@@ -15,6 +15,7 @@ const TRAIT_MAP = {
     '绝伦': { color: TraitColor.Oridinary, link: '' },
     '鬼谋': { color: TraitColor.Oridinary, link: '' },
     '机心': { color: TraitColor.Oridinary, link: '' },
+    '曜威': { color: TraitColor.Oridinary, link: '' },
     '木秀': { color: TraitColor.Super, link: '' },
     '龙胆': { color: TraitColor.Super, link: '' },
     '飞将': { color: TraitColor.Super, link: '' },
@@ -24,6 +25,9 @@ const TRAIT_MAP = {
     '桓武*': { color: TraitColor.Super, link: '' },
     '武库*': { color: TraitColor.Super, link: '' },
     '柱石': { color: TraitColor.Super, link: '' },
+    '准望': { color: TraitColor.Super, link: '' },
+    '陷阵': { color: TraitColor.Super, link: '' },
+    '摧破': { color: TraitColor.Super, link: '' },
     '中原': { link: '/projects/trait/trait_zhongyuan' },
     '河北': { link: '/projects/trait/trait_hebei' },
     '幽并': { link: '/projects/trait/trait_youbing' },
@@ -44,6 +48,7 @@ const TRAIT_MAP = {
     '狷狭': { color: TraitColor.Bad, link: '' },
     '无谋': { color: TraitColor.Bad, link: '' },
     '功名': { color: TraitColor.Bad, link: '' },
+    '短虑': { color: TraitColor.Bad, link: '' },
 };
 
 export default function FiveStringTable({ data }) {

@@ -1,0 +1,39 @@
+---
+title: 高顺
+tags:
+  - biography
+  - wiki-g
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[93, 44, 87, 70, 72]}
+  AttributeFigure={[1, -1, 1, 0, 0]}
+  baseData2={[10, 6]}
+  traitsBase={['幽并', '陷阵', '摧破', '赤心', '铁壁']}
+  biography={`正史阙字，籍贯不详。吕布部将，所率士卒精锐骁勇，号称「陷阵营」，在小沛之战击溃刘备与夏侯惇，却并不受吕布信任。下邳之战后被擒，不愿投降，被曹操斩首。`}
+  baseclass={['亲卫队']}
+  battlesBase={
+    [
+      ["鄄城守卫战", "敌军", "亲卫队"],
+      ["濮阳之战（二）", "敌军"],
+      ["小沛之战", "敌军", "", "主将"],
+      ["下邳之战", "敌军"],
+    ]
+  }
+  links={
+    [
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Gao_Shun"}
+    ]
+  }
+/>
