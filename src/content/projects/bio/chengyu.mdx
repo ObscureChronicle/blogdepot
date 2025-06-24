@@ -1,0 +1,55 @@
+---
+title: 程昱
+tags:
+  - biography
+  - wiki-c
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[80, 80, 72, 93, 68]}
+  AttributeFigure={[1, 0, 0, 1, 0]}
+  dlcData={[80, 80, 72, 94, 68]}
+  dlcAttributeFigure={[1, 0, 0, 1, -1]}
+  baseData2={[7, 9]}
+  dlcData2={[7, 9]}
+  traitsBase={['中原', '刚胆', '将才', '铁壁']}
+  traitsDLC={['中原', '刚胆', '率然', '铁壁', '庙算']}
+  biography={`本名立，字仲德，东郡东阿人。兼具胆识智略，拒绝了兖州刺史刘岱的征辟，曹操入主兖州后，被任命为寿张令。陈宫、张邈叛乱时，设计守住范县，又占领仓亭，使陈宫无法渡河。濮阳之战时力谏曹操，打消其依附袁绍的想法，在赤壁之战前预见到了孙刘联合，曹丕称帝之后，因性格刚戾，又曾以人肉作为干粮而失人望，未被任命为三公，不久即病逝，年八十岁。`}
+  baseclass={['弓兵','游侠弓兵']}
+  dlcclass={['刀兵']}
+  battlesBase={
+    [
+      ["鄄城守卫战", "盟军", "弓兵"],
+      ["濮阳之战（二）", "盟军"],
+      ["赤壁救援战", "盟军","游侠弓兵"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["白马之战", "敌军", "刀兵"],
+      ["官渡之战", "敌军", "", "有条件出现"]
+    ]
+  }
+  equipments={
+    [
+      {label: "履霜", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·程昱传》", href: "https://ctext.org/text.pl?node=602564&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Cheng_Yu"}
+    ]
+  }
+/>
