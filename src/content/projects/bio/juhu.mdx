@@ -1,0 +1,41 @@
+---
+title: 沮鹄
+tags:
+  - biography
+  - wiki-j
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={`可操控`}
+  baseData={[69, 58, 73, 75, 51]}
+  AttributeFigure={[0, 1, 0, 1, 0]}
+  dlcData={[69, 58, 73, 77, 52]}
+  dlcAttributeFigure={[0, 1, 0, 1, 0]}
+  baseData2={[2, 7]}
+  dlcData2={[2, 7]}
+  traitsBase={['河北', '输送', '处下']}
+  traitsDLC={['河北', '输送', '处下', '示弱']}
+  biography={`正史阙字，广平人，沮授之子。袁绍死后追随袁尚，建安九年曹操进攻袁尚时驻守邯郸，被曹操击破。`}
+  baseclass={["弓兵"]}
+  battlesBase={
+    [
+      ["邯郸之战", "敌军", "弓兵"],
+      ["邺城之战", "敌军"],
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-juhu"}
+    ]
+  }
+/>

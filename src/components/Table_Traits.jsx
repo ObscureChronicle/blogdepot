@@ -28,6 +28,8 @@ const TRAIT_MAP = {
     '准望': { color: TraitColor.Super, link: '' },
     '陷阵': { color: TraitColor.Super, link: '' },
     '摧破': { color: TraitColor.Super, link: '' },
+    '贯午': { color: TraitColor.Super, link: '' },
+    '心涟': { color: TraitColor.Super, link: '' },
     '中原': { link: '/projects/trait/trait_zhongyuan' },
     '河北': { link: '/projects/trait/trait_hebei' },
     '幽并': { link: '/projects/trait/trait_youbing' },
@@ -49,6 +51,7 @@ const TRAIT_MAP = {
     '无谋': { color: TraitColor.Bad, link: '' },
     '功名': { color: TraitColor.Bad, link: '' },
     '短虑': { color: TraitColor.Bad, link: '' },
+    '跋扈': { color: TraitColor.Bad, link: '' },
 };
 
 export default function FiveStringTable({ data }) {
