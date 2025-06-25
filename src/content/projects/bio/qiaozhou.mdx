@@ -1,0 +1,39 @@
+---
+title: 谯周
+tags:
+  - biography
+  - wiki-q
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[35, 100, 32, 71, 55]}
+  AttributeFigure={[-1, 1, 0, -2, 0]}
+  baseData2={[0, 8]}
+  traitsBase={["巴蜀", "穷经"]}
+  biography={`字允南，巴西西充国人。被诸葛亮征召为劝学从事。曾劝谏刘禅奢靡之举，又作《仇国论》，主张守界休息，反对姜维北伐。邓艾进逼成都时，反对联合东吴或割据南中，力主向魏投降。`}
+  baseclass={["辎重队"]}
+  battlesBase={
+    [
+      ["成都攻略战", "敌军", "辎重队"],
+      ["成都平叛战", "敌军", "", "主将"],
+      ["武威决死战", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·谯周传》", href: "https://ctext.org/text.pl?node=603735&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Qiao_Zhou"}
+    ]
+  }
+/>

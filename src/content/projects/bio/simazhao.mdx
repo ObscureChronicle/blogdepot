@@ -1,0 +1,40 @@
+---
+title: 司马昭
+tags:
+  - biography
+  - wiki-s
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[82, 97, 75, 83, 74]}
+  AttributeFigure={[0, 5, 0, 0, 0]}
+  baseData2={[7, 8]}
+  traitsBase={['中原', '因势', '天予', '天佑']}
+  biography={`字子上，河内温县人，司马懿之子，司马师之弟。骆谷之战中任征蜀将军，高平陵之变后，于西线主持对蜀防御。东关之役后，被司马师削去爵位。司马师死后，接替其兄权柄，任大将军、大都督，并加九锡。后平定诸葛诞之乱，弑杀曹髦，改立曹奂，遣邓艾、钟会灭蜀，被拜为相国，任晋王，实际上完成了晋代魏的最后一步，然不久去世，其子司马炎接受禅让，建立西晋，被追谥为晋文帝，庙号太祖。`}
+  baseclass={['强弓兵']}
+  battlesBase={
+    [
+      ["骆谷之役", "敌军", "强弓兵"],
+      ["天水之战（三）", "敌军"],
+      ["洛阳之变", "敌军", "", "主将"],
+      ["武威决死战", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "《晋书·文帝纪》", href: "https://ctext.org/wiki.pl?if=gb&chapter=420424&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Sima_Zhao"}
+    ]
+  }
+/>

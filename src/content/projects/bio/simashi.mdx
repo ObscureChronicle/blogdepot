@@ -1,0 +1,50 @@
+---
+title: 司马师
+tags:
+  - biography
+  - wiki-s
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[93, 91, 67, 92, 90]}
+  AttributeFigure={[1, 1, 0, 1, -1]}
+  baseData2={[8, 9]}
+  traitsBase={['中原', '戾极', '皇图', '号令', '气焰']}
+  biography={`字子元，河内温县人，司马懿之子。少时颇有风采，沉毅多智，与夏侯玄、何晏齐名。后与司马懿合谋发动高平陵之变，快速召集三千余死士，受到司马懿称赞。司马懿死后，接替其权柄任抚军大将军。嘉平四年征吴，于东关之役大败，但随后亦击退了乘胜追击的诸葛恪。嘉平六年，诛杀夏侯玄、李丰，废少帝曹芳，改立曹髦为帝；次年，领军平定淮南毋丘俭、文钦，但亦因遭文鸯突袭使目疾转剧，死于许昌，年四十八岁。西晋代魏后，被追谥为晋景帝，庙号世宗。`}
+  baseclass={['死士']}
+  battlesBase={
+    [
+      ["襄阳潜袭战", "敌军", "死士"],
+      ["天水之战（三）", "敌军"],
+      ["成都平叛战", "敌军"],
+      ["淮南之乱", "敌军", "", "主将"],
+      ["洛阳之变", "敌军", "", "主将"],
+      ["武威决死战", "敌军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "履霜", href: ""},
+      {label: "长命缕·断", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-simashi"},
+      {label: "创作手记2", href: "../../../blog/post-5"},
+      {label: "《晋书·景帝纪》", href: "https://ctext.org/wiki.pl?if=gb&chapter=420424&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Sima_Shi"}
+    ]
+  }
+/>

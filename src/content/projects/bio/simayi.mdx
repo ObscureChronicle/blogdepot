@@ -1,0 +1,47 @@
+---
+title: 司马懿
+tags:
+  - biography
+  - wiki-s
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[100, 100, 63, 100, 69]}
+  AttributeFigure={[3, 3, 0, 3, -10]}
+  baseData2={[7, 10]}
+  traitsBase={['中原', '机心', '后至', '号令', '识破']}
+  biography={`字仲达，河内温县人。少聪明，有韬略，被崔琰评价为其余兄弟所不及。曹操就任丞相后，被征辟为文学掾，曹操灭张鲁后，主张进攻刘备，未被曹操采纳；关羽北伐樊城时，谏止曹操迁都。与曹丕交好，被称为「太子四友」之一，曹丕称帝后大受信重，与陈群、曹真、曹休共为顾命大臣。曹叡即位后，迅速平定孟达叛乱，并在曹真死后接替其职，主持西线对蜀国防御。诸葛亮死后又击破公孙渊，被曹叡指定为顾命大臣。正始十年，发动高平陵之变，诛杀同为顾命大臣的曹爽，虽辞任丞相、九锡，但已实际掌控魏国大权。嘉平三年，以奇兵诛杀太尉王淩，旋死。司马炎称帝后，被追谥为晋宣帝，庙号高祖。`}
+  baseclass={['长牌刀兵', '亲卫队']}
+  battlesBase={
+    [
+      ["天水之战（一）", "敌军", "长牌刀兵"],
+      ["陈仓之战", "敌军", "亲卫队", "主将"],
+      ["天水之战（三）", "敌军", "", "主将"],
+      ["秭归救援战", "敌军", "", "主将"],
+      ["武威决死战", "敌军", "", "主将"]
+    ]
+  }
+  equipments={
+    [
+      {label: "穷奇", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-5"},
+      {label: "《晋书·宣帝纪》", href: "https://ctext.org/wiki.pl?if=gb&chapter=472664&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Sima_Yi"}
+    ]
+  }
+/>
