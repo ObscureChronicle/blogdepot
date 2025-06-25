@@ -1,0 +1,41 @@
+---
+title: 马超
+tags:
+  - biography
+  - wiki-m
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[82, 63, 99, 47, 90]}
+  AttributeFigure={[0, 0, 2, -2, 1]}
+  baseData2={[10, 1]}
+  traitsBase={["西羌", "悍勇", "当先", "精骑", "披靡"]}
+  biography={`字孟起，扶风茂陵人，马腾之子。年少时随其父参与讨伐高干，马腾受征召入邺城时，统领其部曲，留在凉州。不久联合韩遂攻击曹操，被曹操击败，被迫投奔张鲁，其邺城之亲属亦被杀害。此后又攻入凉州，但被杨阜等人设计击败。因在张鲁帐下不得意，于是转投刘备，并藉其声威使刘璋降伏。刘备称帝次年去世。`}
+  baseclass={["长矛骑"]}
+  battlesBase={
+    [
+      ["潼关之战（上）", "敌军", "长矛骑", "主将"],
+      ["潼关之战（下）", "敌军", "", "主将"],
+      ["武功之战", "敌军", "", "主将"],
+      ["冀城争夺战", "敌军", "", "主将"],
+      ["定军山之战", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·马超传》", href: "https://ctext.org/text.pl?node=603549&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Ma_Chao"}
+    ]
+  }
+/>

@@ -1,0 +1,55 @@
+---
+title: 吕布
+tags:
+  - biography
+  - wiki-l
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[91, 67, 100, 17, 42]}
+  AttributeFigure={[0, 0, 4, -4, 0]}
+  baseData2={[10, 0]}
+  traitsBase={["幽并", "飞将", "当先", "披靡", "侵攻"]}
+  dlcData={[92, 67, 99, 23, 41]}
+  AttributeFigureDLC={[0, 0, 5, -4, -1]}
+  dlcData2={[9, 0]}
+  traitsDLC={["幽并", "飞将", "虓阚", "披靡", "横暴"]}
+  biography={`字奉先，五原郡九原人。以骁勇善战闻名，号称「飞将」，最初被丁原任命为主簿，董卓入京后受其利诱，杀死丁原，转而侍奉董卓。后又受王允离间，杀死董卓，随即被李傕、郭氾击败，逃至关东。先后为袁术、袁绍效力，但被二人嫌恶。曹操征伐陶谦时，应陈宫、张邈之邀，入主兖州，迫使曹操自徐州返回，其后与曹操多次交战，最后中计大败，投奔刘备。不久再次叛变刘备，夺取徐州，并与袁术联合，最终因反覆无常、无谋多疑，被曹操击败并缢死。`}
+  baseclass={["突骑兵"]}
+  dlcclass={["矛骑兵"]}
+  battlesBase={
+    [
+      ["鄄城守卫战", "敌军", "突骑兵", "主将"],
+      ["濮阳之战（二）", "敌军", "", "主将"],
+      ["下邳之战", "敌军", "", "主将"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["常山追殛战", "盟军", "矛骑兵", "主将"]
+    ]
+  }
+  equipments={
+    [
+      {label: "方天戟", href: ""},
+      {label: "大黄", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·吕布传》", href: "https://ctext.org/sanguozhi/58/zhs"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/L%C3%BC_Bu"}
+    ]
+  }
+/>
