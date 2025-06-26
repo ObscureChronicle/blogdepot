@@ -1,0 +1,37 @@
+---
+title: 王广
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={`可操控`}
+  baseData={[73, 55, 65, 89, 92]}
+  AttributeFigure={[0, -1, -10, 0, 1]}
+  baseData2={[4, 9]}
+  traitsBase={['幽并', '名士', '心眼', '同雠']}
+  biography={`字公渊，太原祁人，王淩之子。素有才名，被蒋济评价「才志能力比其父王淩更为出色」，曾著才性论，亦是诸葛诞姻亲。王淩叛变事发后被处死，年四十岁有余。`}
+  baseclass={["掷矛兵"]}
+  battlesBase={
+    [
+      ["夷陵之战", "盟军", "掷矛兵"]
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-wangguang"},
+      {label: "《三国志·王淩传附传》", href: "https://ctext.org/text.pl?node=603203&if=gb&remap=gb"}
+    ]
+  }
+/>

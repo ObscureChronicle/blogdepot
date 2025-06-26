@@ -1,0 +1,50 @@
+---
+title: 王基
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[93, 81, 88, 90, 75]}
+  AttributeFigure={[1, 0, 0, 1, 0]}
+  baseData2={[6, 10]}
+  traitsBase={['青徐', '先发', '先识', '摧锋', '庙算']}
+  biography={`字伯舆，东莱曲城人。年少时以孝行闻名，游学于琅琊。曹丕称帝后，被王淩征辟为别驾，为其所看重而几度拒绝上级征辟。明帝时，守郑玄之学说，著有《毛诗驳》五卷，与王肃之经学对立。曹爽死后受牵连罢官，不久再度被启用，出任荆州刺史、加扬烈将军，从征吴国有功。平定毋丘俭之乱时，准确预测毋丘俭之动向；又平定诸葛诞之乱，因功被封为征东将军，都督扬州诸军事，旋即去世，年七十二，追赠为司空。`}
+  baseclass={["突骑兵", "精锐突骑"]}
+  battlesBase={
+    [
+      ["夷陵之战", "盟军", "突骑兵"],
+      ["襄阳潜袭战", "敌军"],
+      ["襄阳驰援战", "敌军"],
+      ["陈仓之战", "敌军"],
+      ["天水之战（三）", "敌军"],
+      ["淮南之乱", "敌军"],
+      ["武威决死战", "敌军", "精锐突骑"]
+    ]
+  }
+  equipments={
+    [
+      {label: "毛诗驳", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-dengai-wangji"},
+      {label: "创作手记2", href: "../../../blog/post-5"},
+      {label: "《三国志·王基传》", href: "https://ctext.org/text.pl?node=603189&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wang_Ji_(Three_Kingdoms)"}
+    ]
+  }
+/>

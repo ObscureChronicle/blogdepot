@@ -1,0 +1,45 @@
+---
+title: 王昶
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[91, 90, 77, 88, 86]}
+  AttributeFigure={[0, 0, 0, 0, 0]}
+  baseData2={[5, 10]}
+  traitsBase={['幽并', '大族', '辅弼', '处下', '铁壁']}
+  biography={`*历史线中，王昶不会获得「铁壁」特质。
+  
+  字文舒，太原晋阳人。年少时与王淩齐名，以兄长之礼对待王淩。曹丕时任兖州刺史，曹叡即位，加封为扬烈将军，曹叡死后，转任徐州刺史、征南将军，假节，都督荆州、豫州军事。曹爽败死后，向司马懿进言改革政事。嘉平三年，建言南征，击败吴将施绩，因功升任征南大将军。又先后于毋丘俭、诸葛诞之乱中抵御二人，转任司空，甘露四年去世。`}
+  baseclass={["长牌刀兵"]}
+  battlesBase={
+    [
+      ["襄阳潜袭战", "敌军", "长牌刀兵", "主将"],
+      ["襄阳驰援战", "敌军", "", "主将"],
+      ["陈仓之战", "敌军", "", "主将"],
+      ["天水之战（三）", "敌军"],
+      ["武威决死战", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-wangchang"},
+      {label: "创作手记2", href: "../../../blog/post-5"},
+      {label: "《三国志·王昶传》", href: "https://ctext.org/text.pl?node=603179&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wang_Chang_(Three_Kingdoms)"}
+    ]
+  }
+/>
