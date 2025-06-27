@@ -1,0 +1,48 @@
+---
+title: 魏延
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  baseData={[95, 61, 98, 76, 45]}
+  AttributeFigure={[1, 0, 2, 0, -3]}
+  baseData2={[10, 5]}
+  traitsBase={['荆扬', '御下', '一心', '刚胆', '骁勇']}
+  biography={`字文长，义阳人。擅于练兵，勇猛过人，刘备攻打西川时，率领部曲为其效力，从此崭露头角。刘备称王时，被任命镇守汉中，宣称「若曹操举天下而来，请为大王拒之；偏将十万之众至，请为大王吞之」。诸葛亮北伐时，曾提出自己领偏师分兵北上的策略，亦即后世所谓的「子午谷奇谋」，但被诸葛亮拒绝，因而对自身才能未能尽用感到不满。诸葛亮死后不愿退兵，于是率领部曲抗拒撤退的蜀军，兵败，被素来与之交恶的杨仪诛杀三族。`}
+  baseclass={["矛兵", "结阵矛兵", "方阵矛兵"]}
+  battlesBase={
+    [
+      ["襄阳突袭战", "敌军", "矛兵"],
+      ["长坂坡之战", "敌军", "结阵矛兵"],
+      ["定军山之战", "敌军"],
+      ["天水之战（二）", "敌军", "", "主将"],
+      ["汉中之战（三）", "敌军"],
+      ["南郑守卫战", "敌军", "", "主将"],
+      ["阳平关之战", "敌军", "方阵矛兵", "特定情况下"],
+    ]
+  }
+  equipments={
+    [
+      {label: "梼杌", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-weiyan"},
+      {label: "《三国志·魏延传》", href: "https://ctext.org/text.pl?node=603669&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wei_Yan"}
+    ]
+  }
+/>

@@ -1,0 +1,31 @@
+---
+title: 魏越
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  baseData={[82, 68, 81, 63, 56]}
+  AttributeFigure={[0, 0, 1, 0, 0]}
+  baseData2={[9, 1]}
+  traitsBase={['幽并', '当先']}
+  biography={`正史阙字，籍贯不详。吕布帐下将领，曾跟随吕布击败黑山军。此后事迹不详。`}
+  baseclass={["刀骑兵"]}
+  battlesBase={
+    [
+      ["鄄城守卫战", "敌军", "刀骑兵"],
+      ["濮阳之战（二）", "敌军"]
+    ]
+  }
+/>

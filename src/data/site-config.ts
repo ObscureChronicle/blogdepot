@@ -112,12 +112,12 @@ const siteConfig: SiteConfig = {
             src: '/title.png',
             alt: '后汉稽异录 Obscure Chronicle of Dynasty'
         },
-        actions: [
-            {
-                text: '前往Steam游戏商店页面',
-                href: 'https://store.steampowered.com/app/2010900/_/'
-            }
-        ]
+        //actions: [
+        //    {
+        //        text: '前往Steam游戏商店页面',
+        //        href: 'https://store.steampowered.com/app/2010900/_/'
+        //    }
+        //]
     },
     // subscribe: {
     //     title: 'Subscribe to Dante Newsletter',

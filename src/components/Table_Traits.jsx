@@ -37,6 +37,8 @@ const TRAIT_MAP = {
     '抗音': { color: TraitColor.Super, link: '' },
     '冰心': { color: TraitColor.Super, link: '' },
     '褫夺': { color: TraitColor.Super, link: '' },
+    '貔貅': { color: TraitColor.Super, link: '' },
+    '神恙': { color: TraitColor.Super, link: '' },
     '中原': { link: '/projects/trait/trait_zhongyuan' },
     '河北': { link: '/projects/trait/trait_hebei' },
     '幽并': { link: '/projects/trait/trait_youbing' },

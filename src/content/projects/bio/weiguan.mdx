@@ -1,0 +1,36 @@
+---
+title: 卫瓘
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  baseData={[74, 82, 45, 83, 77]}
+  AttributeFigure={[0, 0, 0, 1, -1]}
+  baseData2={[7, 7]}
+  traitsBase={['中原', '雅望', '毒士', '机鉴']}
+  biography={`字伯玉，河东安邑人。为名士，擅草书。邓艾、钟会伐蜀时任监军，游走于二人之间，先后以计擒杀邓艾、钟会。曾婉言劝谏司马炎废司马衷，因而为贾南风所记恨。司马衷即位后，遂遭贾南风派遣司马玮处死。`}
+  baseclass={["辎重队"]}
+  battlesBase={
+    [
+      ["武威决死战", "敌军", "辎重队"]
+    ]
+  }
+  links={
+    [
+      {label: "《晋书·卫瓘传》", href: "https://ctext.org/wiki.pl?if=gb&chapter=647003&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wei_Guan"}
+    ]
+  }
+/>

@@ -1,0 +1,49 @@
+---
+title: 王双
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  baseData={[61, 65, 100, 55, 58]}
+  AttributeFigure={[0, 0, 2, -2, 0]}
+  baseData2={[10, 0]}
+  traitsBase={['关中', '刚烈', '虎卫', '后至', '摧锋']}
+  biography={`正史阙字，籍贯不详。魏军将领，诸葛亮第二次北伐时，率领骑兵追击因粮尽退兵的诸葛亮，兵败被杀。刘禅恢复诸葛亮丞相之职时，曾以此事为战功。`}
+  baseclass={["亲卫队"]}
+  battlesBase={
+    [
+      ["玉门关之战", "盟军", "亲卫队", "中途变更为敌军"],
+      ["天水之战（一）", "敌军"],
+      ["汉中之战（三）", "盟军"],
+      ["南郑守卫战", "盟军"],
+      ["阳平关之战", "盟军"],
+      ["骆谷之役", "敌军"],
+      ["武功之战（二）", "敌军"],
+      ["陈仓之战", "敌军"],
+      ["天水之战（三）", "敌军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "丹心", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-wangshuang"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wang_Shuang_(Cao_Wei)"}
+    ]
+  }
+/>

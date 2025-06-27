@@ -1,0 +1,43 @@
+---
+title: 王修
+tags:
+  - biography
+  - wiki-w
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  baseData={[63, 65, 71, 84, 90]}
+  AttributeFigure={[-1, 0, 0, 0, 1]}
+  baseData2={[10, 2]}
+  traitsBase={['青徐', '刚烈', '素心']}
+  biography={`字叔治，北海营陵人。以孝闻名乡里，受孔融征辟任其主簿、高密令。后任袁谭主簿，屡次进谏未被听从，袁谭死后，不顾禁令收其尸首，被曹操目为义士，因而征辟其为司空掾，后任魏郡太守、东莱太守、散骑常侍。在政期间压制豪强，抑强扶弱，赏罚分明，所在之地无不大治。又器易年幼时的高柔、王基，因此又因知人闻名于世。`}
+  baseclass={["游侠弓兵"]}
+  battlesBase={
+    [
+      ["北海之战", "敌军", "游侠弓兵"],
+      ["官渡之战", "敌军"],
+      ["南皮之战", "敌军"]
+    ]
+  }
+  equipments={
+    [
+      {label: "玄枵", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·王修传》", href: "https://ctext.org/text.pl?node=602456&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Wang_Xiu"}
+    ]
+  }
+/>

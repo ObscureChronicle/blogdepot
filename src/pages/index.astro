@@ -18,6 +18,7 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image}>
     <Hero />
+    <iframe src="https://store.steampowered.com/widget/2010900/" frameborder="0" width="646" height="190"></iframe><br /><br />
     {
         featuredProjects?.length > 0 && (
             <div class="mb-16 sm:mb-24">
