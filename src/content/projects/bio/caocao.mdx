@@ -10,14 +10,14 @@ seo:
   image:
     src: '/post-13.jpg'
     alt: Abstract snow
-
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout.astro";
+import CharacterWiki from '../../../components/BiographyLayout.astro';
 
 <CharacterWiki
   intro={`主要`}
   baseData={[100, 85, 81, 97, 93]}
+  postData={[92, 85, 81, 97, 93]}
   AttributeFigure={[4, 0, 0, 2, -2]}
   dlcData={[100, 89, 80, 97, 87]}
   dlcAttributeFigure={[20, 0, 0, 2, -2]}
@@ -26,45 +26,37 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   traitsBase={['中原', '霸者', '先发', '英杰', '号令']}
   traitsDLC={['淮泗', '霸者', '先发', '英杰', '号令']}
   biography={`字孟德，一名吉利，小字阿瞒，沛国谯县人。少机警多权变，任侠放荡，被许劭称为「治世之能臣，乱世之奸雄」。早年历任雒阳北部尉、顿丘令、济南相，执法峻严，不畏豪强；黄巾之乱时被任命为西园八校尉之一。董卓入京后，加入关东联军起兵伐董，与孙坚一样，是关东联军中为数不多的主动出击之人。后收纳青州黄巾，又采纳荀彧「奉天子而讨不臣」之意见，实行屯田制和士家制，逐步击溃陶谦、吕布、袁术，与袁绍成为中原两大势力，并在官渡之战中大败袁绍，又北击乌丸，逐步统一了中原。于赤壁之战大败后，向西击败马超、韩遂，将关西纳入管辖，又收降张鲁，取得汉中，但最终易手于刘备。建安二十五年去世，年六十六岁，曹丕称帝后追谥其为武皇帝。在军事、政治、文学领域均有杰出成就。`}
-  baseclass={['近卫刀兵','施令刀兵','虎豹骑']}
+  baseclass={['近卫刀兵', '施令刀兵', '虎豹骑']}
   dlcclass={['刀兵', '刀骑兵']}
-  battlesBase={
-    [
-      ["荥阳之战", "盟军", "近卫刀兵", "主将"],
-      ["濮阳之战（一）", "助战军", "", "主将"],
-      ["黑山之战", "助战军", "", "主将"],
-      ["寿张之战", "助战军", "", "主将"],
-      ["鄄城守卫战", "盟军", "", "主将"],
-      ["濮阳之战（二）", "盟军", "", "主将"],
-      ["下邳之战", "助战军", "", "主将"],
-      ["官渡之战", "盟军", "", "主将"],
-      ["白狼山之战", "助战军",'施令刀兵', "主将"],
-      ["赤壁救援战", "盟军","", "主将"],
-      ["潼关之战（下）", "盟军","虎豹骑", "主将"]
-    ]
-  }
-  battlesDLC={
-    [
-      ["濮阳之战", "助战军", "刀兵"],
-      ["白马之战", "敌军", "刀骑兵", "主将"],
-      ["延津之战", "敌军", "", "主将"],
-      ["官渡之战", "敌军", "", "主将"]
-    ]
-  }
-  equipments={
-    [
-      {label: "倚天", href: ""},
-      {label: "青釭", href: ""},
-      {label: "燕云", href: ""},
-      {label: "典韦", href: ""}
-    ]
-  }
-  links={
-    [
-      {label: "创作手记", href: "../../../blog/post-caocao"},
-      {label: "《三国志·武帝纪》", href: "https://ctext.org/sanguozhi/1/zhs"},
-      {label: "中国历史大辞典（需注册）", href: "https://www.hanyucidian.org/dictionary/entry?dictionaryCode=lishi&entryName=%E6%9B%B9%E6%93%8D"},
-      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Cao_Cao"}
-    ]
-  }
+  battlesBase={[
+    ['荥阳之战', '盟军', '近卫刀兵', '主将'],
+    ['濮阳之战（一）', '助战军', '', '主将'],
+    ['黑山之战', '助战军', '', '主将'],
+    ['寿张之战', '助战军', '', '主将'],
+    ['鄄城守卫战', '盟军', '', '主将'],
+    ['濮阳之战（二）', '盟军', '', '主将'],
+    ['下邳之战', '助战军', '', '主将'],
+    ['官渡之战', '盟军', '', '主将'],
+    ['白狼山之战', '助战军', '施令刀兵', '主将'],
+    ['赤壁救援战', '盟军', '', '主将'],
+    ['潼关之战（下）', '盟军', '虎豹骑', '主将']
+  ]}
+  battlesDLC={[
+    ['濮阳之战', '助战军', '刀兵'],
+    ['白马之战', '敌军', '刀骑兵', '主将'],
+    ['延津之战', '敌军', '', '主将'],
+    ['官渡之战', '敌军', '', '主将']
+  ]}
+  equipments={[
+    { label: '倚天', href: '' },
+    { label: '青釭', href: '' },
+    { label: '燕云', href: '' },
+    { label: '典韦', href: '' }
+  ]}
+  links={[
+    { label: '创作手记', href: '../../../blog/post-caocao' },
+    { label: '《三国志·武帝纪》', href: 'https://ctext.org/sanguozhi/1/zhs' },
+    { label: '中国历史大辞典（需注册）', href: 'https://www.hanyucidian.org/dictionary/entry?dictionaryCode=lishi&entryName=%E6%9B%B9%E6%93%8D' },
+    { label: 'Wikipedia - English Version', href: 'https://en.wikipedia.org/wiki/Cao_Cao' }
+  ]}
 />

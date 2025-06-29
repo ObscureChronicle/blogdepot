@@ -1,20 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
-
-export default function RadarChart({ data, attributefigure }) {
+/**
+ * @param {{ data: number[], postdata?: number[], prevDataName?: string, postDataName?: string, attributefigure: number[] }} props
+ */
+export default function RadarChart({ data, postdata, prevDataName = 'prevDataName', postDataName = 'postDataName', attributefigure }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
     const maxValues = [100, 100, 100, 100, 100];
     const labels = ['统御', '气运', '武勇', '智略', '魅力'];
 
+    // 当存在另一组数据的时候，控制显示的雷达图数据
+    const [activeDataType, setActiveDataType] = useState('data');
+    const currentData = activeDataType === 'data' ? data : Array.isArray(postdata) ? postdata : data;
+
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas || !data) return;
+        if (!canvas || !currentData) return;
         const ctx = canvas.getContext('2d');
         const RADIUS = 80;
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const total = data.length;
+        const total = currentData.length;
         const layers = 5;
 
         const points = [];
@@ -56,8 +62,7 @@ export default function RadarChart({ data, attributefigure }) {
                     ctx.fillStyle = '#333';
                     if (attributefigure?.[i] > 0) {
                         ctx.fillStyle = '#1ba784';
-                    }
-                    else if (attributefigure?.[i] < 0) {
+                    } else if (attributefigure?.[i] < 0) {
                         ctx.fillStyle = '#de1c31';
                     }
                     ctx.textAlign = 'center';
@@ -75,7 +80,7 @@ export default function RadarChart({ data, attributefigure }) {
                         width: labelWidth,
                         height: labelHeight,
                         cx: labelX,
-                        cy: labelY,
+                        cy: labelY
                     });
                 }
             }
@@ -83,7 +88,7 @@ export default function RadarChart({ data, attributefigure }) {
             // 雷达图路径
             ctx.beginPath();
             points.length = 0;
-            data.forEach((val, i) => {
+            currentData.forEach((val, i) => {
                 const angle = (Math.PI * 2 * i) / total;
                 const rate = val / maxValues[i];
                 const x = centerX + RADIUS * rate * Math.sin(angle);
@@ -130,7 +135,7 @@ export default function RadarChart({ data, attributefigure }) {
             }
 
             if (hoverLabelIndex !== null && attributefigure?.[hoverLabelIndex] !== undefined) {
-                const labelPos = labelPositions.find(p => p.index === hoverLabelIndex);
+                const labelPos = labelPositions.find((p) => p.index === hoverLabelIndex);
                 if (labelPos && attributefigure[hoverLabelIndex] !== 0) {
                     ctx.save();
                     ctx.fillStyle = '#fff';
@@ -147,7 +152,7 @@ export default function RadarChart({ data, attributefigure }) {
                     ctx.textBaseline = 'middle';
                     const addValue = attributefigure[hoverLabelIndex];
                     ctx.fillText(labels[hoverLabelIndex] + '上限' + (addValue < 0 ? '' : '+') + addValue, labelPos.cx + 50, labelPos.cy - 18);
-                    ctx.fillText('加点消耗' + (addValue > 0 ? '' : '+') + (-1 * addValue), labelPos.cx + 50, labelPos.cy - 4);
+                    ctx.fillText('加点消耗' + (addValue > 0 ? '' : '+') + -1 * addValue, labelPos.cx + 50, labelPos.cy - 4);
 
                     ctx.restore();
                 }
@@ -173,12 +178,7 @@ export default function RadarChart({ data, attributefigure }) {
 
             let labelFound = null;
             labelPositions.forEach((pos) => {
-                if (
-                    mx >= pos.x &&
-                    mx <= pos.x + pos.width &&
-                    my >= pos.y &&
-                    my <= pos.y + pos.height
-                ) {
+                if (mx >= pos.x && mx <= pos.x + pos.width && my >= pos.y && my <= pos.y + pos.height) {
                     labelFound = pos.index;
                 }
             });
@@ -200,7 +200,29 @@ export default function RadarChart({ data, attributefigure }) {
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [data, maxValues, labels, hoverIndex, hoverLabelIndex, attributefigure]);
+    }, [currentData, maxValues, labels, hoverIndex, hoverLabelIndex, attributefigure]);
 
-    return <canvas ref={canvasRef} width={375} height={300} className='mx-auto' style={{ display: 'block' }} />;
+    return (
+        <>
+            {postdata ? (
+                <div className="flex justify-end gap-2 mt-2">
+                    <button
+                        onClick={() => setActiveDataType('data')}
+                        className={`px-2 py-1 rounded text-sm border cursor-pointer ${activeDataType === 'data' ? 'bg-gray-400 text-white' : 'bg-white text-gray-700'}`}
+                    >
+                        {prevDataName}
+                    </button>
+                    <button
+                        onClick={() => setActiveDataType('postdata')}
+                        className={`px-2 py-1 rounded text-sm border cursor-pointer ${activeDataType === 'postdata' ? 'bg-gray-400 text-white' : 'bg-white text-gray-700'}`}
+                    >
+                        {postDataName}
+                    </button>
+                </div>
+            ) : (
+                <div className="mb-[36.25px]"></div>
+            )}
+            <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block' }} />
+        </>
+    );
 }

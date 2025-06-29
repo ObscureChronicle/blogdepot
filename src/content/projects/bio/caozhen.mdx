@@ -10,40 +10,36 @@ seo:
   image:
     src: '/post-13.jpg'
     alt: Abstract snow
-
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout.astro";
+import CharacterWiki from '../../../components/BiographyLayout.astro';
 
 <CharacterWiki
   intro={`主要`}
-  baseData={[96, 77, 79, 81, 88]}
+  baseData={[88, 77, 82, 81, 80]}
+  postData={[96, 77, 79, 81, 88]}
+  prevDataName={'虎豹骑督'}
+  postDataName={'曹魏柱石'}
   AttributeFigure={[2, 0, 0, 0, 0]}
   baseData2={[6, 8]}
   traitsBase={['中原', '柱石', '赤心', '雅量', '齐心']}
   biography={`字子丹，沛国谯县人。本姓秦，父亲秦邵为曹操募兵，被当地州郡人杀害，因此被曹操收为养子，与曹丕等人一起生活。因有勇略被曹操任命为虎豹骑统领，在汉中攻防战中作为征蜀护军对抗刘备。曹丕称帝后，被任命为镇西将军，假节，都督雍、凉二州诸军事务，黄初三年又被封为上军大将军，曹丕临终前，被指定为辅政大臣。曹叡登基后，被拜为大将军，抵抗诸葛亮前三次北伐，随后出兵讨伐蜀国，却被暴雨阻挡，无功而返，旋即病死。`}
-  baseclass={["骠骑兵", "虎豹骑"]}
-  battlesBase={
-    [
-      ["定军山之战", "盟军", "骠骑兵"],
-      ["玉门关之战", "盟军", "骠骑兵", "主将，中途变更为敌军"],
-      ["天水之战（一）", "敌军", "虎豹骑"],
-      ["汉中之战（三）", "盟军", "虎豹骑", "主将"],
-      ["阳平关之战", "盟军", "虎豹骑", "主将"],
-    ]
-  }
-  equipments={
-    [
-      {label: "丹心", href: ""},
-      {label: "丹心·改", href: ""},
-      {label: "大将军印", href: ""}
-    ]
-  }
-  links={
-    [
-      {label: "创作手记", href: "../../../blog/post-caozhen"},
-      {label: "《三国志·曹真传》", href: "https://ctext.org/text.pl?node=602370&if=gb&remap=gb"},
-      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Cao_Zhen"}
-    ]
-  }
+  baseclass={['骠骑兵', '虎豹骑']}
+  battlesBase={[
+    ['定军山之战', '盟军', '骠骑兵'],
+    ['玉门关之战', '盟军', '骠骑兵', '主将，中途变更为敌军'],
+    ['天水之战（一）', '敌军', '虎豹骑'],
+    ['汉中之战（三）', '盟军', '虎豹骑', '主将'],
+    ['阳平关之战', '盟军', '虎豹骑', '主将']
+  ]}
+  equipments={[
+    { label: '丹心', href: '' },
+    { label: '丹心·改', href: '' },
+    { label: '大将军印', href: '' }
+  ]}
+  links={[
+    { label: '创作手记', href: '../../../blog/post-caozhen' },
+    { label: '《三国志·曹真传》', href: 'https://ctext.org/text.pl?node=602370&if=gb&remap=gb' },
+    { label: 'Wikipedia - English Version', href: 'https://en.wikipedia.org/wiki/Cao_Zhen' }
+  ]}
 />

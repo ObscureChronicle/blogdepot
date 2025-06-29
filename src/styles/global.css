@@ -91,7 +91,6 @@ html.dark {
     transform: translateY(20px);
 }
 
-
 @theme inline {
     --font-sans: 'Inter Variable', sans-serif;
     --font-serif: 'Newsreader Variable', serif;
@@ -153,7 +152,12 @@ html.dark {
     color: #2775b6;
 }
 
-table th:where(thead th:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
-tbody td:where(tbody td:last-child, tfoot td:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+table th:where(thead th:last-child):not(:where([class~='not-prose'], [class~='not-prose'] *)),
+tbody td:where(tbody td:last-child, tfoot td:last-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-end: 0.75em;
+}
+
+th:where(thead th:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
+td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+    padding-inline-start: 0.75em;
 }
