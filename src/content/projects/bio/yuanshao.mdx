@@ -23,21 +23,23 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   dlcAttributeFigure={[1, -1, 0, 0, 2]}
   baseData2={[8, 3]}
   dlcData2={[9, 4]}
-  traitsBase={["中原", "皇图", "世家", "景从"]}
-  traitsDLC={["淮泗", "皇图", "世家", "刚胆", "帅才"]}
+  traitsBase={["中原", "世家", "皇图", "景从"]}
+  traitsDLC={["淮泗", "世家", "皇图", "刚胆", "帅才"]}
   biography={`字本初，汝南汝阳人。司空袁逢之庶子，后被过继给袁逢之兄长袁成。为「四世三公」之汝南袁氏之后，美容貌、有威严，而又能折节下士，享有极高威名。关东诸侯讨董时，被推举为盟主。随后夺取冀州，又先后击败黑山军、袁术、公孙瓒等人，掌握幽、并、冀、青四州，成为中原第一大势力。不久与曹操决战，大败而归，在平定冀州叛乱后旋即病死。`}
+  baseclass={["近卫刀兵"]}
   battlesBase={
     [
-      ["官渡之战", "敌军"]
+      ["官渡之战", "敌军", "近卫刀兵", "主将"]
     ]
   }
+  dlcclass={["刀兵"]}
   battlesDLC={
     [
-      ["内黄之战", "盟军"],
-      ["界桥之战", "盟军"],
-      ["东武阳围城战", "盟军"],
-      ["易京攻防战·下", "盟军"],
-      ["官渡之战", "我军/盟军"]
+      ["内黄之战", "盟军", "刀兵", "主将"],
+      ["界桥之战", "盟军", "", "主将"],
+      ["东武阳围城战", "盟军", "", "主将"],
+      ["易京攻防战·下", "盟军", "", "主将"],
+      ["官渡之战", "我军/盟军", "", "主将"]
     ]
   }
   equipments={
@@ -52,6 +54,8 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   links={
     [
       {label: "创作手记", href: "../../../blog/post-yuanshao"},
+      {label: "《三国志·袁绍传》", href: "https://ctext.org/text.pl?node=602234&if=gb&remap=gb"},
+      {label: "《后汉书·袁绍列传》", href: "https://ctext.org/hou-han-shu/yuan-shao-liu-biao-lie-zhuan-shang/zhs"},
       {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Yuan_Shao"}
     ]
   }

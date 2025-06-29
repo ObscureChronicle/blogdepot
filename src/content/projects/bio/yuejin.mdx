@@ -1,0 +1,47 @@
+---
+title: 乐进
+tags:
+  - biography
+  - wiki-y
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={`可操控`}
+  baseData={[75, 83, 85, 56, 42]}
+  AttributeFigure={[0, 1, 1, 0, -1]}
+  baseData2={[10, 3]}
+  traitsBase={['河北', '当先', "先登"]}
+  dlcData={[75, 83, 93, 56, 42]}
+  dlcAttributeFigure={[0, 1, 1, 0, -1]}
+  dlcData2={[10, 3]}
+  traitsDLC={['河北', "先登", '当先', "先发", "凌弱"]}
+  biography={`字文谦，阳平卫国人。初为曹操帐下吏，后转任武职，从攻吕布、张超、桥蕤、袁绍、刘备、张绣等人，皆有功。于曹操平定河北时，常常先登斩将，因而被曹操称赞，封折冲将军。后与曹仁驻守襄阳，逍遥津之战时，与张辽、李典合作，大破孙权，建安二十三年去世。`}
+  baseclass={["刀兵"]}
+  battlesBase={
+    [
+      ["官渡之战", "盟军", "刀兵", "中途变更为助战军"]
+    ]
+  }
+  dlcclass={["刀兵"]}
+  battlesDLC={
+    [
+      ["官渡之战", "敌军", "刀兵"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·乐进传》", href: "https://ctext.org/text.pl?node=602719&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Yue_Jin"}
+    ]
+  }
+/>

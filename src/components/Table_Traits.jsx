@@ -42,6 +42,7 @@ const TRAIT_MAP = {
     '神恙': { color: TraitColor.Super, link: '' },
     '天予': { color: TraitColor.Super, link: '' },
     '若愚': { color: TraitColor.Super, link: '' },
+    '逆境': { color: TraitColor.Super, link: '' },
     '中原': { link: '/projects/trait/trait_zhongyuan' },
     '河北': { link: '/projects/trait/trait_hebei' },
     '幽并': { link: '/projects/trait/trait_youbing' },
@@ -66,6 +67,7 @@ const TRAIT_MAP = {
     '短虑': { color: TraitColor.Bad, link: '' },
     '跋扈': { color: TraitColor.Bad, link: '' },
     '横暴': { color: TraitColor.Bad, link: '' },
+    '轻佻': { color: TraitColor.Bad, link: '' },
 };
 
 export default function FiveStringTable({ data }) {
