@@ -1,0 +1,44 @@
+---
+title: 枣祗
+tags:
+  - biography
+  - wiki-z
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={`可操控`}
+  baseData={[58, 52, 35, 79, 80]}
+  AttributeFigure={[-1, -1, -1, 0, 2]}
+  baseData2={[4, 6]}
+  traitsBase={['中原', "能吏", '审慎', '饶用']}
+  dlcData={[58, 52, 35, 79, 80]}
+  dlcAttributeFigure={[-1, -1, -1, 0, 2]}
+  dlcData2={[4, 6]}
+  traitsDLC={['中原', '富国', '输送', "能吏", "统筹"]}
+  biography={`正史阙字，颍川长社人㊟。本姓棘，因先人避祸，改姓为枣。曹操最初起兵时即追随曹操，陈宫、张邈叛变时，作为东阿令力守东阿，保证了曹操的粮草来源。其后提出屯田之建议，于众人反对中坚持己意，最终被曹操采纳，出任屯田都尉，主持屯田工作而取得极大成功，为曹操提供了充足的粮草，是其争霸中原的重要保障。不久病死，曹操因其早逝大为悲痛。
+
+㊟：《晋书・文苑传》：「枣据字道彦，颍川长社人也。本姓棘，其先避仇改焉。」裴注引《文士传》：「祗本姓棘，先人避难易为枣。孙据，字道彦。」考《后汉书・郡国志》，知汉代颍川郡下辖长社，则称枣祗为颍川长社人，似不为过。`}
+  dlcclass={["辎重队"]}
+  battlesDLC={
+    [
+      ["濮阳之战", "助战军", "辎重队"],
+      ["官渡之战", "敌军", "", "有条件出现"]
+    ]
+  }
+  links={
+    [
+      {label: "创作手记", href: "../../../blog/post-zaozhi"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Zao_Zhi"}
+    ]
+  }
+/>

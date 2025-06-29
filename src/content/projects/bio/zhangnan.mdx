@@ -1,0 +1,37 @@
+---
+title: 张南
+tags:
+  - biography
+  - wiki-z
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[70, 45, 75, 63, 79]}
+  AttributeFigure={[0, 0, 0, 0, 0]}
+  baseData2={[7, 4]}
+  traitsBase={['荆扬', '赤心', '忠志']}
+  biography={`字文进，籍贯不详。跟随刘备入蜀，夷陵之战时战死。`}
+  baseclass={['弩兵']}
+  battlesBase={
+    [
+      ["定军山之战", "敌军", "弩兵"]
+    ]
+  }
+  links={
+    [
+      {label: "《季汉辅臣赞》", href: "https://ctext.org/text.pl?node=603845&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Zhang_Nan_(Three_Kingdoms)"}
+    ]
+  }
+/>

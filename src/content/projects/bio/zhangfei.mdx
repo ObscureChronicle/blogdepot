@@ -1,0 +1,58 @@
+---
+title: 张飞
+tags:
+  - biography
+  - wiki-z
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[78, 64, 99, 56, 77]}
+  postData={[88, 64, 100, 76, 77]}
+  prevDataName={'步 弓 手'}
+  postDataName={'万 人 敌'}
+  AttributeFigure={[0, -1, 4, 0, -1]}
+  dlcData={[78, 64, 98, 56, 63]}
+  dlcAttributeFigure={[0, -1, 4, 10, -1]}
+  baseData2={[10, 4]}
+  dlcData2={[10, 0]}
+  traitsBase={['幽并', '赤心', '悍勇', '虎卫', '当先']}
+  traitsDLC={['幽并', '赤心', '悍勇', '桓武', '横暴']}
+  biography={`字益德，涿郡人。亲近士大夫但不能体恤士卒，与关羽一同追随刘备起兵，均被称为「万人敌」，以兄长之礼侍奉二人。当阳之战中拒水断桥，孤身抵挡曹操军，曹军亦不敢攻击。刘备攻打益州时，与诸葛亮分兵支援，比战皆克，受封巴西太守。汉中争夺战中大败张郃，稳固了巴西、巴郡的情势。关羽死后，随刘备攻打孙权，自阆中起兵，但旋即因部下叛变被杀。`}
+  baseclass={['弓兵', '重装矛兵']}
+  dlcclass={['弓兵']}
+  battlesBase={
+    [
+      ["小沛之战", "盟军", "弓兵"],
+      ["长坂坡之战", "敌军", '重装矛兵'],
+      ["赤壁救援战", "敌军"],
+      ["定军山之战", "敌军"]
+    ]
+  }
+  battlesDLC={
+    [
+      ["界桥之战", "敌军", "弓兵"],
+    ]
+  }
+  equipments={
+    [
+      {label: "丈八蛇矛", href: ""}
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·张飞传》", href: "https://ctext.org/text.pl?node=603542&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Zhang_Fei"}
+    ]
+  }
+/>

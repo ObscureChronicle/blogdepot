@@ -1,0 +1,43 @@
+---
+title: 张邈
+tags:
+  - biography
+  - wiki-z
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[78, 42, 71, 64, 85]}
+  AttributeFigure={[0, -1, 0, 0, 1]}
+  dlcData={[78, 42, 69, 64, 88]}
+  dlcAttributeFigure={[0, -1, 0, 0, 2]}
+  baseData2={[4, 6]}
+  dlcData2={[6, 6]}
+  traitsBase={['中原', '名士', '雅量']}
+  traitsDLC={['中原', '名士', '雅量', '纾难', '凛然']}
+  biography={`字孟卓，东平寿张人。年少时以仗义轻财闻名于世，与袁绍、曹操交好；又作为清流派「八厨」之一而有令名。董卓之乱时首举义兵，又派遣部下帮助曹操，因不满盟主袁绍骄横，正色责备之而遭其嫉恨。袁绍更命令曹操将其诛杀，被曹操拒绝。曹操东征陶谦时，受其托付家眷，但接受陈宫劝说，迎接吕布入主兖州。后败于曹操，被手下兵士杀害。`}
+  baseclass={['矛兵']}
+  battlesBase={
+    [
+      ["寿张之战", "盟军", "矛兵"],
+      ["鄄城守卫战", "敌军"],
+      ["濮阳之战（二）", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·张邈传》", href: "https://ctext.org/text.pl?node=602269&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Zhang_Miao_(politician)"}
+    ]
+  }
+/>
