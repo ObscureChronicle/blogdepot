@@ -1,0 +1,39 @@
+---
+title: 诸葛诞
+tags:
+  - biography
+  - wiki-z
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[82, 70, 74, 83, 88]}
+  AttributeFigure={[0, 0, 0, 0, 1]}
+  baseData2={[5, 7]}
+  traitsBase={['青徐', '名士', '严毅', '勠力', '侠气']}
+  biography={`字公休，琅琊阳都人，诸葛亮之从弟。与夏侯玄、司马师交好，被评为「四聪八达」中的「八达」，又被时人评论为「魏得其狗」。浮华案时被曹叡罢黜，曹爽当政后，又被再度启用。此后平定王淩、毋丘俭、文钦之叛乱，升为征东大将军。司马昭继任大将军后，认为自身终会为司马昭所害，于是联合文钦反叛，兵败被杀。`}
+  baseclass={['重装刀兵']}
+  battlesBase={
+    [
+      ["成都平叛战", "敌军", "重装刀兵"],
+      ["淮南之乱", "敌军"],
+      ["武威决死战", "敌军"]
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·诸葛诞传》", href: "https://ctext.org/text.pl?node=603218&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Zhuge_Dan"}
+    ]
+  }
+/>
