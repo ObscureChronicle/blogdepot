@@ -5,6 +5,17 @@ const CAMPAIGN_LINKS = {
     '蓼城之战': '/projects/stage/stage_01',
     '荥阳之战': '/projects/stage/stage_02',
     '濮阳之战（一）': '/projects/stage/stage_03',
+    '黑山之战': '/projects/stage/stage_04',
+    '寿张之战': '/projects/stage/stage_05',
+    '鄄城守卫战': '/projects/stage/stage_06',
+    '濮阳之战（二）': '/projects/stage/stage_07',
+    '平阳之战': '/projects/stage/stage_08',
+    '小沛之战': '/projects/stage/stage_09',
+    '下邳之战': '/projects/stage/stage_10',
+    '北海之战': '/projects/stage/stage_11',
+    '蓼城之战（二）': '/projects/stage/stage_12',
+    '官渡之战': '/projects/stage/stage_13',
+    '邯郸之战': '/projects/stage/stage_14',
 };
 
 const FACTION_LINKS = {
