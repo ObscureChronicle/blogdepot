@@ -157,7 +157,18 @@ tbody td:where(tbody td:last-child, tfoot td:last-child):not(:where([class~='not
     padding-inline-end: 0.75em;
 }
 
-th:where(thead th:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
+th:where(thead th:first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)),
 td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-start: 0.75em;
+}
+
+.section-title {
+    color: var(--color-blue-800);
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+    padding-top: calc(var(--spacing) * 1.5);
+    padding-inline: calc(var(--spacing) * 2.5);
+    background-color: var(--color-blue-100);
+    border-radius: var(--radius-sm);
+    display: inline-block;
 }
