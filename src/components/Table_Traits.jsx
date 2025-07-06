@@ -63,6 +63,7 @@ const TRAIT_MAP = {
     '傲上': { color: TraitColor.Bad, link: '' },
     '狷狭': { color: TraitColor.Bad, link: '' },
     '无谋': { color: TraitColor.Bad, link: '' },
+    '愚鲁': { color: TraitColor.Bad, link: '' },
     '功名': { color: TraitColor.Bad, link: '' },
     '短虑': { color: TraitColor.Bad, link: '' },
     '跋扈': { color: TraitColor.Bad, link: '' },
