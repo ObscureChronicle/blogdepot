@@ -1,0 +1,41 @@
+---
+title: 满宠
+tags:
+  - biography
+  - wiki-m
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+  intro={``}
+  baseData={[94, 82, 76, 91, 66]}
+  AttributeFigure={[1, 0, 0, 1, -2]}
+  baseData2={[8, 8]}
+  traitsBase={["中原", "能吏", "堪舆", "掎角", "铁壁"]}
+  dlcData={[88, 82, 76, 92, 66]}
+  dlcAttributeFigure={[1, 0, 0, 1, -2]}
+  dlcData2={[8, 7]}
+  traitsDLC={['中原', "能吏", "堪舆", "掎角", "桀犬"]}
+  biography={`字伯宁，山阳昌邑人。被曹操征辟，以严刑峻法闻名，官渡战前为汝南太守，严厉镇压当地豪强并攻破坞壁。后协助曹仁防守樊城，曹休死后，长期主持对吴战线，并营造合肥新城。后累迁至太尉，正始三年去世。`}
+  dlcclass={['矛兵']}
+  battlesDLC={
+    [
+      ["延津之战", "敌军", "矛兵", "有条件出现"],
+      ["官渡之战", "敌军", "", "有条件出现"],
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·满宠传》", href: "https://ctext.org/text.pl?node=603126&if=gb&remap=gb"}
+    ]
+  }
+/>

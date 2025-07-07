@@ -1,0 +1,39 @@
+---
+title: 娄圭
+tags:
+  - biography
+  - wiki-l
+isFeatured: true
+publishDate:
+excerpt:
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import CharacterWiki from "../../../components/BiographyLayout.astro";
+
+<CharacterWiki
+
+  dlcData={[72, 34, 70, 98, 60]}
+  dlcAttributeFigure={[0, -2, 0, 3, -1]}
+  dlcData2={[7, 5]}
+  traitsDLC={['中原', "机鉴", "诡道", "募兵", "功名"]}
+  biography={`字子伯，南阳人。与曹操有旧，初平年间于荆州募集兵士，后仕刘表，再仕曹操，常参与谋划军国大计。献策于潼关之战中筑沙城，而被曹操认为智计不能逮。后不能为曹操所容，遂遭诬陷，见杀。`}
+  dlcclass={['弓骑兵']}
+  battlesDLC={
+    [
+      ["白马之战", "敌军", "弓骑兵"],
+      ["延津之战", "敌军"],
+      ["官渡之战", "敌军", "", "或友军"],
+    ]
+  }
+  links={
+    [
+      {label: "《三国志·毛玠传》", href: "https://ctext.org/text.pl?node=602491&if=gb&remap=gb"},
+      {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Mao_Jie"}
+    ]
+  }
+/>

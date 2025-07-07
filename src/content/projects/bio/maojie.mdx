@@ -16,7 +16,20 @@ seo:
 import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
+
+  dlcData={[68, 61, 53, 93, 90]}
+  dlcAttributeFigure={[0, -1, 0, 1, 1]}
+  dlcData2={[5, 8]}
+  traitsDLC={['中原', "能吏", "骨鲠", "先识", "一心"]}
   biography={`字孝先，陈留平丘人。年少时担任县吏，以清廉公正闻名，曹操取兖州后，被征辟为治中从事，向曹操提出「奉天子以令不臣」之方略。曹操任丞相后，与崔琰一同主管选拔人才，所举用者皆是清正之人，有名无实者多被黜落。崔琰死后心中不悦，随即被曹操下狱问罪，终被罢去官职，死于家中。`}
+  dlcclass={['弓兵']}
+  battlesDLC={
+    [
+      ["白马之战", "敌军", "弓兵"],
+      ["延津之战", "敌军"],
+      ["官渡之战", "敌军"],
+    ]
+  }
   links={
     [
       {label: "《三国志·毛玠传》", href: "https://ctext.org/text.pl?node=602491&if=gb&remap=gb"},
