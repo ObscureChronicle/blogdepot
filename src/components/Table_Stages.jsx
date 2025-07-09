@@ -16,6 +16,10 @@ const CAMPAIGN_LINKS = {
     '蓼城之战（二）': '/projects/stage/stage_12',
     '官渡之战': '/projects/stage/stage_13',
     '邯郸之战': '/projects/stage/stage_14',
+    '邺城之战': '/projects/stage/stage_15',
+    '南皮之战': '/projects/stage/stage_16',
+    '白狼山之战': '/projects/stage/stage_17',
+    '襄阳突袭战': '/projects/stage/stage_18',
 };
 
 const FACTION_LINKS = {
