@@ -20,6 +20,11 @@ const CAMPAIGN_LINKS = {
     '南皮之战': '/projects/stage/stage_16',
     '白狼山之战': '/projects/stage/stage_17',
     '襄阳突袭战': '/projects/stage/stage_18',
+    '长坂坡之战': '/projects/stage/stage_19',
+    '赤壁救援战': '/projects/stage/stage_20',
+    '汉中之战（一）': '/projects/stage/stage_21',
+    '潼关之战（上）': '/projects/stage/stage_22',
+    '潼关之战（下）': '/projects/stage/stage_23',
 };
 
 const FACTION_LINKS = {
