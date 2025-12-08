@@ -15,6 +15,7 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     兵装与宝物: 'equipment',
     特性与军略: 'trait',
     关卡: 'stage',
+    状态: 'status',
     A: 'wiki-a',
     B: 'wiki-b',
     C: 'wiki-c',
