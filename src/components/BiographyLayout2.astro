@@ -1,0 +1,184 @@
+---
+// props: name, baseData, dlcData, traitsBase, traitsDLC, biography, battlesBase, battlesDLC, equipments, links
+import BarChart from '../components/BarChart.jsx';
+import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
+import DLCStageStringTable from '../components/Table_Stage_DLC.jsx';
+import StageStringTable from '../components/Table_Stages.jsx';
+import FiveStringTable from '../components/Table_Traits.jsx';
+import CharacterAbilitySection from "../components/CharacterAbilitySection.jsx";
+
+type CharacterWikiProps = {
+    intro: string;
+    baseData: number[];
+    postData?: number[];
+    prevDataName?: string;
+    postDataName?: string;
+    AttributeFigure: number[];
+    dlcData: number[];
+    dlcAttributeFigure: number[];
+    baseData2: number[];
+    postBaseData2: number[];
+    dlcData2: number[];
+    traitsBase: string[];
+    traitsPost: string[];
+    traitsDLC: string[];
+    biography: string;
+    baseclass: string[];
+    dlcclass: string[];
+    battlesBase: [string, string][];
+    battlesDLC: [string, string][];
+    equipments: { label: string; href: string }[];
+    links: { label: string; href: string }[];
+};
+
+const {
+    intro,
+    baseData,
+    AttributeFigure,
+    dlcData,
+    dlcAttributeFigure,
+    baseData2,
+    dlcData2,
+    traitsBase,
+    traitsDLC,
+    biography,
+    baseclass,
+    dlcclass,
+    battlesBase,
+    battlesDLC,
+    equipments,
+    links,
+    postData,
+    prevDataName,
+    postDataName,
+    postBaseData2,
+    traitsPost
+} = Astro.props as CharacterWikiProps;
+
+const basename = '《后汉稽异录》';
+const dlcname = '《后汉稽异录外传：星命诀》';
+const basename_short = '本传';
+const dlcname_short = '星命诀';
+const nonedata = '无';
+
+---
+{
+    !baseData && !dlcData ? <div>背景人物。</div> : (
+        <p>
+            登场于{baseData && basename}{baseData && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
+        </p>
+        <h2  class='section-title'>能力</h2>
+        <div class="flex justify-evenly sm:flex-row flex-col">
+            {
+                baseData && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
+                        <CharacterAbilitySection
+    client:load
+    baseData={baseData}
+    postData={postData}
+    prevDataName={prevDataName}
+    postDataName={postDataName}
+    attributefigure={AttributeFigure}
+    baseData2={baseData2}
+    postBaseData2={postBaseData2}
+    traitsBase={traitsBase}
+    traitsPost={traitsPost}
+/>
+                    </div>
+                )
+            }
+            {
+                dlcData && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                            {dlcname_short}
+                        </span>
+                        <RadarChart_DLC client:load data={dlcData} attributefigure={dlcAttributeFigure} />
+                        <BarChart client:load data={dlcData2} />
+                        <FiveStringTable client:load data={traitsDLC} />
+                    </div>
+                )
+            }
+        </div>
+    )
+}
+
+{
+    biography && (
+        <>
+            <h2  class='section-title'>列传</h2>
+            <p class="whitespace-pre-line text-base leading-relaxed">{biography}</p>
+        </>
+    )
+}
+{
+    !baseclass && !dlcclass ? null : (
+        <>
+            <h2  class='section-title'>默认兵种</h2>
+            {baseclass && (
+                <div>
+                    <p class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                        {basename_short}
+                    </p>
+                    <p class="whitespace-pre-line text-base leading-relaxed">{baseclass && baseclass.map((e) => <a href='' class="block">{e}</a>)}</p>
+                </div>
+            )}
+            {dlcclass && (
+                <div>
+                    <p class="inline-block bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                        {dlcname_short}
+                    </p>
+                    <p class="whitespace-pre-line text-base leading-relaxed">{dlcclass && dlcclass.map((e) => <a href='' class="block">{e}</a>)}</p>
+                </div>
+            )}
+        </>
+    )
+}
+{
+    !battlesBase && !battlesDLC ? null : (
+        <>
+            <h2  class='section-title'>登场战役</h2>
+            <div class="flex flex-col pl-4 gap-4">
+                {baseData && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                            {basename_short}
+                        </span>
+                        <StageStringTable client:load data={battlesBase} />
+                    </div>
+                )}
+                {battlesDLC && (
+                    <div class="flex flex-col items-center">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                            {dlcname_short}
+                        </span>
+                        <DLCStageStringTable client:load data={battlesDLC} />
+                    </div>
+                )}
+            </div>
+        </>
+    )
+}
+{
+    equipments ? (
+        <>
+            <h2  class='section-title'>关联装备</h2>
+            <div class="flex flex-col pl-4">{equipments ? equipments.map((e) => <a href={e.href}>{e.label}</a>) : nonedata}</div>
+        </>
+    ) : null
+}
+{
+    links && (
+        <h2  class='section-title'>更多</h2>
+        <div class="flex flex-col pl-4">
+            {
+                links.map((l) => (
+                    <a href={l.href} target="_blank">
+                        {l.label}
+                    </a>
+                ))
+            }
+        </div>
+    )
+}
