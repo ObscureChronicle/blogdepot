@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 // 链接映射配置（示例，实际使用时可以作为prop传入或外部导入）
 const CAMPAIGN_LINKS = {
-    '官渡之战': ''
+    '官渡之战': '/projects/stage/stage_DLC_01',
+    '南匈奴反击战': '/projects/stage/stage_DLC_02'
 };
 
 const FACTION_LINKS = {
