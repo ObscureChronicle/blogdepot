@@ -16,6 +16,38 @@ import CharacterWiki from '../../../components/BiographyLayout2.astro';
 
 <CharacterWiki
   intro={``}
+  nameTableData={{
+    name: {
+      simplified: '关羽',
+      traditional: '關羽',
+      japanese: '関羽',
+      english: 'Guan Yu'
+    },
+    namePronunciation: {
+      simplified: '',
+      traditional: '',
+      japanese: 'かん　う',
+      english: 'Kuan Yü'
+    },
+    styledName: {
+      simplified: '云长',
+      traditional: '雲長',
+      japanese: '雲長',
+      english: 'Yunchang'
+    },
+    styledNamePronunciation: {
+      simplified: '',
+      traditional: '',
+      japanese: 'うんちょう',
+      english: "Yün ch’ang"
+    },
+    other: {
+      simplified: '',
+      traditional: '',
+      japanese: '',
+      english: ''
+    }
+  }}
   baseData={[94, 69, 99, 75, 97]}
   postData={[96, 69, 100, 75, 97]}
   prevDataName={'马 弓 手'}
@@ -50,36 +82,4 @@ import CharacterWiki from '../../../components/BiographyLayout2.astro';
     { label: '《三国志·关羽传》', href: 'https://ctext.org/text.pl?node=603534&if=gb&remap=gb' },
     { label: 'Wikipedia - English Version', href: 'https://en.wikipedia.org/wiki/Guan_Yu' }
   ]}
-  nameTableData={{
-    name: {
-      simplified: '关羽',
-      traditional: '關羽',
-      japanese: '関羽',
-      english: 'Guan Yu'
-    },
-    namePronunciation: {
-      simplified: '',
-      traditional: '',
-      japanese: 'かん　う',
-      english: 'Kuan Yv'
-    },
-    styledName: {
-      simplified: '云长',
-      traditional: '雲長',
-      japanese: '雲長',
-      english: 'Yunchang'
-    },
-    styledNamePronunciation: {
-      simplified: '',
-      traditional: '',
-      japanese: 'うんちょう',
-      english: "Yvn ch’ang"
-    },
-    other: {
-      simplified: '',
-      traditional: '',
-      japanese: '',
-      english: ''
-    }
-  }}
 />

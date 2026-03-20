@@ -65,7 +65,8 @@ const nonedata = '无';
     !baseData && !dlcData ? <><div>背景人物。</div> <CharacterNameTable data={nameTableData ? nameTableData : {}} client:load/></>: (
         <p>
             登场于{baseData && basename}{baseData && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
-        </p>
+        </p>        
+        <h2  class='section-title'>别称</h2>
         <CharacterNameTable data={nameTableData ? nameTableData : {}} client:load/>
         <h2  class='section-title'>能力</h2>
         <div class="flex justify-evenly sm:flex-row flex-col">
