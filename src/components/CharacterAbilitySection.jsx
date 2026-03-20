@@ -27,13 +27,13 @@ export default function CharacterAbilitySection({
                 <div className="flex justify-end gap-2 mt-4 mb-[-50px]">
                     <button
                         onClick={() => setActiveDataType('data')}
-                        className={`px-2 py-1 rounded text-sm border ${activeDataType === 'data' ? 'bg-gray-400 text-white' : 'bg-white'}`}
+                        className={`cursor-pointer px-2 py-1 rounded text-sm border ${activeDataType === 'data' ? 'bg-gray-400 text-white' : 'bg-white'}`}
                     >
                         {prevDataName}
                     </button>
                     <button
                         onClick={() => setActiveDataType('postdata')}
-                        className={`px-2 py-1 rounded text-sm border ${activeDataType === 'postdata' ? 'bg-gray-400 text-white' : 'bg-white'}`}
+                        className={`cursor-pointer px-2 py-1 rounded text-sm border ${activeDataType === 'postdata' ? 'bg-gray-400 text-white' : 'bg-white'}`}
                     >
                         {postDataName}
                     </button>

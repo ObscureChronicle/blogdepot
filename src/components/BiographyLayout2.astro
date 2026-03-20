@@ -5,6 +5,7 @@ import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
 import DLCStageStringTable from '../components/Table_Stage_DLC.jsx';
 import StageStringTable from '../components/Table_Stages.jsx';
 import FiveStringTable from '../components/Table_Traits.jsx';
+import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from "../components/CharacterAbilitySection.jsx";
 
 type CharacterWikiProps = {
@@ -29,6 +30,7 @@ type CharacterWikiProps = {
     battlesDLC: [string, string][];
     equipments: { label: string; href: string }[];
     links: { label: string; href: string }[];
+    nameTableData: {};
 };
 
 const {
@@ -52,7 +54,8 @@ const {
     prevDataName,
     postDataName,
     postBaseData2,
-    traitsPost
+    traitsPost,
+    nameTableData,
 } = Astro.props as CharacterWikiProps;
 
 const basename = '《后汉稽异录》';
@@ -61,12 +64,14 @@ const basename_short = '本传';
 const dlcname_short = '星命诀';
 const nonedata = '无';
 
+
 ---
 {
     !baseData && !dlcData ? <div>背景人物。</div> : (
         <p>
             登场于{baseData && basename}{baseData && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
         </p>
+        <CharacterNameTable data={nameTableData ? nameTableData : {}} client:load/>
         <h2  class='section-title'>能力</h2>
         <div class="flex justify-evenly sm:flex-row flex-col">
             {
