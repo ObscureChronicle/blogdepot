@@ -17,6 +17,38 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
   intro={`可操控`}
+  nameTableData={{
+  name: {
+    simplified: '沮鹄',
+    traditional: '沮鵠',
+    japanese: '沮鵠',
+    english: 'Ju Hu'
+  },
+  namePronunciation: {
+    simplified: 'Jū Hú',
+    traditional: 'ㄐㄩ ㄏㄨˊ',
+    japanese: 'そ こく',
+    english: "Chü Hu"
+  },
+  styledName: {
+    simplified: '子游',
+    traditional: '子游',
+    japanese: '子游',
+    english: 'Ziyou'
+  },
+  styledNamePronunciation: {
+    simplified: 'Zǐ Yóu',
+    traditional: 'ㄗˇ ㄧㄡˊ',
+    japanese: 'し ゆう',
+    english: "Tzu Yu"
+  },
+  other: {
+    simplified: '',
+    traditional: '',
+    japanese: '',
+    english: ''
+  }
+}}
   baseData={[69, 58, 73, 75, 51]}
   AttributeFigure={[0, 1, 0, 1, 0]}
   dlcData={[69, 58, 73, 77, 52]}
@@ -25,9 +57,11 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   dlcData2={[2, 7]}
   traitsBase={['河北', '输送', '处下']}
   traitsDLC={['河北', '输送', '处下', '示弱']}
-  biography={`*剧中取表字「子游」。
+  biography={`正史阙字，广平人，沮授之子。袁绍死后追随袁尚，建安九年曹操进攻袁尚时驻守邯郸，被曹操击破。
   
-  正史阙字，广平人，沮授之子。袁绍死后追随袁尚，建安九年曹操进攻袁尚时驻守邯郸，被曹操击破。`}
+  ㊟《三国志・武帝纪》「尚将沮鹄守邯郸」下注：「沮音菹，河朔间今犹有此姓。」《广韵・菹小韵》：「沮，人姓。」又「菹，侧鱼切。」《集韵・菹小韵》：「沮，姓也。通作俎苴。」又「菹，臻鱼切。」》《三国志集解》引胡三省注：「沮，子余翻。」
+  按《广韵》《韵镜》，余，鱼韵；侧、臻，照二庄母，子，精母。「侧鱼」「子余」声母有别，若从胡注，则宋元时作姓之「沮」与「菹」音已不同。然《广韵・且小韵》下有苴、沮，沮下注：「虏复姓，有沮渠氏。」此音系精母鱼韵，实为中原音译匈奴之复姓。
+  《集韵》所反映之音系中，沮鹄之「沮」尚在庄母，胡注时或受「沮渠」之影响，将「沮鹄」之「沮」读为「沮渠」之「沮」，抑或两宋时「沮」已发生音变，自庄母转入精母。若依裴注至《集韵》音系，则「沮」宜读为Zū。若依胡三省注，「沮」宜读为Jū。`}
   baseclass={["弓兵"]}
   battlesBase={
     [
