@@ -16,6 +16,38 @@ import CharacterWiki from '../../../components/BiographyLayout2.astro';
 
 <CharacterWiki
   intro={`主要`}
+  nameTableData={{
+    name: {
+      simplified: '曹操',
+      traditional: '曹操',
+      japanese: '曹操',
+      english: 'Cao Cao'
+    },
+    namePronunciation: {
+      simplified: 'Cáo Cāo',
+      traditional: 'ㄘㄠˊ ㄘㄠ',
+      japanese: 'そう　そう',
+      english: "Ts'ao Ts'ao"
+    },
+    styledName: {
+      simplified: '孟德',
+      traditional: '孟德',
+      japanese: '孟徳',
+      english: 'Mengde'
+    },
+    styledNamePronunciation: {
+      simplified: 'Mèng Dé',
+      traditional: 'ㄇㄥˋ ㄉㄜˊ',
+      japanese: 'もう　とく',
+      english: "Meng Te"
+    },
+    other: {
+      simplified: '',
+      traditional: '',
+      japanese: '',
+      english: ''
+    }
+  }}
   baseData={[90, 85, 81, 95, 93]}
   postData={[100, 85, 81, 97, 93]}
   prevDataName={'奋武将军'}
