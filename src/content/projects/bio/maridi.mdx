@@ -16,7 +16,42 @@ seo:
 import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
-  biography={`字翁叔，扶风茂陵人。先后任谏议大夫、太尉、太傅，董卓死后曾谏止王允杀死蔡邕，未果，于是判断王允难以长久。后受刘协任命，出使山东诸侯，遭袁术扣留并夺走其符节，于是悲愤吐血而死。`}
+nameTableData={{
+  name: {
+    simplified: '马日磾',
+    traditional: '馬日磾',
+    japanese: '馬日磾',
+    english: 'Ma Ridi'
+  },
+  namePronunciation: {
+    simplified: 'Mǎ Rìdī',
+    traditional: 'ㄇㄚˇ ㄖˋ ㄉㄧ',
+    japanese: 'ば じってい',
+    english: "Ma Jih-ti"
+  },
+  styledName: {
+    simplified: '翁叔',
+    traditional: '翁叔',
+    japanese: '翁叔',
+    english: 'Wengshu'
+  },
+  styledNamePronunciation: {
+    simplified: 'Wēng Shū',
+    traditional: 'ㄨㄥ ㄕㄨ',
+    japanese: 'おう しゅく',
+    english: "Weng Shu"
+  },
+  other: {
+    simplified: '',
+    traditional: '',
+    japanese: '',
+    english: ''
+  }
+}}
+  biography={`
+  ㊟日，或读若密，然《汉书・金日磾传》颜师古注「磾」而不注「日」音，《广韵》亦仅收「人质切」一韵，似读如字rì为妥。
+  
+  字翁叔，扶风茂陵人。先后任谏议大夫、太尉、太傅，董卓死后曾谏止王允杀死蔡邕，未果，于是判断王允难以长久。后受刘协任命，出使山东诸侯，遭袁术扣留并夺走其符节，于是悲愤吐血而死。`}
   links={
     [
       {label: "Wikipedia - English Version", href: "https://en.wikipedia.org/wiki/Ma_Midi"}
