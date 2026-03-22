@@ -220,9 +220,10 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     </button>
                 </div>
             ) : (
-                <div className="mb-[36.25px]"></div>
+                    <></>
+                // <div className="mb-[36.25px]"></div>
             )}
-            <canvas ref={canvasRef} width={375} height={270} className="mx-auto -z-1" style={{ display: 'block' }} />
+            <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block' }} />
         </>
     );
 }

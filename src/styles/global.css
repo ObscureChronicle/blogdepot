@@ -172,3 +172,7 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     border-radius: var(--radius-sm);
     display: inline-block;
 }
+
+.wl-meta-foot {
+    display: none;
+}
