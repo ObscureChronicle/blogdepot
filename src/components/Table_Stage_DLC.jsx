@@ -2,13 +2,17 @@ import { useState } from 'react';
 
 // 链接映射配置（示例，实际使用时可以作为prop传入或外部导入）
 const CAMPAIGN_LINKS = {
-    '官渡之战': '/projects/stage/stage_DLC_01',
+    '官渡之战': '/projects/stage/stage_DLC_13',
     '南匈奴反击战': '/projects/stage/stage_DLC_02',
     '内黄之战': '/projects/stage/stage_DLC_03',
     '濮阳之战': '/projects/stage/stage_DLC_04',
     '界桥之战': '/projects/stage/stage_DLC_05',
     '常山追殛战': '/projects/stage/stage_DLC_06',
-    '易京攻防战·上': '/projects/stage/stage_DLC_07'
+    '易京攻防战·上': '/projects/stage/stage_DLC_08',
+    '易京攻防战·下': '/projects/stage/stage_DLC_09',
+    '星命之夜': '/projects/stage/stage_DLC_10',
+    '白马之战': '/projects/stage/stage_DLC_11',
+    '延津之战': '/projects/stage/stage_DLC_12'
 };
 
 const FACTION_LINKS = {
