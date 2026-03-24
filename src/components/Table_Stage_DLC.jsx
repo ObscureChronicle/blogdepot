@@ -5,7 +5,10 @@ const CAMPAIGN_LINKS = {
     '官渡之战': '/projects/stage/stage_DLC_01',
     '南匈奴反击战': '/projects/stage/stage_DLC_02',
     '内黄之战': '/projects/stage/stage_DLC_03',
-    '濮阳之战': '/projects/stage/stage_DLC_04'
+    '濮阳之战': '/projects/stage/stage_DLC_04',
+    '界桥之战': '/projects/stage/stage_DLC_05',
+    '常山追殛战': '/projects/stage/stage_DLC_06',
+    '易京攻防战·上': '/projects/stage/stage_DLC_07'
 };
 
 const FACTION_LINKS = {
