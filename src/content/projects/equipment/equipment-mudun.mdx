@@ -1,0 +1,41 @@
+---
+title: 木盾
+tags:
+  - equipment
+  - wiki-m
+isFeatured: true
+publishDate: 
+excerpt: 
+seo:
+  image:
+    src: '/post-13.jpg'
+    alt: Abstract snow
+
+---
+
+import { styles } from '../../../components/baseprops.json';
+import EquipmentStats from '../../../components/EquipmentStats.jsx';
+
+木盾是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
+
+在星命诀中，木盾则被区分为<a href="../equipment-youfang-iron">木制圆盾</a>与<a href="../equipment-youfang-steel">木制长牌</a>。
+
+<h2  class='section-title'>说明</h2>
+
+用于防御箭矢的装备，可以强化刀兵对弓箭的防御力。
+
+<h2  class='section-title'>效果</h2>
+
+<EquipmentStats
+  equipment={{
+    base: {
+      价格: 1870,
+      防御: 13,
+      重量: 9
+    },
+    damageReduction: {
+      弓兵: 20,
+      弓骑: 15
+    }
+  }}
+/>

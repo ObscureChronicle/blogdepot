@@ -14,57 +14,30 @@ seo:
 ---
 
 import { styles } from '../../../components/baseprops.json';
+import EquipmentStats from '../../../components/EquipmentStats.jsx';
 
 铁制有方是星命诀中的一种副手类<a href="../equipment-type">兵装</a>。
 
-<h2  class='section-title'>说明</h2>
+<h2 class='section-title'>说明</h2>
 
 两汉边燧简牍中常见的兵器，有刃，形制尚有争论。或以为「方」训「盾」，有方为有刃之盾牌，与剑弩配合使用。
 
-<h2  class='section-title'>效果</h2>
+<h2 class='section-title'>效果</h2>
 
-<table class='border-2 w-[320px]'>
-  <thead>
-    <tr class='border-1'>
-      <th>基础属性</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>价格</td>
-        <td>3780</td>
-      </tr>
-      <tr>
-        <td class='border-1'>防御</td>
-        <td>14</td>
-      </tr>
-      <tr>
-        <td class='border-1'>重量</td>
-        <td>10</td>
-      </tr>
-  <thead>
-    <tr class='border-1'>
-      <th>伤害强化</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>刀兵</td>
-        <td>5%</td>
-      </tr>
-      <tr>
-        <td class='border-1'>矛兵</td>
-        <td>5%</td>
-      </tr>
-  <thead>
-    <tr class='border-1'>
-      <th>伤害减免</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>弓兵</td>
-        <td>25%</td>
-      </tr>
-      <tr>
-        <td class='border-1'>弓骑</td>
-        <td>20%</td>
-      </tr>
-</table>
+<EquipmentStats
+  equipment={{
+    base: {
+      价格: 3780,
+      防御: 14,
+      重量: 10
+    },
+    damageBonus: {
+      刀兵: 5,
+      矛兵: 5
+    },
+    damageReduction: {
+      弓兵: 25,
+      弓骑: 20
+    }
+  }}
+/>

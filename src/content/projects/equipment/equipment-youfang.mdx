@@ -14,8 +14,9 @@ seo:
 ---
 
 import { styles } from '../../../components/baseprops.json';
+import EquipmentStats from '../../../components/EquipmentStats.jsx';
 
-有方是游戏中的一种副手类<a href="../equipment-type">兵装</a>。
+有方是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
 
 在星命诀中，有方则被区分为<a href="../equipment-youfang-iron">铁制有方</a>与<a href="../equipment-youfang-steel">钢制有方</a>。
 
@@ -25,40 +26,19 @@ import { styles } from '../../../components/baseprops.json';
 
 <h2  class='section-title'>效果</h2>
 
-<table class='border-2 w-[320px]'>
-  <thead>
-    <tr class='border-1'>
-      <th>基础属性</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>防御</td>
-        <td>18</td>
-      </tr>
-      <tr>
-        <td class='border-1'>重量</td>
-        <td>10</td>
-      </tr>
-  <thead>
-    <tr class='border-1'>
-      <th>伤害强化</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>刀兵</td>
-        <td>5%</td>
-      </tr>
-  <thead>
-    <tr class='border-1'>
-      <th>伤害减免</th>
-    </tr>
-  </thead>
-      <tr>
-        <td class='border-1'>弓兵</td>
-        <td>25%</td>
-      </tr>
-      <tr>
-        <td class='border-1'>弓骑</td>
-        <td>20%</td>
-      </tr>
-</table>
+<EquipmentStats
+  equipment={{
+    base: {
+      价格: 4920,
+      防御: 18,
+      重量: 10
+    },
+    damageBonus: {
+      刀兵: 5
+    },
+    damageReduction: {
+      弓兵: 25,
+      弓骑: 20
+    }
+  }}
+/>
