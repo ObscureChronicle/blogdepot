@@ -13,7 +13,7 @@ seo:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout.astro";
+import CharacterWiki from "../../../components/BiographyLayout2.astro";
 
 <CharacterWiki
   intro={``}
@@ -50,12 +50,15 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   }
 }}
   baseData={[80, 83, 90, 61, 75]}
+  postData={[80, 83, 90, 61, 75]}
+  prevDataName={'西凉小将'}
+  postDataName={'梦隔重山'}
   AttributeFigure={[-1, 1, 1, 0, 0]}
   baseData2={[8, 3]}
-  traitsBase={["西羌", "先发", "当先"]}
-  biography={`正史阙字，扶风茂陵人，马超从弟。跟随其从兄马超起兵，辗转随之投奔刘备。累迁至平北将军，陈仓侯。诸葛亮死后受杨仪派遣，追杀并击斩魏延。蒋琬主政后，曾率军北伐曹魏，被魏将牛金击败。此后事迹不详。
-  
-  注：马岱地域特性将在第三章变为「雍凉」。`}
+  postBaseData2={[8, 3]}
+  traitsBase={["西羌", "当先"]}
+  traitsPost={["雍凉", "先发", "当先"]}
+  biography={`正史阙字，扶风茂陵人，马超从弟。跟随其从兄马超起兵，辗转随之投奔刘备。累迁至平北将军，陈仓侯。诸葛亮死后受杨仪派遣，追杀并击斩魏延。蒋琬主政后，曾率军北伐曹魏，被魏将牛金击败。此后事迹不详。`}
   baseclass={["长矛骑"]}
   battlesBase={
     [
@@ -67,6 +70,16 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
       ["天水之战（二）", "敌军"],
       ["汉中之战（三）", "敌军"],
       ["阳平关之战", "敌军"]
+    ]
+  }
+  dlcData={[80, 83, 87, 61, 75]}
+  dlcAttributeFigure={[-1, 1, 1, 0, 0]}
+  dlcData2={[8, 3]}
+  traitsDLC={["西羌", "精骑", "摧锋", "桀犬"]}
+  dlcclass={['刀骑兵']}
+  battlesDLC={
+    [
+      ["官渡之战", "敌军", "刀骑兵", "有条件出现"],
     ]
   }
   links={
