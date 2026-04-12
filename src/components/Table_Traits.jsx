@@ -3,7 +3,8 @@ import { useState } from 'react';
 // 特质数据表（示例格式，实际使用时可以作为prop传入）
 const TraitColor = {
     Oridinary: '#5bae23',
-    Super: '#2775b6',
+    Super: '#5bae22',
+    // Super: '#2775b6',
     Bad: '#de1c31'
 }
 
@@ -102,14 +103,6 @@ export default function FiveStringTable({ data }) {
         return TRAIT_MAP[trait]?.color || '#4a5568'; // 默认灰色
     };
 
-    // 获取特质加粗（如果存在）
-    const getTraitBold = (trait) => {
-        if (TRAIT_MAP[trait]?.color && TRAIT_MAP[trait].color == TraitColor.Oridinary) {
-            return 'bold'; // 默认灰色
-        }
-        return 'normal'
-    };
-
     // 获取特质链接（如果存在）
     const getTraitLink = (trait) => {
         return TRAIT_MAP[trait]?.link || null;
@@ -137,7 +130,16 @@ export default function FiveStringTable({ data }) {
                     {tableData.map((value, index) => {
                         const hasLink = getTraitLink(value);
                         const traitColor = getTraitColor(value);
-                        const traitBold = getTraitBold(value);
+                        const traitInfo = TRAIT_MAP[value];
+
+                        // 判断是否为 Ordinary 级别，决定是否添加发光效果
+                        const isGlow = traitInfo?.color === TraitColor.Oridinary;
+                        const glowStyle = isGlow
+                            ? { textShadow: `0 0 8px ${traitColor}, 0 0 12px ${traitColor}` }
+                            : {};
+
+                        // 合并文字颜色与发光样式
+                        const textStyle = { color: traitColor, ...glowStyle };
 
                         return (
                             <tr
@@ -152,10 +154,7 @@ export default function FiveStringTable({ data }) {
                                 <td className="px-4 py-2 font-medium text-gray-700 border-b border-gray-200 w-1/3 text-center border-r">
                                     {/* 为第一行的标题添加链接 */}
                                     {index === 0 ? (
-                                        <a
-                                            href={regionTraitLink}
-                                        //className="text-blue-600 hover:underline cursor-pointer"
-                                        >
+                                        <a href={regionTraitLink}>
                                             {rowTitles[index]}
                                         </a>
                                     ) : (
@@ -170,12 +169,12 @@ export default function FiveStringTable({ data }) {
                                                 href={getTraitLink(value)}
                                                 onClick={(e) => handleTraitClick(value, e)}
                                                 className={`font-medium cursor-pointer hover:underline ${activeTrait === value ? 'ring-2 ring-offset-1 ring-blue-500 rounded' : ''}`}
-                                                style={{ color: traitColor }}
+                                                style={textStyle}
                                             >
                                                 {value}
                                             </a>
                                         ) : (
-                                            <span style={{ color: traitColor }}>{value}</span>
+                                            <span style={textStyle}>{value}</span>
                                         )}
                                     </div>
                                 </td>
