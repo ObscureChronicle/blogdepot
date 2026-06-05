@@ -1,7 +1,7 @@
 ---
 title: 与廖雅诺书
 excerpt: 仿太史慈口吻给主角写的一封信，用在教程关里了。
-publishDate: '2025-02-15'
+publishDate: '2026-05-29'
 tags:
   - wen-yan
 seo:
