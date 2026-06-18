@@ -63,7 +63,7 @@ const TRAIT_MAP = {
     '跋扈': { color: TraitColor.Bad, link: '' },
     '桀犬': { color: TraitColor.Bad, link: '' },
     '狼顾': { color: TraitColor.Bad, link: '' },
-    '自矜': { color: TraitColor.Bad, link: '' },
+    '自用': { color: TraitColor.Bad, link: '' },
     '铜臭': { color: TraitColor.Bad, link: '' },
     '功名': { color: TraitColor.Bad, link: '' },
     '狷狭': { color: TraitColor.Bad, link: '' },
@@ -80,6 +80,7 @@ const TRAIT_MAP = {
     '庸弱': { color: TraitColor.Bad, link: '' },
     '粗疏': { color: TraitColor.Bad, link: '' },
     '怯懦': { color: TraitColor.Bad, link: '' },
+    '荒悖': { color: TraitColor.Bad, link: '' },
 };
 
 export default function FiveStringTable({ data }) {
