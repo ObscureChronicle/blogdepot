@@ -89,7 +89,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
                         return (
                             <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[390px]" href={`/tags/${tag.id}`}>
                                 <div class="">
-                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl w-[180px]">
                                         {tag.name}
                                     </h2>
                                     <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
@@ -107,7 +107,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
         >
             音序检索
         </h2>
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap gap-4">
             {
                 wikiChildTags
                     .sort((a, b) => {
@@ -126,7 +126,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
                     .map((tag) => {
                         const postCount = getPostsByTag(posts, tag.id).length;
                         return (
-                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[240px]" href={`/tags/${tag.id}`}>
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}`}>
                                 <div class="sm:w-[85px]">
                                     <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                         {tag.name}
