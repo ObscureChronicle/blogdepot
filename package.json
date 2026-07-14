@@ -8,6 +8,7 @@
         "build": "astro build",
         "preview": "astro preview",
         "astro": "astro",
+        "test": "node --test",
         "check:tags": "ts-node scripts/validate-tags.cjs"
     },
     "dependencies": {

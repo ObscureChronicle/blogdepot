@@ -21,5 +21,5 @@ const portfolio = page.data;
 <BaseLayout title="游戏百科" description="游戏百科" image={{ src: '/title.png', alt: 'The preview of the site' }} showHeader={false}>
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">游戏百科</h1>
     {portfolio.map((project) => <ProjectPreview project={project} class="mb-4 sm:mb-6" />)}
-    <Pagination page={page} class="my-16 sm:my-24" />
+    <Pagination page={page} basePath="/projects" class="my-16 sm:my-24" />
 </BaseLayout>

@@ -53,6 +53,6 @@ const sortedBlog = isWikiTag ? sortPostsByTitlePinyin(blog) : blog;
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{currentTag?.name}"</h1>
     {sortedBlog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
-    <Pagination page={page} class="my-16 sm:my-24" />
+    <Pagination page={page} basePath={`/tags/${params.id}`} class="my-16 sm:my-24" />
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>
