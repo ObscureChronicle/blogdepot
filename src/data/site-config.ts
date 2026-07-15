@@ -42,7 +42,7 @@ const siteConfig: SiteConfig = {
     website: 'https://ocod.netlify.app/',
     title: '后汉稽异录',
     subtitle: 'IsaacZhang',
-    description: '后汉稽异录的资料站。',
+    description: '《后汉稽异录》（日文名：後漢・三国物語，英文名：Obscure Chronicle of Dynasty）资料站，收录游戏人物、势力、装备等百科词条与创作记录。',
     image: {
         src: '/title.png',
         alt: 'Dante - Astro.js and Tailwind CSS theme'
@@ -107,7 +107,7 @@ const siteConfig: SiteConfig = {
     // ],
     hero: {
         // title: 'Hi There & Welcome to My Corner of the Web!',
-        text: '这是一款「虚构的，但也应当是合理的」剧情向战棋类游戏，又似可将它看作是一段异位面的三国历史。因而诸君或将发现，游戏前期的剧情尚可称作较为熟知的三国故事，但是剧情愈后，和本位面差别愈大。许多在正史上着墨甚少乃至寥寥数笔的人物，亦可能在这段迥异的时空中绽放出别样的光芒。',
+        text: '**《后汉稽异录》**（英文名 *Obscure Chronicle of Dynasty*，日文名「後漢・三国物語」）是一款「虚构的，但也应当是合理的」剧情向战棋类游戏，又似可将它看作是一段异位面的三国历史。因而诸君或将发现，游戏前期的剧情尚可称作较为熟知的三国故事，但是剧情愈后，和本位面差别愈大。许多在正史上着墨甚少乃至寥寥数笔的人物，亦可能在这段迥异的时空中绽放出别样的光芒。',
         image: {
             src: '/title.png',
             alt: '后汉稽异录 Obscure Chronicle of Dynasty'

@@ -18,7 +18,7 @@ const projects = sortPostsByTitlePinyin(await getCollection('projects'));
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 ---
 
-<BaseLayout description={siteConfig.description} image={siteConfig.image}>
+<BaseLayout title="後漢・三国物語" description={siteConfig.description} image={siteConfig.image}>
     <Hero />
     <iframe src="https://store.steampowered.com/widget/2010900/" frameborder="0" class="w-full" height="190"></iframe><br /><br />
     {

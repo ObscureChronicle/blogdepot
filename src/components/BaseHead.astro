@@ -73,3 +73,17 @@ function formatCanonicalURL(url: string | URL) {
 <meta property="twitter:description" content={description} />
 {resolvedImage?.src && <meta property="twitter:image" content={resolvedImage.src} />}
 {resolvedImage?.alt && <meta name="twitter:image:alt" content={resolvedImage?.alt} />}
+
+<!-- Structured Data -->
+<script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteConfig.title,
+        alternateName: ['後漢・三国物語', 'Obscure Chronicle of Dynasty'],
+        url: siteConfig.website,
+        description: siteConfig.description
+    })}
+/>
