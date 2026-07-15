@@ -11,7 +11,6 @@ import { sortItemsByDateDesc } from '../utils/data-utils';
 import { sortPostsByTitlePinyin } from '../utils/sort-by-pinyin';
 
 const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
-const featuredPosts = posts.filter(({ data }) => data.isFeatured);
 
 // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
 const projects = sortPostsByTitlePinyin(await getCollection('projects'));
@@ -37,10 +36,10 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
         )
     }
     {
-        featuredPosts?.length > 0 && (
+        posts?.length > 0 && (
             <div class="mb-16 sm:mb-24">
                 <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">日志</h2>
-                {featuredPosts.slice(0, 3).map((post) => (
+                {posts.slice(0, 3).map((post) => (
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
                 <div>

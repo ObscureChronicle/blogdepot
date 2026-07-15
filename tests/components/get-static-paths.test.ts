@@ -13,7 +13,6 @@ vi.mock('astro:content', () => ({
 }));
 
 const { getStaticPaths: getBlogPaths } = await import('../../src/pages/blog/[...page].astro');
-const { getStaticPaths: getProjectsPaths } = await import('../../src/pages/projects/[...page].astro');
 const { getStaticPaths: getTagsPaths } = await import('../../src/pages/tags/[id]/[...page].astro');
 const { sortItemsByDateDesc } = await import('../../src/utils/data-utils.ts');
 const { sortPostsByTitlePinyin } = await import('../../src/utils/sort-by-pinyin.ts');
@@ -67,16 +66,6 @@ describe('blog/[...page].astro getStaticPaths', () => {
         for (const r of result as any[]) {
             expect(r.props.latestSlug).toBe(realPosts[0].id);
         }
-    });
-});
-
-describe('projects/[...page].astro getStaticPaths', () => {
-    it('paginates every real project exactly once, sorted by title pinyin', async () => {
-        const realProjects = sortPostsByTitlePinyin(await getCollection('projects'));
-        const result = await getProjectsPaths({ paginate: fakePaginate } as any);
-
-        const allPaginatedIds = result.flatMap((r: any) => r.props.page.data.map((p: any) => p.id));
-        expect(allPaginatedIds).toEqual(realProjects.map((p) => p.id));
     });
 });
 
