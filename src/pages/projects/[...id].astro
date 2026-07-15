@@ -6,17 +6,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
 export async function getStaticPaths() {
-    // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
-    const projects = sortPostsByTitlePinyin(await getCollection('projects'));
-    const projectCount = projects.length;
-    return projects.map((project, index) => ({
-        params: { id: project.id },
-        props: {
-            project,
-            prevProject: index + 1 !== projectCount ? projects[index + 1] : null,
-            nextProject: index !== 0 ? projects[index - 1] : null
-        }
-    }));
+    // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期。
+    // 上一篇/下一篇限定在同一个分类标签（非 wiki-X 拼音标签）内，
+    // 避免人物、装备、关卡等不同类型的词条按全局拼音顺序随机穿插到彼此中间。
+    const projects = await getCollection('projects');
+
+    const groups = new Map<string, CollectionEntry<'projects'>[]>();
+    for (const project of projects) {
+        const category = project.data.tags.find((tag) => !tag.startsWith('wiki-')) ?? project.id;
+        const group = groups.get(category) ?? [];
+        group.push(project);
+        groups.set(category, group);
+    }
+
+    return [...groups.values()].flatMap((group) => {
+        const sorted = sortPostsByTitlePinyin(group);
+        const groupCount = sorted.length;
+        return sorted.map((project, index) => ({
+            params: { id: project.id },
+            props: {
+                project,
+                prevProject: index + 1 !== groupCount ? sorted[index + 1] : null,
+                nextProject: index !== 0 ? sorted[index - 1] : null
+            }
+        }));
+    });
 }
 
 type Props = {
