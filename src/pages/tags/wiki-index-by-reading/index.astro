@@ -8,7 +8,6 @@ const posts = await getAllPosts();
 // ✅ 筛选所有以 wiki- 开头但不是聚合页本身的标签
 const allTags = getAllTags(posts);
 const wikiTags = allTags.filter((tag) => tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading');
-console.log(wikiTags);
 ---
 
 <BaseLayout title="百科音序检索" description="按音序快速查找百科项目标签" showHeader={false}>
