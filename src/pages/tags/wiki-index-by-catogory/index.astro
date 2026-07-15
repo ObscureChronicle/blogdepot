@@ -1,7 +1,8 @@
 ---
 import ArrowRight from '../../../icons/ArrowRight.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getAllPosts, getAllTags, getPostsByTag, sortTagsByName } from '../../../utils/data-utils';
+import { getAllPosts } from '../../../utils/content-utils';
+import { getAllTags, getPostsByTag, sortTagsByName } from '../../../utils/data-utils';
 
 const posts = await getAllPosts();
 

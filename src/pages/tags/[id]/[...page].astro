@@ -7,7 +7,8 @@ import ProjectPreview from '../../../components/ProjectPreview.astro';
 import Subscribe from '../../../components/Subscribe.astro';
 import siteConfig from '../../../data/site-config';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getAllPosts, getAllTags, getPostsByTag } from '../../../utils/data-utils';
+import { getAllPosts } from '../../../utils/content-utils';
+import { getAllTags, getPostsByTag } from '../../../utils/data-utils';
 import { sortPostsByTitlePinyin } from '../../../utils/sort-by-pinyin';
 
 const posts = await getAllPosts();

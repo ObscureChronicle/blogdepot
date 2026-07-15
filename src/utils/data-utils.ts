@@ -1,20 +1,13 @@
-import { type CollectionEntry, getCollection } from 'astro:content';
-import { slugify } from './common-utils';
+import type { CollectionEntry } from 'astro:content';
+import { slugify } from './common-utils.ts';
 
 // projects.publishDate 是可选的（百科条目不讲究发布时间），缺失时视为最旧、排在最后。
+// 不能用 -Infinity 当哨兵值直接相减：两个都缺失时 -Infinity - (-Infinity) 是 NaN，不是 0。
 export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>, itemB: CollectionEntry<'blog' | 'projects'>) {
-    const timeA = itemA.data.publishDate ? new Date(itemA.data.publishDate).getTime() : -Infinity;
-    const timeB = itemB.data.publishDate ? new Date(itemB.data.publishDate).getTime() : -Infinity;
-    return timeB - timeA;
-}
-
-// 合并 blog + projects 两个 collection 并按发布日期倒序排列。
-// 之前在 tags/index.astro、tags/[id]/[...page].astro（重复两次）、
-// tags/wiki-index-by-catogory 与 wiki-index-by-reading 里各自独立实现。
-export async function getAllPosts(): Promise<Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>> {
-    const blogPosts = await getCollection('blog');
-    const projectPosts = await getCollection('projects');
-    return [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc);
+    if (!itemA.data.publishDate && !itemB.data.publishDate) return 0;
+    if (!itemA.data.publishDate) return 1;
+    if (!itemB.data.publishDate) return -1;
+    return new Date(itemB.data.publishDate).getTime() - new Date(itemA.data.publishDate).getTime();
 }
 
 export const TAG_SLUG_MAP: Record<string, string> = {
