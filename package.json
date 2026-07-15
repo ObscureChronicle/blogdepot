@@ -27,7 +27,6 @@
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "sharp": "^0.34.1",
-        "slugify": "^1.6.6",
         "tailwindcss": "^4.0.17"
     },
     "devDependencies": {

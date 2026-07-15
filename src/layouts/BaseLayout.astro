@@ -43,14 +43,6 @@ const { showHeader = true, ...head } = Astro.props;
             <ScrollToTop client:load />
             <Footer />
         </div>
-        <script type="module">
-            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
-
-            init({
-                el: '#waline',
-                serverURL: 'https://your-domain.vercel.app'
-            });
-        </script>
         <!-- 引入一次脚本 -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
 
