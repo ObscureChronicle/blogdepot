@@ -1,10 +1,22 @@
 import { getCollection } from 'astro:content';
-import { describe, expect, it } from 'vitest';
-import { getStaticPaths as getBlogPaths } from '../../src/pages/blog/[...page].astro';
-import { getStaticPaths as getProjectsPaths } from '../../src/pages/projects/[...page].astro';
-import { getStaticPaths as getTagsPaths } from '../../src/pages/tags/[id]/[...page].astro';
-import { sortItemsByDateDesc } from '../../src/utils/data-utils.ts';
-import { sortPostsByTitlePinyin } from '../../src/utils/sort-by-pinyin.ts';
+import { describe, expect, it, vi } from 'vitest';
+import { loadCollection } from './helpers/load-content.ts';
+
+// astro:content 是虚拟模块，getCollection() 依赖 Astro 自己的内容层同步状态，
+// 而 vitest.config.ts 用的 getViteConfig() 内部把 sync 写死成了 false——这在
+// 本地因为一直有上一次 astro build/dev 留下的缓存，看起来"能用"，但在全新
+// checkout（比如 CI 的 npm ci 之后直接跑测试）下会静默返回空数组，不报错，
+// 非常隐蔽（实测在 CI 上就是这样翻车的）。直接 mock 掉 getCollection，改成
+// 从磁盘读真实内容文件，绕开 Astro 内容层的同步状态依赖。
+vi.mock('astro:content', () => ({
+    getCollection: async (name: 'blog' | 'projects') => loadCollection(name)
+}));
+
+const { getStaticPaths: getBlogPaths } = await import('../../src/pages/blog/[...page].astro');
+const { getStaticPaths: getProjectsPaths } = await import('../../src/pages/projects/[...page].astro');
+const { getStaticPaths: getTagsPaths } = await import('../../src/pages/tags/[id]/[...page].astro');
+const { sortItemsByDateDesc } = await import('../../src/utils/data-utils.ts');
+const { sortPostsByTitlePinyin } = await import('../../src/utils/sort-by-pinyin.ts');
 
 // 这是一个最小化、忠实还原核心分块逻辑的 paginate() 替身，不生成真实 URL
 // （那部分依赖 Astro 内部未公开的路由匹配器）。这里只关心：数据有没有被

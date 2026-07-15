@@ -1,7 +1,16 @@
 import { getCollection } from 'astro:content';
-import { describe, expect, it } from 'vitest';
-import { GET } from '../../src/pages/rss.xml.js';
-import { sortItemsByDateDesc } from '../../src/utils/data-utils.ts';
+import { describe, expect, it, vi } from 'vitest';
+import { loadCollection } from './helpers/load-content.ts';
+
+// 见 get-static-paths.test.ts 顶部的注释：astro:content 在 Vitest 下依赖
+// Astro 自己的内容层同步状态，CI 全新 checkout 时会静默返回空数组。
+// mock 掉 getCollection，改成从磁盘读真实内容文件。
+vi.mock('astro:content', () => ({
+    getCollection: async (name: 'blog' | 'projects') => loadCollection(name)
+}));
+
+const { GET } = await import('../../src/pages/rss.xml.js');
+const { sortItemsByDateDesc } = await import('../../src/utils/data-utils.ts');
 
 async function fetchFeed() {
     const res = await GET({ site: new URL('https://example.com') } as any);

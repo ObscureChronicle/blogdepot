@@ -11,12 +11,14 @@ import Pagination from '../../src/components/Pagination.astro';
 // Container API 目前（experimental_ 前缀）的已知局限，不是这个项目代码的问题。
 // 所以这里改成给"关键内容展示组件"的渲染结果建快照基线，而不是整页快照。
 
-// Container API（在 Vitest 的 dev-like Vite 环境下）渲染出的 HTML 会带上
-// data-astro-source-file/data-astro-source-loc 这类开发期调试属性，值是
-// 当前机器上的绝对文件路径——换一台机器（比如 CI）跑，路径不一样，快照就会
-// 假性回归失败。这两个属性对回归测试的目的毫无意义，比对前统一剥掉。
+// Container API（在 Vitest 的 dev-like Vite 环境下）渲染出的 HTML 里混着两类
+// 机器相关的绝对文件路径，换一台机器（比如 CI）跑，路径不一样，快照就会
+// 假性回归失败——对回归测试的目的毫无意义，比对前统一normalize 掉：
+// 1. data-astro-source-file/data-astro-source-loc 调试属性；
+// 2. 组件自带 <script> 时，dev 模式下 <script src="/绝对路径/xxx.astro?astro..."> 里的
+//    那个绝对路径（本来第一版只处理了第 1 类，CI 上真的因为第 2 类而挂过一次）。
 function stripDevAttrs(html: string): string {
-    return html.replace(/\s*data-astro-source-(file|loc)="[^"]*"/g, '');
+    return html.replace(/\s*data-astro-source-(file|loc)="[^"]*"/g, '').replace(/src="[^"]*\.astro\?astro[^"]*"/g, 'src="[dev-script-src]"');
 }
 
 describe('回归快照基线', () => {
