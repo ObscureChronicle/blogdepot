@@ -55,7 +55,7 @@ export const SLUG_TAG_MAP: Record<string, string> = Object.fromEntries(Object.en
 // 归一化成 { name: 中文名, id: 英文 slug }。未登记的标签统一归为 id: 'unknown'。
 // getAllTags 和 getPostsByTag 共用这一套映射，保证"标签能被发现"和"文章能按
 // 标签筛出来"用的是同一个判断标准，不会出现只有一边认得某个标签的情况。
-function resolveTag(rawTag: string): { name: string; id: string } {
+export function resolveTag(rawTag: string): { name: string; id: string } {
     const slugTag = rawTag.trim().toLowerCase();
     const name = SLUG_TAG_MAP[slugTag] || rawTag;
     const id = TAG_SLUG_MAP[name] || 'unknown';

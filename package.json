@@ -8,7 +8,8 @@
         "build": "astro build",
         "preview": "astro preview",
         "astro": "astro",
-        "test": "node --test"
+        "test": "node --test",
+        "check:content": "node scripts/validate-content.ts"
     },
     "dependencies": {
         "@astrojs/mdx": "^4.2.6",
@@ -27,7 +28,8 @@
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "sharp": "^0.34.1",
-        "tailwindcss": "^4.0.17"
+        "tailwindcss": "^4.0.17",
+        "zod": "^3.24.4"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
