@@ -1,6 +1,7 @@
 ---
 import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import newsreaderWoff2 from '@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url';
+import type { BreadcrumbItem } from './Breadcrumb.astro';
 import siteConfig from '../data/site-config';
 import '../styles/global.css';
 import '../styles/waline.css';
@@ -10,9 +11,10 @@ export type Props = {
     description?: string;
     image?: { src: string; alt?: string };
     pageType?: 'website' | 'article';
+    breadcrumb?: { items: BreadcrumbItem[]; current: string };
 };
 
-const { description = '', image = siteConfig.image, pageType = 'website' } = Astro.props;
+const { description = '', image = siteConfig.image, pageType = 'website', breadcrumb } = Astro.props;
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const resolvedImage = image?.src
     ? {
@@ -87,3 +89,29 @@ function formatCanonicalURL(url: string | URL) {
         description: siteConfig.description
     })}
 />
+
+{
+    breadcrumb && (
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    ...breadcrumb.items.map((item, index) => ({
+                        '@type': 'ListItem',
+                        position: index + 1,
+                        name: item.label,
+                        item: new URL(item.href, Astro.site).toString()
+                    })),
+                    {
+                        '@type': 'ListItem',
+                        position: breadcrumb.items.length + 1,
+                        name: breadcrumb.current
+                    }
+                ]
+            })}
+        />
+    )
+}

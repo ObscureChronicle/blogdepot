@@ -1,20 +1,21 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import ScrollToTop from '../components/ScrollToTop';
 
-export type Props = HeadProps & { showHeader?: boolean };
+export type Props = HeadProps & { showHeader?: boolean; breadcrumbOwnTags?: string[] };
 
-const { showHeader = true, ...head } = Astro.props;
+const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="zh" class="antialiased break-words">
     <head>
-        <BaseHead {...head} />
+        <BaseHead breadcrumb={breadcrumb} {...head} />
         <!-- Algolia for Netlify -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.css" />
         <script>
@@ -44,6 +45,7 @@ const { showHeader = true, ...head } = Astro.props;
     <body class="bg-main text-main">
         <div class="flex flex-col min-h-screen px-4 md:px-8">
             <Nav />
+            {breadcrumb && <Breadcrumb items={breadcrumb.items} current={breadcrumb.current} ownTags={breadcrumbOwnTags} class="mb-6" />}
             {showHeader && <Header />}
             <main class="grow w-full max-w-3xl mx-auto">
                 <slot />

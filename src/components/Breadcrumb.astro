@@ -1,0 +1,100 @@
+---
+export type BreadcrumbItem = { label: string; href: string };
+
+export type Props = {
+    items: BreadcrumbItem[];
+    current: string;
+    ownTags?: string[];
+    class?: string;
+};
+
+const { items, current, ownTags = [], class: className } = Astro.props;
+---
+
+<nav aria-label="面包屑导航" class:list={['w-full max-w-3xl mx-auto', className]}>
+    <ol class="breadcrumb-list flex flex-wrap items-center gap-x-1 text-sm font-serif">
+        {
+            items.map((item) => (
+                <li class="breadcrumb-item">
+                    <a href={item.href} class="hover:underline hover:underline-offset-2 hover:decoration-1">
+                        {item.label}
+                    </a>
+                </li>
+            ))
+        }
+        <li id="breadcrumb-dynamic" class="breadcrumb-item" data-own-tags={JSON.stringify(ownTags)} hidden>
+            <a href="#" class="hover:underline hover:underline-offset-2 hover:decoration-1" data-breadcrumb-dynamic-link>
+                &nbsp;
+            </a>
+        </li>
+        <li class="breadcrumb-item opacity-70" aria-current="page">{current}</li>
+    </ol>
+</nav>
+
+<style>
+    .breadcrumb-item:not(:last-child)::after {
+        content: '›';
+        display: inline-block;
+        margin: 0 0.375rem;
+        opacity: 0.5;
+    }
+</style>
+
+<script>
+    import { resolveTag } from '../utils/data-utils';
+
+    const STORAGE_KEY = 'wiki-breadcrumb-context';
+
+    type Context = { type: 'category' | 'pinyin'; value: string };
+
+    function readContext(): Context | null {
+        try {
+            const raw = sessionStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch {
+            return null;
+        }
+    }
+
+    function writeContext(context: Context) {
+        try {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(context));
+        } catch {
+            // sessionStorage 不可用（如隐私模式）时静默跳过，静态两级兜底依然可用
+        }
+    }
+
+    function renderDynamicCrumb() {
+        const dynamicItem = document.getElementById('breadcrumb-dynamic');
+        if (!dynamicItem) return;
+
+        const ownTags: string[] = JSON.parse(dynamicItem.dataset.ownTags || '[]');
+
+        let context = readContext();
+        if (!context) return;
+
+        // 上下文里记的分类/字母已经不再属于当前条目（比如翻了几次上一篇/下一篇）——
+        // 自愈：换成当前条目自己真实所属的那个分类/字母，类型（分类 or 音序）保持不变
+        if (!ownTags.includes(context.value)) {
+            const selfValue =
+                context.type === 'pinyin' ? ownTags.find((tag) => tag.startsWith('wiki-')) : ownTags.find((tag) => !tag.startsWith('wiki-'));
+
+            if (!selfValue) return; // 当前条目在这个维度上没有对应标签（如「参考文献」没有音序标签），保持静态两级
+
+            context = { type: context.type, value: selfValue };
+            writeContext(context);
+        }
+
+        const { name } = resolveTag(context.value);
+        const label = context.type === 'pinyin' ? `音序：${name}` : `分类：${name}`;
+
+        const link = dynamicItem.querySelector<HTMLAnchorElement>('[data-breadcrumb-dynamic-link]');
+        if (!link) return;
+        link.textContent = label;
+        link.href = `/tags/${context.value}/`;
+        dynamicItem.hidden = false;
+    }
+
+    renderDynamicCrumb();
+    document.addEventListener('astro:page-load', renderDynamicCrumb);
+</script>

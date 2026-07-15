@@ -6,7 +6,27 @@ type Props = HTMLAttributes<'a'>;
 const { href, class: className, ...props } = Astro.props;
 
 const { pathname } = Astro.url;
-const isActive = href === pathname || href === pathname.replace(/\/$/, '');
+
+function normalize(path: string) {
+    return path.replace(/\/$/, '') || '/';
+}
+
+function matchesSection(current: string, base: string) {
+    return current === base || current.startsWith(`${base}/`);
+}
+
+const hrefPath = typeof href === 'string' ? normalize(href) : '';
+const currentPath = normalize(pathname);
+
+// "/" 用精确匹配（否则每个页面都会因为路径以 "/" 开头而被判定为命中）；
+// "/tags" 额外覆盖 "/projects"，因为百科词条详情页走的是 /projects/... 路由，
+// 不在 /tags 前缀下，但概念上仍属于导航里的"百科"这一项。
+const isActive =
+    hrefPath === '/'
+        ? currentPath === '/'
+        : hrefPath === '/tags'
+          ? matchesSection(currentPath, '/tags') || matchesSection(currentPath, '/projects')
+          : matchesSection(currentPath, hrefPath);
 ---
 
 <a class:list={[className, { 'underline underline-offset-2 decoration-1': isActive }]} href={href} {...props}>
