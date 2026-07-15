@@ -30,19 +30,27 @@ test('getPostsByTag: matches when the tag is one of several on the post', () => 
     );
 });
 
-test('getPostsByTag: matching is case-insensitive because tags are slugified', () => {
-    const posts = [post('a', ['Biography'])];
+test('getPostsByTag: matching is case/whitespace-insensitive for English slug tags', () => {
+    const posts = [post('a', [' Biography '])];
     assert.deepEqual(
         getPostsByTag(posts, 'biography').map((p) => p.id),
         ['a']
     );
 });
 
-test('getPostsByTag: a Chinese tag name does NOT match its English slug id (slugify strips CJK to empty string; current behavior, not fixed here)', () => {
+test('getPostsByTag: a Chinese tag name now matches its English slug id (fixed — resolveTag shares the same lookup as getAllTags)', () => {
     const posts = [post('a', ['人物'])];
     assert.deepEqual(
         getPostsByTag(posts, 'biography').map((p) => p.id),
-        []
+        ['a']
+    );
+});
+
+test('getPostsByTag: an unrecognized tag resolves to "unknown" and matches tagId "unknown"', () => {
+    const posts = [post('a', ['某个没登记过的标签'])];
+    assert.deepEqual(
+        getPostsByTag(posts, 'unknown').map((p) => p.id),
+        ['a']
     );
 });
 

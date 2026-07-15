@@ -1,5 +1,4 @@
 import type { CollectionEntry } from 'astro:content';
-import { slugify } from './common-utils.ts';
 
 // projects.publishDate 是可选的（百科条目不讲究发布时间），缺失时视为最旧、排在最后。
 // 不能用 -Infinity 当哨兵值直接相减：两个都缺失时 -Infinity - (-Infinity) 是 NaN，不是 0。
@@ -52,29 +51,26 @@ export const TAG_SLUG_MAP: Record<string, string> = {
 // 反转映射（英文 id → 中文 name）
 export const SLUG_TAG_MAP: Record<string, string> = Object.fromEntries(Object.entries(TAG_SLUG_MAP).map(([cn, en]) => [en, cn]));
 
+// 把原始标签字符串（可能是中文名，也可能是英文 slug，大小写/首尾空白不敏感）
+// 归一化成 { name: 中文名, id: 英文 slug }。未登记的标签统一归为 id: 'unknown'。
+// getAllTags 和 getPostsByTag 共用这一套映射，保证"标签能被发现"和"文章能按
+// 标签筛出来"用的是同一个判断标准，不会出现只有一边认得某个标签的情况。
+function resolveTag(rawTag: string): { name: string; id: string } {
+    const slugTag = rawTag.trim().toLowerCase();
+    const name = SLUG_TAG_MAP[slugTag] || rawTag;
+    const id = TAG_SLUG_MAP[name] || 'unknown';
+    return { name, id };
+}
+
 export function getAllTags(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>) {
     const rawTags = posts.flatMap((post) => post.data.tags || []).filter(Boolean);
+    const resolved = rawTags.map(resolveTag);
 
-    // 统一将英文 tag 也映射为其中文源（如果可能）
-    const tags = [
-        ...new Set(
-            rawTags.map((tag) => {
-                const mapped = SLUG_TAG_MAP[tag];
-                return mapped || tag; // 如果是英文 id，返回它的中文对应
-            })
-        )
-    ];
-
-    return tags
-        .map((tag) => ({
-            name: tag,
-            id: TAG_SLUG_MAP[tag] || 'unknown'
-        }))
-        .filter((obj, pos, arr) => arr.map((mapObj) => mapObj.id).indexOf(obj.id) === pos);
+    return resolved.filter((tag, pos, arr) => arr.findIndex((t) => t.id === tag.id) === pos);
 }
 
 export function getPostsByTag(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>, tagId: string) {
-    return posts.filter((post) => (post.data.tags || []).map((tag) => slugify(tag)).includes(tagId));
+    return posts.filter((post) => (post.data.tags || []).some((tag) => resolveTag(tag).id === tagId));
 }
 
 // 按 name 做不区分大小写的排序（原地排序，和 Array.prototype.sort 行为一致）。
