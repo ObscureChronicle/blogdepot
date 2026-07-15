@@ -1,14 +1,10 @@
 ---
-// 改动点 ✅：合并两个 collection
-import { getCollection } from 'astro:content';
 import Subscribe from '../../components/Subscribe.astro';
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllTags, getPostsByTag, sortItemsByDateDesc } from '../../utils/data-utils';
+import { getAllPosts, getAllTags, getPostsByTag, sortTagsByName } from '../../utils/data-utils';
 
-const blogPosts = await getCollection('blog');
-const projectPosts = await getCollection('projects');
-const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc); // ✅ 合并
+const posts = await getAllPosts();
 
 type TagItem = {
     id: string;
@@ -70,20 +66,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
         </h2>
         <div class="flex flex-wrap mb-10">
             {
-                nonWikiTags
-                    .sort((a, b) => {
-                        const nameA = a.name.toUpperCase(); // 忽略大小写
-                        const nameB = b.name.toUpperCase(); // 忽略大小写
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-
-                        // name 必须相等
-                        return 0;
-                    })
+                sortTagsByName(nonWikiTags)
                     .map((tag) => {
                         const postCount = getPostsByTag(posts, tag.id).length;
                         return (
@@ -109,20 +92,7 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
         </h2>
         <div class="flex flex-wrap gap-4">
             {
-                wikiChildTags
-                    .sort((a, b) => {
-                        const nameA = a.name.toUpperCase(); // 忽略大小写
-                        const nameB = b.name.toUpperCase(); // 忽略大小写
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-
-                        // name 必须相等
-                        return 0;
-                    })
+                sortTagsByName(wikiChildTags)
                     .map((tag) => {
                         const postCount = getPostsByTag(posts, tag.id).length;
                         return (

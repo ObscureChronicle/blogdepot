@@ -1,8 +1,17 @@
-import { type CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import { slugify } from './common-utils';
 
 export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>, itemB: CollectionEntry<'blog' | 'projects'>) {
     return new Date(itemB.data.publishDate).getTime() - new Date(itemA.data.publishDate).getTime();
+}
+
+// 合并 blog + projects 两个 collection 并按发布日期倒序排列。
+// 之前在 tags/index.astro、tags/[id]/[...page].astro（重复两次）、
+// tags/wiki-index-by-catogory 与 wiki-index-by-reading 里各自独立实现。
+export async function getAllPosts(): Promise<Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>> {
+    const blogPosts = await getCollection('blog');
+    const projectPosts = await getCollection('projects');
+    return [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc);
 }
 
 export const TAG_SLUG_MAP: Record<string, string> = {
@@ -70,4 +79,17 @@ export function getAllTags(posts: Array<CollectionEntry<'blog'> | CollectionEntr
 
 export function getPostsByTag(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>, tagId: string) {
     return posts.filter((post) => (post.data.tags || []).map((tag) => slugify(tag)).includes(tagId));
+}
+
+// 按 name 做不区分大小写的排序（原地排序，和 Array.prototype.sort 行为一致）。
+// 之前在 tags/index.astro（两处）、tags/wiki-index-by-catogory、
+// tags/wiki-index-by-reading 里各自复制了一份完全相同的比较器。
+export function sortTagsByName<T extends { name: string }>(tags: T[]): T[] {
+    return tags.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+    });
 }

@@ -1,12 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import ArrowRight from '../../../icons/ArrowRight.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getAllTags, getPostsByTag, sortItemsByDateDesc } from '../../../utils/data-utils';
+import { getAllPosts, getAllTags, getPostsByTag, sortTagsByName } from '../../../utils/data-utils';
 
-const blogPosts = await getCollection('blog');
-const projectPosts = await getCollection('projects');
-const posts = [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc);
+const posts = await getAllPosts();
 
 // ✅ 筛选所有不以 wiki- 开头但不是聚合页本身的标签
 const allTags = getAllTags(posts);
@@ -16,20 +13,7 @@ const wikiTags = allTags.filter((tag) => !tag.id.startsWith('wiki-') && tag.id !
 <BaseLayout title="百科分类检索" description="按分类快速查找百科条目标签" showHeader={false}>
     <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">百科分类检索</h1>
     {
-        wikiTags
-            .sort((a, b) => {
-                const nameA = a.name.toUpperCase(); // 忽略大小写
-                const nameB = b.name.toUpperCase(); // 忽略大小写
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-
-                // name 必须相等
-                return 0;
-            })
+        sortTagsByName(wikiTags)
             .map((tag) => {
                 const postCount = getPostsByTag(posts, tag.id).length;
                 return (
