@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { getViteConfig } from 'astro/config';
 
 // 只用来跑需要真正编译 .astro 文件的测试（比如 Astro Container API 渲染测试）。

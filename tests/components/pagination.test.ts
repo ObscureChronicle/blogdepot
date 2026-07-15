@@ -21,7 +21,9 @@ function makePage(currentPage: number, lastPage: number): Page<unknown> {
         url: {
             current: pageUrl(currentPage),
             prev: currentPage > 1 ? pageUrl(currentPage - 1) : undefined,
-            next: currentPage < lastPage ? pageUrl(currentPage + 1) : undefined
+            next: currentPage < lastPage ? pageUrl(currentPage + 1) : undefined,
+            first: currentPage === 1 ? undefined : pageUrl(1),
+            last: currentPage === lastPage ? undefined : pageUrl(lastPage)
         }
     };
 }
