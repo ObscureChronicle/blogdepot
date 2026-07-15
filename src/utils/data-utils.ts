@@ -1,8 +1,11 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { slugify } from './common-utils';
 
+// projects.publishDate 是可选的（百科条目不讲究发布时间），缺失时视为最旧、排在最后。
 export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>, itemB: CollectionEntry<'blog' | 'projects'>) {
-    return new Date(itemB.data.publishDate).getTime() - new Date(itemA.data.publishDate).getTime();
+    const timeA = itemA.data.publishDate ? new Date(itemA.data.publishDate).getTime() : -Infinity;
+    const timeB = itemB.data.publishDate ? new Date(itemB.data.publishDate).getTime() : -Infinity;
+    return timeB - timeA;
 }
 
 // 合并 blog + projects 两个 collection 并按发布日期倒序排列。

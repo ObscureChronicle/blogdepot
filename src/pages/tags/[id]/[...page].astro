@@ -3,6 +3,7 @@ import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry } from 'astro:content';
 import Pagination from '../../../components/Pagination.astro';
 import PostPreview from '../../../components/PostPreview.astro';
+import ProjectPreview from '../../../components/ProjectPreview.astro';
 import Subscribe from '../../../components/Subscribe.astro';
 import siteConfig from '../../../data/site-config';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -17,27 +18,27 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 
     return tags.flatMap((tag) => {
         const filteredPosts = getPostsByTag(posts, tag.id);
-        return paginate(filteredPosts, {
+        // blog 和 projects 从不共用标签，同一个标签页下的内容永远只属于一种 collection：
+        // projects 是百科条目，按标题拼音排序；blog 保留 getAllPosts() 已经排好的日期倒序。
+        // 在分页之前排序，确保每一页内部顺序连续，而不是分页后再零散地重排当页内容。
+        const sortedPosts = filteredPosts[0]?.collection === 'projects' ? sortPostsByTitlePinyin(filteredPosts) : filteredPosts;
+        return paginate(sortedPosts, {
             params: { id: tag.id },
             pageSize: siteConfig.postsPerPage || 4
         });
     });
 }
 
-type Props = { page: Page<CollectionEntry<'blog'>> };
+type Props = { page: Page<CollectionEntry<'blog'> | CollectionEntry<'projects'>> };
 
 const { page } = Astro.props;
-const blog = page.data;
+const blogPosts = page.data.filter((item): item is CollectionEntry<'blog'> => item.collection === 'blog');
+const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'> => item.collection === 'projects');
 const params = Astro.params;
 const allTags = getAllTags(posts);
 const currentTag = allTags.find((tag) => {
     return tag.id === params.id;
 });
-// 当前是否为 wiki 系列标签
-const isWikiTag = params.id.startsWith('wiki-');
-
-// 条件式排序：wiki 用拼音，其余默认顺序（比如时间已排序）
-const sortedBlog = isWikiTag ? sortPostsByTitlePinyin(blog) : blog;
 ---
 
 <BaseLayout
@@ -47,7 +48,8 @@ const sortedBlog = isWikiTag ? sortPostsByTitlePinyin(blog) : blog;
     showHeader={false}
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{currentTag?.name}"</h1>
-    {sortedBlog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+    {blogPosts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+    {projectPosts.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
     <Pagination page={page} basePath={`/tags/${params.id}`} class="my-16 sm:my-24" />
     <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>

@@ -5,10 +5,11 @@ import Pagination from '../../components/Pagination.astro';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sortItemsByDateDesc } from '../../utils/data-utils';
+import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+    // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
+    const projects = sortPostsByTitlePinyin(await getCollection('projects'));
     return paginate(projects, { pageSize: siteConfig.projectsPerPage || 6 });
 }
 

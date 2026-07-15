@@ -39,10 +39,10 @@ const projects = defineCollection({
     schema: z.object({
         title: z.string(),
         description: z.string().optional(),
-        publishDate: z.coerce.date(),
+        publishDate: z.coerce.date().optional(),
         isFeatured: z.boolean().default(false),
         seo: seoSchema.optional(),
-        tags: z.array(z.string()).optional()
+        tags: z.array(z.string()).default([])
     }),
 });
 

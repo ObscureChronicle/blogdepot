@@ -3,10 +3,11 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import WalineComments from '../../components/WalineComments.tsx';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sortItemsByDateDesc } from '../../utils/data-utils';
+import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
 export async function getStaticPaths() {
-    const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+    // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
+    const projects = sortPostsByTitlePinyin(await getCollection('projects'));
     const projectCount = projects.length;
     return projects.map((project, index) => ({
         params: { id: project.id },
