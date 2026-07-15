@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import type { ZodTypeAny } from 'zod';
+import type { ZodTypeAny } from 'astro/zod';
 import { blogSchema, pagesSchema, projectsSchema } from '../src/content-schemas.ts';
 import { resolveTag } from '../src/utils/data-utils.ts';
 
