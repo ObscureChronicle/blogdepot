@@ -1,0 +1,15 @@
+---
+type Props = {
+    owner: string[];
+};
+
+const { owner } = Astro.props as Props;
+---
+{
+    owner && owner.length > 0 && (
+        <>
+            <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">持有人</h2>
+            <p class="whitespace-pre-line text-base leading-relaxed">{owner.join('、')}</p>
+        </>
+    )
+}
