@@ -1,15 +1,32 @@
 ---
 type Props = {
-    owner: string[];
+    baseOwner: string[];
+    dlcOwner: string[];
 };
 
-const { owner } = Astro.props as Props;
+const { baseOwner, dlcOwner } = Astro.props as Props;
 ---
+
 {
-    owner && owner.length > 0 && (
+    (baseOwner && baseOwner.length > 0) || (dlcOwner && dlcOwner.length > 0) ? (
         <>
             <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">持有人</h2>
-            <p class="whitespace-pre-line text-base leading-relaxed">{owner.join('、')}</p>
+            <div class="flex flex-col pl-4 gap-4">
+                {baseOwner && baseOwner.length > 0 && (
+                    <div class="flex flex-col items-start">
+                        <span class="bg-blue-100 text-blue-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">本传</span>
+                        <p class="whitespace-pre-line text-base leading-relaxed">{baseOwner.join('、')}</p>
+                    </div>
+                )}
+                {dlcOwner && dlcOwner.length > 0 && (
+                    <div class="flex flex-col items-start">
+                        <span class="bg-yellow-100 text-yellow-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                            星命诀
+                        </span>
+                        <p class="whitespace-pre-line text-base leading-relaxed">{dlcOwner.join('、')}</p>
+                    </div>
+                )}
+            </div>
         </>
-    )
+    ) : null
 }

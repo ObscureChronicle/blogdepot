@@ -31,8 +31,7 @@
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "sharp": "^0.34.1",
-        "tailwindcss": "^4.3.2",
-        "xlsx": "^0.18.5"
+        "tailwindcss": "^4.3.2"
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.9",
