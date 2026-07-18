@@ -1,6 +1,4 @@
 ---
-// props: name, baseData, dlcData, traitsBase, traitsDLC, biography, battlesBase, battlesDLC, equipments, links
-
 type TraitWikiProps = {
     intro?: string;
     level?: number;
@@ -10,19 +8,24 @@ type TraitWikiProps = {
     dlcData?: boolean;
     baseOwner: string[];
     dlcOwner: string[];
-    description: string;
+    baseDescription?: string;
+    dlcDescription?: string;
     effect: string;
 };
 
-const { intro, level, baseEnable, dlcEnable, baseData, dlcData, baseOwner, dlcOwner, description, effect } = Astro.props as TraitWikiProps;
+const { intro, level, baseEnable, dlcEnable, baseData, dlcData, baseOwner, dlcOwner, baseDescription, dlcDescription, effect } = Astro.props as TraitWikiProps;
 
 import TraitDescription from './TraitDescription.astro';
 import TraitEffect from './TraitEffect.astro';
 import TraitIntro from './TraitIntro.astro';
 import TraitOwner from './TraitOwner.astro';
+
+// 根据实际内容判断特质是否存在于本传/星命诀
+const hasBase = (baseOwner && baseOwner.length > 0) || (baseDescription && baseDescription.length > 0);
+const hasDlc = (dlcOwner && dlcOwner.length > 0) || (dlcDescription && dlcDescription.length > 0);
 ---
 
-<TraitIntro baseData={baseData} dlcData={dlcData} level={level} />
+<TraitIntro baseData={hasBase || undefined} dlcData={hasDlc || undefined} level={level} />
 <TraitOwner baseOwner={baseOwner} dlcOwner={dlcOwner} />
-<TraitDescription description={description} />
+<TraitDescription baseDescription={baseDescription || ''} dlcDescription={dlcDescription || ''} />
 <TraitEffect effect={effect} />
