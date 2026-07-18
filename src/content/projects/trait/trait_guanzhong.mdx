@@ -4,8 +4,8 @@ tags:
   - trait
   - wiki-g
 isFeatured: true
-publishDate: 
-excerpt: 
+publishDate:
+excerpt:
 seo:
   image:
     src: '/post-13.jpg'
@@ -13,8 +13,17 @@ seo:
 
 ---
 
-后汉稽异录与星命诀中的<a href='../trait_00_regional'>地域特性</a>。
+import TraitWiki from "../../../components/Layout_Traits.astro";
 
-郡望为两汉三辅，即京兆尹、左冯翊、右扶风，及北地郡者将获得此<a href='../trait_00_regional'>地域特性</a>。
-
-在星命诀中，河东郡、凉州南部被纳入此地域，并更改此<a href='../trait_00_regional'>地域特性</a>名为<a href=''>关陇</a>。
+<TraitWiki
+  baseData={true}
+  dlcData={true}
+  introHtml={'后汉稽异录与星命诀中的<a href="../trait_00_regional">地域特性</a>。'}
+  baseOwner={['成宜', '戴陵', '杜预', '法正', '傅嘏', '侯选', '梁兴', '刘雄鸣', '马钧', '马玩', '王淩', '王双', '杨秋', '游楚', '张横', '钟繇']}
+  dlcOwner={['关羽', '徐晃', '钟繇']}
+  baseDescription={''}
+  dlcDescription={''}
+  effect={''}
+  noteHtml={`<p>郡望为两汉三辅，即京兆尹、左冯翊、右扶风，及北地郡者将获得此<a href="../trait_00_regional">地域特性</a>。</p>
+<p>在星命诀中，河东郡、凉州南部被纳入此地域，并更改此<a href="../trait_00_regional">地域特性</a>名为<a href="../trait_guanzhong">关陇</a>。</p>`}
+/>
