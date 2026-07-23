@@ -95,7 +95,7 @@ const pinyinMap = {
     '中孚': 'zhongfu', '天予': 'tianyu', '柱石': 'zhushi', '宿将': 'sujiang',
     '帅才': 'shuaicai', '玄音': 'xuanyin', '名士': 'mingshi', '世家': 'shijia',
     '大族': 'dazu', '天佑': 'tianyou', '强运': 'qiangyun', '羌战': 'qiangzhan',
-    '精骑': 'jingqi', '景从': 'jingcong', '鬼道': 'guidao', '豪桀': 'haojie',
+    '精骑': 'jingqi', '景从': 'yingcong', '鬼道': 'guidao', '豪桀': 'haojie',
     '豪桀（廖豪用）': 'haojie-liaohao', '巧匠': 'qiaojiang', '神工': 'shengong2',
     '堪舆': 'kanyu', '准望': 'zhunwang', '披靡': 'pimi', '戾机': 'liji',
     '戾极': 'liji2', '摧锋': 'cuifeng', '诡道': 'guidao2', '惑众': 'huozhong',
@@ -121,19 +121,19 @@ Object.keys(traitDescriptions).forEach(name => {
         skippedFiles.push(name);
         return;
     }
-    
+
     const slug = pinyinMap[name] || name.toLowerCase().replace(/\s+/g, '-');
     const existingIndex = existingTraits.findIndex(t => t === slug || t.startsWith(slug));
-    
+
     if (existingIndex >= 0) {
         skippedFiles.push(name);
         return;
     }
-    
+
     const level = traitLevelMap[name] || 0;
     const owners = traitOwners[name] || [];
     const description = traitDescriptions[name] || '';
-    
+
     const content = `---
 title: ${name}
 tags:
@@ -159,7 +159,7 @@ import TraitWiki from "../../../components/Layout_Traits.astro";
   description={'${description}'}
   effect={''}
 />`;
-    
+
     const filePath = path.join(traitsDir, `trait_${slug}.mdx`);
     fs.writeFileSync(filePath, content);
     createdFiles.push(name);
