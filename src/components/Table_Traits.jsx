@@ -62,6 +62,7 @@ const TRAIT_MAP = {
     '矜高': { color: TraitColor.Bad, link: '/projects/trait/trait_jingao' },
     '狷狭': { color: TraitColor.Bad, link: '/projects/trait/trait_juanxia' },
     '狼顾': { color: TraitColor.Bad, link: '/projects/trait/trait_langgu' },
+    '老革': { color: TraitColor.Bad, link: '/projects/trait/trait_laoge' },
     '靡费': { color: TraitColor.Bad, link: '/projects/trait/trait_mifei' },
     '怯懦': { color: TraitColor.Bad, link: '/projects/trait/trait_qienuo' },
     '轻佻': { color: TraitColor.Bad, link: '/projects/trait/trait_qingtiao' },
