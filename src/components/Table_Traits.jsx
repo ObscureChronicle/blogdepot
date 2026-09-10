@@ -138,7 +138,7 @@ const TRAIT_MAP = {
     '明候': { link: '/projects/trait/trait_minghou' },
     '明悟': { link: '/projects/trait/trait_mingwu' },
     '鸣镝': { link: '/projects/trait/trait_mingdi' },
-    '募兵': { link: '/projects/trait/trait_mobing' },
+    '募兵': { link: '/projects/trait/trait_mubing' },
     '能吏': { link: '/projects/trait/trait_nengli' },
     '披靡': { link: '/projects/trait/trait_pimi' },
     '齐心': { link: '/projects/trait/trait_qixin' },

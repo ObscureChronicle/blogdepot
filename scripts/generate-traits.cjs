@@ -79,7 +79,7 @@ const pinyinMap = {
     '审慎': 'shenshen', '骁勇': 'xiaoyong', '悍勇': 'hanyong', '忠志': 'zhongzhi',
     '狼顾': 'langgu', '矜高': 'jingao', '倨傲': 'juao', '和衷': 'hezhong',
     '雅望': 'yawang', '辅弼': 'fubi', '回天': 'huitian', '悬壶': 'xuanhu',
-    '针砭': 'zhenbian', '勠力': 'luli', '齐心': 'qixin', '募兵': 'mobing',
+    '针砭': 'zhenbian', '勠力': 'luli', '齐心': 'qixin', '募兵': 'mubing',
     '荒悖': 'huangbei', '输送': 'shusong', '刚烈': 'ganglie', '富国': 'fuguo',
     '兴利': 'xingli', '饶用': 'raoyong', '奇才': 'qicai', '能吏': 'nengli',
     '毒士': 'dushi', '率然': 'shuairan', '反间': 'fanjian', '庙算': 'miaosuan',
