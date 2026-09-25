@@ -1,4 +1,5 @@
 // 此文件由 scripts/add-class-tree.cjs 自动生成
+// 使用 .jsx 扩展名以确保被 Astro 岛屿（client:load）组件正确打包内联
 
 export const CLASS_MAP = {
   "骠骑兵": "/projects/class/biaoqibing",

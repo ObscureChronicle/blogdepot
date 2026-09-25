@@ -6,7 +6,7 @@ const root = path.join(__dirname, '..');
 const excelPath = path.join(root, 'src/components/class.xlsx');
 const stringTablePath = path.join(root, 'src/components/constants-stringtable.js');
 const classDir = path.join(root, 'src/content/projects/class');
-const classMapPath = path.join(root, 'src/components/classMap.js');
+const classMapPath = path.join(root, 'src/components/classMap.jsx');
 
 // ---------- 1. Excel：名称 / tier / 前置兵种 ----------
 const wb = XLSX.readFile(excelPath);

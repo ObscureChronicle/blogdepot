@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CLASS_MAP } from './classMap.jsx';
 
 // 链接映射配置（示例，实际使用时可以作为prop传入或外部导入）
 const CAMPAIGN_LINKS = {
@@ -59,10 +60,6 @@ const FACTION_LINKS = {
     '盟军': ''
 };
 
-const CLASS_LINKS = {
-    '刀兵': '',
-};
-
 const NOTE_LINKS = {
     '主将': '',
 };
@@ -103,7 +100,7 @@ export default function StageStringTable({ data }) {
             case 1: // 阵营列
                 return FACTION_LINKS[value] || null;
             case 2: // 兵种列
-                return CLASS_LINKS[value] || null;
+                return CLASS_MAP[value] || null;
             case 3: // 说明列
                 return NOTE_LINKS[value] || null;
             default:

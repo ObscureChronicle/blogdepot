@@ -7,7 +7,7 @@ type Props = {
 
 const { parents, upgrades, condition } = Astro.props as Props;
 
-import { CLASS_MAP } from './classMap.js';
+import { CLASS_MAP } from './classMap.jsx';
 
 const getClassLink = (name: string) => {
     return CLASS_MAP[name as keyof typeof CLASS_MAP] || null;
