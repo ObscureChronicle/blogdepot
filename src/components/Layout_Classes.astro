@@ -5,13 +5,17 @@ type ClassWikiProps = {
     classType?: string;
     skills?: string[];
     params?: { label: string; value: string | number }[];
+    parents?: string[];
+    upgrades?: string[];
+    condition?: string[];
 };
 
-const { description, weapons, classType, skills, params } = Astro.props as ClassWikiProps;
+const { description, weapons, classType, skills, params, parents, upgrades, condition } = Astro.props as ClassWikiProps;
 
 import ClassDescription from './ClassDescription.astro';
 import ClassParams from './ClassParams.astro';
 import ClassSkills from './ClassSkills.astro';
+import ClassTree from './ClassTree.astro';
 import ClassType from './ClassType.astro';
 import ClassWeapons from './ClassWeapons.astro';
 ---
@@ -21,3 +25,4 @@ import ClassWeapons from './ClassWeapons.astro';
 <ClassType classType={classType || ''} />
 <ClassSkills skills={skills || []} />
 <ClassParams params={params || []} />
+<ClassTree parents={parents || []} upgrades={upgrades || []} condition={condition || []} />

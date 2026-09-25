@@ -1,0 +1,43 @@
+
+var StringTable = {
+	// 转职说明
+	Condition_Blademan_1:	'转职条件：\n\n智略≥60\n\n武勇≥60',			// 重装刀兵
+	Condition_Blademan_2:	'转职条件：\n\n智略≥70\n\n魅力≥75\n\n冷静≥5',	// 近卫刀兵
+	Condition_Blademan_3:	'转职条件：\n\n武勇≥75\n\n胆识≥6',			// 突袭刀兵
+	Condition_Blademan_4:	'转职条件：\n\n智略≥85',					// 长牌刀兵
+	Condition_Blademan_5:	'转职条件：\n\n武勇≥85',					// 免铠刀兵
+	Condition_Blademan_6:	'转职条件：\n\n通关特定关卡\n\n且「容忍」异族\n\n且主将为男性',		// 虎兵
+	Condition_Pikeman_1:	'转职条件：\n\n智略≥60\n\n武勇≥60',			// 重装矛兵
+	Condition_Pikeman_2:	'转职条件：\n\n智略≥75\n\n武勇≥50\n\n冷静≥5',	// 结阵矛兵
+	Condition_Pikeman_3:	'转职条件：\n\n武勇≥80\n\n魅力≥70',			// 戟兵
+	Condition_Pikeman_4:	'转职条件：\n\n智略≥80\n\n魅力≥70',			// 荷剑矛兵
+	Condition_Pikeman_5:	'转职条件：\n\n武勇≥75\n\n胆识≥6',			// 掷矛兵
+	Condition_Pikeman_6:	'转职条件：\n\n魅力≥85',					// 征召矛兵
+	Condition_Archer_1:		'转职条件：\n\n智略≥60\n\n武勇≥60',			// 重装弓兵
+	Condition_Archer_2:		'转职条件：\n\n武勇≥70\n\n冷静≥4',			// 强弓兵
+	Condition_Archer_3:		'转职条件：\n\n智略≥75\n\n魅力≥75',			// 弩兵
+	Condition_Archer_4:		'转职条件：\n\n智略≥90',					// 井阑
+	Condition_Archer_5:		'转职条件：\n\n魅力≥85',					// 游侠弓兵
+	Condition_Archer_6:		'转职条件：\n\n智略≥70\n\n胆识≥4',			// 负盾弓兵
+	Condition_MountedBlade_1: 	'转职条件：\n\n智略≥65\n\n武勇≥65',		// 重甲刀骑
+	Condition_MountedBlade_2: 	'转职条件：\n\n智略≥75\n\n魅力≥75\n\n冷静≥5',	// 斥候刀骑
+	Condition_MountedBlade_3: 	'转职条件：\n\n武勇≥75\n\n魅力≥80',		// 精锐刀骑
+	Condition_MountedBlade_4: 	'转职条件：\n\n智略≥45\n\n武勇≥85',		// 斧骑兵
+	Condition_MountedBlade_5: 	'转职条件：\n\n魅力≥90',				// 驿传刀骑
+	Condition_Knight_1:		'转职条件：\n\n智略≥65\n\n武勇≥65',			// 重甲矛骑
+	Condition_Knight_2:		'转职条件：\n\n武勇≥85\n\n胆识≥4',			// 长矛骑
+	Condition_Knight_3:		'转职条件：\n\n胆识≥7',						// 敢死矛骑
+	Condition_Knight_4:		'转职条件：\n\n通关特定关卡\n\n且「容忍」异族',	// 象兵
+	Condition_Knight_5:		'转职条件：\n\n智略≥90',					// 阵战矛骑
+	Condition_Knight_6: 	'转职条件：\n\n魅力≥85\n\n胆识≥4',			// 先锋矛骑
+	Condition_CavArcher_1:	'转职条件：\n\n智略≥65\n\n武勇≥65',			// 重甲弓骑
+	Condition_CavArcher_2:	'转职条件：\n\n武勇≥60\n\n魅力≥70\n\n冷静≥6',	// 强弓骑
+	Condition_CavArcher_3:	'转职条件：\n\n智略≥75\n\n武勇≥55\n\n魅力≥75',	// 游袭弓骑
+	Condition_CavArcher_4:	'转职条件：\n\n智略≥85\n\n魅力≥70',			// 弩骑兵
+	Condition_CavArcher_5:	'转职条件：\n\n魅力≥90',					// 马上重弩兵
+	Condition_CombinedCav_1:	'转职条件：\n\n武勇≥90',				// 骁骑兵
+	Condition_CombinedCav_2:	'转职条件：\n\n武勇≥80\n\n胆识≥6',		// 骠骑兵
+	Condition_CombinedCav_3:	'转职条件：\n\n智略≥70\n\n魅力≥85',		// 突骑兵
+	Condition_CombinedCav_4:	'转职条件：\n\n未曾「厌弃」异族',		// 胡服骑兵
+	Condition_Bandit_3:		'转职条件：\n\n统御≥70',					// 车兵
+};

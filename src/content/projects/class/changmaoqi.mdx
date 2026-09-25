@@ -18,7 +18,7 @@ import ClassWiki from "../../../components/Layout_Classes.astro";
 长矛骑是《后汉稽异录》中的一种<a href="">中阶兵种</a>。
 
 <ClassWiki
-  description={'强化了「驰突」效果和攻击力的<a href="./maoqibing">矛骑兵</a>。'}
+  description={'强化了「驰突」效果和攻击力的<a href="../maoqibing">矛骑兵</a>。'}
   weapons={['矛类', '兵法书']}
   classType={'轻骑兵系'}
   skills={['矛骑', '驰下', '突刺']}
@@ -28,4 +28,7 @@ import ClassWiki from "../../../components/Layout_Classes.astro";
     { label: '兵力成长', value: 40 },
     { label: '技能点成长', value: 4.8 },
   ]}
+  parents={['矛骑兵']}
+  upgrades={['长矛铁骑', '精锐突骑']}
+  condition={['武勇≥85', '胆识≥4']}
 />
