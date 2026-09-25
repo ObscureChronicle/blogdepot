@@ -20,6 +20,7 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     特性与军略: 'trait',
     关卡: 'stage',
     状态: 'status',
+    兵种: 'class',
     A: 'wiki-a',
     B: 'wiki-b',
     C: 'wiki-c',

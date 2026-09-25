@@ -1,0 +1,23 @@
+---
+type ClassWikiProps = {
+    description?: string;
+    weapons?: string[];
+    classType?: string;
+    skills?: string[];
+    params?: { label: string; value: string | number }[];
+};
+
+const { description, weapons, classType, skills, params } = Astro.props as ClassWikiProps;
+
+import ClassDescription from './ClassDescription.astro';
+import ClassParams from './ClassParams.astro';
+import ClassSkills from './ClassSkills.astro';
+import ClassType from './ClassType.astro';
+import ClassWeapons from './ClassWeapons.astro';
+---
+
+<ClassDescription description={description || ''} />
+<ClassWeapons weapons={weapons || []} />
+<ClassType classType={classType || ''} />
+<ClassSkills skills={skills || []} />
+<ClassParams params={params || []} />
