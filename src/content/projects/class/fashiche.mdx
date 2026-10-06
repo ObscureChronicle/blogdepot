@@ -13,22 +13,37 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-发石车是《后汉稽异录》中的一种<a href="">高阶兵种</a>。
+发石车是《后汉稽异录》中的一种<a href="">高阶兵种</a>，也是《后汉稽异录外传：星命诀》中的一种<a href="">攻具阵型</a>。
 
-<ClassWiki
-  description={'发射石块的攻城器械，在高地时射程增加。'}
-  weapons={['投石', '兵法书']}
-  classType={'器械系'}
-  skills={['器械']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 4 },
-    { label: '兵力成长', value: 35 },
-    { label: '技能点成长', value: 4 },
-  ]}
-  parents={['井阑']}
-  upgrades={['井阑']}
-  condition={[]}
+<ClassWikiPlus
+  base={{
+    description: '发射石块的攻城器械，在高地时射程增加。',
+    weapons: ['投石', '兵法书'],
+    classType: '器械系',
+    skills: ['器械'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 4 },
+      { label: '兵力成长', value: 35 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: ['井阑'],
+    upgrades: ['井阑'],
+    condition: [],
+  }}
+  dlc={{
+    description: '发射石块的攻城器械，在高地时射程增加。',
+    weapons: ['石砲'],
+    classType: '器械系',
+    skills: ['器械', '攻具', '折冲'],
+    params: [
+      { label: '兵力补正', value: -300 },
+      { label: '机动', value: 0 }
+    ],
+    parents: [],
+    upgrades: [],
+    condition: ['智略≥95'],
+  }}
 />

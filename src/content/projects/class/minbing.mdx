@@ -13,22 +13,37 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-民兵是《后汉稽异录》中的一种<a href="">基础兵种</a>。
+民兵是《后汉稽异录》与《后汉稽异录外传·星命诀》中的一种<a href="">基础兵种</a>。在《后汉稽异录外传·星命诀》中，民兵实际相当于《后汉稽异录》中的<a href="../zeibing">贼兵</a>。
 
-<ClassWiki
-  description={'数量庞大，但未受训练的部队。'}
-  weapons={['刀类', '兵法书']}
-  classType={'贼兵系'}
-  skills={['民兵']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 6 },
-    { label: '兵力成长', value: 130 },
-    { label: '技能点成长', value: 4 },
-  ]}
-  parents={[]}
-  upgrades={[]}
-  condition={[]}
+<ClassWikiPlus
+  base={{
+    description: '数量庞大，但未受训练的部队。',
+    weapons: ['刀类', '兵法书'],
+    classType: '贼兵系',
+    skills: ['民兵'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 130 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
+  dlc={{
+    description: '未受训练的部队，无论行军速度或是战斗都处于劣势。',
+    weapons: ['刀类', '矛类', '弩类'],
+    classType: '民兵系',
+    skills: ['民兵'],
+    params: [
+      { label: '兵力补正', value: 500 },
+      { label: '机动', value: 9 }
+    ],
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
 />
