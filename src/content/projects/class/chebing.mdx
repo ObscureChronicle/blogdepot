@@ -13,22 +13,37 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-车兵是《后汉稽异录》中的一种<a href="">中阶兵种</a>。
+车兵是《后汉稽异录》中的一种<a href="">中阶兵种</a>，同时也是《后汉稽异录外传：星命诀》中的一种<a href="">特殊兵种</a>。
 
-<ClassWiki
-  description={'极其特殊的骑兵。对一切步兵均有优势，但也受到骑兵的严重克制。'}
-  weapons={['刀类', '矛类', '弓类', '弩类', '兵法书']}
-  classType={'器械系'}
-  skills={['车兵', '驷乘', '重甲']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 5 },
-    { label: '兵力成长', value: 40 },
-    { label: '技能点成长', value: 4.8 },
-  ]}
-  parents={['辎重队']}
-  upgrades={[]}
-  condition={['统御≥70']}
+<ClassWikiPlus
+  base={{
+    description: '极其特殊的骑兵。对一切步兵均有优势，但也受到骑兵的严重克制。',
+    weapons: ['刀类', '矛类', '弓类', '弩类', '兵法书'],
+    classType: '器械系',
+    skills: ['车兵', '驷乘', '重甲'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 5 },
+      { label: '兵力成长', value: 40 },
+      { label: '技能点成长', value: 4.8 },
+    ],
+    parents: ['辎重队'],
+    upgrades: [],
+    condition: ['统御≥70'],
+  }}
+  dlc={{
+    description: '武装的<a href="../zizhongdui">辎重队</a>，获得了战斗的能力。\n注：其可用武器依据进一步变化的兵种决定。',
+    weapons: ['无'],
+    classType: '器械系',
+    skills: ['车兵'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 }
+    ],
+    parents: [],
+    upgrades: ['驷乘', '圜营', '叠屋'],
+    condition: [],
+  }}
 />

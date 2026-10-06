@@ -2,7 +2,6 @@
 // 使用 .jsx 扩展名以确保被 Astro 岛屿（client:load）组件正确打包内联
 
 export const CLASS_MAP = {
-  "骠骑兵": "/projects/class/piaoqibing",
   "长虫": "/projects/class/changchong",
   "长戟兵": "/projects/class/changjibing",
   "长矛骑": "/projects/class/changmaoqi",
@@ -21,6 +20,7 @@ export const CLASS_MAP = {
   "浮图弩骑": "/projects/class/futunuqi",
   "敢死矛骑": "/projects/class/gansimaoqi",
   "弓兵": "/projects/class/gongbing",
+  "工兵": "/projects/class/gongbing2",
   "弓骑兵": "/projects/class/gongqibing",
   "荷剑矛兵": "/projects/class/hejianmaobing",
   "虎豹骑": "/projects/class/hubaoqi",
@@ -46,6 +46,7 @@ export const CLASS_MAP = {
   "谋士": "/projects/class/moushi",
   "弩兵": "/projects/class/nubing",
   "弩骑兵": "/projects/class/nuqibing",
+  "骠骑兵": "/projects/class/piaoqibing",
   "平民": "/projects/class/pingmin",
   "强弓兵": "/projects/class/qianggongbing",
   "强弓骑": "/projects/class/qianggongqi",

@@ -28,7 +28,15 @@ import ClassWeapons from './ClassWeapons.astro';
 const sections = [
     { title: '本传', data: base, titleClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' },
     { title: '联动', data: collab, titleClass: 'bg-pink-100 text-red-800 dark:bg-pink-900 dark:text-red-300' },
-    { title: '星命诀', data: dlc, titleClass: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' }
+    {
+        title: '星命诀',
+        data: dlc,
+        titleClass: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+        treeTitle: '详情',
+        upgradesLabel: '可变化阵势',
+        conditionitemLabel: '解锁道具',
+        conditionLabel: '解锁条件'
+    }
 ];
 ---
 
@@ -48,6 +56,10 @@ const sections = [
                         upgrades={section.data.upgrades || []}
                         condition={section.data.condition || []}
                         titleClass={section.titleClass}
+                        treeTitle={section.treeTitle}
+                        upgradesLabel={section.upgradesLabel}
+                        conditionitemLabel={section.conditionitemLabel}
+                        conditionLabel={section.conditionLabel}
                     />
                 </>
             )
