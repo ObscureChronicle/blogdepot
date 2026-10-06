@@ -13,26 +13,52 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
 刀兵是《后汉稽异录》中的一种<a href="">基础兵种</a>与<a href="">联动兵种</a>，同时也是《后汉稽异录外传：星命诀》中的一种<a href="">基础兵种</a>。
 
-<ClassWiki
-  description={'持刀的基础步兵，擅于对抗<a href="../gongbing">弓兵</a>和<a href="../gongqibing">弓骑兵</a>，减少周身二格内友军所受伤害。'}
-  weapons={['刀类', '兵法书']}
-  classType={'轻步兵系'}
-  skills={['刀兵', '援护']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 6 },
-    { label: '兵力成长', value: 60 },
-    { label: '技能点成长', value: 4 },
-  ]}
-  parents={[]}
-  upgrades={['重装刀兵', '近卫刀兵', '长牌刀兵', '突袭刀兵', '免铠刀兵', '荷剑矛兵', '贼兵', '虎兵']}
-  condition={[]}
+<ClassWikiPlus
+  base={{
+    description: '持刀的基础步兵，擅于对抗<a href="../gongbing">弓兵</a>和<a href="../gongqibing">弓骑兵</a>，减少周身二格内友军所受伤害。',
+    weapons: ['刀类', '兵法书'],
+    classType: '轻步兵系',
+    skills: ['刀兵', '援护'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 60 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: ['重装刀兵', '近卫刀兵', '长牌刀兵', '突袭刀兵', '免铠刀兵', '荷剑矛兵', '贼兵', '虎兵'],
+    condition: [],
+  }}
+  dlc={{
+    description: '持刀的基础步兵，擅于对抗<a href="../gongbing">弓兵</a>和<a href="../gongqibing">弓骑兵</a>。',
+    weapons: ['刀类'],
+    classType: '步兵系',
+    skills: ['刀兵', '变阵'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 10 }
+    ],
+    parents: [],
+    upgrades: [],
+    condition: ['虎贲营印绶'],
+  }}
+  collab={{
+    description: '在联动《后汉姬异录》的彩蛋关中登场的同名兵种。',
+    weapons: ['刀类'],
+    classType: '轻步兵系',
+    skills: ['刀兵', '援护'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 60 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
 />
-
-## 联动
-
-在联动《后汉稽异录》的彩蛋关中，具有同名兵种。可装备武器改为刀类，其余效果与本传刀兵相同。

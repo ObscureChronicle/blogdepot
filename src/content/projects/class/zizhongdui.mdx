@@ -13,22 +13,39 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-辎重队是《后汉稽异录》中的一种<a href="">基础兵种</a>。
+辎重队是《后汉稽异录》中的一种<a href="">基础兵种</a>与<a href="">联动兵种</a>。
 
-<ClassWiki
-  description={'负责运送粮草军械的部队，也起到以金鼓传递军令的作用。'}
-  weapons={['军令', '辎重']}
-  classType={'器械系'}
-  skills={['车队', '武装', '施令']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 4 },
-    { label: '兵力成长', value: 50 },
-    { label: '技能点成长', value: 4 },
-  ]}
-  parents={[]}
-  upgrades={['车兵']}
-  condition={[]}
+<ClassWikiPlus
+  base={{
+    description: '负责运送粮草军械的部队，也起到以金鼓传递军令的作用。',
+    weapons: ['军令', '辎重'],
+    classType: '器械系',
+    skills: ['车队', '武装', '施令'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 4 },
+      { label: '兵力成长', value: 50 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: ['车兵'],
+    condition: [],
+  }}
+  collab={{
+    description: '负责以辎重补给我方的辅助部队，没有直接攻击能力。',
+    weapons: ['辎重'],
+    classType: '轻步兵系',
+    skills: ['民兵', '黎氓'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 60 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
 />

@@ -13,22 +13,52 @@ seo:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-矛兵是《后汉稽异录》中的一种<a href="">基础兵种</a>。
+矛兵是《后汉稽异录》中的一种<a href="">基础兵种</a>与<a href="">联动兵种</a>，同时也是《后汉稽异录外传：星命诀》中的一种<a href="">基础兵种</a>。
 
-<ClassWiki
-  description={'持矛的基础步兵，擅于对抗<a href="../daobing">刀兵</a>和近战骑兵，周身二格内敌军机动下降。'}
-  weapons={['矛类', '兵法书']}
-  classType={'轻步兵系'}
-  skills={['矛兵', '寒芒']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 6 },
-    { label: '兵力成长', value: 60 },
-    { label: '技能点成长', value: 4 },
-  ]}
-  parents={[]}
-  upgrades={['重装矛兵', '荷剑矛兵', '征召矛兵', '结阵矛兵', '戟兵', '掷矛兵', '贼兵']}
-  condition={[]}
+<ClassWikiPlus
+  base={{
+    description: '持矛的基础步兵，擅于对抗<a href="../daobing">刀兵</a>和近战骑兵，周身二格内敌军机动下降。',
+    weapons: ['矛类', '兵法书'],
+    classType: '轻步兵系',
+    skills: ['矛兵', '寒芒'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 60 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: ['重装矛兵', '荷剑矛兵', '征召矛兵', '结阵矛兵', '戟兵', '掷矛兵', '贼兵'],
+    condition: [],
+  }}
+  collab={{
+    description: '持矛的基础步兵，擅于对抗<a href="../daobing">刀兵</a>和近战骑兵，周身二格内敌军机动下降。',
+    weapons: ['矛类'],
+    classType: '轻步兵系',
+    skills: ['矛兵', '凛光'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 6 },
+      { label: '兵力成长', value: 60 },
+      { label: '技能点成长', value: 4 },
+    ],
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
+  dlc={{
+    description: '持矛的基础步兵，擅于对抗<a href="../gongbing">刀兵</a>和<a href="../gongqibing">刀骑兵</a>。',
+    weapons: ['矛类'],
+    classType: '步兵系',
+    skills: ['矛兵', '变阵'],
+    params: [
+      { label: '兵力补正', value: 0 },
+      { label: '机动', value: 10 }
+    ],
+    parents: [],
+    upgrades: [],
+    condition: ['中垒营印绶'],
+  }}
 />
