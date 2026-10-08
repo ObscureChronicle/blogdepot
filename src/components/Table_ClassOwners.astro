@@ -14,6 +14,7 @@ const CLASS_ORDER = [
     '长牌刀兵',
     '突袭刀兵',
     '免铠刀兵',
+    '虎兵',
     '亲卫队',
     '施令刀兵',
     '死士',
@@ -78,29 +79,167 @@ const CLASS_ORDER = [
     '床弩',
     '发石车',
     '辎重队',
-    '虎兵',
     '车兵',
     '平民'
 ];
 
-const orderIndex = new Map(CLASS_ORDER.map((name, i) => [name, i]));
+// 兵种 → 大类 映射
+const CLASS_CATEGORY: Record<string, string> = {
+    民兵: '民兵类',
+    贼兵: '民兵类',
+    平民: '民兵类',
 
+    刀兵: '刀兵类',
+    重装刀兵: '刀兵类',
+    近卫刀兵: '刀兵类',
+    长牌刀兵: '刀兵类',
+    突袭刀兵: '刀兵类',
+    免铠刀兵: '刀兵类',
+    虎兵: '刀兵类',
+    亲卫队: '刀兵类',
+    施令刀兵: '刀兵类',
+    死士: '刀兵类',
+
+    矛兵: '矛兵类',
+    重装矛兵: '矛兵类',
+    荷剑矛兵: '矛兵类',
+    征召矛兵: '矛兵类',
+    结阵矛兵: '矛兵类',
+    戟兵: '矛兵类',
+    掷矛兵: '矛兵类',
+    义从矛兵: '矛兵类',
+    方阵矛兵: '矛兵类',
+    重装戟兵: '矛兵类',
+    长戟兵: '矛兵类',
+    宿卫队: '矛兵类',
+
+    弓兵: '弓兵类',
+    重装弓兵: '弓兵类',
+    强弓兵: '弓兵类',
+    弩兵: '弓兵类',
+    游侠弓兵: '弓兵类',
+    负盾弓兵: '弓兵类',
+    禁卫队: '弓兵类',
+    施令弓兵: '弓兵类',
+    重装弩兵: '弓兵类',
+    施令弩兵: '弓兵类',
+    施令射楼: '弓兵类',
+
+    刀骑兵: '刀骑兵类',
+    斥候刀骑: '刀骑兵类',
+    驿传刀骑: '刀骑兵类',
+    重甲刀骑: '刀骑兵类',
+    精锐刀骑: '刀骑兵类',
+    斧骑兵: '刀骑兵类',
+
+    矛骑兵: '矛骑兵类',
+    重甲矛骑: '矛骑兵类',
+    阵战矛骑: '矛骑兵类',
+    长矛骑: '矛骑兵类',
+    先锋矛骑: '矛骑兵类',
+    敢死矛骑: '矛骑兵类',
+
+    弓骑兵: '弓骑兵类',
+    重甲弓骑: '弓骑兵类',
+    强弓骑: '弓骑兵类',
+    游袭弓骑: '弓骑兵类',
+    弩骑兵: '弓骑兵类',
+    马上重弩兵: '弓骑兵类',
+
+    骠骑兵: '刀骑兵类',
+    骁骑兵: '矛骑兵类',
+    突骑兵: '矛骑兵类',
+    胡服骑兵: '弓骑兵类',
+    劫掠刀骑: '刀骑兵类',
+    玄甲斧骑: '刀骑兵类',
+    虎豹骑: '刀骑兵类',
+    决死矛骑: '矛骑兵类',
+    长矛铁骑: '矛骑兵类',
+    具装突骑: '矛骑兵类',
+    精锐突骑: '矛骑兵类',
+    象兵: '矛骑兵类',
+    西羌弓骑: '弓骑兵类',
+    西域弓骑: '弓骑兵类',
+    浮图弩骑: '弓骑兵类',
+
+    辎重队: '器械类',
+    车兵: '器械类',
+    工兵: '器械类',
+    井阑: '器械类',
+    床弩: '器械类',
+    发石车: '器械类'
+};
+
+// 大类显示顺序（未列出的排最后）
+const CATEGORY_ORDER = ['民兵类', '刀兵类', '矛兵类', '弓兵类', '刀骑兵类', '矛骑兵类', '弓骑兵类', '器械类'];
+
+const orderIndex = new Map(CLASS_ORDER.map((name, i) => [name, i]));
+const catIndex = new Map(CATEGORY_ORDER.map((name, i) => [name, i]));
+
+// 先按 CLASS_ORDER 排出兵种顺序
 const sortedClasses = Object.keys(owners).sort((a, b) => {
     const ia = orderIndex.get(a) ?? Number.MAX_SAFE_INTEGER;
     const ib = orderIndex.get(b) ?? Number.MAX_SAFE_INTEGER;
     if (ia !== ib) return ia - ib;
-    // 不在 CLASS_ORDER 里的兵种排到最后，按拼音兜底
     return a.localeCompare(b, 'zh-Hans');
 });
 
+// 按大类分组，同时计算每个兵种占几行、每个大类共占几行
+type ClassItem = {
+    cls: string;
+    base: string[];
+    dlc: string[];
+    hasBase: boolean;
+    hasDlc: boolean;
+    hasBoth: boolean;
+    rowCount: number;
+};
+
+const groupMap = new Map<string, ClassItem[]>();
+
+for (const cls of sortedClasses) {
+    const data = owners[cls as keyof typeof owners];
+    const hasBase = data.base.length > 0;
+    const hasDlc = data.dlc.length > 0;
+
+    const item: ClassItem = {
+        cls,
+        base: data.base,
+        dlc: data.dlc,
+        hasBase,
+        hasDlc,
+        hasBoth: hasBase && hasDlc,
+        rowCount: (hasBase ? 1 : 0) + (hasDlc ? 1 : 0)
+    };
+
+    const category = CLASS_CATEGORY[cls] ?? '未分类';
+    if (!groupMap.has(category)) groupMap.set(category, []);
+    groupMap.get(category)!.push(item);
+}
+
+const groups = Array.from(groupMap.entries())
+    .map(([category, classes]) => ({
+        category,
+        classes,
+        totalRows: classes.reduce((sum, c) => sum + c.rowCount, 0)
+    }))
+    .sort((a, b) => {
+        const ia = catIndex.get(a.category) ?? Number.MAX_SAFE_INTEGER;
+        const ib = catIndex.get(b.category) ?? Number.MAX_SAFE_INTEGER;
+        if (ia !== ib) return ia - ib;
+        return a.category.localeCompare(b.category, 'zh-Hans');
+    });
+
 const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
 const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
+const tdCenter = `${tdClass} text-center font-medium whitespace-nowrap`;
 ---
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
     <table class="w-full border-collapse text-sm">
         <thead>
             <tr>
+                <th class={thClass}>大类</th>
                 <th class={thClass}>兵种</th>
                 <th class={thClass}>来源</th>
                 <th class={thClass}>人物</th>
@@ -108,59 +247,71 @@ const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
         </thead>
         <tbody>
             {
-                sortedClasses.map((cls) => {
-                    const data = owners[cls as keyof typeof owners];
-                    const hasBase = data.base.length > 0;
-                    const hasDlc = data.dlc.length > 0;
-                    const hasBoth = hasBase && hasDlc;
+                groups.map((group) => (
+                    <>
+                        {group.classes.map((item, clsIndex) => (
+                            <>
+                                {item.hasBase && (
+                                    <tr>
+                                        {clsIndex === 0 && (
+                                            <td rowspan={group.totalRows} class={`${tdCenter}`}>
+                                                {group.category}
+                                            </td>
+                                        )}
+                                        <td rowspan={item.hasBoth ? 2 : 1} class={tdCenter}>
+                                            {item.cls}
+                                        </td>
+                                        <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
+                                        <td class={tdClass}>
+                                            {item.base.map((name, index) => (
+                                                <span>
+                                                    {index > 0 && '、'}
+                                                    {getLink(name) ? (
+                                                        <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                            {name}
+                                                        </a>
+                                                    ) : (
+                                                        <span>{name}</span>
+                                                    )}
+                                                </span>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                )}
 
-                    return (
-                        <>
-                            {hasBase && (
-                                <tr>
-                                    <td rowspan={hasBoth ? 2 : 1} class={`${tdClass} text-center font-medium whitespace-nowrap`}>
-                                        {cls}
-                                    </td>
-                                    <td class={`${tdClass} text-center whitespace-nowrap`}>本体</td>
-                                    <td class={tdClass}>
-                                        {data.base.map((name: string, index: number) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
-                                    </td>
-                                </tr>
-                            )}
-                            {hasDlc && (
-                                <tr>
-                                    {!hasBase && <td class={`${tdClass} text-center font-medium whitespace-nowrap`}>{cls}</td>}
-                                    <td class={`${tdClass} text-center whitespace-nowrap`}>星命诀</td>
-                                    <td class={tdClass}>
-                                        {data.dlc.map((name: string, index: number) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
-                                    </td>
-                                </tr>
-                            )}
-                        </>
-                    );
-                })
+                                {item.hasDlc && (
+                                    <tr>
+                                        {clsIndex === 0 && !item.hasBase && (
+                                            <td rowspan={group.totalRows} class={`${tdCenter}`}>
+                                                {group.category}
+                                            </td>
+                                        )}
+                                        {!item.hasBase && (
+                                            <td rowspan={1} class={tdCenter}>
+                                                {item.cls}
+                                            </td>
+                                        )}
+                                        <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
+                                        <td class={tdClass}>
+                                            {item.dlc.map((name, index) => (
+                                                <span>
+                                                    {index > 0 && '、'}
+                                                    {getLink(name) ? (
+                                                        <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                            {name}
+                                                        </a>
+                                                    ) : (
+                                                        <span>{name}</span>
+                                                    )}
+                                                </span>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                )}
+                            </>
+                        ))}
+                    </>
+                ))
             }
         </tbody>
     </table>
