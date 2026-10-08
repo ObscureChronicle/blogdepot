@@ -4,179 +4,122 @@ import { CHARACTER_MAP } from './characterMap.js';
 
 const getLink = (name: string) => (CHARACTER_MAP as Record<string, string>)[name] || null;
 
-// 兵种显示顺序（按 class.txt 去重后的顺序）
-const CLASS_ORDER = [
-    '民兵',
-    '贼兵',
-    '刀兵',
-    '重装刀兵',
-    '近卫刀兵',
-    '长牌刀兵',
-    '突袭刀兵',
-    '免铠刀兵',
-    '虎兵',
-    '亲卫队',
-    '施令刀兵',
-    '死士',
-    '矛兵',
-    '重装矛兵',
-    '荷剑矛兵',
-    '征召矛兵',
-    '结阵矛兵',
-    '戟兵',
-    '掷矛兵',
-    '义从矛兵',
-    '方阵矛兵',
-    '重装戟兵',
-    '长戟兵',
-    '宿卫队',
-    '弓兵',
-    '重装弓兵',
-    '强弓兵',
-    '弩兵',
-    '游侠弓兵',
-    '负盾弓兵',
-    '禁卫队',
-    '施令弓兵',
-    '重装弩兵',
-    '施令弩兵',
-    '施令射楼',
-    '刀骑兵',
-    '斥候刀骑',
-    '驿传刀骑',
-    '重甲刀骑',
-    '精锐刀骑',
-    '斧骑兵',
-    '矛骑兵',
-    '重甲矛骑',
-    '阵战矛骑',
-    '长矛骑',
-    '先锋矛骑',
-    '敢死矛骑',
-    '弓骑兵',
-    '重甲弓骑',
-    '强弓骑',
-    '游袭弓骑',
-    '弩骑兵',
-    '马上重弩兵',
-    '骠骑兵',
-    '骁骑兵',
-    '突骑兵',
-    '胡服骑兵',
-    '劫掠刀骑',
-    '玄甲斧骑',
-    '虎豹骑',
-    '决死矛骑',
-    '长矛铁骑',
-    '具装突骑',
-    '精锐突骑',
-    '象兵',
-    '西羌弓骑',
-    '西域弓骑',
-    '浮图弩骑',
-    '工兵',
-    '井阑',
-    '床弩',
-    '发石车',
-    '辎重队',
-    '车兵',
-    '平民'
+// ============================================================
+// 兵种总表：顺序 = 显示顺序；tier：base=基础，mid=中阶，high=高阶
+// ============================================================
+type Tier = 'base' | 'mid' | 'high';
+
+const CLASS_DATA: { name: string; category: string; tier: Tier }[] = [
+    // 民兵类
+    { name: '民兵', category: '民兵类', tier: 'base' },
+    { name: '贼兵', category: '民兵类', tier: 'base' },
+    { name: '平民', category: '民兵类', tier: 'base' },
+
+    // 刀兵类
+    { name: '刀兵', category: '刀兵类', tier: 'base' },
+    { name: '重装刀兵', category: '刀兵类', tier: 'mid' },
+    { name: '近卫刀兵', category: '刀兵类', tier: 'mid' },
+    { name: '长牌刀兵', category: '刀兵类', tier: 'mid' },
+    { name: '突袭刀兵', category: '刀兵类', tier: 'mid' },
+    { name: '免铠刀兵', category: '刀兵类', tier: 'mid' },
+    { name: '虎兵', category: '刀兵类', tier: 'mid' },
+    { name: '亲卫队', category: '刀兵类', tier: 'high' },
+    { name: '施令刀兵', category: '刀兵类', tier: 'high' },
+    { name: '死士', category: '刀兵类', tier: 'high' },
+
+    // 矛兵类
+    { name: '矛兵', category: '矛兵类', tier: 'base' },
+    { name: '重装矛兵', category: '矛兵类', tier: 'mid' },
+    { name: '荷剑矛兵', category: '矛兵类', tier: 'mid' },
+    { name: '征召矛兵', category: '矛兵类', tier: 'mid' },
+    { name: '结阵矛兵', category: '矛兵类', tier: 'mid' },
+    { name: '戟兵', category: '矛兵类', tier: 'mid' },
+    { name: '掷矛兵', category: '矛兵类', tier: 'mid' },
+    { name: '义从矛兵', category: '矛兵类', tier: 'high' },
+    { name: '方阵矛兵', category: '矛兵类', tier: 'high' },
+    { name: '重装戟兵', category: '矛兵类', tier: 'high' },
+    { name: '长戟兵', category: '矛兵类', tier: 'high' },
+    { name: '宿卫队', category: '矛兵类', tier: 'high' },
+
+    // 弓兵类
+    { name: '弓兵', category: '弓兵类', tier: 'base' },
+    { name: '重装弓兵', category: '弓兵类', tier: 'mid' },
+    { name: '强弓兵', category: '弓兵类', tier: 'mid' },
+    { name: '弩兵', category: '弓兵类', tier: 'mid' },
+    { name: '游侠弓兵', category: '弓兵类', tier: 'mid' },
+    { name: '负盾弓兵', category: '弓兵类', tier: 'mid' },
+    { name: '禁卫队', category: '弓兵类', tier: 'high' },
+    { name: '施令弓兵', category: '弓兵类', tier: 'high' },
+    { name: '重装弩兵', category: '弓兵类', tier: 'high' },
+    { name: '施令弩兵', category: '弓兵类', tier: 'high' },
+    { name: '施令射楼', category: '弓兵类', tier: 'high' },
+
+    // 刀骑兵类
+    { name: '刀骑兵', category: '刀骑兵类', tier: 'base' },
+    { name: '斥候刀骑', category: '刀骑兵类', tier: 'mid' },
+    { name: '驿传刀骑', category: '刀骑兵类', tier: 'mid' },
+    { name: '重甲刀骑', category: '刀骑兵类', tier: 'mid' },
+    { name: '精锐刀骑', category: '刀骑兵类', tier: 'mid' },
+    { name: '斧骑兵', category: '刀骑兵类', tier: 'mid' },
+    { name: '骠骑兵', category: '刀骑兵类', tier: 'mid' },
+    { name: '劫掠刀骑', category: '刀骑兵类', tier: 'high' },
+    { name: '玄甲斧骑', category: '刀骑兵类', tier: 'high' },
+    { name: '虎豹骑', category: '刀骑兵类', tier: 'high' },
+
+    // 矛骑兵类
+    { name: '矛骑兵', category: '矛骑兵类', tier: 'base' },
+    { name: '重甲矛骑', category: '矛骑兵类', tier: 'mid' },
+    { name: '阵战矛骑', category: '矛骑兵类', tier: 'mid' },
+    { name: '长矛骑', category: '矛骑兵类', tier: 'mid' },
+    { name: '先锋矛骑', category: '矛骑兵类', tier: 'mid' },
+    { name: '敢死矛骑', category: '矛骑兵类', tier: 'mid' },
+    { name: '骁骑兵', category: '矛骑兵类', tier: 'mid' },
+    { name: '突骑兵', category: '矛骑兵类', tier: 'mid' },
+    { name: '决死矛骑', category: '矛骑兵类', tier: 'high' },
+    { name: '长矛铁骑', category: '矛骑兵类', tier: 'high' },
+    { name: '具装突骑', category: '矛骑兵类', tier: 'high' },
+    { name: '精锐突骑', category: '矛骑兵类', tier: 'high' },
+    { name: '象兵', category: '矛骑兵类', tier: 'high' },
+
+    // 弓骑兵类
+    { name: '弓骑兵', category: '弓骑兵类', tier: 'base' },
+    { name: '重甲弓骑', category: '弓骑兵类', tier: 'mid' },
+    { name: '强弓骑', category: '弓骑兵类', tier: 'mid' },
+    { name: '游袭弓骑', category: '弓骑兵类', tier: 'mid' },
+    { name: '弩骑兵', category: '弓骑兵类', tier: 'mid' },
+    { name: '马上重弩兵', category: '弓骑兵类', tier: 'mid' },
+    { name: '胡服骑兵', category: '弓骑兵类', tier: 'mid' },
+    { name: '西羌弓骑', category: '弓骑兵类', tier: 'high' },
+    { name: '西域弓骑', category: '弓骑兵类', tier: 'high' },
+    { name: '浮图弩骑', category: '弓骑兵类', tier: 'high' },
+
+    // 器械类
+    { name: '工兵', category: '器械类', tier: 'base' },
+    { name: '辎重队', category: '器械类', tier: 'base' },
+    { name: '井阑', category: '器械类', tier: 'mid' },
+    { name: '床弩', category: '器械类', tier: 'mid' },
+    { name: '车兵', category: '器械类', tier: 'mid' },
+    { name: '发石车', category: '器械类', tier: 'high' }
 ];
 
-// 兵种 → 大类 映射
-const CLASS_CATEGORY: Record<string, string> = {
-    民兵: '民兵类',
-    贼兵: '民兵类',
-    平民: '民兵类',
-
-    刀兵: '刀兵类',
-    重装刀兵: '刀兵类',
-    近卫刀兵: '刀兵类',
-    长牌刀兵: '刀兵类',
-    突袭刀兵: '刀兵类',
-    免铠刀兵: '刀兵类',
-    虎兵: '刀兵类',
-    亲卫队: '刀兵类',
-    施令刀兵: '刀兵类',
-    死士: '刀兵类',
-
-    矛兵: '矛兵类',
-    重装矛兵: '矛兵类',
-    荷剑矛兵: '矛兵类',
-    征召矛兵: '矛兵类',
-    结阵矛兵: '矛兵类',
-    戟兵: '矛兵类',
-    掷矛兵: '矛兵类',
-    义从矛兵: '矛兵类',
-    方阵矛兵: '矛兵类',
-    重装戟兵: '矛兵类',
-    长戟兵: '矛兵类',
-    宿卫队: '矛兵类',
-
-    弓兵: '弓兵类',
-    重装弓兵: '弓兵类',
-    强弓兵: '弓兵类',
-    弩兵: '弓兵类',
-    游侠弓兵: '弓兵类',
-    负盾弓兵: '弓兵类',
-    禁卫队: '弓兵类',
-    施令弓兵: '弓兵类',
-    重装弩兵: '弓兵类',
-    施令弩兵: '弓兵类',
-    施令射楼: '弓兵类',
-
-    刀骑兵: '刀骑兵类',
-    斥候刀骑: '刀骑兵类',
-    驿传刀骑: '刀骑兵类',
-    重甲刀骑: '刀骑兵类',
-    精锐刀骑: '刀骑兵类',
-    斧骑兵: '刀骑兵类',
-
-    矛骑兵: '矛骑兵类',
-    重甲矛骑: '矛骑兵类',
-    阵战矛骑: '矛骑兵类',
-    长矛骑: '矛骑兵类',
-    先锋矛骑: '矛骑兵类',
-    敢死矛骑: '矛骑兵类',
-
-    弓骑兵: '弓骑兵类',
-    重甲弓骑: '弓骑兵类',
-    强弓骑: '弓骑兵类',
-    游袭弓骑: '弓骑兵类',
-    弩骑兵: '弓骑兵类',
-    马上重弩兵: '弓骑兵类',
-
-    骠骑兵: '刀骑兵类',
-    骁骑兵: '矛骑兵类',
-    突骑兵: '矛骑兵类',
-    胡服骑兵: '弓骑兵类',
-    劫掠刀骑: '刀骑兵类',
-    玄甲斧骑: '刀骑兵类',
-    虎豹骑: '刀骑兵类',
-    决死矛骑: '矛骑兵类',
-    长矛铁骑: '矛骑兵类',
-    具装突骑: '矛骑兵类',
-    精锐突骑: '矛骑兵类',
-    象兵: '矛骑兵类',
-    西羌弓骑: '弓骑兵类',
-    西域弓骑: '弓骑兵类',
-    浮图弩骑: '弓骑兵类',
-
-    辎重队: '器械类',
-    车兵: '器械类',
-    工兵: '器械类',
-    井阑: '器械类',
-    床弩: '器械类',
-    发石车: '器械类'
-};
-
-// 大类显示顺序（未列出的排最后）
+// 大类显示顺序
 const CATEGORY_ORDER = ['民兵类', '刀兵类', '矛兵类', '弓兵类', '刀骑兵类', '矛骑兵类', '弓骑兵类', '器械类'];
 
-const orderIndex = new Map(CLASS_ORDER.map((name, i) => [name, i]));
+// 从 CLASS_DATA 派生：顺序、大类、阶位
+const orderIndex = new Map(CLASS_DATA.map((c, i) => [c.name, i]));
+const categoryMap = new Map(CLASS_DATA.map((c) => [c.name, c.category]));
+const tierMap = new Map(CLASS_DATA.map((c) => [c.name, c.tier]));
 const catIndex = new Map(CATEGORY_ORDER.map((name, i) => [name, i]));
 
-// 先按 CLASS_ORDER 排出兵种顺序
+// 阶位 → 文字颜色类
+const tierClassMap: Record<Tier, string> = {
+    base: '', // 默认
+    mid: 'text-orange-300', // 中阶：肉色
+    high: 'text-red-600' // 高阶：红色
+};
+const getTierClass = (cls: string) => tierClassMap[tierMap.get(cls) ?? 'base'];
+
+// 按 CLASS_DATA 顺序排出 owners 里的兵种
 const sortedClasses = Object.keys(owners).sort((a, b) => {
     const ia = orderIndex.get(a) ?? Number.MAX_SAFE_INTEGER;
     const ib = orderIndex.get(b) ?? Number.MAX_SAFE_INTEGER;
@@ -184,7 +127,7 @@ const sortedClasses = Object.keys(owners).sort((a, b) => {
     return a.localeCompare(b, 'zh-Hans');
 });
 
-// 按大类分组，同时计算每个兵种占几行、每个大类共占几行
+// 按大类分组
 type ClassItem = {
     cls: string;
     base: string[];
@@ -212,11 +155,12 @@ for (const cls of sortedClasses) {
         rowCount: (hasBase ? 1 : 0) + (hasDlc ? 1 : 0)
     };
 
-    const category = CLASS_CATEGORY[cls] ?? '未分类';
+    const category = categoryMap.get(cls) ?? '未分类';
     if (!groupMap.has(category)) groupMap.set(category, []);
     groupMap.get(category)!.push(item);
 }
 
+// 小类视图分组
 const groups = Array.from(groupMap.entries())
     .map(([category, classes]) => ({
         category,
@@ -230,89 +174,206 @@ const groups = Array.from(groupMap.entries())
         return a.category.localeCompare(b.category, 'zh-Hans');
     });
 
+// 大类视图分组：合并同大类下所有兵种的人物，去重
+const categoryGroups = groups.map((group) => {
+    const baseSet = new Set<string>();
+    const dlcSet = new Set<string>();
+    for (const item of group.classes) {
+        for (const n of item.base) baseSet.add(n);
+        for (const n of item.dlc) dlcSet.add(n);
+    }
+    const baseNames = Array.from(baseSet);
+    const dlcNames = Array.from(dlcSet);
+    const hasBase = baseNames.length > 0;
+    const hasDlc = dlcNames.length > 0;
+    return {
+        category: group.category,
+        baseNames,
+        dlcNames,
+        hasBase,
+        hasDlc,
+        totalRows: (hasBase ? 1 : 0) + (hasDlc ? 1 : 0)
+    };
+});
+
 const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
 const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
 const tdCenter = `${tdClass} text-center font-medium whitespace-nowrap`;
+const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 ---
 
-<div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-    <table class="w-full border-collapse text-sm">
-        <thead>
-            <tr>
-                <th class={thClass}>大类</th>
-                <th class={thClass}>兵种</th>
-                <th class={thClass}>来源</th>
-                <th class={thClass}>人物</th>
-            </tr>
-        </thead>
-        <tbody>
-            {
-                groups.map((group) => (
-                    <>
-                        {group.classes.map((item, clsIndex) => (
-                            <>
-                                {item.hasBase && (
-                                    <tr>
-                                        {clsIndex === 0 && (
-                                            <td rowspan={group.totalRows} class={`${tdCenter}`}>
-                                                {group.category}
-                                            </td>
-                                        )}
-                                        <td rowspan={item.hasBoth ? 2 : 1} class={tdCenter}>
-                                            {item.cls}
-                                        </td>
-                                        <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
-                                        <td class={tdClass}>
-                                            {item.base.map((name, index) => (
-                                                <span>
-                                                    {index > 0 && '、'}
-                                                    {getLink(name) ? (
-                                                        <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                                            {name}
-                                                        </a>
-                                                    ) : (
-                                                        <span>{name}</span>
-                                                    )}
-                                                </span>
-                                            ))}
-                                        </td>
-                                    </tr>
-                                )}
+<div class="mb-3 flex justify-end">
+    <button
+        id="view-toggle"
+        type="button"
+        class="px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 active:bg-gray-100 transition-colors"
+    >
+        切换大类/小类兵种
+    </button>
+</div>
 
-                                {item.hasDlc && (
-                                    <tr>
-                                        {clsIndex === 0 && !item.hasBase && (
-                                            <td rowspan={group.totalRows} class={`${tdCenter}`}>
-                                                {group.category}
-                                            </td>
-                                        )}
-                                        {!item.hasBase && (
-                                            <td rowspan={1} class={tdCenter}>
+<!-- ============ 小类视图（默认显示） ============ -->
+<div id="view-class">
+    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table class="w-full border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class={thClass}>大类</th>
+                    <th class={thClass}>兵种</th>
+                    <th class={thClass}>来源</th>
+                    <th class={thClass}>人物</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    groups.map((group) => (
+                        <>
+                            {group.classes.map((item, clsIndex) => (
+                                <>
+                                    {item.hasBase && (
+                                        <tr>
+                                            {clsIndex === 0 && (
+                                                <td rowspan={group.totalRows} class={tdCenter}>
+                                                    {group.category}
+                                                </td>
+                                            )}
+                                            <td rowspan={item.hasBoth ? 2 : 1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
                                                 {item.cls}
                                             </td>
-                                        )}
-                                        <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
-                                        <td class={tdClass}>
-                                            {item.dlc.map((name, index) => (
-                                                <span>
-                                                    {index > 0 && '、'}
-                                                    {getLink(name) ? (
-                                                        <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                                            {name}
-                                                        </a>
-                                                    ) : (
-                                                        <span>{name}</span>
-                                                    )}
-                                                </span>
-                                            ))}
-                                        </td>
-                                    </tr>
-                                )}
-                            </>
-                        ))}
-                    </>
-                ))
-            }
-        </tbody>
-    </table>
+                                            <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
+                                            <td class={tdClass}>
+                                                {item.base.map((name, index) => (
+                                                    <span>
+                                                        {index > 0 && '、'}
+                                                        {getLink(name) ? (
+                                                            <a href={getLink(name) || ''} class={linkClass}>
+                                                                {name}
+                                                            </a>
+                                                        ) : (
+                                                            <span>{name}</span>
+                                                        )}
+                                                    </span>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    )}
+
+                                    {item.hasDlc && (
+                                        <tr>
+                                            {clsIndex === 0 && !item.hasBase && (
+                                                <td rowspan={group.totalRows} class={tdCenter}>
+                                                    {group.category}
+                                                </td>
+                                            )}
+                                            {!item.hasBase && (
+                                                <td rowspan={1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
+                                                    {item.cls}
+                                                </td>
+                                            )}
+                                            <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
+                                            <td class={tdClass}>
+                                                {item.dlc.map((name, index) => (
+                                                    <span>
+                                                        {index > 0 && '、'}
+                                                        {getLink(name) ? (
+                                                            <a href={getLink(name) || ''} class={linkClass}>
+                                                                {name}
+                                                            </a>
+                                                        ) : (
+                                                            <span>{name}</span>
+                                                        )}
+                                                    </span>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    )}
+                                </>
+                            ))}
+                        </>
+                    ))
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- ============ 大类视图（默认隐藏） ============ -->
+<div id="view-category" class="hidden">
+    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table class="w-full border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class={thClass}>大类</th>
+                    <th class={thClass}>来源</th>
+                    <th class={thClass}>人物</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    categoryGroups.map((g) => (
+                        <>
+                            {g.hasBase && (
+                                <tr>
+                                    <td rowspan={g.totalRows} class={tdCenter}>
+                                        {g.category}
+                                    </td>
+                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
+                                    <td class={tdClass}>
+                                        {g.baseNames.map((name, index) => (
+                                            <span>
+                                                {index > 0 && '、'}
+                                                {getLink(name) ? (
+                                                    <a href={getLink(name) || ''} class={linkClass}>
+                                                        {name}
+                                                    </a>
+                                                ) : (
+                                                    <span>{name}</span>
+                                                )}
+                                            </span>
+                                        ))}
+                                    </td>
+                                </tr>
+                            )}
+
+                            {g.hasDlc && (
+                                <tr>
+                                    {!g.hasBase && (
+                                        <td rowspan={g.totalRows} class={tdCenter}>
+                                            {g.category}
+                                        </td>
+                                    )}
+                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
+                                    <td class={tdClass}>
+                                        {g.dlcNames.map((name, index) => (
+                                            <span>
+                                                {index > 0 && '、'}
+                                                {getLink(name) ? (
+                                                    <a href={getLink(name) || ''} class={linkClass}>
+                                                        {name}
+                                                    </a>
+                                                ) : (
+                                                    <span>{name}</span>
+                                                )}
+                                            </span>
+                                        ))}
+                                    </td>
+                                </tr>
+                            )}
+                        </>
+                    ))
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const btn = document.getElementById('view-toggle');
+    const viewClass = document.getElementById('view-class');
+    const viewCategory = document.getElementById('view-category');
+
+    btn?.addEventListener('click', () => {
+        viewClass?.classList.toggle('hidden');
+        viewCategory?.classList.toggle('hidden');
+    });
+</script>
