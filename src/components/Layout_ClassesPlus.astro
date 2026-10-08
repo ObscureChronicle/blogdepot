@@ -43,6 +43,7 @@ const sections = [
 ];
 ---
 
+<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
 {
     sections.map(
         (section) =>
@@ -68,4 +69,3 @@ const sections = [
             )
     )
 }
-<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />

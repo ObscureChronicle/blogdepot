@@ -23,10 +23,10 @@ import ClassWeapons from './ClassWeapons.astro';
 import TraitOwner from './TraitOwner.astro';
 ---
 
+<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
 <ClassDescription description={description || ''} />
 <ClassWeapons weapons={weapons || []} />
 <ClassType classType={classType || ''} />
 <ClassSkills skills={skills || []} />
 <ClassParams params={params || []} />
 <ClassTree parents={parents || []} upgrades={upgrades || []} condition={condition || []} />
-<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
