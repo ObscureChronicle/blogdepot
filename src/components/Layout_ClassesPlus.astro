@@ -14,9 +14,11 @@ type ClassWikiPlusProps = {
     base?: ClassData;
     dlc?: ClassData;
     collab?: ClassData;
+    baseOwner?: string[];
+    dlcOwner?: string[];
 };
 
-const { base, dlc, collab } = Astro.props as ClassWikiPlusProps;
+const { base, dlc, collab, baseOwner, dlcOwner } = Astro.props as ClassWikiPlusProps;
 
 import ClassDescription from './ClassDescription.astro';
 import ClassParams from './ClassParams.astro';
@@ -24,6 +26,7 @@ import ClassSkills from './ClassSkills.astro';
 import ClassTree from './ClassTree.astro';
 import ClassType from './ClassType.astro';
 import ClassWeapons from './ClassWeapons.astro';
+import TraitOwner from './TraitOwner.astro';
 
 const sections = [
     { title: '本传', data: base, titleClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' },
@@ -65,3 +68,4 @@ const sections = [
             )
     )
 }
+<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
