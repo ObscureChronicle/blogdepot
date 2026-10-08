@@ -1,0 +1,69 @@
+---
+import { CHARACTER_MAP } from './characterMap.js';
+import owners from '../../scripts/class-owners.json';
+
+const getLink = (name: string) => (CHARACTER_MAP as Record<string, string>)[name] || null;
+
+const sortedClasses = Object.keys(owners).sort((a, b) => a.localeCompare(b, 'zh-Hans'));
+
+const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
+const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
+---
+
+<div class="overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+        <thead>
+            <tr>
+                <th class={thClass}>兵种</th>
+                <th class={thClass}>人物</th>
+            </tr>
+        </thead>
+        <tbody>
+            {sortedClasses.map((cls) => {
+                const data = owners[cls as keyof typeof owners];
+                return (
+                    <>
+                        {data.base.length > 0 && (
+                            <tr>
+                                <td class={`${tdClass} text-center font-medium whitespace-nowrap`}>{cls}</td>
+                                <td class={tdClass}>
+                                    {data.base.map((name: string, index: number) => (
+                                        <span>
+                                            {index > 0 && '、'}
+                                            {getLink(name) ? (
+                                                <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                    {name}
+                                                </a>
+                                            ) : (
+                                                <span>{name}</span>
+                                            )}
+                                        </span>
+                                    ))}
+                                </td>
+                            </tr>
+                        )}
+                        {data.dlc.length > 0 && (
+                            <tr>
+                                <td class={`${tdClass} text-center font-medium whitespace-nowrap`}>{cls}</td>
+                                <td class={tdClass}>
+                                    {data.dlc.map((name: string, index: number) => (
+                                        <span>
+                                            {index > 0 && '、'}
+                                            {getLink(name) ? (
+                                                <a href={getLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                    {name}
+                                                </a>
+                                            ) : (
+                                                <span>{name}</span>
+                                            )}
+                                        </span>
+                                    ))}
+                                </td>
+                            </tr>
+                        )}
+                    </>
+                );
+            })}
+        </tbody>
+    </table>
+</div>
