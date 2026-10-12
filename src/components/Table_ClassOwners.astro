@@ -121,6 +121,14 @@ const tierClassMap: Record<Tier, string> = {
 };
 const getTierClass = (cls: string) => tierClassMap[tierMap.get(cls) ?? 'base'];
 
+// 阶位 → 内联样式（.wiki a 为无层规则会覆盖工具类，链接必须用内联样式才能生效）
+const tierStyleMap: Record<Tier, string> = {
+    base: '',
+    mid: 'color: var(--color-orange-300)',
+    high: 'color: var(--color-red-600)'
+};
+const getTierStyle = (cls: string) => tierStyleMap[tierMap.get(cls) ?? 'base'];
+
 // 按 CLASS_DATA 顺序排出 owners 里的兵种
 const sortedClasses = Object.keys(owners).sort((a, b) => {
     const ia = orderIndex.get(a) ?? Number.MAX_SAFE_INTEGER;
@@ -241,7 +249,7 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                             )}
                                             <td rowspan={item.hasBoth ? 2 : 1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
                                                 {getClassLink(item.cls) ? (
-                                                    <a href={getClassLink(item.cls) || ''} class={`${getTierClass(item.cls)} hover:underline`}>
+                                                    <a href={getClassLink(item.cls) || ''} class="hover:underline" style={getTierStyle(item.cls) || undefined}>
                                                         {item.cls}
                                                     </a>
                                                 ) : (
@@ -276,7 +284,11 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                             {!item.hasBase && (
                                                 <td rowspan={1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
                                                     {getClassLink(item.cls) ? (
-                                                        <a href={getClassLink(item.cls) || ''} class={`${getTierClass(item.cls)} hover:underline`}>
+                                                        <a
+                                                            href={getClassLink(item.cls) || ''}
+                                                            class="hover:underline"
+                                                            style={getTierStyle(item.cls) || undefined}
+                                                        >
                                                             {item.cls}
                                                         </a>
                                                     ) : (
