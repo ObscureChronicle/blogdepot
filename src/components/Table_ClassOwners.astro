@@ -1,8 +1,10 @@
 ---
 import owners from '../../scripts/class-owners.json';
 import { CHARACTER_MAP } from './characterMap.js';
+import { CLASS_MAP } from './classMap.jsx';
 
 const getLink = (name: string) => (CHARACTER_MAP as Record<string, string>)[name] || null;
+const getClassLink = (cls: string) => (CLASS_MAP as Record<string, string>)[cls] || null;
 
 // ============================================================
 // 兵种总表：顺序 = 显示顺序；tier：base=基础，mid=中阶，high=高阶
@@ -238,7 +240,13 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                                 </td>
                                             )}
                                             <td rowspan={item.hasBoth ? 2 : 1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
-                                                {item.cls}
+                                                {getClassLink(item.cls) ? (
+                                                    <a href={getClassLink(item.cls) || ''} class="hover:underline">
+                                                        {item.cls}
+                                                    </a>
+                                                ) : (
+                                                    item.cls
+                                                )}
                                             </td>
                                             <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
                                             <td class={tdClass}>
@@ -267,7 +275,13 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                             )}
                                             {!item.hasBase && (
                                                 <td rowspan={1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
-                                                    {item.cls}
+                                                    {getClassLink(item.cls) ? (
+                                                        <a href={getClassLink(item.cls) || ''} class="hover:underline">
+                                                            {item.cls}
+                                                        </a>
+                                                    ) : (
+                                                        item.cls
+                                                    )}
                                                 </td>
                                             )}
                                             <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
