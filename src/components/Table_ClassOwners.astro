@@ -123,7 +123,7 @@ const getTierClass = (cls: string) => tierClassMap[tierMap.get(cls) ?? 'base'];
 
 // 阶位 → 内联样式（.wiki a 为无层规则会覆盖工具类，链接必须用内联样式才能生效）
 const tierStyleMap: Record<Tier, string> = {
-    base: '',
+    base: 'color: var(--color-grey-600)',
     mid: 'color: var(--color-orange-300)',
     high: 'color: var(--color-red-600)'
 };
