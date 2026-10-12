@@ -241,7 +241,7 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                             )}
                                             <td rowspan={item.hasBoth ? 2 : 1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
                                                 {getClassLink(item.cls) ? (
-                                                    <a href={getClassLink(item.cls) || ''} class="hover:underline">
+                                                    <a href={getClassLink(item.cls) || ''} class={`${getTierClass(item.cls)} hover:underline`}>
                                                         {item.cls}
                                                     </a>
                                                 ) : (
@@ -276,7 +276,7 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                             {!item.hasBase && (
                                                 <td rowspan={1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
                                                     {getClassLink(item.cls) ? (
-                                                        <a href={getClassLink(item.cls) || ''} class="hover:underline">
+                                                        <a href={getClassLink(item.cls) || ''} class={`${getTierClass(item.cls)} hover:underline`}>
                                                             {item.cls}
                                                         </a>
                                                     ) : (
