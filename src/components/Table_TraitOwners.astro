@@ -49,15 +49,37 @@ const tierOrder = (trait: string) => {
 const allTraits = Object.keys(owners);
 const filtered = mode === 'regional' ? allTraits.filter((t) => REGIONAL_TRAITS.has(t)) : allTraits.filter((t) => !REGIONAL_TRAITS.has(t));
 
+// 地域特性：地区分组与显示顺序
+const REGION_ORDER = ['西北', '西南', '东南', '北部', '中部', '四夷'];
+const getRegion = (trait: string) => (TRAIT_MAP as Record<string, { region?: string }>)[trait]?.region ?? '未分类';
+
 const sortedTraits =
     mode === 'regional'
-        ? filtered.sort((a, b) => a.localeCompare(b, 'zh-Hans'))
+        ? filtered.sort((a, b) => {
+              const oa = REGION_ORDER.indexOf(getRegion(a));
+              const ob = REGION_ORDER.indexOf(getRegion(b));
+              const ia = oa === -1 ? REGION_ORDER.length : oa;
+              const ib = ob === -1 ? REGION_ORDER.length : ob;
+              if (ia !== ib) return ia - ib;
+              return a.localeCompare(b, 'zh-Hans');
+          })
         : filtered.sort((a, b) => {
               const ta = tierOrder(a);
               const tb = tierOrder(b);
               if (ta !== tb) return ta - tb;
               return a.localeCompare(b, 'zh-Hans');
           });
+
+// 各地区合并行数（含本传/星命诀拆分）
+const regionRowspan = new Map<string, number>();
+if (mode === 'regional') {
+    for (const t of sortedTraits) {
+        const d = owners[t as keyof typeof owners];
+        const rows = (d.base.length > 0 ? 1 : 0) + (d.dlc.length > 0 ? 1 : 0);
+        const r = getRegion(t);
+        regionRowspan.set(r, (regionRowspan.get(r) ?? 0) + rows);
+    }
+}
 
 const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
 const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
@@ -76,6 +98,7 @@ const traitStyle = (trait: string) => {
     <table class="w-full border-collapse text-sm">
         <thead>
             <tr>
+                {mode === 'regional' && <th class={thClass}>地区</th>}
                 <th class={thClass}>特质</th>
                 <th class={thClass}>来源</th>
                 <th class={thClass}>人物</th>
@@ -83,16 +106,23 @@ const traitStyle = (trait: string) => {
         </thead>
         <tbody>
             {
-                sortedTraits.map((trait) => {
+                sortedTraits.map((trait, traitIndex) => {
                     const data = owners[trait as keyof typeof owners];
                     const info = getTraitInfo(trait);
                     const hasBase = data.base.length > 0;
                     const hasDlc = data.dlc.length > 0;
                     const hasBoth = hasBase && hasDlc;
+                    const region = getRegion(trait);
+                    const isFirstInRegion = mode === 'regional' && (traitIndex === 0 || getRegion(sortedTraits[traitIndex - 1]) !== region);
                     return (
                         <>
                             {hasBase && (
                                 <tr>
+                                    {isFirstInRegion && (
+                                        <td rowspan={regionRowspan.get(region)} class={tdCenter}>
+                                            {region}
+                                        </td>
+                                    )}
                                     <td rowspan={hasBoth ? 2 : 1} class={tdCenter}>
                                         {info?.link ? (
                                             <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
@@ -121,6 +151,11 @@ const traitStyle = (trait: string) => {
                             )}
                             {hasDlc && (
                                 <tr>
+                                    {isFirstInRegion && !hasBase && (
+                                        <td rowspan={regionRowspan.get(region)} class={tdCenter}>
+                                            {region}
+                                        </td>
+                                    )}
                                     {!hasBase && (
                                         <td rowspan={1} class={tdCenter}>
                                             {info?.link ? (
