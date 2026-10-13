@@ -16,9 +16,10 @@ type ClassWikiPlusProps = {
     collab?: ClassData;
     baseOwner?: string[];
     dlcOwner?: string[];
+    collabOwner?: string[];
 };
 
-const { base, dlc, collab, baseOwner, dlcOwner } = Astro.props as ClassWikiPlusProps;
+const { base, dlc, collab, baseOwner, dlcOwner, collabOwner } = Astro.props as ClassWikiPlusProps;
 
 import ClassDescription from './ClassDescription.astro';
 import ClassParams from './ClassParams.astro';
@@ -43,7 +44,7 @@ const sections = [
 ];
 ---
 
-<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
+<TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} collabOwner={collabOwner || []} />
 {
     sections.map(
         (section) =>
