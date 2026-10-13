@@ -1,14 +1,29 @@
 import { useState } from 'react';
 
 // 特质数据表（示例格式，实际使用时可以作为prop传入）
-const TraitColor = {
+export const TraitColor = {
     Oridinary: '#5bae23',
     Super: '#5bae22',
     // Super: '#2775b6',
     Bad: '#de1c31'
 }
 
-const TRAIT_MAP = {
+export const TRAIT_MAP = {
+
+    '巴蜀': { link: '/projects/trait/trait_bashu' },
+    '关陇': { link: '/projects/trait/trait_guanzhong' },
+    '关中': { link: '/projects/trait/trait_guanzhong' },
+    '河北': { link: '/projects/trait/trait_hebei' },
+    '淮泗': { link: '/projects/trait/trait_huaisi' },
+    '荆楚': { link: '/projects/trait/trait_jingyang' },
+    '荆扬': { link: '/projects/trait/trait_jingyang' },
+    '青徐': { link: '/projects/trait/trait_qingxu' },
+    '吴越': { link: '/projects/trait/trait_wuyue' },
+    '西凉': { link: '/projects/trait/trait_yongliang' },
+    '雍凉': { link: '/projects/trait/trait_yongliang' },
+    '幽并': { link: '/projects/trait/trait_youbing' },
+    '中原': { link: '/projects/trait/trait_zhongyuan' },
+
     '霸者': { color: TraitColor.Oridinary, link: '/projects/trait/trait_bazhe' },
     '鬼谋': { color: TraitColor.Oridinary, link: '/projects/trait/trait_guimou' },
     '机心': { color: TraitColor.Oridinary, link: '/projects/trait/trait_jixin' },
@@ -50,42 +65,6 @@ const TRAIT_MAP = {
     '柱石': { color: TraitColor.Super, link: '/projects/trait/trait_zhushi' },
     '准望': { color: TraitColor.Super, link: '/projects/trait/trait_zhunwang' },
 
-    '傲上': { color: TraitColor.Bad, link: '/projects/trait/trait_aoshang' },
-    '跋扈': { color: TraitColor.Bad, link: '/projects/trait/trait_bahu' },
-    '粗疏': { color: TraitColor.Bad, link: '/projects/trait/trait_cushu' },
-    '短虑': { color: TraitColor.Bad, link: '/projects/trait/trait_duanlv' },
-    '高慢': { color: TraitColor.Bad, link: '/projects/trait/trait_gaoman' },
-    '功名': { color: TraitColor.Bad, link: '/projects/trait/trait_gongming' },
-    '横暴': { color: TraitColor.Bad, link: '/projects/trait/trait_hengbao' },
-    '荒悖': { color: TraitColor.Bad, link: '/projects/trait/trait_huangbei' },
-    '骄惰': { color: TraitColor.Bad, link: '/projects/trait/trait_jiaoduo' },
-    '矜高': { color: TraitColor.Bad, link: '/projects/trait/trait_jingao' },
-    '狷狭': { color: TraitColor.Bad, link: '/projects/trait/trait_juanxia' },
-    '狼顾': { color: TraitColor.Bad, link: '/projects/trait/trait_langgu' },
-    '老革': { color: TraitColor.Bad, link: '/projects/trait/trait_laoge' },
-    '靡费': { color: TraitColor.Bad, link: '/projects/trait/trait_mifei' },
-    '怯懦': { color: TraitColor.Bad, link: '/projects/trait/trait_qienuo' },
-    '轻佻': { color: TraitColor.Bad, link: '/projects/trait/trait_qingtiao' },
-    '铜臭': { color: TraitColor.Bad, link: '/projects/trait/trait_tongxiu' },
-    '无谋': { color: TraitColor.Bad, link: '/projects/trait/trait_wumou' },
-    '庸弱': { color: TraitColor.Bad, link: '/projects/trait/trait_yongruo' },
-    '愚鲁': { color: TraitColor.Bad, link: '/projects/trait/trait_yulu' },
-    '自矜': { color: TraitColor.Bad, link: '/projects/trait/trait_zijin' },
-    '恣睢': { color: TraitColor.Bad, link: '/projects/trait/trait_zisui' },
-
-    '巴蜀': { link: '/projects/trait/trait_bashu' },
-    '关陇': { link: '/projects/trait/trait_guanzhong' },
-    '关中': { link: '/projects/trait/trait_guanzhong' },
-    '河北': { link: '/projects/trait/trait_hebei' },
-    '淮泗': { link: '/projects/trait/trait_huaisi' },
-    '荆楚': { link: '/projects/trait/trait_jingyang' },
-    '荆扬': { link: '/projects/trait/trait_jingyang' },
-    '青徐': { link: '/projects/trait/trait_qingxu' },
-    '吴越': { link: '/projects/trait/trait_wuyue' },
-    '西凉': { link: '/projects/trait/trait_yongliang' },
-    '雍凉': { link: '/projects/trait/trait_yongliang' },
-    '幽并': { link: '/projects/trait/trait_youbing' },
-    '中原': { link: '/projects/trait/trait_zhongyuan' },
 
     '持重': { link: '/projects/trait/trait_chizhong' },
     '赤心': { link: '/projects/trait/trait_chixin' },
@@ -196,6 +175,29 @@ const TRAIT_MAP = {
     '智迟': { link: '/projects/trait/trait_zhichi' },
     '忠志': { link: '/projects/trait/trait_zhongzhi' },
     '自若': { link: '/projects/trait/trait_ziruo' },
+
+    '傲上': { color: TraitColor.Bad, link: '/projects/trait/trait_aoshang' },
+    '跋扈': { color: TraitColor.Bad, link: '/projects/trait/trait_bahu' },
+    '粗疏': { color: TraitColor.Bad, link: '/projects/trait/trait_cushu' },
+    '短虑': { color: TraitColor.Bad, link: '/projects/trait/trait_duanlv' },
+    '高慢': { color: TraitColor.Bad, link: '/projects/trait/trait_gaoman' },
+    '功名': { color: TraitColor.Bad, link: '/projects/trait/trait_gongming' },
+    '横暴': { color: TraitColor.Bad, link: '/projects/trait/trait_hengbao' },
+    '荒悖': { color: TraitColor.Bad, link: '/projects/trait/trait_huangbei' },
+    '骄惰': { color: TraitColor.Bad, link: '/projects/trait/trait_jiaoduo' },
+    '狷狭': { color: TraitColor.Bad, link: '/projects/trait/trait_juanxia' },
+    '狼顾': { color: TraitColor.Bad, link: '/projects/trait/trait_langgu' },
+    '老革': { color: TraitColor.Bad, link: '/projects/trait/trait_laoge' },
+    '靡费': { color: TraitColor.Bad, link: '/projects/trait/trait_mifei' },
+    '怯懦': { color: TraitColor.Bad, link: '/projects/trait/trait_qienuo' },
+    '轻佻': { color: TraitColor.Bad, link: '/projects/trait/trait_qingtiao' },
+    '铜臭': { color: TraitColor.Bad, link: '/projects/trait/trait_tongxiu' },
+    '无谋': { color: TraitColor.Bad, link: '/projects/trait/trait_wumou' },
+    '庸弱': { color: TraitColor.Bad, link: '/projects/trait/trait_yongruo' },
+    '愚鲁': { color: TraitColor.Bad, link: '/projects/trait/trait_yulu' },
+    '矜高': { color: TraitColor.Bad, link: '/projects/trait/trait_jingao' },
+    '自矜': { color: TraitColor.Bad, link: '/projects/trait/trait_zijin' },
+    '恣睢': { color: TraitColor.Bad, link: '/projects/trait/trait_zisui' },
 };
 
 export default function FiveStringTable({ data }) {

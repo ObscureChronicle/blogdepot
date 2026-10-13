@@ -13,6 +13,8 @@ seo:
 
 ---
 
+import TraitOwnersTable from "../../../components/Table_TraitOwners.astro";
+
 不同于军略，特性提供被动的能力加成，分为地域特性与个人特性。
 
 地域特性每人皆有且仅有一个，大体依据此人籍贯或生长环境决定，并可大体分为汉文化与少数民族文化两大类别。
@@ -88,3 +90,9 @@ seo:
 </div>
 
 <img src='/image/Region_DLC.png' />
+
+<h2 class='section-title'>总地域特性表</h2>
+
+本表用于给玩家提供一个总地域特性表及拥有者。如有DLC版本，对应特性拆分为两行。
+
+<TraitOwnersTable mode="regional" />

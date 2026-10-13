@@ -13,6 +13,8 @@ seo:
 
 ---
 
+import TraitOwnersTable from "../../../components/Table_TraitOwners.astro";
+
 不同于军略，特性提供被动的能力加成，分为地域特性与个人特性。
 
 个人特性上限至多为四个，除非含有某些特殊个人特性，否则敌军一旦拥有个人特性，将视为将领而失去高难度下的数值成长。
@@ -42,3 +44,9 @@ seo:
 负面个人特性
 
 大部分人物的个人特性大幅增多，且有许多为双刃剑效果/负面个人特性。
+
+<h2 class='section-title'>总特质表</h2>
+
+本表用于给玩家提供一个总特质表及拥有者。如有DLC版本，对应特质拆分为两行。
+
+<TraitOwnersTable mode="personal" />
