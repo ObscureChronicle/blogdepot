@@ -13,21 +13,16 @@ seo:
 
 ---
 
-import { styles } from '../../../components/baseprops.json';
-import EquipmentStats from '../../../components/EquipmentStats.jsx';
+import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
 有方是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
 
 在星命诀中，有方则被区分为<a href="../equipment-youfang-iron">铁制有方</a>与<a href="../equipment-youfang-steel">钢制有方</a>。
 
-<h2  class='section-title'>说明</h2>
-
-两汉边燧简牍中常见的兵器，有刃，形制尚有争论。或以为「方」训「盾」，有方为有刃之盾牌，与剑弩配合使用。
-
-<h2  class='section-title'>效果</h2>
-
-<EquipmentStats
-  equipment={{
+<EquipmentWiki
+  baseDescription={'两汉边燧简牍中常见的兵器，有刃，形制尚有争论。或以为「方」训「盾」，有方为有刃之盾牌，与剑弩配合使用。'}
+  dlcDescription={''}
+  baseEquipment={{
     base: {
       价格: 4920,
       防御: 18,
@@ -41,4 +36,5 @@ import EquipmentStats from '../../../components/EquipmentStats.jsx';
       弓骑: 20
     }
   }}
+  dlcEquipment={{}}
 />

@@ -13,21 +13,16 @@ seo:
 
 ---
 
-import { styles } from '../../../components/baseprops.json';
-import EquipmentStats from '../../../components/EquipmentStats.jsx';
+import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
 革盾是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
 
 在星命诀中，革盾则被区分为<a href="../equipment-youfang-iron">革制圆盾</a>与<a href="../equipment-youfang-steel">革制长牌</a>。
 
-<h2  class='section-title'>说明</h2>
-
-用于防御箭矢的装备，可以强化刀兵对弓箭的防御力。
-
-<h2  class='section-title'>效果</h2>
-
-<EquipmentStats
-  equipment={{
+<EquipmentWiki
+  baseDescription={'先秦时，盾牌以革为主材，如《国语》载齐国可用革盾与戟赎轻罪，系先秦泛用革盾之反映。'}
+  dlcDescription={''}
+  baseEquipment={{
     base: {
       价格: 1250,
       防御: 9,
@@ -38,4 +33,5 @@ import EquipmentStats from '../../../components/EquipmentStats.jsx';
       弓骑: 10
     }
   }}
+  dlcEquipment={{}}
 />
