@@ -17,6 +17,8 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
 钩镶是《后汉稽异录》中的一种副手系<a href="../equipment-type">兵装</a>。
 
+在《后汉稽异录外传：星命诀》中，钩镶则被区分为<a href="../equipment-gouxiang-iron">铁制钩镶</a>与<a href="../equipment-gouxiang-steel">钢制钩镶</a>。
+
 <EquipmentWiki
   baseDescription={'将钩与盾结合的产物，可攻可守，盛行于两汉。'}
   dlcDescription={''}
@@ -24,8 +26,18 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
     base: {
       类型: '钩镶',
       价格: 5530,
+      防御: 7,
       重量: 3,
       适用: '刀兵、亲卫'
+    },
+    damageBonus: {
+      刀兵: 7
+    },
+    damageReduction: {
+      刀兵: 15,
+      矛兵: 20,
+      刀骑: 10,
+      矛骑: 15
     }
   }}
   dlcEquipment={{}}
