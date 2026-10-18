@@ -27,7 +27,7 @@ const SLUG = {
     橐驼: 'tuotuo', 驯象: 'xunxiang'
 };
 
-// 列: 0 ID, 1 名称, 2 说明, 5 买价, 7 重量, 11 添加技能, 15 参数补正
+// 列: 0 ID, 1 名称, 2 说明, 5 买价, 7 重量, 11 添加技能, 12 有效对手, 15 参数补正
 const parseTxt = (file) => {
     const lines = fs.readFileSync(file, 'utf-8').split(/\r?\n/).slice(1);
     const rows = {};
@@ -40,6 +40,7 @@ const parseTxt = (file) => {
             price: (cols[5] || '').trim(),
             weight: (cols[7] || '').trim(),
             skill: (cols[11] || '').trim(),
+            opponents: (cols[12] || '').trim(),
             params: (cols[15] || '').trim()
         };
     }
@@ -55,7 +56,7 @@ const getCategory = (row) => {
     return m ? m[1] : null;
 };
 
-// 参数补正: "魔防力+2 移动力-1" → [['魔防力','+2'],['移动力','-1']]
+// 参数补正: "魔防力+2 机动-1" → [['魔防力','+2'],['机动','-1']]
 const parseParams = (str) => {
     if (!str) return [];
     return str
@@ -65,12 +66,29 @@ const parseParams = (str) => {
         .map((m) => [m[1], m[2]]);
 };
 
+// 有效对手去重: "刀兵 刀兵" → "刀兵"
+const dedupOpponents = (str) => {
+    if (!str) return '';
+    const seen = new Set();
+    const out = [];
+    for (const p of str.split(/\s+/)) {
+        if (p && !seen.has(p)) {
+            seen.add(p);
+            out.push(p);
+        }
+    }
+    return out.join('、');
+};
+
 const buildEquipment = (row) => {
     if (!row) return '{}';
     const entries = [];
     if (row.price) entries.push(`      价格: ${row.price}`);
     for (const [k, v] of parseParams(row.params)) entries.push(`      ${k}: '${v}'`);
     if (row.weight) entries.push(`      重量: ${row.weight}`);
+    if (row.skill) entries.push(`      效果: '${row.skill}'`);
+    const opp = dedupOpponents(row.opponents);
+    if (opp) entries.push(`      适用: '${opp}'`);
     if (entries.length === 0) return '{}';
     return `{\n    base: {\n${entries.join(',\n')}\n    }\n  }`;
 };
@@ -96,11 +114,11 @@ for (const name of allNames) {
 
     let intro;
     if (b && d) {
-        intro = `${name}是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种${cat}类<a href="../equipment-type">兵装</a>。`;
+        intro = `${name}是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种${cat}系<a href="../equipment-type">兵装</a>。`;
     } else if (b) {
-        intro = `${name}是《后汉稽异录》中的一种${cat}类<a href="../equipment-type">兵装</a>。`;
+        intro = `${name}是《后汉稽异录》中的一种${cat}系<a href="../equipment-type">兵装</a>。`;
     } else {
-        intro = `${name}是《后汉稽异录外传：星命诀》中的一种${cat}类<a href="../equipment-type">兵装</a>。`;
+        intro = `${name}是《后汉稽异录外传：星命诀》中的一种${cat}系<a href="../equipment-type">兵装</a>。`;
     }
 
     const wikiTag = 'wiki-' + slug.charAt(0);

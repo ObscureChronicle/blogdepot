@@ -15,7 +15,7 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-畋车轮是《后汉稽异录外传：星命诀》中的一种轮具类<a href="../equipment-type">兵装</a>。
+畋车轮是《后汉稽异录外传：星命诀》中的一种轮具系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={''}
@@ -23,9 +23,11 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
   baseEquipment={{}}
   dlcEquipment={{
     base: {
+      类型: '轮具',
       价格: 5090,
-      移动力: '+1',
-      重量: 33
+      机动: '+1',
+      负重: 33,
+      适用: '器械系'
     }
   }}
 />

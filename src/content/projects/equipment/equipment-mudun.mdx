@@ -15,7 +15,7 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-木盾是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
+木盾是《后汉稽异录》中的一种副手系<a href="../equipment-type">兵装</a>。
 
 在星命诀中，木盾则被区分为<a href="../equipment-yuandun-wood">木制圆盾</a>与<a href="../equipment-changpai-wood">木制长牌</a>。
 
@@ -24,9 +24,11 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '盾牌',
       价格: 1870,
       防御: 13,
-      重量: 9
+      重量: 9,
+      适用: '民兵、刀兵、亲卫、有镫骑兵、有盾步兵'
     },
     damageReduction: {
       弓兵: 20,

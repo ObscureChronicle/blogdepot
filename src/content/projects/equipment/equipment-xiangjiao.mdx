@@ -15,15 +15,18 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-象轿是《后汉稽异录》中的一种马鞍类<a href="../equipment-type">兵装</a>。
+象轿是《后汉稽异录》中的一种马鞍系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'常见于东南亚、南亚的礼仪用鞍具。'}
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '马鞍',
       价格: 5160,
-      重量: 0
+      重量: 0,
+      效果: '持弓时扩展最大射程',
+      适用: '象兵'
     }
   }}
   dlcEquipment={{}}

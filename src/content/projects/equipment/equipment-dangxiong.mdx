@@ -15,21 +15,25 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-当胸是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马铠类<a href="../equipment-type">兵装</a>。
+当胸是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马铠系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'汉代马匹的皮质护具，对弓箭有轻微的抵挡作用。'}
   dlcDescription={'汉代马匹的皮质护具，对弓箭有轻微的抵挡作用。'}
   baseEquipment={{
     base: {
+      类型: '马铠',
       价格: 3110,
-      重量: 5
+      重量: 5,
+      适用: '轻骑兵系、重骑兵系'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '马铠',
       价格: 3110,
-      重量: 5
+      重量: 5,
+      适用: '骑兵系'
     }
   }}
 />

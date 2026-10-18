@@ -15,7 +15,7 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-驯象是《后汉稽异录外传：星命诀》中的一种马匹类<a href="../equipment-type">兵装</a>。
+驯象是《后汉稽异录外传：星命诀》中的一种马匹系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={''}
@@ -23,9 +23,12 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
   baseEquipment={{}}
   dlcEquipment={{
     base: {
+      类型: '马匹',
       价格: 40450,
-      移动力: '-8',
-      重量: 108
+      机动: '-8',
+      负重: 108,
+      效果: '机动不再受其余兵装减成 视为异族军队',
+      适用: '骑兵系'
     }
   }}
 />

@@ -15,21 +15,24 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-黑光铠是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种甲胄类<a href="../equipment-type">兵装</a>。
+黑光铠是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种甲胄系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'见于曹植所作《先帝赐臣铠表》中，当是铸造精良之铠。'}
   dlcDescription={'见于曹植所作《先帝赐臣铠表》中，当是铸造精良之铠。'}
   baseEquipment={{
     base: {
+      类型: '甲胄',
       价格: 23140,
-      重量: 29
+      重量: 29,
+      适用: '重甲'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '重甲',
       价格: 23140,
-      移动力: '-2',
+      机动: '-2',
       重量: 29
     }
   }}

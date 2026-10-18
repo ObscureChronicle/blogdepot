@@ -15,21 +15,27 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-三翼箭是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种副手类<a href="../equipment-type">兵装</a>。
+三翼箭是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种副手系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'长安武库与刘胜墓中曾出土箭镞端延伸出三翼的特殊箭矢，对人员杀伤力更增。'}
   dlcDescription={'长安武库与刘胜墓中曾出土箭镞端延伸出三翼的特殊箭矢，对人员杀伤力更增。'}
   baseEquipment={{
     base: {
+      类型: '箭矢',
       价格: 2500,
-      重量: 2
+      重量: 2,
+      效果: '攻击无甲目标时提升伤害',
+      适用: '弓类、弩类、弩炮'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '箭矢',
       价格: 2540,
-      重量: 0
+      重量: 0,
+      效果: '攻击无甲、轻甲类时提升伤害',
+      适用: '弓类、弩类'
     }
   }}
 />

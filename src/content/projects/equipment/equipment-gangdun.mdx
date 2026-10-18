@@ -15,15 +15,17 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-钢盾是《后汉稽异录》中的一种副手类<a href="../equipment-type">兵装</a>。
+钢盾是《后汉稽异录》中的一种副手系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'两汉时炼钢技术已日趋成熟。炒钢法、灌钢法、鼓风炉的发明与煤的初步使用，共同扩大了钢的冶炼规模。'}
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '盾牌',
       价格: 5050,
-      重量: 10
+      重量: 10,
+      适用: '民兵、刀兵、亲卫、有镫骑兵、有盾步兵'
     }
   }}
   dlcEquipment={{}}

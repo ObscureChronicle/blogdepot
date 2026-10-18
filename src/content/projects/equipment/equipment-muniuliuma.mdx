@@ -15,16 +15,18 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-木牛流马是《后汉稽异录》中的一种轮具类<a href="../equipment-type">兵装</a>。
+木牛流马是《后汉稽异录》中的一种轮具系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'诸葛亮所制造的运输用具，今已失传。或认为其是适用于山地的，可散装粮食的独轮车。'}
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '轮具',
       价格: 9360,
-      移动力: '+3',
-      重量: 12
+      机动: '+3',
+      重量: 12,
+      适用: '辎重队、车兵'
     }
   }}
   dlcEquipment={{}}

@@ -15,21 +15,25 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-革制马鞍是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马鞍类<a href="../equipment-type">兵装</a>。
+革制马鞍是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马鞍系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'秦至汉初考古所见的马鞍较战国时发展更进一步，制作和装饰更加精致。'}
   dlcDescription={'秦至汉初考古所见的马鞍较战国时发展更进一步，制作和装饰更加精致。'}
   baseEquipment={{
     base: {
+      类型: '马鞍',
       价格: 1750,
-      重量: 0
+      重量: 0,
+      适用: '轻骑兵系、重骑兵系'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '马鞍',
       价格: 1750,
-      重量: 0
+      重量: 0,
+      适用: '骑兵系'
     }
   }}
 />

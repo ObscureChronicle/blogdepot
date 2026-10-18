@@ -15,17 +15,19 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-偏箱车是《后汉稽异录》中的一种轮具类<a href="../equipment-type">兵装</a>。
+偏箱车是《后汉稽异录》中的一种轮具系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'天地交泮，万品滋彰。'}
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '轮具',
       价格: 9999,
-      魔防力: '+2',
-      移动力: '+3',
-      重量: 10
+      机动: '+3',
+      重量: 10,
+      效果: '冷静+2 不会受到特攻攻击 攻击时小概率附加混乱状态 攻击时小概率附加骄兵状态 辅助辎重队巧变 为全军始终启用「八阵Ⅲ」',
+      适用: '器械系'
     }
   }}
   dlcEquipment={{}}

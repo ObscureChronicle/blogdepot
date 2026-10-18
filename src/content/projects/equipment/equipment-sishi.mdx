@@ -15,7 +15,7 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-死尸是《后汉稽异录外传：星命诀》中的一种副手类<a href="../equipment-type">兵装</a>。
+死尸是《后汉稽异录外传：星命诀》中的一种副手系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={''}
@@ -23,8 +23,11 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
   baseEquipment={{}}
   dlcEquipment={{
     base: {
+      类型: '石弹',
       价格: 160,
-      重量: 0
+      重量: 0,
+      效果: '购买时民心-15 攻击时概率附加毒疫状态',
+      适用: '石砲'
     }
   }}
 />

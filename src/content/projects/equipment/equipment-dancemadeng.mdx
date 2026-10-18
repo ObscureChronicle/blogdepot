@@ -15,21 +15,27 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-单侧马镫是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马镫类<a href="../equipment-type">兵装</a>。
+单侧马镫是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种马镫系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'目前考古所见中国最早的马镫出现于西晋之时，用于增强矛骑兵的攻击能力。'}
   dlcDescription={'目前考古所见中国最早的马镫出现于西晋之时，用于增强矛骑兵的攻击能力。'}
   baseEquipment={{
     base: {
+      类型: '马镫',
       价格: 6830,
-      重量: 0
+      重量: 0,
+      效果: '允许骑兵装备盾牌\n允许骑兵装备同种所有武器',
+      适用: '轻骑兵系、重骑兵系'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '马镫',
       价格: 6830,
-      重量: 0
+      重量: 0,
+      效果: '允许骑兵装备盾牌',
+      适用: '骑兵系'
     }
   }}
 />

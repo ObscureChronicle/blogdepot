@@ -15,16 +15,18 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-象铠是《后汉稽异录》中的一种马铠类<a href="../equipment-type">兵装</a>。
+象铠是《后汉稽异录》中的一种马铠系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'古典时期，作为辅助兵种的象兵出现于各文明之中。披甲战象往往可以惊吓敌军，使其溃散。'}
   dlcDescription={''}
   baseEquipment={{
     base: {
+      类型: '马铠',
       价格: 12140,
-      移动力: '-1',
-      重量: 38
+      机动: '-1',
+      重量: 38,
+      适用: '象兵'
     }
   }}
   dlcEquipment={{}}

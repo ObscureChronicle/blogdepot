@@ -15,22 +15,25 @@ seo:
 
 import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-两当铠是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种甲胄类<a href="../equipment-type">兵装</a>。
+两当铠是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种甲胄系<a href="../equipment-type">兵装</a>。
 
 <EquipmentWiki
   baseDescription={'两当铠仅于前后施甲，兼顾了防护性与便利性，是三国时盛行的轻甲。'}
   dlcDescription={'两当铠仅于前后胸腹部施甲，兼顾了防护与便利程度，是三国时盛行的轻甲。'}
   baseEquipment={{
     base: {
+      类型: '甲胄',
       价格: 5880,
-      重量: 15
+      重量: 15,
+      适用: '轻步兵系、重步兵系、轻骑兵系、重骑兵系'
     }
   }}
   dlcEquipment={{
     base: {
+      类型: '中甲',
       价格: 5880,
-      移动力: '-1',
-      重量: 15
+      机动: '-1',
+      重量: 15,
     }
   }}
 />
