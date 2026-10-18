@@ -17,14 +17,22 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
 札甲是《后汉稽异录》中的一种甲胄类<a href="../equipment-type">兵装</a>。
 
+在《后汉稽异录外传：星命诀》中，该兵装被重命名为<a href="../equipment-penlingkai">盆领铠</a>。
+
 <EquipmentWiki
   baseDescription={'铁制铠甲出现于战国晚期。西汉时在军中得以流行，早期的铁甲以长条形甲片编成，被称为「札甲」。'}
-  dlcDescription={''}
+  dlcDescription={'铁制铠甲出现于战国晚期，西汉时在军中得以流行。早期的铁铠以形似书札的长条形甲片编成，并多带有盆领以防护颈部。'}
   baseEquipment={{
     base: {
       价格: 4530,
       重量: 24
     }
   }}
-  dlcEquipment={{}}
+  dlcEquipment={{
+    base: {
+      价格: 4530,
+      移动力: '-2',
+      重量: 24
+    }
+  }}
 />
