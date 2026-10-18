@@ -12,10 +12,11 @@ type TraitWikiProps = {
     baseDescription?: string;
     dlcDescription?: string;
     effect?: string;
+    dlcEffect?: string;
     noteHtml?: string;
 };
 
-const { intro, introHtml, level, baseEnable, dlcEnable, baseData, dlcData, baseOwner, dlcOwner, baseDescription, dlcDescription, effect, noteHtml } =
+const { intro, introHtml, level, baseEnable, dlcEnable, baseData, dlcData, baseOwner, dlcOwner, baseDescription, dlcDescription, effect, dlcEffect, noteHtml } =
     Astro.props as TraitWikiProps;
 
 import TraitDescription from './TraitDescription.astro';
@@ -31,5 +32,5 @@ const hasDlc = (dlcOwner && dlcOwner.length > 0) || (dlcDescription && dlcDescri
 <TraitIntro baseData={introHtml ? true : hasBase || undefined} dlcData={introHtml ? true : hasDlc || undefined} level={level} introHtml={introHtml} />
 <TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
 <TraitDescription baseDescription={baseDescription || ''} dlcDescription={dlcDescription || ''} />
-<TraitEffect effect={effect || ''} />
+<TraitEffect effect={effect || ''} dlcEffect={dlcEffect} />
 <TraitNote noteHtml={noteHtml} />

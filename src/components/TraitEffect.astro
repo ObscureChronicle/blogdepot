@@ -1,15 +1,36 @@
 ---
 type Props = {
     effect: string;
+    dlcEffect?: string;
 };
 
-const { effect } = Astro.props as Props;
+const { effect, dlcEffect } = Astro.props as Props;
+
+// 存在 dlcEffect 时，本传与星命诀分别显示小标签；否则不显示小标签
+const baseTagClass = 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-base font-bold px-2 py-0.5 rounded-sm inline-block';
+const dlcTagClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-base font-bold px-2 py-0.5 rounded-sm inline-block';
 ---
+
 {
-    effect && (
+    (effect || dlcEffect) && (
         <>
             <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">效果</h2>
-            <p class="whitespace-pre-line text-base leading-relaxed">{effect}</p>
+            {dlcEffect ? (
+                <>
+                    {effect && (
+                        <div>
+                            <span class={baseTagClass}>本传</span>
+                            <p class="whitespace-pre-line text-base leading-relaxed">{effect}</p>
+                        </div>
+                    )}
+                    <div>
+                        <span class={dlcTagClass}>星命诀</span>
+                        <p class="whitespace-pre-line text-base leading-relaxed">{dlcEffect}</p>
+                    </div>
+                </>
+            ) : (
+                <p class="whitespace-pre-line text-base leading-relaxed">{effect}</p>
+            )}
         </>
     )
 }
