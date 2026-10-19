@@ -1,3 +1,4 @@
+/** @type {Record<string, string>} */
 export const CHARACTER_MAP = {
   "阿贵": "/projects/bio/agui",
   "白绕": "/projects/bio/bairao",

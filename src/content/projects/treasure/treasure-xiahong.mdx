@@ -13,27 +13,32 @@ seo:
 
 ---
 
-赮虹是后汉稽异录与星命诀中的一项配饰类<a href="../treasure-type">宝物</a>。
+import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
-<h2  class='section-title'>说明</h2>
+赮虹是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一项配饰类<a href="../treasure-type">宝物</a>。
 
-王曰白父，孔景有光。
-
-昼短苦夜长，何不秉烛游。
-
-<h2  class='section-title'>正主</h2>
-
-<p></p>
-<a href="../../bio/liaohao">廖豪</a>
-<p></p>
-
-<h2  class='section-title'>素材</h2>
-
-<table class='border-2 w-[320px]'>
-  <tr>
-    <td class='border-1'>天义</td>
-  </tr>
-  <tr>
-    <td class='border-1'>方天戟</td>
-  </tr>
-</table>
+<EquipmentWiki
+  baseDescription={'王曰白父，孔景有光。'}
+  dlcDescription={'昼短苦夜长，何不秉烛游。'}
+  baseEquipment={{
+    base: {
+      价格: 18000,
+      武勇: '+9',
+      效果: '中幅强化突骑兵攻击力 不再消耗投掷类远程武器',
+      适用: '廖豪',
+      免疫: '惊扰 惊惧 重伤 低落'
+    }
+  }}
+  dlcEquipment={{
+    base: {
+      武勇: '+7',
+      运势: '-7',
+      效果: '阻止敌方发动军略/特性',
+      免疫: '畏葸'
+    }
+  }}
+  baseOwner={['廖豪']}
+  dlcOwner={[]}
+  baseMaterials={['天义', '方天']}
+  dlcMaterials={[]}
+/>
