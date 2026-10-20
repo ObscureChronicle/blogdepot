@@ -15,6 +15,10 @@
     /* 表格数值正负色：在米色底和 bg-muted 悬停底上都保证 ≥4.5:1 对比度 */
     --stat-pos: #047857;
     --stat-neg: #b91c1c;
+    /* 特质等级色（Table_Traits.jsx 的 TraitColor 引用）：保留原色相，只调深以满足对比度 */
+    --trait-top: #2f6b0f;
+    --trait-super: #2f6b0f;
+    --trait-bad: #b91c1c;
 }
 
 html.dark {
@@ -24,6 +28,9 @@ html.dark {
     --border-main: #f2f1ec;
     --stat-pos: #34d399;
     --stat-neg: #f87171;
+    --trait-top: #7cc94a;
+    --trait-super: #7cc94a;
+    --trait-bad: #f2606f;
 }
 
 /* Cyan */
