@@ -9,6 +9,7 @@ import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
 import { styles } from '../components/baseprops.json';
 import { CLASS_MAP } from './classMap.jsx';
+import { ITEM_MAP } from './itemMap.js';
 
 type CharacterWikiProps = {
     intro: string;
@@ -28,7 +29,7 @@ type CharacterWikiProps = {
     dlcclass: string[];
     battlesBase: [string, string][];
     battlesDLC: [string, string][];
-    equipments: { label: string; href: string }[];
+    equipments: string[];
     links: { label: string; href: string }[];
     nameTableData: {};
 };
@@ -160,10 +161,10 @@ const getClassLink = (name: string) => {
     )
 }
 {
-    equipments ? (
+    equipments && equipments.length > 0 ? (
         <>
             <h2  class='section-title'>关联装备</h2>
-            <div class="flex flex-col pl-4">{equipments ? equipments.map((e) => <a href={e.href}>{e.label}</a>) : nonedata}</div>
+            <div class="flex flex-col pl-4">{equipments.map((e) => { const href = ITEM_MAP[e]; return href ? <a href={href}>{e}</a> : <span>{e}</span>; })}</div>
         </>
     ) : null
 }
