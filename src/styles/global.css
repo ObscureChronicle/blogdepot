@@ -24,6 +24,9 @@
     --side-red: #b91c1c;
     --side-green: #2f6b0f;
     --side-yellow: #7a5a00;
+    /* 兵种阶位色（Table_ClassOwners.astro）：中阶橙、高阶红 */
+    --tier-mid: #a34a08;
+    --tier-high: #b91c1c;
 }
 
 html.dark {
@@ -40,6 +43,8 @@ html.dark {
     --side-red: #f2606f;
     --side-green: #7cc94a;
     --side-yellow: #ffd111;
+    --tier-mid: #fdba74;
+    --tier-high: #f87171;
 }
 
 /* Cyan */

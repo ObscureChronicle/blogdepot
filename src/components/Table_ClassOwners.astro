@@ -113,19 +113,19 @@ const categoryMap = new Map(CLASS_DATA.map((c) => [c.name, c.category]));
 const tierMap = new Map(CLASS_DATA.map((c) => [c.name, c.tier]));
 const catIndex = new Map(CATEGORY_ORDER.map((name, i) => [name, i]));
 
-// 阶位 → 文字颜色类
+// 阶位 → 文字颜色类（颜色变量定义在 global.css）
 const tierClassMap: Record<Tier, string> = {
     base: '', // 默认
-    mid: 'text-orange-300', // 中阶：肉色
-    high: 'text-red-600' // 高阶：红色
+    mid: 'text-(--tier-mid)', // 中阶：橙色
+    high: 'text-(--tier-high)' // 高阶：红色
 };
 const getTierClass = (cls: string) => tierClassMap[tierMap.get(cls) ?? 'base'];
 
 // 阶位 → 内联样式（.wiki a 为无层规则会覆盖工具类，链接必须用内联样式才能生效）
 const tierStyleMap: Record<Tier, string> = {
-    base: 'color: var(--color-grey-600)',
-    mid: 'color: var(--color-orange-300)',
-    high: 'color: var(--color-red-600)'
+    base: 'color: inherit',
+    mid: 'color: var(--tier-mid)',
+    high: 'color: var(--tier-high)'
 };
 const getTierStyle = (cls: string) => tierStyleMap[tierMap.get(cls) ?? 'base'];
 
@@ -206,17 +206,19 @@ const categoryGroups = groups.map((group) => {
     };
 });
 
-const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
-const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
-const tdCenter = `${tdClass} text-center font-medium whitespace-nowrap`;
+// 样式见 global.css 的 .wiki-table--merged：
+// 大类第一行加 cat-start（含 rowspan 的 cat-cell），兵种第一行加 cls-start（含 cls-cell），悬停时联动高亮所属合并格
+const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
+const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
 const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
+const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
 ---
 
 <div class="mb-3 flex justify-end">
     <button
         id="view-toggle"
         type="button"
-        class="px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 active:bg-gray-100 transition-colors"
+        class="rounded-md border border-main/30 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted active:bg-muted"
     >
         切换大类/小类兵种
     </button>
@@ -224,14 +226,14 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 
 <!-- ============ 小类视图（默认显示） ============ -->
 <div id="view-class">
-    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-        <table class="w-full border-collapse text-sm">
+    <div class="overflow-x-auto">
+        <table class="wiki-table wiki-table--merged not-prose">
             <thead>
                 <tr>
-                    <th class={thClass}>大类</th>
-                    <th class={thClass}>兵种</th>
-                    <th class={thClass}>来源</th>
-                    <th class={thClass}>人物</th>
+                    <th scope="col">大类</th>
+                    <th scope="col">兵种</th>
+                    <th scope="col">来源</th>
+                    <th scope="col">人物</th>
                 </tr>
             </thead>
             <tbody>
@@ -241,13 +243,13 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                             {group.classes.map((item, clsIndex) => (
                                 <>
                                     {item.hasBase && (
-                                        <tr>
+                                        <tr class={rowClass(clsIndex === 0 && 'cat-start', 'cls-start')}>
                                             {clsIndex === 0 && (
-                                                <td rowspan={group.totalRows} class={tdCenter}>
+                                                <th scope="rowgroup" rowspan={group.totalRows} class="cat-cell">
                                                     {group.category}
-                                                </td>
+                                                </th>
                                             )}
-                                            <td rowspan={item.hasBoth ? 2 : 1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
+                                            <th scope="rowgroup" rowspan={item.hasBoth ? 2 : 1} class={`cls-cell ${getTierClass(item.cls)}`}>
                                                 {getClassLink(item.cls) ? (
                                                     <a href={getClassLink(item.cls) || ''} class="hover:underline" style={getTierStyle(item.cls) || undefined}>
                                                         {item.cls}
@@ -255,9 +257,9 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                                 ) : (
                                                     item.cls
                                                 )}
-                                            </td>
-                                            <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
-                                            <td class={tdClass}>
+                                            </th>
+                                            <td class={srcBaseClass}>本体</td>
+                                            <td>
                                                 {item.base.map((name, index) => (
                                                     <span>
                                                         {index > 0 && '、'}
@@ -275,14 +277,14 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                     )}
 
                                     {item.hasDlc && (
-                                        <tr>
+                                        <tr class={rowClass(clsIndex === 0 && !item.hasBase && 'cat-start', !item.hasBase && 'cls-start')}>
                                             {clsIndex === 0 && !item.hasBase && (
-                                                <td rowspan={group.totalRows} class={tdCenter}>
+                                                <th scope="rowgroup" rowspan={group.totalRows} class="cat-cell">
                                                     {group.category}
-                                                </td>
+                                                </th>
                                             )}
                                             {!item.hasBase && (
-                                                <td rowspan={1} class={`${tdCenter} ${getTierClass(item.cls)}`}>
+                                                <th scope="rowgroup" rowspan={1} class={`cls-cell ${getTierClass(item.cls)}`}>
                                                     {getClassLink(item.cls) ? (
                                                         <a
                                                             href={getClassLink(item.cls) || ''}
@@ -294,10 +296,10 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                                                     ) : (
                                                         item.cls
                                                     )}
-                                                </td>
+                                                </th>
                                             )}
-                                            <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
-                                            <td class={tdClass}>
+                                            <td class={srcDlcClass}>星命诀</td>
+                                            <td>
                                                 {item.dlc.map((name, index) => (
                                                     <span>
                                                         {index > 0 && '、'}
@@ -325,13 +327,13 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 
 <!-- ============ 大类视图（默认隐藏） ============ -->
 <div id="view-category" class="hidden">
-    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-        <table class="w-full border-collapse text-sm">
+    <div class="overflow-x-auto">
+        <table class="wiki-table wiki-table--merged not-prose">
             <thead>
                 <tr>
-                    <th class={thClass}>大类</th>
-                    <th class={thClass}>来源</th>
-                    <th class={thClass}>人物</th>
+                    <th scope="col">大类</th>
+                    <th scope="col">来源</th>
+                    <th scope="col">人物</th>
                 </tr>
             </thead>
             <tbody>
@@ -339,12 +341,12 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                     categoryGroups.map((g) => (
                         <>
                             {g.hasBase && (
-                                <tr>
-                                    <td rowspan={g.totalRows} class={tdCenter}>
+                                <tr class="cat-start">
+                                    <th scope="rowgroup" rowspan={g.totalRows} class="cat-cell">
                                         {g.category}
-                                    </td>
-                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
-                                    <td class={tdClass}>
+                                    </th>
+                                    <td class={srcBaseClass}>本体</td>
+                                    <td>
                                         {g.baseNames.map((name, index) => (
                                             <span>
                                                 {index > 0 && '、'}
@@ -362,14 +364,14 @@ const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
                             )}
 
                             {g.hasDlc && (
-                                <tr>
+                                <tr class={rowClass(!g.hasBase && 'cat-start')}>
                                     {!g.hasBase && (
-                                        <td rowspan={g.totalRows} class={tdCenter}>
+                                        <th scope="rowgroup" rowspan={g.totalRows} class="cat-cell">
                                             {g.category}
-                                        </td>
+                                        </th>
                                     )}
-                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
-                                    <td class={tdClass}>
+                                    <td class={srcDlcClass}>星命诀</td>
+                                    <td>
                                         {g.dlcNames.map((name, index) => (
                                             <span>
                                                 {index > 0 && '、'}
