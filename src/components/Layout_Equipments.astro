@@ -170,12 +170,37 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
                     {showBaseMaterials && (
                         <div>
                             <span class={baseTagClass}>本传</span>
-                            <table class="border-2 w-[320px]">
-                                {baseMaterials.map((item) => {
+                            <table class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]">
+                                <tbody>
+                                    {baseMaterials.map((item) => {
+                                        const link = ITEM_MAP[item];
+                                        return (
+                                            <tr>
+                                                <td>
+                                                    {link ? (
+                                                        <a href={link} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                            {item}
+                                                        </a>
+                                                    ) : (
+                                                        item
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    <div>
+                        <span class={dlcTagClass}>星命诀</span>
+                        <table class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]">
+                            <tbody>
+                                {dlcMaterials.map((item) => {
                                     const link = ITEM_MAP[item];
                                     return (
                                         <tr>
-                                            <td class="border-1">
+                                            <td>
                                                 {link ? (
                                                     <a href={link} class="text-blue-600 hover:text-blue-800 hover:underline">
                                                         {item}
@@ -187,49 +212,30 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
                                         </tr>
                                     );
                                 })}
-                            </table>
-                        </div>
-                    )}
-                    <div>
-                        <span class={dlcTagClass}>星命诀</span>
-                        <table class="border-2 w-[320px]">
-                            {dlcMaterials.map((item) => {
-                                const link = ITEM_MAP[item];
-                                return (
-                                    <tr>
-                                        <td class="border-1">
-                                            {link ? (
-                                                <a href={link} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                                    {item}
-                                                </a>
-                                            ) : (
-                                                item
-                                            )}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                            </tbody>
                         </table>
                     </div>
                 </>
             ) : (
-                <table class="border-2 w-[320px]">
-                    {baseMaterials.map((item) => {
-                        const link = ITEM_MAP[item];
-                        return (
-                            <tr>
-                                <td class="border-1">
-                                    {link ? (
-                                        <a href={link} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                            {item}
-                                        </a>
-                                    ) : (
-                                        item
-                                    )}
-                                </td>
-                            </tr>
-                        );
-                    })}
+                <table class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]">
+                    <tbody>
+                        {baseMaterials.map((item) => {
+                            const link = ITEM_MAP[item];
+                            return (
+                                <tr>
+                                    <td>
+                                        {link ? (
+                                            <a href={link} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                                {item}
+                                            </a>
+                                        ) : (
+                                            item
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
                 </table>
             )}
         </>
