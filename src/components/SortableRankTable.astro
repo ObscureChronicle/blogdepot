@@ -1,0 +1,133 @@
+---
+/**
+ * 总人物属性可排序对比表
+ *
+ * 数据由 src/utils/rank-data.ts 在构建时扫描 bio 目录自动生成；
+ * 表头点击排序逻辑见底部 <script>，通过 data-* 属性选择，
+ * 支持同页多个表格实例，不污染全局变量。
+ */
+import { getRankRows } from '../utils/rank-data';
+
+const rows = getRankRows();
+
+const columns = [
+    { key: 'name', label: '人物', numeric: false },
+    { key: 'source', label: '数据来源', numeric: false },
+    { key: 'tongyu', label: '统御', numeric: true },
+    { key: 'zhilue', label: '智略', numeric: true },
+    { key: 'wuyong', label: '武勇', numeric: true },
+    { key: 'meili', label: '魅力', numeric: true },
+    { key: 'yunshi', label: '运势', numeric: true },
+    { key: 'danshi', label: '胆识', numeric: true },
+    { key: 'lengjing', label: '冷静', numeric: true }
+];
+
+// 数据来源标签配色沿用项目既有约定：本传=蓝、星命诀=黄
+const sourceTagClass = [
+    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+];
+---
+
+<table data-rank-table class="w-full text-sm">
+    <thead>
+        <tr>
+            {
+                columns.map((col) => (
+                    <th
+                        data-col={col.key}
+                        data-numeric={col.numeric ? '1' : undefined}
+                        class="cursor-pointer select-none whitespace-nowrap"
+                        title="点击排序"
+                    >
+                        {col.label}
+                        <span data-arrow aria-hidden="true" />
+                    </th>
+                ))
+            }
+        </tr>
+    </thead>
+    <tbody>
+        {
+            rows.map((row) => (
+                <tr>
+                    <td data-col="name" data-sort={row.pinyin}>
+                        <a href={row.href} class="text-blue-600 hover:text-blue-800 hover:underline">
+                            {row.name}
+                        </a>
+                    </td>
+                    <td data-col="source" data-sort={String(row.sourceIndex)}>
+                        <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
+                    </td>
+                    {row.values.map((v, i) => (
+                        <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
+                            {v === null ? '—' : v}
+                        </td>
+                    ))}
+                </tr>
+            ))
+        }
+    </tbody>
+</table>
+
+<script>
+    // 同页可能存在多个表格实例：用 data-* 属性选择，逐表独立初始化
+    document.querySelectorAll<HTMLElement>('table[data-rank-table]').forEach((table) => {
+        const tbody = table.querySelector('tbody');
+        if (!tbody) return;
+
+        const headers = Array.from(table.querySelectorAll<HTMLElement>('th[data-col]'));
+        const arrows = new Map<HTMLElement, Element>();
+        headers.forEach((th) => {
+            const arrow = th.querySelector('[data-arrow]');
+            if (arrow) arrows.set(th, arrow);
+        });
+
+        let activeTh: HTMLElement | null = null;
+        let dir = 1; // 1=升序 -1=降序
+
+        headers.forEach((th) => {
+            th.addEventListener('click', () => {
+                if (activeTh === th) {
+                    dir = -dir; // 再次点击同一列反向
+                } else {
+                    activeTh = th;
+                    dir = 1;
+                }
+                arrows.forEach((arrow, el) => {
+                    arrow.textContent = el === activeTh ? (dir === 1 ? '▲' : '▼') : '';
+                });
+
+                const colKey = th.dataset.col ?? '';
+                const numeric = th.dataset.numeric === '1';
+                // index 记录初始顺序：作为稳定排序的决胜键，保证同人物多行相对顺序
+                const tableRows = Array.from(tbody.querySelectorAll('tr')).map((tr, index) => ({ tr, index }));
+                tableRows.sort((A, B) => {
+                    const cellA = A.tr.querySelector(`td[data-col="${colKey}"]`);
+                    const cellB = B.tr.querySelector(`td[data-col="${colKey}"]`);
+                    const rawA = cellA?.getAttribute('data-sort') ?? '';
+                    const rawB = cellB?.getAttribute('data-sort') ?? '';
+                    const emptyA = rawA === '';
+                    const emptyB = rawB === '';
+                    // 「—」（data-sort 为空）视为最小值，无论升降序始终排在末尾
+                    if (emptyA && emptyB) return A.index - B.index;
+                    if (emptyA) return 1;
+                    if (emptyB) return -1;
+                    let cmp: number;
+                    if (numeric) {
+                        cmp = Number(rawA) - Number(rawB);
+                    } else {
+                        cmp = rawA.localeCompare(rawB, 'zh-Hans-CN');
+                    }
+                    if (cmp === 0) return A.index - B.index; // 稳定排序
+                    return cmp * dir;
+                });
+
+                const frag = document.createDocumentFragment();
+                tableRows.forEach(({ tr }) => frag.appendChild(tr));
+                tbody.appendChild(frag);
+            });
+        });
+    });
+</script>
