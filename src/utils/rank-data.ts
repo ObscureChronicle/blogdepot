@@ -98,7 +98,12 @@ function buildRankData(): { rows: RankRow[]; report: RankReport } {
         const groupRows: RankRow[] = [];
         for (const group of GROUPS) {
             const baseInner = extractArray(raw, group.baseField);
-            const extraInner = extractArray(raw, group.extraField);
+            let extraInner = extractArray(raw, group.extraField);
+
+            // 本传2 特例：postBaseData2 缺失但 postData 存在时，胆识/冷静沿用本传1 的 baseData2
+            if (group.source === '本传2' && extraInner === undefined && baseInner !== undefined) {
+                extraInner = extractArray(raw, 'baseData2');
+            }
 
             // 某组两个数组都缺失 → 该组不生成行
             if (baseInner === undefined && extraInner === undefined) continue;
