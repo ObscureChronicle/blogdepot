@@ -30,46 +30,59 @@ const sourceTagClass = [
 ];
 ---
 
-<table data-rank-table class="w-full text-sm">
-    <thead>
-        <tr>
-            {
-                columns.map((col) => (
-                    <th
-                        data-col={col.key}
-                        data-numeric={col.numeric ? '1' : undefined}
-                        class="cursor-pointer select-none whitespace-nowrap"
-                        title="点击排序"
-                    >
-                        {col.label}
-                        <span data-arrow aria-hidden="true" />
-                    </th>
-                ))
-            }
-        </tr>
-    </thead>
-    <tbody>
+<div data-rank-wrapper>
+    <div class="flex flex-wrap gap-x-5 gap-y-1 mb-2 text-sm">
         {
-            rows.map((row) => (
-                <tr>
-                    <td data-col="name" data-sort={row.pinyin}>
-                        <a href={row.href} class="text-blue-600 hover:text-blue-800 hover:underline">
-                            {row.name}
-                        </a>
-                    </td>
-                    <td data-col="source" data-sort={String(row.sourceIndex)}>
-                        <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
-                    </td>
-                    {row.values.map((v, i) => (
-                        <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
-                            {v === null ? '—' : v}
-                        </td>
-                    ))}
-                </tr>
+            ['本传1', '本传2', '星命诀'].map((label, i) => (
+                <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="checkbox" checked data-source-filter={String(i)} class="accent-blue-600" />
+                    {label}
+                </label>
             ))
         }
-    </tbody>
-</table>
+    </div>
+
+    <table data-rank-table class="w-full text-sm">
+        <thead>
+            <tr>
+                {
+                    columns.map((col) => (
+                        <th
+                            data-col={col.key}
+                            data-numeric={col.numeric ? '1' : undefined}
+                            class="cursor-pointer select-none whitespace-nowrap"
+                            title="点击排序"
+                        >
+                            {col.label}
+                            <span data-arrow aria-hidden="true" />
+                        </th>
+                    ))
+                }
+            </tr>
+        </thead>
+        <tbody>
+            {
+                rows.map((row) => (
+                    <tr data-source-index={String(row.sourceIndex)}>
+                        <td data-col="name" data-sort={row.pinyin}>
+                            <a href={row.href} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                {row.name}
+                            </a>
+                        </td>
+                        <td data-col="source" data-sort={String(row.sourceIndex)}>
+                            <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
+                        </td>
+                        {row.values.map((v, i) => (
+                            <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
+                                {v === null ? '—' : v}
+                            </td>
+                        ))}
+                    </tr>
+                ))
+            }
+        </tbody>
+    </table>
+</div>
 
 <script>
     // 同页可能存在多个表格实例：用 data-* 属性选择，逐表独立初始化
@@ -86,6 +99,17 @@ const sourceTagClass = [
 
         let activeTh: HTMLElement | null = null;
         let dir = 1; // 1=升序 -1=降序
+
+        // 数据来源复选框：勾选状态决定对应行的显示/隐藏
+        const wrapper = table.closest('[data-rank-wrapper]') ?? table.parentElement;
+        const filters = Array.from(wrapper?.querySelectorAll<HTMLInputElement>('input[data-source-filter]') ?? []);
+        const applyFilter = () => {
+            const visible = new Set(filters.filter((c) => c.checked).map((c) => c.dataset.sourceFilter ?? ''));
+            tbody.querySelectorAll('tr').forEach((tr) => {
+                tr.style.display = visible.has(tr.dataset.sourceIndex ?? '') ? '' : 'none';
+            });
+        };
+        filters.forEach((cb) => cb.addEventListener('change', applyFilter));
 
         headers.forEach((th) => {
             th.addEventListener('click', () => {
