@@ -220,6 +220,7 @@ export default function FiveStringTable({ data }) {
 
     // 添加地域特质的链接
     const regionTraitLink = '/projects/trait/trait_00_regional';
+    const personalTraitLink = '/projects/trait/trait_00_personal';
 
     // 获取特质颜色（如果存在）；普通特质沿用正文颜色
     const getTraitColor = (trait) => {
@@ -264,7 +265,9 @@ export default function FiveStringTable({ data }) {
                                             {rowTitles[index]}
                                         </a>
                                     ) : (
-                                        rowTitles[index] || '特质'
+                                        <a href={personalTraitLink}>
+                                            {rowTitles[index]}
+                                        </a>
                                     )}
                                 </th>
                                 <td className="font-medium">
