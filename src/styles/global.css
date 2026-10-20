@@ -273,8 +273,21 @@ html.dark {
         --tw-prose-captions: var(--text-color-main);
         --tw-prose-kbd: var(--text-color-main);
         --tw-prose-code: var(--text-color-main);
-        --tw-prose-th-borders: var(--border-color-main);
-        --tw-prose-td-borders: var(--border-color-main);
+        /* Markdown 表格与 .wiki-table 保持同一套线条：表头下深线、行间浅线 */
+        --tw-prose-th-borders: color-mix(in srgb, var(--text-main) 70%, transparent);
+        --tw-prose-td-borders: color-mix(in srgb, var(--text-main) 14%, transparent);
+    }
+
+    /* Markdown 表格补上三线表的收尾线和悬停高亮（组件内的表格都带 not-prose，不受影响） */
+    .prose :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+        border-bottom: 1.5px solid var(--tw-prose-th-borders);
+        font-variant-numeric: tabular-nums;
+    }
+
+    @media (hover: hover) {
+        .prose :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *)):hover > * {
+            background-color: var(--bg-muted);
+        }
     }
 
     .prose a {
