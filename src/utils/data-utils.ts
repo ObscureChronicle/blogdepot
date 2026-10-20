@@ -17,6 +17,7 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     文存: 'wen-yan',
     人物: 'biography',
     兵装与宝物: 'equipment',
+    列表: 'list',
     特性与军略: 'trait',
     关卡: 'stage',
     状态: 'status',

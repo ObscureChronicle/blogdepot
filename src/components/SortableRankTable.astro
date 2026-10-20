@@ -19,7 +19,8 @@ const columns = [
     { key: 'meili', label: '魅力', numeric: true },
     { key: 'yunshi', label: '运势', numeric: true },
     { key: 'danshi', label: '胆识', numeric: true },
-    { key: 'lengjing', label: '冷静', numeric: true }
+    { key: 'lengjing', label: '冷静', numeric: true },
+    { key: 'zonghe', label: '总和', numeric: true }
 ];
 
 // 数据来源标签配色沿用项目既有约定：本传=蓝、星命诀=黄
@@ -31,7 +32,7 @@ const sourceTagClass = [
 ---
 
 <div data-rank-wrapper>
-    <div class="flex flex-wrap gap-x-5 gap-y-1 mb-2 text-sm">
+    <div class="flex flex-wrap gap-x-5 gap-y-1 mb-1 text-sm">
         {
             ['本传1', '本传2', '星命诀'].map((label, i) => (
                 <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
@@ -39,6 +40,24 @@ const sourceTagClass = [
                     {label}
                 </label>
             ))
+        }
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+            <input type="radio" data-source-mode="max" class="accent-blue-600" />
+            最高数值
+        </label>
+    </div>
+
+    <div class="flex flex-wrap gap-x-5 gap-y-1 mb-2 text-sm">
+        {
+            columns
+                .slice(2)
+                .filter((col) => col.key !== 'zonghe')
+                .map((col) => (
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                        <input type="checkbox" checked data-col-filter={col.key} class="accent-blue-600" />
+                        {col.label}
+                    </label>
+                ))
         }
     </div>
 
@@ -77,6 +96,7 @@ const sourceTagClass = [
                                 {v === null ? '—' : v}
                             </td>
                         ))}
+                        <td data-col="zonghe" data-sort="" />
                     </tr>
                 ))
             }
@@ -109,7 +129,94 @@ const sourceTagClass = [
                 tr.style.display = visible.has(tr.dataset.sourceIndex ?? '') ? '' : 'none';
             });
         };
-        filters.forEach((cb) => cb.addEventListener('change', applyFilter));
+
+        // 「最高数值」单选：与三个数据来源复选框互斥；选中时按综合分选出同名人物的最高分行
+        const maxRadio = wrapper?.querySelector<HTMLInputElement>('input[data-source-mode="max"]');
+        const getCellVal = (tr: HTMLTableRowElement, key: string) => {
+            const cell = tr.querySelector(`td[data-col="${key}"]`);
+            const raw = cell?.getAttribute('data-sort') ?? '';
+            return raw === '' ? 0 : Number(raw);
+        };
+        const applyMaxScore = () => {
+            // 综合分 = 胆识*10 + 冷静*10 + 统御 + 智略 + 武勇 + 魅力 + 运势；缺失值按 0 计
+            const groups = new Map<string, { tr: HTMLTableRowElement; score: number }[]>();
+            tbody.querySelectorAll<HTMLTableRowElement>('tr').forEach((tr) => {
+                const name = tr.querySelector('td[data-col="name"]')?.textContent?.trim() ?? '';
+                const score =
+                    getCellVal(tr, 'danshi') * 10 +
+                    getCellVal(tr, 'lengjing') * 10 +
+                    getCellVal(tr, 'tongyu') +
+                    getCellVal(tr, 'zhilue') +
+                    getCellVal(tr, 'wuyong') +
+                    getCellVal(tr, 'meili') +
+                    getCellVal(tr, 'yunshi');
+                const arr = groups.get(name) ?? [];
+                arr.push({ tr, score });
+                groups.set(name, arr);
+            });
+            tbody.querySelectorAll('tr').forEach((tr) => {
+                tr.style.display = 'none';
+            });
+            groups.forEach((arr) => {
+                // 同分按当前 DOM 顺序取首项（即构建顺序 本传1 → 本传2 → 星命诀）
+                arr.sort((a, b) => b.score - a.score);
+                arr[0].tr.style.display = '';
+            });
+        };
+        maxRadio?.addEventListener('change', () => {
+            if (maxRadio.checked) {
+                filters.forEach((c) => {
+                    c.checked = false;
+                });
+                applyMaxScore();
+            }
+        });
+        filters.forEach((cb) => {
+            cb.addEventListener('change', () => {
+                if (maxRadio) maxRadio.checked = false;
+                applyFilter();
+            });
+        });
+
+        // 列显示复选框：控制统御/智略/武勇/魅力/运势/胆识/冷静 七列的显示与隐藏
+        const colFilters = Array.from(wrapper?.querySelectorAll<HTMLInputElement>('input[data-col-filter]') ?? []);
+        // 「总和」列：对当前可见的数值列求和，胆识、冷静额外乘以 10；随列筛选实时重算
+        const computeZonghe = () => {
+            const visibleCols = new Set(colFilters.filter((c) => c.checked).map((c) => c.dataset.colFilter ?? ''));
+            tbody.querySelectorAll<HTMLTableRowElement>('tr').forEach((tr) => {
+                let sum = 0;
+                colFilters.forEach((c) => {
+                    const key = c.dataset.colFilter ?? '';
+                    if (!c.checked || !visibleCols.has(key)) return;
+                    const cell = tr.querySelector(`td[data-col="${key}"]`);
+                    const raw = cell?.getAttribute('data-sort') ?? '';
+                    if (raw === '') return;
+                    let val = Number(raw);
+                    if (key === 'danshi' || key === 'lengjing') val *= 10;
+                    sum += val;
+                });
+                const cell = tr.querySelector<HTMLTableCellElement>('td[data-col="zonghe"]');
+                if (cell) {
+                    cell.setAttribute('data-sort', String(sum));
+                    cell.textContent = String(sum);
+                }
+            });
+        };
+        const applyColFilter = () => {
+            // 人物、数据来源、总和 三列始终可见；其余列由勾选状态决定
+            const visible = new Set(['name', 'source', 'zonghe', ...colFilters.filter((c) => c.checked).map((c) => c.dataset.colFilter ?? '')]);
+            table.querySelectorAll<HTMLElement>('th[data-col]').forEach((th) => {
+                th.style.display = visible.has(th.dataset.col ?? '') ? '' : 'none';
+            });
+            tbody.querySelectorAll('tr').forEach((tr) => {
+                tr.querySelectorAll<HTMLElement>('td[data-col]').forEach((td) => {
+                    td.style.display = visible.has(td.dataset.col ?? '') ? '' : 'none';
+                });
+            });
+            computeZonghe();
+        };
+        colFilters.forEach((cb) => cb.addEventListener('change', applyColFilter));
+        applyColFilter(); // 初始化：默认全列可见，并填充总和
 
         headers.forEach((th) => {
             th.addEventListener('click', () => {
