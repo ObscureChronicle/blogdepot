@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { CLASS_MAP } from './classMap.jsx';
 
 // 链接映射配置（示例，实际使用时可以作为prop传入或外部导入）
@@ -26,9 +25,6 @@ const NOTE_LINKS = {
 };
 
 export default function DLCStageStringTable({ data }) {
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [activeCell, setActiveCell] = useState({ row: null, col: null });
-
     // 处理不同维度的输入数据
     const normalizeData = (inputData) => {
         if (!Array.isArray(inputData)) return [];
@@ -69,42 +65,31 @@ export default function DLCStageStringTable({ data }) {
         }
     };
 
-    // 处理单元格点击事件
-    const handleCellClick = (rowIndex, colIndex, value, event) => {
-        const link = getCellLink(value, colIndex);
-        if (link) {
-            setActiveCell({ row: rowIndex, col: colIndex });
-        }
-    };
-
-    // 获取单元格颜色（根据列类型）
+    // 获取单元格颜色（根据列类型），颜色变量定义在 global.css
     const getCellColor = (value, colIndex) => {
-        //if (colIndex === 0) return '#2775b6'; // 关卡列 - 蓝色
         if (colIndex === 1) {
-            if (value === '助战军' || value === '我军') return '#de1c31'; // 阵营列 - 绿色
-            if (value === '盟军') return '#ffd111'; // 阵营列 - 绿色
-            if (value === '敌军') return '#2775b6'; // 阵营列 - 红色
+            if (value === '助战军' || value === '我军') return 'var(--side-red)'; // 星命诀：我军 - 红色
+            if (value === '盟军') return 'var(--side-yellow)'; // 星命诀：盟军 - 黄色
+            if (value === '敌军') return 'var(--side-blue)'; // 星命诀：敌军 - 蓝色
         }
-        return '#4a5568'; // 默认灰色
+        return 'inherit'; // 默认沿用正文颜色
     };
 
-    // 判断单元格是否激活
-    const isCellActive = (rowIndex, colIndex) => {
-        return activeCell.row === rowIndex && activeCell.col === colIndex;
-    };
-
+    // 样式见 global.css 的 .wiki-table；悬停高亮由 CSS 实现，不需要 React 状态
     return (
-        <div className="mx-auto min-w-[320px] max-w-2xl overflow-hidden rounded-lg relative">
-            <table className="w-full border-collapse">
+        <div className="mt-2 w-full max-w-xl overflow-x-auto">
+            <table className="wiki-table wiki-table--matrix wiki-table--hover not-prose">
+                {/* 固定列宽比例，让本传与星命诀两张表上下对齐 */}
+                <colgroup>
+                    <col className="w-[38%]" />
+                    <col className="w-[14%]" />
+                    <col className="w-[22%]" />
+                    <col className="w-[26%]" />
+                </colgroup>
                 <thead>
-                    <tr className="bg-yellow-200 text-white">
-                        {headers.map((header, index) => (
-                            <th
-                                key={index}
-                                className={`px-4 py-3 font-bold text-center border-b border-white
-                                    ${index === 0 ? 'rounded-tl-lg' : ''}
-                                    ${index === headers.length - 1 ? 'rounded-tr-lg' : ''}`}
-                            >
+                    <tr>
+                        {headers.map((header) => (
+                            <th key={header} scope="col">
                                 {header}
                             </th>
                         ))}
@@ -112,15 +97,7 @@ export default function DLCStageStringTable({ data }) {
                 </thead>
                 <tbody>
                     {tableData.map((row, rowIndex) => (
-                        <tr
-                            key={rowIndex}
-                            className={`transition-all duration-200 ${hoveredIndex === rowIndex
-                                ? 'bg-yellow-50 transform scale-[1.01]'
-                                : 'bg-white'
-                                }`}
-                            onMouseEnter={() => setHoveredIndex(rowIndex)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                        >
+                        <tr key={rowIndex}>
                             {row.map((cell, cellIndex) => {
                                 const cellValue = cell || '-';
                                 const hasLink = getCellLink(cell, cellIndex);
@@ -129,20 +106,10 @@ export default function DLCStageStringTable({ data }) {
                                 return (
                                     <td
                                         key={cellIndex}
-                                        className={`px-4 py-3 text-center border-b border-gray-200
-                                            ${cellIndex === 0 ? 'font-medium' : ''}
-                                            ${hoveredIndex === rowIndex ? 'text-green-700' : 'text-gray-700'}`}
+                                        className={cellIndex <= 1 ? 'font-medium' : ''}
                                     >
                                         {hasLink ? (
-                                            <a
-                                                href={hasLink}
-                                                onClick={(e) => handleCellClick(rowIndex, cellIndex, cell, e)}
-                                                className={`cursor-pointer hover:underline ${isCellActive(rowIndex, cellIndex)
-                                                    ? 'ring-2 ring-offset-1 ring-blue-500 rounded'
-                                                    : ''
-                                                    }`}
-                                                style={{ color: cellColor }}
-                                            >
+                                            <a href={hasLink} className="hover:underline" style={{ color: cellColor }}>
                                                 {cellValue}
                                             </a>
                                         ) : (
@@ -158,7 +125,7 @@ export default function DLCStageStringTable({ data }) {
 
             {/* 无数据提示 */}
             {tableData.length === 0 && (
-                <div className="px-4 py-6 text-center text-gray-500 italic">
+                <div className="px-2 py-4 text-center italic opacity-60">
                     暂无关卡数据
                 </div>
             )}

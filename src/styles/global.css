@@ -12,6 +12,21 @@
     --bg-main: #f2f1ec;
     --bg-muted: #eae9e1;
     --border-main: #171717;
+    /* 表格数值正负色：在米色底和 bg-muted 悬停底上都保证 ≥4.5:1 对比度 */
+    --stat-pos: #047857;
+    --stat-neg: #b91c1c;
+    /* 特质等级色（Table_Traits.jsx 的 TraitColor 引用）：保留原色相，只调深以满足对比度 */
+    --trait-top: #2f6b0f;
+    --trait-super: #2f6b0f;
+    --trait-bad: #b91c1c;
+    /* 关卡表阵营色：本传 / 星命诀各自的对应关系保留在组件里，这里只定义调深后的颜色 */
+    --side-blue: #1f5f99;
+    --side-red: #b91c1c;
+    --side-green: #2f6b0f;
+    --side-yellow: #7a5a00;
+    /* 兵种阶位色（Table_ClassOwners.astro）：中阶橙、高阶红 */
+    --tier-mid: #a34a08;
+    --tier-high: #b91c1c;
 }
 
 html.dark {
@@ -19,6 +34,17 @@ html.dark {
     --bg-main: #171717;
     --bg-muted: #242424;
     --border-main: #f2f1ec;
+    --stat-pos: #34d399;
+    --stat-neg: #f87171;
+    --trait-top: #7cc94a;
+    --trait-super: #7cc94a;
+    --trait-bad: #f2606f;
+    --side-blue: #6aa8e0;
+    --side-red: #f2606f;
+    --side-green: #7cc94a;
+    --side-yellow: #ffd111;
+    --tier-mid: #fdba74;
+    --tier-high: #f87171;
 }
 
 /* Cyan */
@@ -98,6 +124,138 @@ html.dark {
     --background-color-main: var(--bg-main);
     --background-color-muted: var(--bg-muted);
     --border-color-main: var(--border-main);
+    --color-stat-pos: var(--stat-pos);
+    --color-stat-neg: var(--stat-neg);
+}
+
+/*
+ * 全站表格统一样式（书刊三线表 + 悬停行高亮）。
+ * 表格上要同时加 not-prose，避开 Typography 插件给 table 加的外边距和深色表头线。
+ *   .wiki-table            基础：只用横线分层，颜色全部取自主题变量，深浅色自动适配
+ *   .wiki-table--hover     悬停 / 键盘聚焦时整行加深（组标题行除外）
+ *   .wiki-table--list      没有表头的单列名单，补一条顶线
+ *   .wiki-table--matrix    多列表格，单元格不换行，需放在 overflow-x-auto 容器里
+ *   .wiki-table--merged    带 rowspan 合并列的表格，悬停时联动高亮所属的合并格（见下方说明）
+ */
+@layer components {
+    .wiki-table {
+        --wiki-rule: color-mix(in srgb, var(--text-main) 14%, transparent);
+        --wiki-rule-strong: color-mix(in srgb, var(--text-main) 70%, transparent);
+        --wiki-label: color-mix(in srgb, var(--text-main) 62%, transparent);
+        width: 100%;
+        border-collapse: collapse;
+        border-bottom: 1.5px solid var(--wiki-rule-strong);
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .wiki-table :where(th, td) {
+        padding: 0.4375rem 0.5rem;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .wiki-table :where(tbody tr) > * {
+        border-bottom: 1px solid var(--wiki-rule);
+    }
+
+    .wiki-table :where(tbody tr:last-child) > * {
+        border-bottom: 0;
+    }
+
+    .wiki-table thead th {
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--wiki-rule-strong);
+    }
+
+    .wiki-table tbody th[scope='row'] {
+        font-weight: 400;
+        color: var(--wiki-label);
+    }
+
+    /* 组标题行：<tr><th scope="rowgroup" colspan="…">基础属性</th></tr> */
+    .wiki-table th[scope='rowgroup'][colspan] {
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding-top: 0.875rem;
+        border-bottom: 1px solid var(--wiki-rule-strong);
+    }
+
+    .wiki-table tbody:first-child th[scope='rowgroup'][colspan] {
+        padding-top: 0;
+    }
+
+    .wiki-table--list {
+        border-top: 1px solid var(--wiki-rule-strong);
+    }
+
+    .wiki-table--matrix :where(th, td) {
+        white-space: nowrap;
+    }
+
+    .wiki-table--hover tbody tr > *,
+    .wiki-table--merged tbody tr > * {
+        transition: background-color 150ms ease-out;
+    }
+
+    @media (hover: hover) {
+        .wiki-table--hover tbody tr:not(:has(> th[colspan])):is(:hover, :focus-within) > * {
+            background-color: var(--bg-muted);
+        }
+    }
+
+    /*
+     * 合并列表格：大类的第一行加 .cat-start（含 rowspan 的 .cat-cell），兵种 / 特质的第一行加 .cls-start（含 .cls-cell）。
+     * ① 指向某一行：高亮该行，并用 :has() 向上找到最近的 .cls-start / .cat-start，高亮其中的合并格
+     * ② 指向合并格本身：高亮它覆盖的全部行
+     * 不支持 :has() 的旧浏览器只会高亮当前行。
+     */
+    .wiki-table--merged {
+        font-size: 0.875rem;
+    }
+
+    .wiki-table--merged tbody tr.cat-start:not(:first-child) > * {
+        border-top: 1px solid var(--wiki-rule-strong);
+    }
+
+    .wiki-table--merged :is(.cat-cell, .cls-cell) {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .wiki-table--merged .cat-cell {
+        font-weight: 700;
+    }
+
+    .wiki-table--merged .cls-cell {
+        font-weight: 600;
+    }
+
+    @media (hover: hover) {
+        .wiki-table--merged tbody tr:is(:hover, :focus-within) > *,
+        .wiki-table--merged
+            tr.cls-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cls-start:is(:hover, :focus-within), ~ tr.cls-start ~ tr:is(:hover, :focus-within)))
+            > .cls-cell,
+        .wiki-table--merged
+            tr.cat-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cat-start:is(:hover, :focus-within), ~ tr.cat-start ~ tr:is(:hover, :focus-within)))
+            > .cat-cell,
+        .wiki-table--merged tr.cls-start:has(> .cls-cell:hover) ~ tr:not(.cls-start):not(tr.cls-start:has(> .cls-cell:hover) ~ tr.cls-start ~ tr) > *,
+        .wiki-table--merged tr.cat-start:has(> .cat-cell:hover) ~ tr:not(.cat-start):not(tr.cat-start:has(> .cat-cell:hover) ~ tr.cat-start ~ tr) > * {
+            background-color: var(--bg-muted);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        /* 悬停过渡规则的选择器更具体，这里用 !important 统一关闭 */
+        .wiki-table :where(th, td) {
+            transition: none !important;
+        }
+    }
 }
 
 @layer utilities {
@@ -115,8 +273,21 @@ html.dark {
         --tw-prose-captions: var(--text-color-main);
         --tw-prose-kbd: var(--text-color-main);
         --tw-prose-code: var(--text-color-main);
-        --tw-prose-th-borders: var(--border-color-main);
-        --tw-prose-td-borders: var(--border-color-main);
+        /* Markdown 表格与 .wiki-table 保持同一套线条：表头下深线、行间浅线 */
+        --tw-prose-th-borders: color-mix(in srgb, var(--text-main) 70%, transparent);
+        --tw-prose-td-borders: color-mix(in srgb, var(--text-main) 14%, transparent);
+    }
+
+    /* Markdown 表格补上三线表的收尾线和悬停高亮（组件内的表格都带 not-prose，不受影响） */
+    .prose :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+        border-bottom: 1.5px solid var(--tw-prose-th-borders);
+        font-variant-numeric: tabular-nums;
+    }
+
+    @media (hover: hover) {
+        .prose :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *)):hover > * {
+            background-color: var(--bg-muted);
+        }
     }
 
     .prose a {

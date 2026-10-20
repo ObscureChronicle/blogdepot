@@ -1,11 +1,10 @@
-import { useState } from 'react';
-
 // 特质数据表（示例格式，实际使用时可以作为prop传入）
+// 颜色引用 global.css 的主题变量（深浅色各一套）；三个值的字符串必须互不相同，
+// Table_TraitOwners.astro 按 color === TraitColor.X 判断等级排序
 export const TraitColor = {
-    Oridinary: '#5bae23',
-    Super: '#5bae22',
-    // Super: '#2775b6',
-    Bad: '#de1c31'
+    Oridinary: 'var(--trait-top)',
+    Super: 'var(--trait-super)',
+    Bad: 'var(--trait-bad)'
 }
 
 export const TRAIT_MAP = {
@@ -210,9 +209,6 @@ export const TRAIT_MAP = {
 };
 
 export default function FiveStringTable({ data }) {
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [activeTrait, setActiveTrait] = useState(null);
-
     // 确保数据最多包含五个元素，并过滤掉空值
     const tableData = [...data]
         .filter(val => val !== undefined && val !== null && val !== '')
@@ -225,9 +221,9 @@ export default function FiveStringTable({ data }) {
     // 添加地域特质的链接
     const regionTraitLink = '/projects/trait/trait_00_regional';
 
-    // 获取特质颜色（如果存在）
+    // 获取特质颜色（如果存在）；普通特质沿用正文颜色
     const getTraitColor = (trait) => {
-        return TRAIT_MAP[trait]?.color || '#4a5568'; // 默认灰色
+        return TRAIT_MAP[trait]?.color || 'inherit';
     };
 
     // 获取特质链接（如果存在）
@@ -235,25 +231,16 @@ export default function FiveStringTable({ data }) {
         return TRAIT_MAP[trait]?.link || null;
     };
 
-    // 处理特质点击事件
-    const handleTraitClick = (trait, event) => {
-        const link = getTraitLink(trait);
-        if (link) {
-            setActiveTrait(trait);
-        }
-    };
-
+    // 样式见 global.css 的 .wiki-table；悬停高亮由 CSS 实现，不需要 React 状态
     return (
-        <div className="mx-auto min-w-[280px] max-w-md overflow-hidden rounded-lg relative">
-            <table className="w-full border-collapse">
-                <thead>
+        <div className="mt-2 w-full min-w-[280px] max-w-md">
+            <table className="wiki-table wiki-table--hover not-prose">
+                <tbody>
                     <tr>
-                        <th colSpan="2" className="px-4 py-2 text-center bg-gray-100 font-semibold text-gray-800">
+                        <th scope="rowgroup" colSpan={2}>
                             {TableTitle}
                         </th>
                     </tr>
-                </thead>
-                <tbody>
                     {tableData.map((value, index) => {
                         const hasLink = getTraitLink(value);
                         const traitColor = getTraitColor(value);
@@ -269,16 +256,8 @@ export default function FiveStringTable({ data }) {
                         const textStyle = { color: traitColor, ...glowStyle };
 
                         return (
-                            <tr
-                                key={index}
-                                className={`transition-all duration-200 ${hoveredIndex === index
-                                    ? 'bg-green-50 transform scale-[1.02]'
-                                    : 'bg-white'
-                                    }`}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                            >
-                                <td className="px-4 py-2 font-medium text-gray-700 border-b border-gray-200 w-1/3 text-center border-r">
+                            <tr key={index}>
+                                <th scope="row" className="w-1/3">
                                     {/* 为第一行的标题添加链接 */}
                                     {index === 0 ? (
                                         <a href={regionTraitLink}>
@@ -287,23 +266,15 @@ export default function FiveStringTable({ data }) {
                                     ) : (
                                         rowTitles[index] || '特质'
                                     )}
-                                </td>
-                                <td className={`text-center px-4 py-2 border-b border-gray-200 font-medium ${hoveredIndex === index ? 'text-green-700' : ''
-                                    }`}>
-                                    <div className="flex items-center justify-between">
-                                        {hasLink ? (
-                                            <a
-                                                href={getTraitLink(value)}
-                                                onClick={(e) => handleTraitClick(value, e)}
-                                                className={`font-medium cursor-pointer hover:underline ${activeTrait === value ? 'ring-2 ring-offset-1 ring-blue-500 rounded' : ''}`}
-                                                style={textStyle}
-                                            >
-                                                {value}
-                                            </a>
-                                        ) : (
-                                            <span style={textStyle}>{value}</span>
-                                        )}
-                                    </div>
+                                </th>
+                                <td className="font-medium">
+                                    {hasLink ? (
+                                        <a href={hasLink} className="hover:underline" style={textStyle}>
+                                            {value}
+                                        </a>
+                                    ) : (
+                                        <span style={textStyle}>{value}</span>
+                                    )}
                                 </td>
                             </tr>
                         );
@@ -313,7 +284,7 @@ export default function FiveStringTable({ data }) {
 
             {/* 无数据提示 */}
             {tableData.length === 0 && (
-                <div className="px-4 py-6 text-center text-gray-500 italic">
+                <div className="px-2 py-4 text-center italic opacity-60">
                     暂无特质数据
                 </div>
             )}

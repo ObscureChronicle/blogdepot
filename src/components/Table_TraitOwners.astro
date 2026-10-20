@@ -85,9 +85,11 @@ if (mode === 'regional') {
     }
 }
 
-const thClass = 'px-3 py-2 text-center bg-gray-100 font-semibold text-gray-800 border border-gray-300';
-const tdClass = 'px-3 py-2 border border-gray-200 align-middle';
-const tdCenter = `${tdClass} text-center font-medium whitespace-nowrap`;
+// 样式见 global.css 的 .wiki-table--merged：
+// 地区第一行加 cat-start（含 rowspan 的 cat-cell），特质第一行加 cls-start（含 cls-cell），悬停时联动高亮所属合并格
+const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
+const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
+const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
 const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 
 // 特质名样式：颜色 + 顶级(Ordinary)发光（与 Table_Traits.jsx 一致）
@@ -98,14 +100,14 @@ const traitStyle = (trait: string) => {
 };
 ---
 
-<div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-    <table class="w-full border-collapse text-sm">
+<div class="overflow-x-auto">
+    <table class="wiki-table wiki-table--merged not-prose">
         <thead>
             <tr>
-                {mode === 'regional' && <th class={thClass}>地区</th>}
-                <th class={thClass}>特质</th>
-                <th class={thClass}>来源</th>
-                <th class={thClass}>人物</th>
+                {mode === 'regional' && <th scope="col">地区</th>}
+                <th scope="col">特质</th>
+                <th scope="col">来源</th>
+                <th scope="col">人物</th>
             </tr>
         </thead>
         <tbody>
@@ -123,13 +125,13 @@ const traitStyle = (trait: string) => {
                     return (
                         <>
                             {hasBase && (
-                                <tr>
+                                <tr class={rowClass(isFirstInRegion && 'cat-start', 'cls-start')}>
                                     {isFirstInRegion && (
-                                        <td rowspan={regionRowspan.get(region)} class={tdCenter}>
+                                        <th scope="rowgroup" rowspan={regionRowspan.get(region)} class="cat-cell">
                                             {region}
-                                        </td>
+                                        </th>
                                     )}
-                                    <td rowspan={hasBoth ? 2 : 1} class={tdCenter}>
+                                    <th scope="rowgroup" rowspan={hasBoth ? 2 : 1} class="cls-cell">
                                         {info?.link ? (
                                             <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
                                                 {trait}
@@ -137,9 +139,9 @@ const traitStyle = (trait: string) => {
                                         ) : (
                                             <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
                                         )}
-                                    </td>
-                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-blue-600`}>本体</td>
-                                    <td class={tdClass}>
+                                    </th>
+                                    <td class={srcBaseClass}>本体</td>
+                                    <td>
                                         {baseList.map((name, index) => (
                                             <span>
                                                 {index > 0 && '、'}
@@ -156,14 +158,14 @@ const traitStyle = (trait: string) => {
                                 </tr>
                             )}
                             {hasDlc && (
-                                <tr>
+                                <tr class={rowClass(isFirstInRegion && !hasBase && 'cat-start', !hasBase && 'cls-start')}>
                                     {isFirstInRegion && !hasBase && (
-                                        <td rowspan={regionRowspan.get(region)} class={tdCenter}>
+                                        <th scope="rowgroup" rowspan={regionRowspan.get(region)} class="cat-cell">
                                             {region}
-                                        </td>
+                                        </th>
                                     )}
                                     {!hasBase && (
-                                        <td rowspan={1} class={tdCenter}>
+                                        <th scope="rowgroup" rowspan={1} class="cls-cell">
                                             {info?.link ? (
                                                 <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
                                                     {trait}
@@ -171,10 +173,10 @@ const traitStyle = (trait: string) => {
                                             ) : (
                                                 <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
                                             )}
-                                        </td>
+                                        </th>
                                     )}
-                                    <td class={`${tdClass} text-center whitespace-nowrap font-semibold text-amber-500`}>星命诀</td>
-                                    <td class={tdClass}>
+                                    <td class={srcDlcClass}>星命诀</td>
+                                    <td>
                                         {dlcList.map((name, index) => (
                                             <span>
                                                 {index > 0 && '、'}
