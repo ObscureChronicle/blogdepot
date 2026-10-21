@@ -1,39 +1,82 @@
 ---
 import { marked } from 'marked';
 import siteConfig from '../data/site-config';
+import ArrowLeft from '../icons/ArrowLeft.astro';
+import ArrowRight from '../icons/ArrowRight.astro';
 import Button from './Button.astro';
+import IconButton from './IconButton.astro';
 
 const hero = siteConfig.hero;
+const slides = hero?.slides ?? [];
+const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget/${appId}/`;
 ---
 
 {
-    (hero?.title || hero?.image?.src || hero?.text || (hero?.actions && hero.actions.length > 0)) && (
-        <section class='w-fullflex flex-col gap-8 mb-4'>
-            {hero.title && <h1 class='text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight'>{hero.title}</h1>}
-            {hero.image?.src && (
-                <figure>
-                    <img
-                        class='w-full sm:w-[700px] mx-auto mb-4'
-                        src={hero.image.src}
-                        loading='lazy'
-                        decoding='async'
-                        alt={hero.image.alt || ''}
-                    />
-                    {hero.image.caption && <figcaption class='mt-1.5 text-xs sm:text-sm'>{hero.image.caption}</figcaption>}
-                </figure>
-            )}
-            {hero.text && (
-                <div
-                    class='max-w-none prose sm:prose-lg font-serif'
-                    set:html={marked.parse(hero.text)}
-                />
+    hero && (
+        <section class="mb-12 flex w-full flex-col gap-4">
+            {hero.title && <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{hero.title}</h1>}
+            {slides.length > 0 && (
+                <div data-hero-carousel aria-roledescription="carousel" aria-label="游戏介绍">
+                    {/* 上层：标题图叠放，箭头相对这一层垂直居中；高度取最高的一张，切换时页面不跳动 */}
+                    <div class="relative mb-4">
+                        <div class="relative mx-auto grid w-full sm:w-[700px]">
+                            {slides.map((slide, index) => (
+                                <figure data-hero-slide data-active={String(index === 0)} aria-hidden={index === 0 ? undefined : 'true'} class="hero-slide">
+                                    <img
+                                        class="w-full"
+                                        src={slide.image.src}
+                                        loading={index === 0 ? 'eager' : 'lazy'}
+                                        decoding="async"
+                                        alt={slide.image.alt || ''}
+                                    />
+                                    {slide.image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm">{slide.image.caption}</figcaption>}
+                                </figure>
+                            ))}
+                            {slides.length > 1 && <span data-hero-progress class="hero-progress" aria-hidden="true" />}
+                        </div>
+                        {slides.length > 1 && (
+                            <>
+                                <IconButton type="button" data-hero-prev aria-label="上一个" class="absolute top-1/2 left-0 -translate-y-1/2">
+                                    <ArrowLeft class="h-5 w-5 fill-current" />
+                                </IconButton>
+                                <IconButton type="button" data-hero-next aria-label="下一个" class="absolute top-1/2 right-0 -translate-y-1/2">
+                                    <ArrowRight class="h-5 w-5 fill-current" />
+                                </IconButton>
+                            </>
+                        )}
+                    </div>
+                    {/* 下层：简介 + Steam widget 叠放，与上层同步切换 */}
+                    <div class="grid">
+                        {slides.map((slide, index) => (
+                            <div
+                                data-hero-slide
+                                data-active={String(index === 0)}
+                                role="group"
+                                aria-roledescription="slide"
+                                aria-label={`${index + 1} / ${slides.length}：${slide.label}`}
+                                aria-hidden={index === 0 ? undefined : 'true'}
+                                inert={index !== 0}
+                                class="hero-slide"
+                            >
+                                <div class="max-w-none prose sm:prose-lg font-serif" set:html={marked.parse(slide.text)} />
+                                {/* 非首张的 Steam widget 用 data-src，首次切换到它时才加载 */}
+                                <iframe
+                                    src={index === 0 ? steamWidgetUrl(slide.steamAppId) : undefined}
+                                    data-src={steamWidgetUrl(slide.steamAppId)}
+                                    title={`${slide.label} Steam 商店`}
+                                    frameborder="0"
+                                    class="mt-4 w-full"
+                                    height="190"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             )}
             {hero.actions && hero.actions.length > 0 && (
-                <div class='flex flex-wrap gap-4'>
+                <div class="flex flex-wrap gap-4">
                     {hero.actions.map((action) => (
-                        <Button
-                            href={action.href}
-                            target='_blank'>
+                        <Button href={action.href} target="_blank">
                             {action.text}
                         </Button>
                     ))}
@@ -42,3 +85,133 @@ const hero = siteConfig.hero;
         </section>
     )
 }
+
+<style>
+    .hero-slide {
+        grid-area: 1 / 1;
+        transition: opacity 300ms ease-out;
+    }
+
+    .hero-slide[data-active='false'] {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* 标题图底部的进度细线：动画结束（animationend）即切到下一张，暂停时冻结 */
+    .hero-progress {
+        grid-area: 1 / 1;
+        align-self: end;
+        height: 2px;
+        width: 100%;
+        background-color: var(--border-main);
+        opacity: 0.6;
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    .hero-progress[data-running] {
+        animation: hero-progress 10s linear forwards;
+    }
+
+    [data-hero-carousel][data-paused='true'] .hero-progress {
+        animation-play-state: paused;
+    }
+
+    @keyframes hero-progress {
+        to {
+            transform: scaleX(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-slide {
+            transition: none;
+        }
+
+        .hero-progress {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function initHeroCarousel() {
+        document.querySelectorAll<HTMLElement>('[data-hero-carousel]').forEach((root) => {
+            if (root.dataset.bound === 'true') return;
+            root.dataset.bound = 'true';
+
+            // 上层的图片和下层的简介各有一组，按下标同步切换
+            const images = Array.from(root.querySelectorAll<HTMLElement>('figure[data-hero-slide]'));
+            const panels = Array.from(root.querySelectorAll<HTMLElement>('div[data-hero-slide]'));
+            const progress = root.querySelector<HTMLElement>('[data-hero-progress]');
+            const count = panels.length;
+            if (count < 2) return;
+
+            let current = 0;
+            let hovered = false;
+            let keyboardFocused = false;
+
+            const updatePaused = () => {
+                root.dataset.paused = String(hovered || keyboardFocused || document.hidden);
+            };
+
+            const show = (index: number) => {
+                current = (index + count) % count;
+                [images, panels].forEach((group) =>
+                    group.forEach((slide, i) => {
+                        const active = i === current;
+                        slide.dataset.active = String(active);
+                        slide.inert = !active;
+                        slide.toggleAttribute('aria-hidden', !active);
+                    })
+                );
+                const iframe = panels[current].querySelector<HTMLIFrameElement>('iframe[data-src]');
+                if (iframe && !iframe.getAttribute('src')) iframe.src = iframe.dataset.src ?? '';
+
+                // 减少动态效果偏好下不自动播放，只保留手动切换
+                if (!progress || reducedMotion.matches) return;
+                // 移除后强制回流再加回，才能从头重新播放动画（手动切换即重置计时）
+                progress.removeAttribute('data-running');
+                void progress.offsetWidth;
+                progress.setAttribute('data-running', '');
+            };
+
+            root.querySelector('[data-hero-prev]')?.addEventListener('click', () => show(current - 1));
+            root.querySelector('[data-hero-next]')?.addEventListener('click', () => show(current + 1));
+            progress?.addEventListener('animationend', () => show(current + 1));
+
+            root.addEventListener('mouseenter', () => {
+                hovered = true;
+                updatePaused();
+            });
+            root.addEventListener('mouseleave', () => {
+                hovered = false;
+                updatePaused();
+            });
+            // 只在键盘聚焦时暂停；鼠标点击箭头后按钮也会获得焦点，但不应因此停住
+            root.addEventListener('focusin', (event) => {
+                keyboardFocused = (event.target as HTMLElement).matches(':focus-visible');
+                updatePaused();
+            });
+            root.addEventListener('focusout', (event) => {
+                if (root.contains(event.relatedTarget as Node | null)) return;
+                keyboardFocused = false;
+                updatePaused();
+            });
+            root.addEventListener('hero:visibility', updatePaused);
+
+            updatePaused();
+            show(0);
+        });
+    }
+
+    // 模块作用域只注册一次，客户端导航后仍查询当前页面上的轮播
+    document.addEventListener('visibilitychange', () => {
+        document.querySelectorAll('[data-hero-carousel]').forEach((root) => root.dispatchEvent(new Event('hero:visibility')));
+    });
+
+    initHeroCarousel();
+    document.addEventListener('astro:page-load', initHeroCarousel);
+</script>
