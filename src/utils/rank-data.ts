@@ -5,7 +5,7 @@
  * MDX 的原始文本，从中解析 <CharacterWiki ... /> 的属性 props，生成可排序
  * 对比表所需的行数据，并输出扫描报告。不手工维护任何静态数据。
  */
-import { pinyin } from 'pinyin-pro';
+import { comparePinyin, pinyinKey } from './sort-by-pinyin';
 
 
 const rawFiles = import.meta.glob('../content/projects/bio/*.mdx', {
@@ -124,7 +124,7 @@ function buildRankData(): { rows: RankRow[]; report: RankReport } {
             groupRows.push({
                 name,
                 href: `/projects/bio/${slug}`,
-                pinyin: pinyin(name, { toneType: 'none' }),
+                pinyin: pinyinKey(name),
                 source: group.source,
                 sourceIndex: group.sourceIndex,
                 values: [
@@ -149,7 +149,7 @@ function buildRankData(): { rows: RankRow[]; report: RankReport } {
 
     // 人物按拼音升序；同人物内按 本传 → 本传2 → 星命诀 固定顺序
     rows.sort((a, b) => {
-        const byName = a.pinyin.localeCompare(b.pinyin, 'zh-Hans-CN');
+        const byName = comparePinyin(a.pinyin, b.pinyin);
         if (byName !== 0) return byName;
         return a.sourceIndex - b.sourceIndex;
     });
