@@ -24,7 +24,7 @@ export type LoadedEntry = {
 // 引号会让 YAML 把它当成普通字符串而不是原生日期类型，gray-matter 也就不会
 // 自动转成 Date。Zod 的 z.coerce.date() 在真正的 Astro 构建里会做这个转换，
 // 这里手动补上，让 mock 数据的形状跟运行时代码期望的一致（比如
-// rss.xml.js 里会直接调用 item.data.publishDate.setUTCHours(0)）。
+// rss.xml.ts 里会基于 item.data.publishDate 调用 setUTCHours(0)）。
 function coerceDate(value: unknown): Date | undefined {
     if (value === undefined || value === null || value === '') return undefined;
     if (value instanceof Date) return value;

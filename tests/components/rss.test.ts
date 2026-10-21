@@ -9,7 +9,7 @@ vi.mock('astro:content', () => ({
     getCollection: async (name: 'blog' | 'projects') => loadCollection(name)
 }));
 
-const { GET } = await import('../../src/pages/rss.xml.js');
+const { GET } = await import('../../src/pages/rss.xml.ts');
 const { sortItemsByDateDesc } = await import('../../src/utils/data-utils.ts');
 
 async function fetchFeed() {
@@ -23,7 +23,7 @@ function field(itemXml: string, tag: string): string | null {
     return itemXml.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`))?.[1] ?? null;
 }
 
-describe('rss.xml.js', () => {
+describe('rss.xml.ts', () => {
     it('returns well-formed RSS XML with the site title/description/link', async () => {
         const { text } = await fetchFeed();
         expect(text).toContain('<?xml version="1.0" encoding="UTF-8"?>');
