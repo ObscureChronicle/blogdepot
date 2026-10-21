@@ -3,7 +3,6 @@
 import BarChart from '../components/BarChart.jsx';
 import RadarChart from '../components/RadarChart';
 import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
-import DLCStageStringTable from '../components/Table_Stage_DLC.jsx';
 import StageStringTable from '../components/Table_Stages.jsx';
 import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
@@ -153,7 +152,7 @@ const getClassLink = (name: string) => {
                         <span class="bg-yellow-100 text-yellow-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
                             {dlcname_short}
                         </span>
-                        <DLCStageStringTable data={battlesDLC} />
+                        <StageStringTable data={battlesDLC} variant="dlc" />
                     </div>
                 )}
             </div>
