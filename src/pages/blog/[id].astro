@@ -22,7 +22,7 @@ export async function getStaticPaths() {
     }));
 }
 
-type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'>; nextPost: CollectionEntry<'blog'> };
+type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'> | null; nextPost: CollectionEntry<'blog'> | null };
 
 const { href } = Astro.url;
 const { post, prevPost, nextPost } = Astro.props;
