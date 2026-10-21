@@ -1,5 +1,4 @@
 ---
-import Subscribe from '../../components/Subscribe.astro';
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../utils/content-utils';
@@ -7,49 +6,13 @@ import { getAllTags, getPostsByTag, sortTagsByName } from '../../utils/data-util
 
 const posts = await getAllPosts();
 
-type TagItem = {
-    id: string;
-    name: string;
-    count?: number;
-};
-
-const realTags: TagItem[] = getAllTags(posts);
+const realTags = getAllTags(posts);
 
 // ✅ 所有 wiki-* 标签（不包含聚合页本身）
 const wikiChildTags = realTags.filter((tag) => tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading');
 
-// ✅ 汇总所有属于 wiki-* 标签的文章
-const wikiPosts = posts.filter((post) => {
-    return post.data.tags?.some((tag) => tag.startsWith('wiki-') && tag !== 'wiki-index-by-reading');
-});
-
-// ✅ 构造虚拟标签，并加入统计字段
-const virtualTag: TagItem = {
-    id: 'wiki-index-by-reading',
-    name: '音序检索',
-    count: wikiPosts.length // ✅ 文章总数
-};
-
 // ✅ 排除所有 wiki-* 标签
 const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
-
-// ✅ 排除所有包含 wiki-* 标签的文章
-const nonWikiPosts = posts.filter((post) => {
-    return post.data.tags?.some((tag) => !tag.startsWith('wiki-'));
-});
-
-// ✅ 构造虚拟标签对象，表示“非 Wiki 标签合集”
-const virtualTagByCatogory: TagItem = {
-    id: 'wiki-index-by-catogory',
-    name: '分类检索',
-    count: nonWikiPosts.length
-};
-
-const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => {
-    const postCountA = getPostsByTag(posts, tagA.id).length;
-    const postCountB = getPostsByTag(posts, tagB.id).length;
-    return postCountB - postCountA;
-});
 ---
 
 <BaseLayout
@@ -113,5 +76,4 @@ const tags: TagItem[] = [virtualTag, virtualTagByCatogory].sort((tagA, tagB) => 
             }
         </div>
     </div>
-    <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>

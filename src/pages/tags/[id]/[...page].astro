@@ -4,7 +4,6 @@ import { type CollectionEntry } from 'astro:content';
 import Pagination from '../../../components/Pagination.astro';
 import PostPreview from '../../../components/PostPreview.astro';
 import ProjectPreview from '../../../components/ProjectPreview.astro';
-import Subscribe from '../../../components/Subscribe.astro';
 import siteConfig from '../../../data/site-config';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../../utils/content-utils';
@@ -52,7 +51,6 @@ const currentTag = allTags.find((tag) => {
     {blogPosts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
     {projectPosts.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
     <Pagination page={page} basePath={`/tags/${params.id}`} class="my-16 sm:my-24" />
-    <Subscribe class="my-16 sm:my-24" />
 </BaseLayout>
 
 <script is:inline define:vars={{ tagId: params.id }}>

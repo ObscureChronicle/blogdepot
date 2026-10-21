@@ -22,12 +22,6 @@ export type Hero = {
     actions?: Link[];
 };
 
-export type Subscribe = {
-    title?: string;
-    text?: string;
-    formUrl: string;
-};
-
 export type SiteConfig = {
     website: string;
     logo?: Image;
@@ -39,7 +33,6 @@ export type SiteConfig = {
     footerNavLinks?: Link[];
     socialLinks?: Link[];
     hero?: Hero;
-    subscribe?: Subscribe;
     postsPerPage?: number;
     projectsPerPage?: number;
 };
@@ -66,10 +59,6 @@ const siteConfig: SiteConfig = {
             text: '日志',
             href: '/blog'
         }
-        //{
-        //    text: 'Wiki',
-        //    href: '/projects'
-        //}
     ],
     footerNavLinks: [
         // {
@@ -97,22 +86,7 @@ const siteConfig: SiteConfig = {
             href: 'https://ocod.netlify.app/rss.xml'
         }
     ],
-    // socialLinks: [
-    //     {
-    //         text: 'Steam',
-    //         href: 'https://store.steampowered.com/app/2010900/_/'
-    //     },
-    //     {
-    //         text: 'Instagram',
-    //         href: 'https://instagram.com/'
-    //     },
-    //     {
-    //         text: 'X/Twitter',
-    //         href: 'https://twitter.com/'
-    //     }
-    // ],
     hero: {
-        // title: 'Hi There & Welcome to My Corner of the Web!',
         slides: [
             {
                 label: '后汉稽异录',
@@ -132,19 +106,8 @@ const siteConfig: SiteConfig = {
                 },
                 steamAppId: 2694320
             }
-        ],
-        //actions: [
-        //    {
-        //        text: '前往Steam游戏商店页面',
-        //        href: 'https://store.steampowered.com/app/2010900/_/'
-        //    }
-        //]
+        ]
     },
-    // subscribe: {
-    //     title: 'Subscribe to Dante Newsletter',
-    //     text: 'One update per week. All the latest posts directly in your inbox.',
-    //     formUrl: '#'
-    // },
     postsPerPage: 8,
     projectsPerPage: 8
 };
