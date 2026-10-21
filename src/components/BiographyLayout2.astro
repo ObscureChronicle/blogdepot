@@ -1,9 +1,5 @@
 ---
-// props: name, baseData, dlcData, traitsBase, traitsDLC, biography, battlesBase, battlesDLC, equipments, links
-import BarChart from '../components/BarChart.jsx';
-import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
 import StageStringTable from '../components/Table_Stages.jsx';
-import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from "../components/CharacterAbilitySection.jsx";
 import { CLASS_MAP } from './classMap.jsx';
@@ -63,7 +59,6 @@ const basename = '《后汉稽异录》';
 const dlcname = '《后汉稽异录外传：星命诀》';
 const basename_short = '本传';
 const dlcname_short = '星命诀';
-const nonedata = '无';
 
 const getClassLink = (name: string) => {
     return CLASS_MAP[name as keyof typeof CLASS_MAP] || null;
@@ -103,18 +98,6 @@ const getClassLink = (name: string) => {
                     </div>
                 )
             }
-            {/* {
-                dlcData && (
-                    <div class="flex flex-col items-center">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
-                            {dlcname_short}
-                        </span>
-                        <RadarChart_DLC client:load data={dlcData} attributefigure={dlcAttributeFigure} />
-                        <BarChart client:load data={dlcData2} />
-                        <FiveStringTable client:load data={traitsDLC} />
-                    </div>
-                )
-            } */}
         </div>
     )
 }
