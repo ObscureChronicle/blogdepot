@@ -62,11 +62,52 @@ test.describe('首页轮播', () => {
         await expect(carousel).toHaveAttribute('data-paused', 'false');
     });
 
+    test('点暂停按钮后保持暂停（移开鼠标也不恢复），再点一次恢复', async ({ page }) => {
+        await page.goto('/');
+        const carousel = page.locator('[data-hero-carousel]');
+        const pause = page.locator('[data-hero-pause]');
+        const playState = () => progress(page).evaluate((el) => el.getAnimations()[0]?.playState);
+
+        // 桌面端按钮要悬停才出现，先 hover 轮播再点；触屏端常驻，hover 无副作用
+        await carousel.hover();
+        await pause.click();
+        await expect(pause).toHaveAttribute('aria-label', '开始自动播放');
+        await page.mouse.move(0, 0);
+        await expect(carousel).toHaveAttribute('data-paused', 'true');
+        expect(await playState()).toBe('paused');
+
+        await carousel.hover();
+        await pause.click();
+        await expect(pause).toHaveAttribute('aria-label', '暂停自动播放');
+        await page.mouse.move(0, 0);
+        await expect(carousel).toHaveAttribute('data-paused', 'false');
+        expect(await playState()).toBe('running');
+    });
+
+    test('桌面端暂停按钮平时隐藏，悬停轮播时出现', async ({ page }, testInfo) => {
+        test.skip(testInfo.project.name !== 'desktop', '只有能悬停的设备才隐藏');
+        await page.goto('/');
+        const pause = page.locator('[data-hero-pause]');
+
+        await page.mouse.move(0, 0);
+        await expect(pause).toHaveCSS('opacity', '0');
+        await page.locator('[data-hero-carousel]').hover();
+        await expect(pause).not.toHaveCSS('opacity', '0');
+    });
+
+    test('触屏设备上暂停按钮常驻可见', async ({ page }, testInfo) => {
+        test.skip(testInfo.project.name !== 'mobile', '只有 hover: none 的设备常驻');
+        await page.goto('/');
+        await expect(page.locator('[data-hero-pause]')).not.toHaveCSS('opacity', '0');
+    });
+
     test('减少动态效果偏好下不自动播放，但箭头仍可手动切换', async ({ page }) => {
         await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto('/');
 
         expect(await progress(page).evaluate((el) => el.getAnimations().length)).toBe(0);
+        // 本来就不自动播放，暂停按钮没有意义，直接隐藏
+        await expect(page.locator('[data-hero-pause]')).toBeHidden();
 
         await page.getByRole('button', { name: '下一个' }).click();
         await expect(panel(page, 1)).toHaveAttribute('data-active', 'true');

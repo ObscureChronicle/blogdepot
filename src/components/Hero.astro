@@ -32,7 +32,26 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
                                     {slide.image.caption && <figcaption class="mt-1.5 text-xs sm:text-sm">{slide.image.caption}</figcaption>}
                                 </figure>
                             ))}
-                            {slides.length > 1 && <span data-hero-progress class="hero-progress" aria-hidden="true" />}
+                            {slides.length > 1 && (
+                                <>
+                                    <span data-hero-progress class="hero-progress" aria-hidden="true" />
+                                    {/* 暂停/播放：桌面端悬停或聚焦时才出现，触屏设备常驻；放在 DOM 最前，Tab 时先于箭头 */}
+                                    <button
+                                        type="button"
+                                        data-hero-pause
+                                        aria-label="暂停自动播放"
+                                        class="hero-pause absolute right-2 bottom-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-main text-main focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
+                                    >
+                                        <svg class="hero-icon-pause h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                            <rect x="6" y="5" width="4" height="14" rx="1" />
+                                            <rect x="14" y="5" width="4" height="14" rx="1" />
+                                        </svg>
+                                        <svg class="hero-icon-play h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+                                        </svg>
+                                    </button>
+                                </>
+                            )}
                         </div>
                         {slides.length > 1 && (
                             <>
@@ -117,6 +136,42 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
         animation-play-state: paused;
     }
 
+    .hero-pause {
+        background-color: color-mix(in srgb, var(--bg-main) 70%, transparent);
+        opacity: 0.7;
+        transition: opacity 200ms ease-out;
+    }
+
+    .hero-pause:hover {
+        opacity: 1;
+    }
+
+    /* 桌面端：平时隐藏，悬停或焦点在轮播内（含 Tab 到按钮本身）时淡入；触屏端（hover: none）常驻半透明 */
+    @media (hover: hover) {
+        .hero-pause {
+            opacity: 0;
+        }
+
+        [data-hero-carousel]:hover .hero-pause,
+        [data-hero-carousel]:focus-within .hero-pause {
+            opacity: 0.7;
+        }
+
+        [data-hero-carousel] .hero-pause:hover,
+        [data-hero-carousel] .hero-pause:focus-visible {
+            opacity: 1;
+        }
+    }
+
+    .hero-icon-play,
+    [data-hero-carousel][data-user-paused='true'] .hero-icon-pause {
+        display: none;
+    }
+
+    [data-hero-carousel][data-user-paused='true'] .hero-icon-play {
+        display: block;
+    }
+
     @keyframes hero-progress {
         to {
             transform: scaleX(1);
@@ -128,7 +183,8 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
             transition: none;
         }
 
-        .hero-progress {
+        .hero-progress,
+        .hero-pause {
             display: none;
         }
     }
@@ -146,15 +202,20 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
             const images = Array.from(root.querySelectorAll<HTMLElement>('figure[data-hero-slide]'));
             const panels = Array.from(root.querySelectorAll<HTMLElement>('div[data-hero-slide]'));
             const progress = root.querySelector<HTMLElement>('[data-hero-progress]');
+            const pauseButton = root.querySelector<HTMLButtonElement>('[data-hero-pause]');
             const count = panels.length;
             if (count < 2) return;
 
             let current = 0;
+            // 用户点按钮手动暂停；与悬停/聚焦造成的临时暂停不同，移开鼠标后仍保持
+            let userPaused = false;
             let hovered = false;
             let keyboardFocused = false;
 
             const updatePaused = () => {
-                root.dataset.paused = String(hovered || keyboardFocused || document.hidden);
+                root.dataset.userPaused = String(userPaused);
+                root.dataset.paused = String(userPaused || hovered || keyboardFocused || document.hidden);
+                pauseButton?.setAttribute('aria-label', userPaused ? '开始自动播放' : '暂停自动播放');
             };
 
             const show = (index: number) => {
@@ -181,6 +242,10 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
             root.querySelector('[data-hero-prev]')?.addEventListener('click', () => show(current - 1));
             root.querySelector('[data-hero-next]')?.addEventListener('click', () => show(current + 1));
             progress?.addEventListener('animationend', () => show(current + 1));
+            pauseButton?.addEventListener('click', () => {
+                userPaused = !userPaused;
+                updatePaused();
+            });
 
             // 用 pointer 事件并只认鼠标：触屏点击时浏览器也会模拟 mouseenter，
             // 但要点到别处才触发 mouseleave，会让自动播放一直停住

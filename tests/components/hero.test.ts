@@ -53,16 +53,17 @@ describe('Hero.astro 轮播（真实 site-config）', () => {
         expect(iframes[1]).toContain('data-src="https://store.steampowered.com/widget/2694320/"');
     });
 
-    it('多张时渲染左右箭头和进度线', async () => {
+    it('多张时渲染左右箭头、进度线和暂停按钮', async () => {
         const html = await renderHero();
         expect(html).toContain('aria-label="上一个"');
         expect(html).toContain('aria-label="下一个"');
         expect(html).toContain('data-hero-progress');
+        expect(openingTags(html, /<button[^>]*data-hero-pause[^>]*>/g)[0]).toContain('aria-label="暂停自动播放"');
     });
 });
 
 describe('Hero.astro 轮播（只有一张）', () => {
-    it('不渲染箭头和进度线', async () => {
+    it('不渲染箭头、进度线和暂停按钮', async () => {
         vi.resetModules();
         vi.doMock('../../src/data/site-config', () => ({
             default: { ...siteConfig, hero: { slides: [siteConfig.hero!.slides[0]] } }
@@ -72,5 +73,6 @@ describe('Hero.astro 轮播（只有一张）', () => {
         expect(html).not.toContain('data-hero-prev');
         expect(html).not.toContain('data-hero-next');
         expect(html).not.toContain('data-hero-progress');
+        expect(html).not.toContain('data-hero-pause');
     });
 });
