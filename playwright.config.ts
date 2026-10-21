@@ -16,7 +16,9 @@ export default defineConfig({
         trace: 'on-first-retry'
     },
     webServer: {
-        command: `npm run build && npm run preview -- --port ${PORT}`,
+        // --ignore-lock：astro 7.4 起，检测到 AI agent 环境时 preview 会自动转入后台并立即退出，
+        // Playwright 会把它当成 webServer 提前退出。该参数让 preview 保持前台运行（也不写 lock 文件）。
+        command: `npm run build && npm run preview -- --port ${PORT} --ignore-lock`,
         url: BASE_URL,
         reuseExistingServer: !process.env.CI,
         timeout: 120_000
