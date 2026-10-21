@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
+const labels = ['胆识', '冷静'];
+const maxValue = 10;
+const colors = ['#de1c31', '#2775b6']; // 胆识(红)和冷静(蓝绿)的颜色
+
 export default function BarChart({ data }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
-    const labels = ['胆识', '冷静'];
-    const maxValue = 10;
-    const colors = ['#de1c31', '#2775b6']; // 胆识(红)和冷静(蓝绿)的颜色
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -110,7 +111,8 @@ export default function BarChart({ data }) {
                 ctx.fillStyle = '#333';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.font = 'sans-serif';
+                // 原写法 'sans-serif' 缺字号是无效值会被忽略，实际沿用的是上面柱标签设置的 14px
+                ctx.font = '14px sans-serif';
                 ctx.fillText(`${value}`, x + barWidth / 2, tooltipY + tooltipHeight / 2);
             }
         };
@@ -141,14 +143,17 @@ export default function BarChart({ data }) {
             }
         };
 
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', () => {
+        const handleMouseLeave = () => {
             setHoverIndex(null);
             render();
-        });
+        };
+
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, [data, hoverIndex]);
 

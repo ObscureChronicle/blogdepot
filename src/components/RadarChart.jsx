@@ -1,4 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+
+// 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
+const maxValues = [100, 100, 100, 100, 100];
+const labels = ['统御', '气运', '武勇', '智略', '魅力'];
+
 /**
  * @param {{ data: number[], postdata?: number[], prevDataName?: string, postDataName?: string, attributefigure: number[] }} props
  */
@@ -6,8 +11,6 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
-    const maxValues = [100, 100, 100, 100, 100];
-    const labels = ['统御', '气运', '武勇', '智略', '魅力'];
 
     // 当存在另一组数据的时候，控制显示的雷达图数据
     const [activeDataType, setActiveDataType] = useState('data');
@@ -28,6 +31,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
 
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            labelPositions.length = 0;
 
             // 分层背景
             for (let layer = layers; layer >= 1; layer--) {
@@ -190,17 +194,20 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             }
         };
 
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', () => {
+        const handleMouseLeave = () => {
             setHoverIndex(null);
             setHoverLabelIndex(null);
             render();
-        });
+        };
+
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
             canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [currentData, maxValues, labels, hoverIndex, hoverLabelIndex, attributefigure]);
+    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure]);
 
     return (
         <>
