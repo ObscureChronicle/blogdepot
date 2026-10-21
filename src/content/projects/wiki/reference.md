@@ -5,10 +5,6 @@ tags:
 isFeatured: true
 publishDate: 
 excerpt: 
-seo:
-  image:
-    src: '/post-13.jpg'
-    alt: Abstract snow
 ---
 
 <h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">原典</h2>

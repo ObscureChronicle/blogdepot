@@ -4,10 +4,6 @@ excerpt: 仿姜维口吻给廖纮写的一封信。
 publishDate: '2022-11-07'
 tags:
   - wen-yan
-seo:
-  image:
-    src: '/post-7.jpg'
-    alt: Bright lines on a dark background
 ---
 	
 公子钧鉴：

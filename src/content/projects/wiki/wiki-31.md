@@ -6,10 +6,6 @@ tags:
 isFeatured: true
 publishDate: 
 excerpt: 
-seo:
-  image:
-    src: '/post-13.jpg'
-    alt: Abstract snow
 ---
 
 两汉时以五铢钱为通行货币。桓帝时五铢钱愈发不足值，又有将一枚五铢钱分为「剪凿钱」与「愈环钱」之做法，灵帝时曾铸造相对足值的「四出文钱」，试图挽救经济体系，未果。此后董卓大量铸造小钱，通货膨胀更行恶化，货币经济彻底崩坏。

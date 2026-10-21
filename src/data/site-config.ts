@@ -51,7 +51,7 @@ const siteConfig: SiteConfig = {
     description: '《后汉稽异录》（日文名：後漢・三国物語，英文名：Obscure Chronicle of Dynasty）资料站，收录游戏人物、势力、装备等百科词条与创作记录。',
     image: {
         src: '/title.png',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
+        alt: '《后汉稽异录》标题图'
     },
     headerNavLinks: [
         {

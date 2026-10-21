@@ -4,10 +4,6 @@ excerpt: 仿夏侯湛口吻写的一些随笔。
 publishDate: '2024-10-12'
 tags:
   - wen-yan
-seo:
-  image:
-    src: '/post-7.jpg'
-    alt: Bright lines on a dark background
 ---
 	
 余少时，尝假寐而梦见神人，示余一图，则状若一人间火中，累拭其目，未能审之，忽觉，而莫之能忘也。既长，举贤良，拜郎中，以余素鄙，累年不调，遂嬉游以自娱。

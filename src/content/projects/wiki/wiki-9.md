@@ -6,10 +6,6 @@ tags:
 isFeatured: true
 publishDate: 
 excerpt: 
-seo:
-  image:
-    src: '/post-13.jpg'
-    alt: Abstract snow
 ---
 
 黄巾起义时，灵帝命地方州郡自募兵力平定乱事，关东地区军阀势力逐渐兴起。董卓入京后，关东军阀举兵讨伐之，随着董卓西迁长安，关东军阀亦开始彼此兼并。至公元一九六年〔建安元年〕时，关东势力较大的军阀有：

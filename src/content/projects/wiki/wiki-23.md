@@ -6,10 +6,6 @@ tags:
 isFeatured: true
 publishDate: 
 excerpt: 
-seo:
-  image:
-    src: '/post-13.jpg'
-    alt: Abstract snow
 ---
 
 诸葛亮《隆中对》即有「南抚彝越」之献策。夷陵战后，益州南部屡有少数民族叛乱，诸葛亮遂于建兴三年〔公元二二五年〕春三月采纳马谡「攻心为上，攻城为下；心战为上，兵战为下」之方针，出兵南中，是年秋结束南征，十二月返回成都。

@@ -4,10 +4,6 @@ excerpt: 戏作标目，可配合zgzilmm的视频共赏。
 publishDate: '2025-02-03'
 tags:
   - wen-yan
-seo:
-  image:
-    src: '/post-7.jpg'
-    alt: Bright lines on a dark background
 ---
 	
 第一回 行者凭崖诔孤坟 骚客酌酒照斜阳

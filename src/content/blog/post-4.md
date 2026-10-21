@@ -4,10 +4,6 @@ excerpt: 统御为尊是我最早定下的原则，毕竟HP被改成了兵力，
 publishDate: '2025-02-20'
 tags:
   - diary
-seo:
-  image:
-    src: '/post-4.jpg'
-    alt: Wavy lines on a dark background
 ---
 
 统御为尊是我最早定下的原则，毕竟HP被改成了兵力，再以武勇定攻击力就显得有些滑稽，仿佛在打《真三国无双》；而魅力算是从《三国志》系列里拿过来的东西。至于曹操传的敏捷，则打从决定一个单位代表一支部队开始，便被我抛弃了。
