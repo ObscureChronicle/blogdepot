@@ -22,8 +22,8 @@ export interface RankRow {
     /** 拼音排序键（无声调） */
     pinyin: string;
     /** 数据来源标签 */
-    source: '本传1' | '本传2' | '星命诀';
-    /** 数据来源固定枚举顺序：本传1=0 < 本传2=1 < 星命诀=2 */
+    source: '本传' | '本传2' | '星命诀';
+    /** 数据来源固定枚举顺序：本传=0 < 本传2=1 < 星命诀=2 */
     sourceIndex: number;
     /**
      * 七个输出列的值，缺失为 null（渲染为「—」）：
@@ -76,7 +76,7 @@ interface Group {
 }
 
 const GROUPS: Group[] = [
-    { source: '本传1', sourceIndex: 0, baseField: 'baseData', extraField: 'baseData2' },
+    { source: '本传', sourceIndex: 0, baseField: 'baseData', extraField: 'baseData2' },
     { source: '本传2', sourceIndex: 1, baseField: 'postData', extraField: 'postBaseData2' },
     { source: '星命诀', sourceIndex: 2, baseField: 'dlcData', extraField: 'dlcData2' }
 ];
@@ -100,7 +100,7 @@ function buildRankData(): { rows: RankRow[]; report: RankReport } {
             const baseInner = extractArray(raw, group.baseField);
             let extraInner = extractArray(raw, group.extraField);
 
-            // 本传2 特例：postBaseData2 缺失但 postData 存在时，胆识/冷静沿用本传1 的 baseData2
+            // 本传2 特例：postBaseData2 缺失但 postData 存在时，胆识/冷静沿用本传 的 baseData2
             if (group.source === '本传2' && extraInner === undefined && baseInner !== undefined) {
                 extraInner = extractArray(raw, 'baseData2');
             }
@@ -147,7 +147,7 @@ function buildRankData(): { rows: RankRow[]; report: RankReport } {
         rows.push(...groupRows);
     }
 
-    // 人物按拼音升序；同人物内按 本传1 → 本传2 → 星命诀 固定顺序
+    // 人物按拼音升序；同人物内按 本传 → 本传2 → 星命诀 固定顺序
     rows.sort((a, b) => {
         const byName = a.pinyin.localeCompare(b.pinyin, 'zh-Hans-CN');
         if (byName !== 0) return byName;
