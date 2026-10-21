@@ -182,11 +182,15 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
             root.querySelector('[data-hero-next]')?.addEventListener('click', () => show(current + 1));
             progress?.addEventListener('animationend', () => show(current + 1));
 
-            root.addEventListener('mouseenter', () => {
+            // 用 pointer 事件并只认鼠标：触屏点击时浏览器也会模拟 mouseenter，
+            // 但要点到别处才触发 mouseleave，会让自动播放一直停住
+            root.addEventListener('pointerenter', (event) => {
+                if (event.pointerType !== 'mouse') return;
                 hovered = true;
                 updatePaused();
             });
-            root.addEventListener('mouseleave', () => {
+            root.addEventListener('pointerleave', (event) => {
+                if (event.pointerType !== 'mouse') return;
                 hovered = false;
                 updatePaused();
             });

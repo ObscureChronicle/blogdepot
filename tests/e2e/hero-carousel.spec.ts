@@ -52,6 +52,16 @@ test.describe('首页轮播', () => {
         expect(await playState()).toBe('running');
     });
 
+    test('触屏点击箭头后不会被当成悬停而停住自动播放', async ({ page }, testInfo) => {
+        test.skip(testInfo.project.name !== 'mobile', '只有触屏会在点击时模拟 mouseenter');
+        await page.goto('/');
+        const carousel = page.locator('[data-hero-carousel]');
+
+        await page.getByRole('button', { name: '下一个' }).tap();
+        await expect(panel(page, 1)).toHaveAttribute('data-active', 'true');
+        await expect(carousel).toHaveAttribute('data-paused', 'false');
+    });
+
     test('减少动态效果偏好下不自动播放，但箭头仍可手动切换', async ({ page }) => {
         await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto('/');
