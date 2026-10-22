@@ -9,7 +9,8 @@ export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>,
     return new Date(itemB.data.publishDate).getTime() - new Date(itemA.data.publishDate).getTime();
 }
 
-export const TAG_SLUG_MAP: Record<string, string> = {
+// 分类标签：中文名 → 英文 slug。新增分类标签时在这里登记，否则 check:content 会报 warning。
+const CATEGORY_TAG_SLUGS = {
     参考文献: 'reference',
     创作手记: 'diary',
     更新日志: 'changelog',
@@ -21,34 +22,18 @@ export const TAG_SLUG_MAP: Record<string, string> = {
     特性与军略: 'trait',
     关卡: 'stage',
     状态: 'status',
-    兵种: 'class',
-    A: 'wiki-a',
-    B: 'wiki-b',
-    C: 'wiki-c',
-    D: 'wiki-d',
-    E: 'wiki-e',
-    F: 'wiki-f',
-    G: 'wiki-g',
-    H: 'wiki-h',
-    I: 'wiki-i',
-    J: 'wiki-j',
-    K: 'wiki-k',
-    L: 'wiki-l',
-    M: 'wiki-m',
-    N: 'wiki-n',
-    O: 'wiki-o',
-    P: 'wiki-p',
-    Q: 'wiki-q',
-    R: 'wiki-r',
-    S: 'wiki-s',
-    T: 'wiki-t',
-    U: 'wiki-u',
-    V: 'wiki-v',
-    W: 'wiki-w',
-    X: 'wiki-x',
-    Y: 'wiki-y',
-    Z: 'wiki-z'
-};
+    兵种: 'class'
+} as const;
+
+// 音序标签：A → wiki-a … Z → wiki-z
+const PINYIN_INDEX_TAG_SLUGS = Object.fromEntries(
+    Array.from({ length: 26 }, (_, i) => {
+        const letter = String.fromCharCode(65 + i);
+        return [letter, `wiki-${letter.toLowerCase()}`];
+    })
+);
+
+export const TAG_SLUG_MAP: Record<string, string> = { ...CATEGORY_TAG_SLUGS, ...PINYIN_INDEX_TAG_SLUGS };
 
 // 反转映射（英文 id → 中文 name）
 export const SLUG_TAG_MAP: Record<string, string> = Object.fromEntries(Object.entries(TAG_SLUG_MAP).map(([cn, en]) => [en, cn]));
@@ -75,15 +60,29 @@ export function getPostsByTag(posts: Array<CollectionEntry<'blog'> | CollectionE
     return posts.filter((post) => (post.data.tags || []).some((tag) => resolveTag(tag).id === tagId));
 }
 
-// 按 name 做不区分大小写的排序（原地排序，和 Array.prototype.sort 行为一致）。
-// 之前在 tags/index.astro（两处）、tags/wiki-index-by-catogory、
-// tags/wiki-index-by-reading 里各自复制了一份完全相同的比较器。
+// 按 name 做不区分大小写的排序，返回新数组，不修改传入的数组。
 export function sortTagsByName<T extends { name: string }>(tags: T[]): T[] {
-    return tags.sort((a, b) => {
+    return [...tags].sort((a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
         if (nameA < nameB) return -1;
         if (nameA > nameB) return 1;
         return 0;
     });
+}
+
+// 一次遍历统计每个标签 id 下的文章数，计数规则与 getPostsByTag 一致：
+// 同一篇文章的多个原始标签归一化成同一个 id 时只算一次。
+export function countPostsByTag(posts: Array<CollectionEntry<'blog'> | CollectionEntry<'projects'>>): Map<string, number> {
+    const counts = new Map<string, number>();
+    for (const post of posts) {
+        const ids = new Set((post.data.tags || []).map((tag) => resolveTag(tag).id));
+        for (const id of ids) counts.set(id, (counts.get(id) ?? 0) + 1);
+    }
+    return counts;
+}
+
+// 是否为音序（拼音首字母）标签，如 wiki-a。分类标签与音序标签在多处需要区分。
+export function isPinyinIndexTag(tag: string): boolean {
+    return tag.startsWith('wiki-');
 }

@@ -41,7 +41,7 @@ const { items, current, ownTags = [], class: className } = Astro.props;
 </style>
 
 <script>
-    import { resolveTag } from '../utils/data-utils';
+    import { isPinyinIndexTag, resolveTag } from '../utils/data-utils';
 
     const STORAGE_KEY = 'wiki-breadcrumb-context';
 
@@ -77,7 +77,7 @@ const { items, current, ownTags = [], class: className } = Astro.props;
         // 自愈：换成当前条目自己真实所属的那个分类/字母，类型（分类 or 音序）保持不变
         if (!ownTags.includes(context.value)) {
             const selfValue =
-                context.type === 'pinyin' ? ownTags.find((tag) => tag.startsWith('wiki-')) : ownTags.find((tag) => !tag.startsWith('wiki-'));
+                context.type === 'pinyin' ? ownTags.find(isPinyinIndexTag) : ownTags.find((tag) => !isPinyinIndexTag(tag));
 
             if (!selfValue) return; // 当前条目在这个维度上没有对应标签（如「参考文献」没有音序标签），保持静态两级
 

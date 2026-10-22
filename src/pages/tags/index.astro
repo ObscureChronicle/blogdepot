@@ -2,17 +2,15 @@
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../utils/content-utils';
-import { getAllTags, getPostsByTag, sortTagsByName } from '../../utils/data-utils';
+import { countPostsByTag, getAllTags, isPinyinIndexTag, sortTagsByName } from '../../utils/data-utils';
 
 const posts = await getAllPosts();
 
 const realTags = getAllTags(posts);
+const postCounts = countPostsByTag(posts);
 
-// ✅ 所有 wiki-* 标签（不包含聚合页本身）
-const wikiChildTags = realTags.filter((tag) => tag.id.startsWith('wiki-') && tag.id !== 'wiki-index-by-reading');
-
-// ✅ 排除所有 wiki-* 标签
-const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
+const wikiChildTags = realTags.filter((tag) => isPinyinIndexTag(tag.id));
+const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
 ---
 
 <BaseLayout
@@ -32,7 +30,7 @@ const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
             {
                 sortTagsByName(nonWikiTags)
                     .map((tag) => {
-                        const postCount = getPostsByTag(posts, tag.id).length;
+                        const postCount = postCounts.get(tag.id) ?? 0;
                         return (
                             <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[390px]" href={`/tags/${tag.id}`}>
                                 <div class="">
@@ -58,7 +56,7 @@ const nonWikiTags = realTags.filter((tag) => !tag.id.startsWith('wiki-'));
             {
                 sortTagsByName(wikiChildTags)
                     .map((tag) => {
-                        const postCount = getPostsByTag(posts, tag.id).length;
+                        const postCount = postCounts.get(tag.id) ?? 0;
                         return (
                             <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}`}>
                                 <div class="sm:w-[85px]">

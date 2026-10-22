@@ -7,7 +7,7 @@ import ProjectPreview from '../../../components/ProjectPreview.astro';
 import siteConfig from '../../../data/site-config';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../../utils/content-utils';
-import { getAllTags, getPostsByTag } from '../../../utils/data-utils';
+import { getAllTags, getPostsByTag, isPinyinIndexTag } from '../../../utils/data-utils';
 import { sortPostsByTitlePinyin } from '../../../utils/sort-by-pinyin';
 
 const posts = await getAllPosts();
@@ -53,13 +53,12 @@ const currentTag = allTags.find((tag) => {
     <Pagination page={page} basePath={`/tags/${params.id}`} class="my-16 sm:my-24" />
 </BaseLayout>
 
-<script is:inline define:vars={{ tagId: params.id }}>
+<script is:inline define:vars={{ tagId: params.id, contextType: isPinyinIndexTag(params.id!) ? 'pinyin' : 'category' }}>
     // 记录用户是从哪个 tag 列表页进来的，供详情页面包屑组件读取，
     // 拼出「分类：XX」/「音序：X」这一级。见 Breadcrumb.astro。
     function recordBreadcrumbContext() {
         try {
-            const type = tagId.startsWith('wiki-') ? 'pinyin' : 'category';
-            sessionStorage.setItem('wiki-breadcrumb-context', JSON.stringify({ type, value: tagId }));
+            sessionStorage.setItem('wiki-breadcrumb-context', JSON.stringify({ type: contextType, value: tagId }));
         } catch {
             // sessionStorage 不可用（如隐私模式）时静默跳过
         }

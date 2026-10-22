@@ -1,5 +1,6 @@
-// 详情页「上一篇 / 下一篇」相关的纯函数。只依赖类型，不导入 astro:content，
+// 详情页「上一篇 / 下一篇」相关的纯函数。不导入 astro:content 运行时，
 // 因此可以直接用 node:test 测试。
+import { isPinyinIndexTag } from './data-utils.ts';
 
 export type WithNeighbors<T> = { item: T; prev: T | null; next: T | null };
 
@@ -26,5 +27,5 @@ export function groupBy<T>(items: T[], keyFn: (item: T) => string): Map<string, 
 
 /** 百科词条的分类：第一个非 wiki-X 拼音索引标签；没有分类标签时退回词条 id，自成一组 */
 export function getProjectCategory(entry: { id: string; data: { tags: string[] } }): string {
-    return entry.data.tags.find((tag) => !tag.startsWith('wiki-')) ?? entry.id;
+    return entry.data.tags.find((tag) => !isPinyinIndexTag(tag)) ?? entry.id;
 }
