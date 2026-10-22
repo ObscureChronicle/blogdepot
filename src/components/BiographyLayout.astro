@@ -6,6 +6,7 @@ import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import EditionBadge from './EditionBadge.astro';
+import SectionTitle from './SectionTitle.astro';
 import { EDITIONS } from '../data/editions';
 import WikiLink from './WikiLink.astro';
 
@@ -73,14 +74,14 @@ const dlcname_short = EDITIONS.dlc.shortName;
 ---
 {
     !baseData && !dlcData ? <><div>背景人物。</div>
-        <h2  class='section-title'>剧中别称</h2>
+        <SectionTitle>剧中别称</SectionTitle>
         <CharacterNameTable data={nameTableData ? nameTableData : {}} /></>: (
         <p>
             登场于{baseData && basename}{baseData && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
         </p>
-        <h2  class='section-title'>剧中别称</h2>
+        <SectionTitle>剧中别称</SectionTitle>
         <CharacterNameTable data={nameTableData ? nameTableData : {}} />
-        <h2  class='section-title'>能力</h2>
+        <SectionTitle>能力</SectionTitle>
         <div class="flex justify-evenly sm:flex-row flex-col">
             {
                 combinedAbility ? (
@@ -134,7 +135,7 @@ const dlcname_short = EDITIONS.dlc.shortName;
 {
     biography && (
         <>
-            <h2  class='section-title'>列传</h2>
+            <SectionTitle>列传</SectionTitle>
             <p class="whitespace-pre-line text-base leading-relaxed">{biography}</p>
         </>
     )
@@ -142,7 +143,7 @@ const dlcname_short = EDITIONS.dlc.shortName;
 {
     !baseclass && !dlcclass ? null : (
         <>
-            <h2  class='section-title'>默认兵种</h2>
+            <SectionTitle>默认兵种</SectionTitle>
             {baseclass && (
                 <div>
                     <EditionBadge edition="base" tag="p" />
@@ -161,7 +162,7 @@ const dlcname_short = EDITIONS.dlc.shortName;
 {
     !battlesBase && !battlesDLC ? null : (
         <>
-            <h2  class='section-title'>登场战役</h2>
+            <SectionTitle>登场战役</SectionTitle>
             <div class="flex flex-col pl-4 gap-4">
                 {battlesBase && (
                     <div class="flex flex-col items-center">
@@ -182,14 +183,14 @@ const dlcname_short = EDITIONS.dlc.shortName;
 {
     equipments && equipments.length > 0 ? (
         <>
-            <h2  class='section-title'>关联装备</h2>
+            <SectionTitle>关联装备</SectionTitle>
             <div class="flex flex-col pl-4">{equipments.map((e) => <WikiLink kind="item" name={e} linkClass="" />)}</div>
         </>
     ) : null
 }
 {
     links && (
-        <h2  class='section-title'>更多</h2>
+        <SectionTitle>更多</SectionTitle>
         <div class="flex flex-col pl-4">
             {
                 links.map((l) => (

@@ -7,7 +7,7 @@ publishDate:
 excerpt: 
 ---
 
-<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">原典</h2>
+<h2 class="section-title">原典</h2>
 
 《三国志》
 
@@ -57,7 +57,7 @@ excerpt:
 
 《全上古三代秦汉三国六朝文》
 
-<h2 class="bg-blue-100 text-blue-800 text-2xl font-bold px-2.5 pt-1.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 inline-block">著述</h2>
+<h2 class="section-title">著述</h2>
 
 安作璋《秦汉官制史稿》
 

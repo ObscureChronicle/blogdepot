@@ -344,6 +344,33 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     display: inline-block;
 }
 
+/* 不放进 @layer：要压过 prose 对 h2 字号与颜色的设置，因此下面的深色与按版本着色也写成普通规则 */
+html.dark .section-title {
+    background-color: var(--color-blue-200);
+}
+
+/* 兵种页按版本分区时的标题配色，与 editions.ts 中的版本标签一致 */
+.section-title--dlc {
+    color: var(--color-yellow-800);
+    background-color: var(--color-yellow-100);
+}
+.section-title--collab {
+    color: var(--color-red-800);
+    background-color: var(--color-pink-100);
+}
+html.dark .section-title--base {
+    color: var(--color-blue-300);
+    background-color: var(--color-blue-900);
+}
+html.dark .section-title--dlc {
+    color: var(--color-yellow-300);
+    background-color: var(--color-yellow-900);
+}
+html.dark .section-title--collab {
+    color: var(--color-red-300);
+    background-color: var(--color-pink-900);
+}
+
 .wl-meta-foot {
     display: none;
 }

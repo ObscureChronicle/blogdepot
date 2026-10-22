@@ -1,0 +1,13 @@
+---
+// 词条的区块标题（蓝底大字）。样式在 global.css 的 .section-title；
+// tone 用于兵种页按版本分区时给标题着色。
+import type { Edition } from '../data/editions';
+
+type Props = {
+    tone?: Edition;
+};
+
+const { tone } = Astro.props as Props;
+---
+
+<h2 class:list={['section-title', tone && `section-title--${tone}`]}><slot /></h2>

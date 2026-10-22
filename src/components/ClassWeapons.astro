@@ -1,16 +1,20 @@
 ---
+import type { Edition } from '../data/editions';
+import SectionTitle from './SectionTitle.astro';
+
 type Props = {
     weapons?: string[];
-    titleClass?: string;
+    /** 兵种页按版本分区时的标题配色 */
+    tone?: Edition;
 };
 
-const { weapons, titleClass } = Astro.props as Props;
+const { weapons, tone } = Astro.props as Props;
 ---
 
 {
     weapons && weapons.length > 0 ? (
         <>
-            <h2 class={`${titleClass || 'bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800'} text-2xl font-bold px-2.5 pt-1.5 rounded-sm inline-block`}>可装备武器</h2>
+            <SectionTitle tone={tone}>可装备武器</SectionTitle>
             <p class="text-base leading-relaxed">{weapons.join('、')}</p>
         </>
     ) : null

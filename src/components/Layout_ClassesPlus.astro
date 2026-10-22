@@ -28,12 +28,25 @@ import ClassTree from './ClassTree.astro';
 import ClassType from './ClassType.astro';
 import ClassWeapons from './ClassWeapons.astro';
 import TraitOwner from './TraitOwner.astro';
-import { EDITIONS } from '../data/editions';
+import { EDITIONS, type Edition } from '../data/editions';
 
-const sections = [
-    { title: EDITIONS.base.shortName, data: base, titleClass: EDITIONS.base.badgeColor },
-    { title: EDITIONS.collab.shortName, data: collab, titleClass: EDITIONS.collab.badgeColor },
+type Section = {
+    tone: Edition;
+    title: string;
+    data?: ClassData;
+    /** 分区大标题（本传 / 星命诀 / 联动）的配色 */
+    titleClass: string;
+    treeTitle?: string;
+    upgradesLabel?: string;
+    conditionitemLabel?: string;
+    conditionLabel?: string;
+};
+
+const sections: Section[] = [
+    { tone: 'base', title: EDITIONS.base.shortName, data: base, titleClass: EDITIONS.base.badgeColor },
+    { tone: 'collab', title: EDITIONS.collab.shortName, data: collab, titleClass: EDITIONS.collab.badgeColor },
     {
+        tone: 'dlc',
         title: EDITIONS.dlc.shortName,
         data: dlc,
         titleClass: EDITIONS.dlc.badgeColor,
@@ -53,15 +66,15 @@ const sections = [
                 <>
                     <h2 class={`${section.titleClass} text-3xl font-bold px-3 pt-2 pb-1 rounded-sm inline-block`}>{section.title}</h2>
                     <ClassDescription description={section.data.description || ''} hideTitle={true} />
-                    <ClassWeapons weapons={section.data.weapons || []} titleClass={section.titleClass} />
-                    <ClassType classType={section.data.classType || ''} titleClass={section.titleClass} />
-                    <ClassSkills skills={section.data.skills || []} titleClass={section.titleClass} />
-                    <ClassParams params={section.data.params || []} titleClass={section.titleClass} />
+                    <ClassWeapons weapons={section.data.weapons || []} tone={section.tone} />
+                    <ClassType classType={section.data.classType || ''} tone={section.tone} />
+                    <ClassSkills skills={section.data.skills || []} tone={section.tone} />
+                    <ClassParams params={section.data.params || []} tone={section.tone} />
                     <ClassTree
                         parents={section.data.parents || []}
                         upgrades={section.data.upgrades || []}
                         condition={section.data.condition || []}
-                        titleClass={section.titleClass}
+                        tone={section.tone}
                         treeTitle={section.treeTitle}
                         upgradesLabel={section.upgradesLabel}
                         conditionitemLabel={section.conditionitemLabel}
