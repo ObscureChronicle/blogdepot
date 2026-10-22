@@ -1,8 +1,8 @@
 ---
 import { getWikiLink } from '../utils/wiki-links';
 import { CLASS_OWNERS as owners } from '../utils/wiki-owners';
+import LinkedNames from './LinkedNames.astro';
 
-const getLink = (name: string) => getWikiLink('character', name);
 const getClassLink = (cls: string) => getWikiLink('class', cls);
 
 // ============================================================
@@ -209,7 +209,6 @@ const categoryGroups = groups.map((group) => {
 // 大类第一行加 cat-start（含 rowspan 的 cat-cell），兵种第一行加 cls-start（含 cls-cell），悬停时联动高亮所属合并格
 const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
 const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
-const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
 ---
 
@@ -259,18 +258,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
                                             </th>
                                             <td class={srcBaseClass}>本体</td>
                                             <td>
-                                                {item.base.map((name, index) => (
-                                                    <span>
-                                                        {index > 0 && '、'}
-                                                        {getLink(name) ? (
-                                                            <a href={getLink(name) || ''} class={linkClass}>
-                                                                {name}
-                                                            </a>
-                                                        ) : (
-                                                            <span>{name}</span>
-                                                        )}
-                                                    </span>
-                                                ))}
+                                                <LinkedNames kind="character" names={item.base} />
                                             </td>
                                         </tr>
                                     )}
@@ -299,18 +287,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
                                             )}
                                             <td class={srcDlcClass}>星命诀</td>
                                             <td>
-                                                {item.dlc.map((name, index) => (
-                                                    <span>
-                                                        {index > 0 && '、'}
-                                                        {getLink(name) ? (
-                                                            <a href={getLink(name) || ''} class={linkClass}>
-                                                                {name}
-                                                            </a>
-                                                        ) : (
-                                                            <span>{name}</span>
-                                                        )}
-                                                    </span>
-                                                ))}
+                                                <LinkedNames kind="character" names={item.dlc} />
                                             </td>
                                         </tr>
                                     )}
@@ -346,18 +323,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
                                     </th>
                                     <td class={srcBaseClass}>本体</td>
                                     <td>
-                                        {g.baseNames.map((name, index) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class={linkClass}>
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
+                                        <LinkedNames kind="character" names={g.baseNames} />
                                     </td>
                                 </tr>
                             )}
@@ -371,18 +337,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
                                     )}
                                     <td class={srcDlcClass}>星命诀</td>
                                     <td>
-                                        {g.dlcNames.map((name, index) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class={linkClass}>
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
+                                        <LinkedNames kind="character" names={g.dlcNames} />
                                     </td>
                                 </tr>
                             )}

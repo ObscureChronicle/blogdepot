@@ -7,7 +7,7 @@ import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import EditionBadge from './EditionBadge.astro';
 import { EDITIONS } from '../data/editions';
-import { getWikiLink } from '../utils/wiki-links';
+import WikiLink from './WikiLink.astro';
 
 type CharacterWikiProps = {
     intro: string;
@@ -70,10 +70,6 @@ const basename = EDITIONS.base.name;
 const dlcname = EDITIONS.dlc.name;
 const basename_short = EDITIONS.base.shortName;
 const dlcname_short = EDITIONS.dlc.shortName;
-
-const getClassLink = (name: string) => {
-    return getWikiLink('class', name);
-};
 ---
 {
     !baseData && !dlcData ? <><div>背景人物。</div>
@@ -150,13 +146,13 @@ const getClassLink = (name: string) => {
             {baseclass && (
                 <div>
                     <EditionBadge edition="base" tag="p" />
-                    <p class="whitespace-pre-line text-base leading-relaxed">{baseclass && baseclass.map((e) => getClassLink(e) ? <a href={getClassLink(e) || ''} class="block text-blue-600 hover:text-blue-800 hover:underline">{e}</a> : <span class="block">{e}</span>)}</p>
+                    <p class="whitespace-pre-line text-base leading-relaxed">{baseclass.map((e) => <WikiLink kind="class" name={e} class="block" />)}</p>
                 </div>
             )}
             {dlcclass && (
                 <div>
                     <EditionBadge edition="dlc" tag="p" />
-                    <p class="whitespace-pre-line text-base leading-relaxed">{dlcclass && dlcclass.map((e) => getClassLink(e) ? <a href={getClassLink(e) || ''} class="block text-blue-600 hover:text-blue-800 hover:underline">{e}</a> : <span class="block">{e}</span>)}</p>
+                    <p class="whitespace-pre-line text-base leading-relaxed">{dlcclass.map((e) => <WikiLink kind="class" name={e} class="block" />)}</p>
                 </div>
             )}
         </>
@@ -187,7 +183,7 @@ const getClassLink = (name: string) => {
     equipments && equipments.length > 0 ? (
         <>
             <h2  class='section-title'>关联装备</h2>
-            <div class="flex flex-col pl-4">{equipments.map((e) => { const href = getWikiLink('item', e); return href ? <a href={href}>{e}</a> : <span>{e}</span>; })}</div>
+            <div class="flex flex-col pl-4">{equipments.map((e) => <WikiLink kind="item" name={e} linkClass="" />)}</div>
         </>
     ) : null
 }

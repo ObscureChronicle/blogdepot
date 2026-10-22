@@ -1,0 +1,22 @@
+---
+// 百科名称：有对应词条时输出链接，否则输出纯文本
+import type { WikiLinkKind } from '../utils/wiki-link-parser';
+import { getWikiLink } from '../utils/wiki-links';
+
+type Props = {
+    kind: WikiLinkKind;
+    name: string;
+    /** 链接和纯文本共用的 class */
+    class?: string;
+    /** 只加在链接上的 class；传空字符串表示不加 */
+    linkClass?: string;
+    /** 没有词条时直接输出文字，不包 span */
+    bare?: boolean;
+};
+
+const { kind, name, class: className, linkClass = 'text-blue-600 hover:text-blue-800 hover:underline', bare = false } = Astro.props as Props;
+const href = getWikiLink(kind, name);
+const anchorClass = [className, linkClass].filter(Boolean).join(' ') || undefined;
+---
+
+{href ? <a href={href} class={anchorClass}>{name}</a> : bare ? name : <span class={className}>{name}</span>}

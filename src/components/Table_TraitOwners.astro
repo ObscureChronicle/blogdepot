@@ -1,7 +1,7 @@
 ---
-import { getWikiLink } from '../utils/wiki-links';
 import { TRAIT_OWNERS as traitOwners } from '../utils/wiki-owners';
 import { TRAIT_MAP, TraitColor } from './Table_Traits.jsx';
+import LinkedNames from './LinkedNames.astro';
 
 type Props = {
     mode: 'personal' | 'regional';
@@ -9,7 +9,6 @@ type Props = {
 
 const { mode } = Astro.props as Props;
 
-const getLink = (name: string) => getWikiLink('character', name);
 const getTraitInfo = (trait: string) => (TRAIT_MAP as Record<string, { color?: string; link?: string }>)[trait] || null;
 
 // 地域特性名单（与 trait_00_regional.mdx 一致）
@@ -86,7 +85,6 @@ if (mode === 'regional') {
 const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
 const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
 const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
-const linkClass = 'text-blue-600 hover:text-blue-800 hover:underline';
 
 // 特质名样式：颜色 + 顶级(Ordinary)发光（与 Table_Traits.jsx 一致）
 const traitStyle = (trait: string) => {
@@ -138,18 +136,7 @@ const traitStyle = (trait: string) => {
                                     </th>
                                     <td class={srcBaseClass}>本体</td>
                                     <td>
-                                        {baseList.map((name, index) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class={linkClass}>
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
+                                        <LinkedNames kind="character" names={baseList} />
                                     </td>
                                 </tr>
                             )}
@@ -173,18 +160,7 @@ const traitStyle = (trait: string) => {
                                     )}
                                     <td class={srcDlcClass}>星命诀</td>
                                     <td>
-                                        {dlcList.map((name, index) => (
-                                            <span>
-                                                {index > 0 && '、'}
-                                                {getLink(name) ? (
-                                                    <a href={getLink(name) || ''} class={linkClass}>
-                                                        {name}
-                                                    </a>
-                                                ) : (
-                                                    <span>{name}</span>
-                                                )}
-                                            </span>
-                                        ))}
+                                        <LinkedNames kind="character" names={dlcList} />
                                     </td>
                                 </tr>
                             )}

@@ -1,0 +1,21 @@
+---
+// 用「、」分隔的一串百科名称，每个名称有词条时输出链接
+import type { WikiLinkKind } from '../utils/wiki-link-parser';
+import WikiLink from './WikiLink.astro';
+
+type Props = {
+    kind: WikiLinkKind;
+    names: string[];
+};
+
+const { kind, names } = Astro.props as Props;
+---
+
+{
+    names.map((name, index) => (
+        <span>
+            {index > 0 && '、'}
+            <WikiLink kind={kind} name={name} />
+        </span>
+    ))
+}

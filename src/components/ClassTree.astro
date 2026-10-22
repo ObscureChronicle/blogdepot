@@ -12,11 +12,7 @@ type Props = {
 
 const { parents, upgrades, condition, titleClass, treeTitle, upgradesLabel, conditionitemLabel, conditionLabel } = Astro.props as Props;
 
-import { getWikiLink } from '../utils/wiki-links';
-
-const getClassLink = (name: string) => {
-    return getWikiLink('class', name);
-};
+import LinkedNames from './LinkedNames.astro';
 ---
 
 {
@@ -34,18 +30,7 @@ const getClassLink = (name: string) => {
                             {conditionitemLabel || '前置兵种'}
                         </span>
                         <p class="text-base leading-relaxed">
-                            {parents.map((name, index) => (
-                                <span>
-                                    {index > 0 && '、'}
-                                    {getClassLink(name) ? (
-                                        <a href={getClassLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                            {name}
-                                        </a>
-                                    ) : (
-                                        <span>{name}</span>
-                                    )}
-                                </span>
-                            ))}
+                            <LinkedNames kind="class" names={parents} />
                         </p>
                     </div>
                 )}
@@ -65,18 +50,7 @@ const getClassLink = (name: string) => {
                             {upgradesLabel || '可转职兵种'}
                         </span>
                         <p class="text-base leading-relaxed">
-                            {upgrades.map((name, index) => (
-                                <span>
-                                    {index > 0 && '、'}
-                                    {getClassLink(name) ? (
-                                        <a href={getClassLink(name) || ''} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                            {name}
-                                        </a>
-                                    ) : (
-                                        <span>{name}</span>
-                                    )}
-                                </span>
-                            ))}
+                            <LinkedNames kind="class" names={upgrades} />
                         </p>
                     </div>
                 )}
