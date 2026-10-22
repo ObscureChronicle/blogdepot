@@ -4,6 +4,7 @@ import RadarChart from '../components/RadarChart';
 import StageStringTable from '../components/Table_Stages.jsx';
 import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
+import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import { getWikiLink } from '../utils/wiki-links';
 
 type CharacterWikiProps = {
@@ -27,6 +28,14 @@ type CharacterWikiProps = {
     equipments: string[];
     links: { label: string; href: string }[];
     nameTableData: {};
+    postBaseData2?: number[];
+    traitsPost?: string[];
+    /**
+     * 能力区的两种渲染方式（经 BiographyLayout2.astro 导入的词条为 true）：
+     * - false：雷达图、柱状图、特质表分别渲染，后期形态按钮由雷达图自带，只切换雷达图
+     * - true：交给 CharacterAbilitySection，后期形态按钮同时切换雷达图、柱状图和特质表
+     */
+    combinedAbility?: boolean;
 };
 
 const {
@@ -49,7 +58,10 @@ const {
     postData,
     prevDataName,
     postDataName,
-    nameTableData
+    nameTableData,
+    postBaseData2,
+    traitsPost,
+    combinedAbility = false
 } = Astro.props as CharacterWikiProps;
 
 const basename = '《后汉稽异录》';
@@ -73,25 +85,50 @@ const getClassLink = (name: string) => {
         <h2  class='section-title'>能力</h2>
         <div class="flex justify-evenly sm:flex-row flex-col">
             {
-                baseData && (
-                    <div class="flex flex-col items-center">
-                        <span class="bg-blue-100 text-blue-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
-                        <RadarChart client:load data={baseData} postdata={postData} prevDataName={prevDataName} postDataName={postDataName} attributefigure={AttributeFigure} />
-                        <BarChart client:load data={baseData2} />
-                        <FiveStringTable data={traitsBase} />
-                    </div>
-                )
-            }
-            {
-                dlcData && (
-                    <div class="flex flex-col items-center">
-                        <span class="bg-yellow-100 text-yellow-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
-                            {dlcname_short}
-                        </span>
-                        <RadarChart client:load variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
-                        <BarChart client:load data={dlcData2} />
-                        <FiveStringTable data={traitsDLC} />
-                    </div>
+                combinedAbility ? (
+                    baseData && (
+                        <div class="flex flex-col items-center">
+                            <CharacterAbilitySection
+                                client:load
+                                baseData={baseData}
+                                postData={postData}
+                                prevDataName={prevDataName}
+                                postDataName={postDataName}
+                                attributefigure={AttributeFigure}
+                                baseData2={baseData2}
+                                basename_short={basename_short}
+                                postBaseData2={postBaseData2}
+                                traitsBase={traitsBase}
+                                traitsPost={traitsPost}
+                                dlcData={dlcData}
+                                dlcData2={dlcData2}
+                                dlcAttributeFigure={dlcAttributeFigure}
+                                dlcname_short={dlcname_short}
+                                traitsDLC={traitsDLC}
+                            />
+                        </div>
+                    )
+                ) : (
+                    <>
+                        {baseData && (
+                            <div class="flex flex-col items-center">
+                                <span class="bg-blue-100 text-blue-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
+                                <RadarChart client:load data={baseData} postdata={postData} prevDataName={prevDataName} postDataName={postDataName} attributefigure={AttributeFigure} />
+                                <BarChart client:load data={baseData2} />
+                                <FiveStringTable data={traitsBase} />
+                            </div>
+                        )}
+                        {dlcData && (
+                            <div class="flex flex-col items-center">
+                                <span class="bg-yellow-100 text-yellow-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
+                                    {dlcname_short}
+                                </span>
+                                <RadarChart client:load variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
+                                <BarChart client:load data={dlcData2} />
+                                <FiveStringTable data={traitsDLC} />
+                            </div>
+                        )}
+                    </>
                 )
             }
         </div>
