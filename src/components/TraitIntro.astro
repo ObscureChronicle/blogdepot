@@ -1,4 +1,6 @@
 ---
+import { EDITIONS } from '../data/editions';
+
 type Props = {
     baseData?: boolean;
     dlcData?: boolean;
@@ -8,8 +10,8 @@ type Props = {
 
 const { baseData, dlcData, level, introHtml } = Astro.props as Props;
 
-const basename = '《后汉稽异录》';
-const dlcname = '《后汉稽异录外传：星命诀》';
+const basename = EDITIONS.base.name;
+const dlcname = EDITIONS.dlc.name;
 
 const isRegionalTrait = introHtml && introHtml.includes('trait_00_regional') && introHtml.includes('地域特性');
 ---
