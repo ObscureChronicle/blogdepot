@@ -4,8 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import { getSortedBlogPosts } from '../../utils/content-utils';
-import { SLUG_TAG_MAP } from '../../utils/data-utils';
-import { slugify } from '../../utils/common-utils';
+import { resolveTag } from '../../utils/data-utils';
 import { withNeighbors } from '../../utils/neighbor-utils';
 import WalineComments from '../../components/WalineComments.tsx';
 
@@ -66,9 +65,9 @@ const breadcrumb = {
             {
                 tags.length > 0 && (
                     <div class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-serif">
-                        {tags.map((tag) => (
-                            <a class="text-base text-[#131124] hover:underline bg-[#d8e3e7] px-[10px] py-[5px] mr-[10px]" href={`/tags/${slugify(tag)}`}>
-                                # {SLUG_TAG_MAP[tag]}
+                        {tags.map(resolveTag).map((tag) => (
+                            <a class="text-base text-[#131124] hover:underline bg-[#d8e3e7] px-[10px] py-[5px] mr-[10px]" href={`/tags/${tag.id}`}>
+                                # {tag.name}
                             </a>
                         ))}
                     </div>
