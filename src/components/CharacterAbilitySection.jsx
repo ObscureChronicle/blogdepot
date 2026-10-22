@@ -2,7 +2,6 @@ import { useState } from 'react';
 import BarChart from '../components/BarChart';
 import RadarChart from '../components/RadarChart';
 import FiveStringTable from '../components/Table_Traits.jsx';
-import RadarChart_DLC from '../components/RadarChart_DLC.jsx';
 
 export default function CharacterAbilitySection({
     baseData,
@@ -61,7 +60,7 @@ export default function CharacterAbilitySection({
                         {dlcname_short}
                     </span>
                     {postData && <div className='md:mb-[52px]'></div>}
-                    <RadarChart_DLC data={dlcData} attributefigure={dlcAttributeFigure} />
+                    <RadarChart variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
                     <BarChart data={dlcData2} />
                     <FiveStringTable data={traitsDLC} />
                 </div>

@@ -2,12 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
 const maxValues = [100, 100, 100, 100, 100];
-const labels = ['统御', '气运', '武勇', '智略', '魅力'];
+
+// 本传与星命诀雷达图的差异：主题色、第 2 项属性名（气运 / 运势）、上限提示的倍数
+const VARIANTS = {
+    base: { color: '#1ba784', fill: 'rgba(27, 167, 132, 0.4)', labels: ['统御', '气运', '武勇', '智略', '魅力'], capMultiplier: 1 },
+    dlc: { color: '#ffd111', fill: 'rgba(242, 206, 43, 0.4)', labels: ['统御', '运势', '武勇', '智略', '魅力'], capMultiplier: 3 }
+};
 
 /**
- * @param {{ data: number[], postdata?: number[], prevDataName?: string, postDataName?: string, attributefigure: number[] }} props
+ * @param {{ data: number[], postdata?: number[], prevDataName?: string, postDataName?: string, attributefigure: number[], variant?: 'base' | 'dlc' }} props
  */
-export default function RadarChart({ data, postdata, prevDataName = 'prevDataName', postDataName = 'postDataName', attributefigure }) {
+export default function RadarChart({ data, postdata, prevDataName = 'prevDataName', postDataName = 'postDataName', attributefigure, variant = 'base' }) {
+    const theme = VARIANTS[variant];
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
@@ -61,7 +67,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 ctx.stroke();
 
                 // 文字标签
-                if (labels?.[i]) {
+                if (theme.labels?.[i]) {
                     ctx.font = '16px sans-serif';
                     ctx.fillStyle = '#333';
                     if (attributefigure?.[i] > 0) {
@@ -73,9 +79,9 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     ctx.textBaseline = 'middle';
                     const labelX = centerX + (RADIUS + 20) * Math.sin(angle);
                     const labelY = centerY - (RADIUS + 20) * Math.cos(angle);
-                    ctx.fillText(labels[i], labelX, labelY);
+                    ctx.fillText(theme.labels[i], labelX, labelY);
 
-                    const labelWidth = ctx.measureText(labels[i]).width;
+                    const labelWidth = ctx.measureText(theme.labels[i]).width;
                     const labelHeight = 16;
                     labelPositions.push({
                         index: i,
@@ -103,14 +109,14 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 else ctx.lineTo(x, y);
             });
             ctx.closePath();
-            ctx.fillStyle = 'rgba(27, 167, 132, 0.4)';
-            ctx.strokeStyle = '#1ba784';
+            ctx.fillStyle = theme.fill;
+            ctx.strokeStyle = theme.color;
             ctx.lineWidth = 2;
             ctx.fill();
             ctx.stroke();
 
             // 小圆点
-            ctx.fillStyle = '#1ba784';
+            ctx.fillStyle = theme.color;
             points.forEach((p) => {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
@@ -122,14 +128,14 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 const p = points[hoverIndex];
                 ctx.save(); // 保存当前绘图状态
                 ctx.fillStyle = '#fff';
-                ctx.strokeStyle = '#1ba784';
+                ctx.strokeStyle = theme.color;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.roundRect(p.x + 10, p.y - 20, 40, 20, 4);
                 ctx.fill();
                 ctx.stroke();
 
-                ctx.fillStyle = '#1ba784';
+                ctx.fillStyle = theme.color;
                 ctx.font = '12px sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -143,7 +149,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 if (labelPos && attributefigure[hoverLabelIndex] !== 0) {
                     ctx.save();
                     ctx.fillStyle = '#fff';
-                    ctx.strokeStyle = '#1ba784';
+                    ctx.strokeStyle = theme.color;
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.roundRect(labelPos.cx + 10, labelPos.cy - 30, 80, 40, 6);
@@ -155,7 +161,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     const addValue = attributefigure[hoverLabelIndex];
-                    ctx.fillText(labels[hoverLabelIndex] + '上限' + (addValue < 0 ? '' : '+') + addValue, labelPos.cx + 50, labelPos.cy - 18);
+                    ctx.fillText(theme.labels[hoverLabelIndex] + '上限' + (addValue < 0 ? '' : '+') + theme.capMultiplier * addValue, labelPos.cx + 50, labelPos.cy - 18);
                     ctx.fillText('加点消耗' + (addValue > 0 ? '' : '+') + -1 * addValue, labelPos.cx + 50, labelPos.cy - 4);
 
                     ctx.restore();
@@ -207,7 +213,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure]);
+    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure, theme]);
 
     return (
         <>
