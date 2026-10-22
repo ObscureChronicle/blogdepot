@@ -37,14 +37,12 @@ npm run check:content    # 内容 frontmatter 校验（scripts/validate-content.
 - tags 约定：一个分类标签（如 `biography`）+ 一个 `wiki-<拼音首字母>` 标签。`src/pages/projects/[...id].astro` 用"第一个非 `wiki-` 标签"分组，组内按标题拼音（`pinyin-pro`，`src/utils/sort-by-pinyin.ts`）排序，生成上一篇/下一篇。
 - 标签显示名与 slug 的映射在 `src/utils/data-utils.ts` 的 `TAG_SLUG_MAP`；未登记的标签会被 `check:content` 报 warning。新增分类标签时要同步这里。
 
-### 名称 → 链接映射表（生成文件）
+### 名称 → 链接映射（构建时生成）
 
-`src/components/characterMap.js`、`itemMap.js`、`classMap.jsx` 把中文名映射到词条 URL，供布局组件自动生成交叉链接。前两者由脚本生成：
+布局组件用 `src/utils/wiki-links.ts` 的 `getWikiLink(kind, name)` 把人物、物品、兵种名自动变成词条链接。映射在构建时由 `import.meta.glob` 扫描 `bio/`、`treasure/`、`equipment/`、`class/` 的 frontmatter title 生成（规则在 `wiki-link-parser.ts`），新增或改名词条无需手动运行脚本。
 
-- `node scripts/generate-character-map.cjs`（扫描 `bio/`）
-- `node scripts/generate-item-map.cjs`（扫描 `treasure/` + `equipment/`）
-
-新增、重命名或改 slug 后需要重新运行对应脚本，否则链接会退化成纯文本。
+- 人物标题写成「本名（别名）」时两个名字都能链接；物品的别名要在 `ITEM_ALIASES` 里登记（物品括号里可能是注者等，不自动拆）。
+- `wiki-links.ts` 只能在服务端渲染的组件里导入；被 `client:*` 水合的组件导入会把全部词条原文打进浏览器 JS。
 
 ### 数据批处理脚本
 

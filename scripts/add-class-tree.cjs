@@ -6,7 +6,6 @@ const root = path.join(__dirname, '..');
 const excelPath = path.join(root, 'src/components/class.xlsx');
 const stringTablePath = path.join(root, 'src/components/constants-stringtable.js');
 const classDir = path.join(root, 'src/content/projects/class');
-const classMapPath = path.join(root, 'src/components/classMap.jsx');
 
 // ---------- 1. Excel：名称 / tier / 前置兵种 ----------
 const wb = XLSX.readFile(excelPath);
@@ -37,7 +36,7 @@ rows.forEach(r => {
     });
 });
 
-// ---------- 4. 扫描 class 目录，生成 classMap.js（兵种名 → 页面路径） ----------
+// ---------- 4. 扫描 class 目录，得到兵种名 → slug（页面链接映射已改为构建时生成，见 src/utils/wiki-links.ts） ----------
 const files = fs.readdirSync(classDir).filter(f => f.endsWith('.mdx'));
 const titleToSlug = {};
 files.forEach(file => {
@@ -50,13 +49,6 @@ files.forEach(file => {
         titleToSlug[title] = slug;
     }
 });
-
-const mapLines = Object.entries(titleToSlug)
-    .sort((a, b) => a[1].localeCompare(b[1]))
-    .map(([title, slug]) => `  ${JSON.stringify(title)}: "/projects/class/${slug}",`)
-    .join('\n');
-fs.writeFileSync(classMapPath, `// 此文件由 scripts/add-class-tree.cjs 自动生成\n\nexport const CLASS_MAP = {\n${mapLines}\n};\n`);
-console.log(`classMap.js 生成 ${Object.keys(titleToSlug).length} 个兵种映射。`);
 
 // ---------- 5. 为每个 Excel 行对应的 MDX 注入 parents/children/condition ----------
 const fmtArr = arr => '[' + arr.map(s => `'${s}'`).join(', ') + ']';

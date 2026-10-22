@@ -1,6 +1,6 @@
 ---
 import owners from '../../scripts/trait-owners.json';
-import { CHARACTER_MAP } from './characterMap.js';
+import { getWikiLink } from '../utils/wiki-links';
 import { TRAIT_MAP, TraitColor } from './Table_Traits.jsx';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const { mode } = Astro.props as Props;
 
-const getLink = (name: string) => (CHARACTER_MAP as Record<string, string>)[name] || null;
+const getLink = (name: string) => getWikiLink('character', name);
 const getTraitInfo = (trait: string) => (TRAIT_MAP as Record<string, { color?: string; link?: string }>)[trait] || null;
 
 // JSON 中部分条目缺 base/dlc 字段，统一按可选处理

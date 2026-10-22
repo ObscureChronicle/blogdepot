@@ -1,4 +1,4 @@
-import { CLASS_MAP } from './classMap.jsx';
+import { getWikiLink } from '../utils/wiki-links';
 
 // 关卡名 → 关卡页链接，按 variant 区分本传（base）与星命诀（dlc）
 const CAMPAIGN_LINKS = {
@@ -118,7 +118,7 @@ export default function StageStringTable({ data, variant = 'base' }) {
             case 1: // 阵营列
                 return FACTION_LINKS[value] || null;
             case 2: // 兵种列
-                return CLASS_MAP[value] || null;
+                return getWikiLink('class', value);
             case 3: // 说明列
                 return NOTE_LINKS[value] || null;
             default:

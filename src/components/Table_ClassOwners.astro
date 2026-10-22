@@ -1,10 +1,9 @@
 ---
 import owners from '../../scripts/class-owners.json';
-import { CHARACTER_MAP } from './characterMap.js';
-import { CLASS_MAP } from './classMap.jsx';
+import { getWikiLink } from '../utils/wiki-links';
 
-const getLink = (name: string) => (CHARACTER_MAP as Record<string, string>)[name] || null;
-const getClassLink = (cls: string) => (CLASS_MAP as Record<string, string>)[cls] || null;
+const getLink = (name: string) => getWikiLink('character', name);
+const getClassLink = (cls: string) => getWikiLink('class', cls);
 
 // ============================================================
 // 兵种总表：顺序 = 显示顺序；tier：base=基础，mid=中阶，high=高阶

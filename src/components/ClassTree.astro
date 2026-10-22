@@ -12,10 +12,10 @@ type Props = {
 
 const { parents, upgrades, condition, titleClass, treeTitle, upgradesLabel, conditionitemLabel, conditionLabel } = Astro.props as Props;
 
-import { CLASS_MAP } from './classMap.jsx';
+import { getWikiLink } from '../utils/wiki-links';
 
 const getClassLink = (name: string) => {
-    return CLASS_MAP[name as keyof typeof CLASS_MAP] || null;
+    return getWikiLink('class', name);
 };
 ---
 

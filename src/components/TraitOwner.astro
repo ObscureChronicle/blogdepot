@@ -7,10 +7,10 @@ type Props = {
 
 const { baseOwner, dlcOwner, collabOwner } = Astro.props as Props;
 
-import { CHARACTER_MAP } from './characterMap.js';
+import { getWikiLink } from '../utils/wiki-links';
 
 const getCharacterLink = (name: string) => {
-    return CHARACTER_MAP[name as keyof typeof CHARACTER_MAP] || null;
+    return getWikiLink('character', name);
 };
 ---
 
