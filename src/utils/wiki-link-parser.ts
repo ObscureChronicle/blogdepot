@@ -27,6 +27,11 @@ export const ITEM_ALIASES: Record<string, string[]> = {
     '鱼鳞甲（鱼鳞铠）': ['鱼鳞甲', '鱼鳞铠']
 };
 
+/** 按字符编码比较文件路径：不依赖运行环境的 locale，保证各环境下扫描顺序一致 */
+export function comparePaths([a]: [string, unknown], [b]: [string, unknown]): number {
+    return a < b ? -1 : a > b ? 1 : 0;
+}
+
 /** 从 frontmatter 取 title，去掉首尾引号；没有则返回 null */
 export function extractTitle(raw: string): string | null {
     const m = raw.match(/^title:\s*(.+?)\s*$/m);
@@ -59,7 +64,7 @@ export function buildWikiLinkMaps(rawFiles: Record<string, string>): { maps: Wik
     const warnings: string[] = [];
 
     // 按路径排序，保证不同环境下 glob 返回顺序不同时结果也一致
-    for (const [file, raw] of Object.entries(rawFiles).sort(([a], [b]) => a.localeCompare(b))) {
+    for (const [file, raw] of Object.entries(rawFiles).sort(comparePaths)) {
         const [dir, fileName] = file.replace(/\\/g, '/').split('/').slice(-2);
         const kind = DIR_KIND[dir];
         const slug = fileName.replace(/\.mdx$/, '');
