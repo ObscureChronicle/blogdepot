@@ -10,3 +10,8 @@ export async function getAllPosts(): Promise<Array<CollectionEntry<'blog'> | Col
     const projectPosts = await getCollection('projects');
     return [...blogPosts, ...projectPosts].sort(sortItemsByDateDesc);
 }
+
+// blog 按发布日期倒序（最新在前）。首页、日志列表、日志详情、RSS 共用。
+export async function getSortedBlogPosts(): Promise<CollectionEntry<'blog'>[]> {
+    return (await getCollection('blog')).sort(sortItemsByDateDesc);
+}

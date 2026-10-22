@@ -1,11 +1,10 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
-import { getCollection } from 'astro:content';
 import siteConfig from '../data/site-config.ts';
-import { sortItemsByDateDesc } from '../utils/data-utils.ts';
+import { getSortedBlogPosts } from '../utils/content-utils.ts';
 
 export async function GET(context: APIContext) {
-    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+    const posts = await getSortedBlogPosts();
     return rss({
         title: siteConfig.title,
         description: siteConfig.description,

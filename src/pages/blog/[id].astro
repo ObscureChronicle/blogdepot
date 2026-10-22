@@ -1,16 +1,17 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import PostPreview from '../../components/PostPreview.astro';
-import { SLUG_TAG_MAP, sortItemsByDateDesc } from '../../utils/data-utils';
+import { getSortedBlogPosts } from '../../utils/content-utils';
+import { SLUG_TAG_MAP } from '../../utils/data-utils';
 import { slugify } from '../../utils/common-utils';
 import { withNeighbors } from '../../utils/neighbor-utils';
 import WalineComments from '../../components/WalineComments.tsx';
 
 export async function getStaticPaths() {
     // 按日期从旧到新排列：上一篇是更早发布的文章，下一篇是更新的文章
-    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc).reverse();
+    const posts = (await getSortedBlogPosts()).reverse();
     return withNeighbors(posts).map(({ item, prev, next }) => ({
         params: { id: item.id },
         props: { post: item, prevPost: prev, nextPost: next }
