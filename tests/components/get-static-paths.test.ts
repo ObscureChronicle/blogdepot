@@ -73,6 +73,15 @@ describe('blog/[...page].astro getStaticPaths', () => {
 });
 
 describe('tags/[id]/[...page].astro getStaticPaths', () => {
+    it('passes the resolved tag to every page, so the page itself never needs to re-query all tags', async () => {
+        const result = (await getTagsPaths({ paginate: fakePaginate } as any)) as any[];
+        expect(result.length).toBeGreaterThan(0);
+        for (const r of result) {
+            expect(r.props.tag.id).toBe(r.params.id);
+            expect(r.props.tag.name).toBeTruthy();
+        }
+    });
+
     it('generates at least one page for a known blog-only tag, sorted by date descending', async () => {
         const result = await getTagsPaths({ paginate: fakePaginate } as any);
         const diaryPages = (result as any[]).filter((r) => r.params.id === 'diary');
