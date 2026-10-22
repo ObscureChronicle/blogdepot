@@ -1,0 +1,14 @@
+---
+// 「本传 / 星命诀 / 联动」版本小标签
+import { EDITIONS, editionBadgeClass, type Edition } from '../data/editions';
+
+type Props = {
+    edition: Edition;
+    /** 默认 span；用在 prose 段落之间、需要保留段落间距时传 p */
+    tag?: 'span' | 'p';
+};
+
+const { edition, tag: Tag = 'span' } = Astro.props as Props;
+---
+
+<Tag class={editionBadgeClass(edition)}>{EDITIONS[edition].shortName}</Tag>

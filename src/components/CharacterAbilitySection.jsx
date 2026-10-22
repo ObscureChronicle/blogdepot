@@ -2,6 +2,7 @@ import { useState } from 'react';
 import BarChart from '../components/BarChart';
 import RadarChart from '../components/RadarChart';
 import FiveStringTable from '../components/Table_Traits.jsx';
+import { editionBadgeClass } from '../data/editions';
 
 export default function CharacterAbilitySection({
     baseData,
@@ -30,7 +31,7 @@ export default function CharacterAbilitySection({
     return (
         <div className="flex md:flex-row flex-col">
             <div className="flex flex-col items-center">
-                <span className="bg-blue-100 text-blue-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-blue-900 dark:text-blue-300">{basename_short}</span>
+                <span className={editionBadgeClass('base')}>{basename_short}</span>
                 {postData && (
                     <div className="flex justify-end gap-2 mt-4">
                         <button
@@ -56,9 +57,7 @@ export default function CharacterAbilitySection({
             </div>
             {dlcData && (
                 <div className="flex flex-col items-center">
-                    <span className="bg-yellow-100 text-yellow-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-yellow-900 dark:text-yellow-300">
-                        {dlcname_short}
-                    </span>
+                    <span className={editionBadgeClass('dlc')}>{dlcname_short}</span>
                     {postData && <div className='md:mb-[52px]'></div>}
                     <RadarChart variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
                     <BarChart data={dlcData2} />

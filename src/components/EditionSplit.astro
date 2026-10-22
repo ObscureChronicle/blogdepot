@@ -1,0 +1,32 @@
+---
+// 按版本拆分显示一段内容：有星命诀内容时，本传与星命诀各自带版本标签分开显示；
+// 只有本传内容时不显示标签，直接输出本传内容。
+// 用法：<EditionSplit showBase={…} showDlc={…}><p slot="base">…</p><p slot="dlc">…</p></EditionSplit>
+import EditionBadge from './EditionBadge.astro';
+
+type Props = {
+    showBase: boolean;
+    showDlc: boolean;
+};
+
+const { showBase, showDlc } = Astro.props as Props;
+---
+
+{
+    showDlc ? (
+        <>
+            {showBase && (
+                <div>
+                    <EditionBadge edition="base" />
+                    <slot name="base" />
+                </div>
+            )}
+            <div>
+                <EditionBadge edition="dlc" />
+                <slot name="dlc" />
+            </div>
+        </>
+    ) : (
+        <slot name="base" />
+    )
+}

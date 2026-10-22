@@ -17,3 +17,8 @@ export const EDITIONS = {
         badgeColor: 'bg-pink-100 text-red-800 dark:bg-pink-900 dark:text-red-300'
     }
 } as const;
+
+/** 版本小标签的 class（EditionBadge 与 React 组件共用） */
+export function editionBadgeClass(edition: Edition): string {
+    return `inline-block ${EDITIONS[edition].badgeColor} text-base font-medium px-1.5 pt-1 rounded-sm`;
+}
