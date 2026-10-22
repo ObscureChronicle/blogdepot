@@ -1,6 +1,6 @@
 ---
-import owners from '../../scripts/trait-owners.json';
 import { getWikiLink } from '../utils/wiki-links';
+import { TRAIT_OWNERS as traitOwners } from '../utils/wiki-owners';
 import { TRAIT_MAP, TraitColor } from './Table_Traits.jsx';
 
 type Props = {
@@ -11,10 +11,6 @@ const { mode } = Astro.props as Props;
 
 const getLink = (name: string) => getWikiLink('character', name);
 const getTraitInfo = (trait: string) => (TRAIT_MAP as Record<string, { color?: string; link?: string }>)[trait] || null;
-
-// JSON 中部分条目缺 base/dlc 字段，统一按可选处理
-type OwnerData = { base?: string[]; dlc?: string[] };
-const traitOwners = owners as unknown as Record<string, OwnerData>;
 
 // 地域特性名单（与 trait_00_regional.mdx 一致）
 const REGIONAL_TRAITS = new Set([

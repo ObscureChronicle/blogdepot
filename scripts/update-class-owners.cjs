@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const owners = JSON.parse(fs.readFileSync(path.join(__dirname, 'class-owners.json'), 'utf-8'));
+// 持有人名单与 Table_ClassOwners 共用构建时的汇总逻辑（Node 24 可直接 require .ts 模块）
+const { buildOwners } = require('../src/utils/wiki-owners-parser.ts');
+const bioDir = path.join(__dirname, '../src/content/projects/bio');
+const bioFiles = Object.fromEntries(
+    fs.readdirSync(bioDir).filter(f => f.endsWith('.mdx')).map(f => [path.join(bioDir, f), fs.readFileSync(path.join(bioDir, f), 'utf-8')])
+);
+const owners = buildOwners(bioFiles).classes;
 const classDir = path.join(__dirname, '../src/content/projects/class');
 
 const classFiles = fs.readdirSync(classDir).filter(f => f.endsWith('.mdx'));

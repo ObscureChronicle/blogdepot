@@ -1,6 +1,6 @@
 ---
-import owners from '../../scripts/class-owners.json';
 import { getWikiLink } from '../utils/wiki-links';
+import { CLASS_OWNERS as owners } from '../utils/wiki-owners';
 
 const getLink = (name: string) => getWikiLink('character', name);
 const getClassLink = (cls: string) => getWikiLink('class', cls);
@@ -150,7 +150,7 @@ type ClassItem = {
 const groupMap = new Map<string, ClassItem[]>();
 
 for (const cls of sortedClasses) {
-    const data = owners[cls as keyof typeof owners];
+    const data = owners[cls];
     const hasBase = data.base.length > 0;
     const hasDlc = data.dlc.length > 0;
 
