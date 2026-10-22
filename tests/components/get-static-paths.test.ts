@@ -14,6 +14,9 @@ vi.mock('astro:content', () => ({
 
 const { getStaticPaths: getBlogPaths } = await import('../../src/pages/blog/[...page].astro');
 const { getStaticPaths: getTagsPaths } = await import('../../src/pages/tags/[id]/[...page].astro');
+const { getStaticPaths: getBlogPostPaths } = await import('../../src/pages/blog/[id].astro');
+const { getStaticPaths: getProjectPaths } = await import('../../src/pages/projects/[...id].astro');
+const { getProjectCategory } = await import('../../src/utils/neighbor-utils.ts');
 const { sortItemsByDateDesc } = await import('../../src/utils/data-utils.ts');
 const { sortPostsByTitlePinyin } = await import('../../src/utils/sort-by-pinyin.ts');
 
@@ -113,5 +116,55 @@ describe('tags/[id]/[...page].astro getStaticPaths', () => {
         const posts = wikiATag.flatMap((r) => r.props.page.data);
         const expectedOrder = sortPostsByTitlePinyin(posts).map((p: any) => p.id);
         expect(posts.map((p: any) => p.id)).toEqual(expectedOrder);
+    });
+});
+
+describe('blog/[id].astro getStaticPaths', () => {
+    it('links prevPost to the older post and nextPost to the newer one', async () => {
+        const newestFirst = (await getCollection('blog')).sort(sortItemsByDateDesc);
+        const result = (await getBlogPostPaths()) as any[];
+        expect(result.length).toBe(newestFirst.length);
+
+        const byId = new Map(result.map((r) => [r.params.id, r.props]));
+        // 最新一篇没有下一篇，最早一篇没有上一篇
+        expect(byId.get(newestFirst[0].id).nextPost).toBeNull();
+        expect(byId.get(newestFirst.at(-1)!.id).prevPost).toBeNull();
+        for (let i = 0; i < newestFirst.length - 1; i++) {
+            expect(byId.get(newestFirst[i].id).prevPost.id).toBe(newestFirst[i + 1].id);
+            expect(byId.get(newestFirst[i + 1].id).nextPost.id).toBe(newestFirst[i].id);
+        }
+    });
+});
+
+describe('projects/[...id].astro getStaticPaths', () => {
+    it('generates exactly one page per project', async () => {
+        const projects = await getCollection('projects');
+        const result = (await getProjectPaths()) as any[];
+        expect(result.map((r) => r.params.id).sort()).toEqual(projects.map((p) => p.id).sort());
+    });
+
+    it('never links prev/next across categories', async () => {
+        const result = (await getProjectPaths()) as any[];
+        for (const { props } of result) {
+            const category = getProjectCategory(props.project);
+            if (props.prevProject) expect(getProjectCategory(props.prevProject)).toBe(category);
+            if (props.nextProject) expect(getProjectCategory(props.nextProject)).toBe(category);
+        }
+    });
+
+    it('chains each category in pinyin order: prev is earlier, next is later', async () => {
+        const projects = await getCollection('projects');
+        const result = (await getProjectPaths()) as any[];
+        const byId = new Map(result.map((r) => [r.params.id, r.props]));
+
+        const bios = sortPostsByTitlePinyin(projects.filter((p) => getProjectCategory(p) === 'biography'));
+        // 这个分类足够大，才能真正检验整条链
+        expect(bios.length).toBeGreaterThan(100);
+        expect(byId.get(bios[0].id).prevProject).toBeNull();
+        expect(byId.get(bios.at(-1)!.id).nextProject).toBeNull();
+        for (let i = 0; i < bios.length - 1; i++) {
+            expect(byId.get(bios[i].id).nextProject.id).toBe(bios[i + 1].id);
+            expect(byId.get(bios[i + 1].id).prevProject.id).toBe(bios[i].id);
+        }
     });
 });

@@ -5,18 +5,15 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import { SLUG_TAG_MAP, sortItemsByDateDesc } from '../../utils/data-utils';
 import { slugify } from '../../utils/common-utils';
+import { withNeighbors } from '../../utils/neighbor-utils';
 import WalineComments from '../../components/WalineComments.tsx';
 
 export async function getStaticPaths() {
-    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
-    const postCount = posts.length;
-    return posts.map((post, index) => ({
-        params: { id: post.id },
-        props: {
-            post,
-            prevPost: index + 1 !== postCount ? posts[index + 1] : null,
-            nextPost: index !== 0 ? posts[index - 1] : null
-        }
+    // 按日期从旧到新排列：上一篇是更早发布的文章，下一篇是更新的文章
+    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc).reverse();
+    return withNeighbors(posts).map(({ item, prev, next }) => ({
+        params: { id: item.id },
+        props: { post: item, prevPost: prev, nextPost: next }
     }));
 }
 

@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import WalineComments from '../../components/WalineComments.tsx';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProjectCategory, groupBy, withNeighbors } from '../../utils/neighbor-utils';
 import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
 export async function getStaticPaths() {
@@ -11,27 +12,13 @@ export async function getStaticPaths() {
     // 避免人物、装备、关卡等不同类型的词条按全局拼音顺序随机穿插到彼此中间。
     const projects = await getCollection('projects');
 
-    const groups = new Map<string, CollectionEntry<'projects'>[]>();
-    for (const project of projects) {
-        const category = project.data.tags.find((tag) => !tag.startsWith('wiki-')) ?? project.id;
-        const group = groups.get(category) ?? [];
-        group.push(project);
-        groups.set(category, group);
-    }
-
-    return [...groups.values()].flatMap((group) => {
-        const sorted = sortPostsByTitlePinyin(group);
-        const groupCount = sorted.length;
-        return sorted.map((project, index) => ({
-            params: { id: project.id },
-            props: {
-                project,
-                // 组内按拼音升序：上一篇是拼音更靠前的词条，下一篇更靠后
-                prevProject: index !== 0 ? sorted[index - 1] : null,
-                nextProject: index + 1 !== groupCount ? sorted[index + 1] : null
-            }
-        }));
-    });
+    return [...groupBy(projects, getProjectCategory).values()].flatMap((group) =>
+        // 组内按拼音升序：上一篇是拼音更靠前的词条，下一篇更靠后
+        withNeighbors(sortPostsByTitlePinyin(group)).map(({ item, prev, next }) => ({
+            params: { id: item.id },
+            props: { project: item, prevProject: prev, nextProject: next }
+        }))
+    );
 }
 
 type Props = {
