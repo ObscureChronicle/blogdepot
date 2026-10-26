@@ -41,15 +41,15 @@ const isRegionalTrait = introHtml && introHtml.includes('trait_00_regional') && 
                     {baseData && dlcData && '与'}
                     {dlcData && dlcname}中的
                     {level === 1 ? (
-                        <a href="../trait_00_personal" style="color: #5bae23; text-shadow: 0 0 8px #5bae23, 0 0 12px #5bae23;">
+                        <a href="../trait_00_personal" style="color: var(--trait-top); text-shadow: 0 0 8px var(--trait-top), 0 0 12px var(--trait-top);">
                             顶级专属个人特性
                         </a>
                     ) : level === 2 ? (
-                        <a href="../trait_00_personal" style="color: #5bae22;">
+                        <a href="../trait_00_personal" style="color: var(--trait-super);">
                             专属个人特性
                         </a>
                     ) : level === 3 ? (
-                        <a href="../trait_00_personal" style="color: #de1c31;">
+                        <a href="../trait_00_personal" style="color: var(--trait-bad);">
                             负面个人特性
                         </a>
                     ) : (

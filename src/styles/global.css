@@ -5,6 +5,9 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+/* Tailwind 默认扫描整个项目找 class 名；测试文件里的英文单词（如 table、lowercase）会被误当成 class 生成进 CSS */
+@source not '../../tests';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -27,6 +30,8 @@
     /* 兵种阶位色（Table_ClassOwners.astro）：中阶橙、高阶红 */
     --tier-mid: #a34a08;
     --tier-high: #b91c1c;
+    /* 百科正文链接色（.wiki a） */
+    --wiki-link: #2775b6;
 }
 
 html.dark {
@@ -45,39 +50,8 @@ html.dark {
     --side-yellow: #ffd111;
     --tier-mid: #fdba74;
     --tier-high: #f87171;
+    --wiki-link: #6aa8e0;
 }
-
-/* Cyan */
-/*
-:root {
-    --text-main: #162a2b;
-    --bg-main: #d6e0e2;
-    --bg-muted: #ccd8db;
-    --border-main: #162a2b;
-}
-html.dark {
-    --text-main: #d6e0e2;
-    --bg-main: #162a2b;
-    --bg-muted: #1c3537;
-    --border-main: #d6e0e2;
-}
-*/
-
-/* Green */
-/*
-:root {
-    --text-main: #3a4238;
-    --bg-main: #f3efe6;
-    --bg-muted: #eee9dc;
-    --border-main: #3a4238;
-}
-html.dark {
-    --text-main: #f3efe6;
-    --bg-main: #5e6c5b;
-    --bg-muted: #596756;
-    --border-main: #f3efe6;
-}
-*/
 
 .scroll-top {
     position: fixed;
@@ -307,6 +281,7 @@ html.dark {
     }
 }
 
+/* public/cursor-click.js 的点击飘字动画 */
 @keyframes floatUp {
     0% {
         transform: translateY(0);
@@ -319,8 +294,9 @@ html.dark {
     }
 }
 
+/* 不在 @layer 里，会盖过链接上的 text-* 工具类；需要别的颜色的链接要用内联样式（见 Table_ClassOwners） */
 .wiki a {
-    color: #2775b6;
+    color: var(--wiki-link);
 }
 
 table th:where(thead th:last-child):not(:where([class~='not-prose'], [class~='not-prose'] *)),
@@ -369,8 +345,4 @@ html.dark .section-title--dlc {
 html.dark .section-title--collab {
     color: var(--color-red-300);
     background-color: var(--color-pink-900);
-}
-
-.wl-meta-foot {
-    display: none;
 }
