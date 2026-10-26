@@ -15,7 +15,7 @@
     /* 表格数值正负色：在米色底和 bg-muted 悬停底上都保证 ≥4.5:1 对比度 */
     --stat-pos: #047857;
     --stat-neg: #b91c1c;
-    /* 特质等级色（Table_Traits.jsx 的 TraitColor 引用）：保留原色相，只调深以满足对比度 */
+    /* 特质等级色（src/data/trait-meta.ts 的 TraitColor 引用）：保留原色相，只调深以满足对比度 */
     --trait-top: #2f6b0f;
     --trait-super: #2f6b0f;
     --trait-bad: #b91c1c;
