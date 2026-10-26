@@ -14,19 +14,9 @@ type ClassWikiProps = {
 
 const { description, weapons, classType, skills, params, parents, upgrades, condition, baseOwner, dlcOwner } = Astro.props as ClassWikiProps;
 
-import ClassDescription from './ClassDescription.astro';
-import ClassParams from './ClassParams.astro';
-import ClassSkills from './ClassSkills.astro';
-import ClassTree from './ClassTree.astro';
-import ClassType from './ClassType.astro';
-import ClassWeapons from './ClassWeapons.astro';
+import ClassSection from './ClassSection.astro';
 import TraitOwner from './TraitOwner.astro';
 ---
 
 <TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
-<ClassDescription description={description || ''} />
-<ClassWeapons weapons={weapons || []} />
-<ClassType classType={classType || ''} />
-<ClassSkills skills={skills || []} />
-<ClassParams params={params || []} />
-<ClassTree parents={parents || []} upgrades={upgrades || []} condition={condition || []} />
+<ClassSection data={{ description, weapons, classType, skills, params, parents, upgrades, condition }} />

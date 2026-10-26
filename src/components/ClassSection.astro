@@ -1,0 +1,91 @@
+---
+// 兵种词条的字段列表：说明、可装备武器、兵种类型、兵种技能、兵种参数、兵种树。
+// Layout_Classes 直接用它；Layout_ClassesPlus 在每个版本分区里各用一次（带 tone 着色）。
+import type { Edition } from '../data/editions';
+import ClassTree from './ClassTree.astro';
+import SectionTitle from './SectionTitle.astro';
+
+export type ClassData = {
+    description?: string;
+    weapons?: string[];
+    classType?: string;
+    skills?: string[];
+    params?: { label: string; value: string | number }[];
+    parents?: string[];
+    upgrades?: string[];
+    condition?: string[];
+};
+
+type Props = {
+    data: ClassData;
+    /** 按版本分区时的标题配色 */
+    tone?: Edition;
+    /** 是否显示「说明」标题（版本分区里由分区大标题代替） */
+    showDescriptionTitle?: boolean;
+    /** 以下透传给 ClassTree，用于星命诀把「兵种树」等文案换成阵势相关的说法 */
+    treeTitle?: string;
+    upgradesLabel?: string;
+    parentsLabel?: string;
+    conditionLabel?: string;
+};
+
+const { data, tone, showDescriptionTitle = true, treeTitle, upgradesLabel, parentsLabel, conditionLabel } = Astro.props as Props;
+const { description, weapons, classType, skills, params } = data;
+---
+
+{
+    description && description.length > 0 && (
+        <>
+            {showDescriptionTitle && <SectionTitle>说明</SectionTitle>}
+            <p set:html={description} class="text-base leading-relaxed" />
+        </>
+    )
+}
+{
+    weapons && weapons.length > 0 && (
+        <>
+            <SectionTitle tone={tone}>可装备武器</SectionTitle>
+            <p class="text-base leading-relaxed">{weapons.join('、')}</p>
+        </>
+    )
+}
+{
+    classType && classType.length > 0 && (
+        <>
+            <SectionTitle tone={tone}>兵种类型</SectionTitle>
+            <p class="text-base leading-relaxed">{classType}</p>
+        </>
+    )
+}
+{
+    skills && skills.length > 0 && (
+        <>
+            <SectionTitle tone={tone}>兵种技能</SectionTitle>
+            <p class="text-base leading-relaxed">{skills.join('、')}</p>
+        </>
+    )
+}
+{
+    params && params.length > 0 && (
+        <>
+            <SectionTitle tone={tone}>兵种参数</SectionTitle>
+            <div class="flex flex-col pl-4 gap-1">
+                {params.map((p) => (
+                    <p class="text-base leading-relaxed">
+                        {p.label}：{p.value}
+                    </p>
+                ))}
+            </div>
+        </>
+    )
+}
+<ClassTree
+    parents={data.parents || []}
+    upgrades={data.upgrades || []}
+    condition={data.condition || []}
+    tone={tone}
+    treeTitle={treeTitle}
+    upgradesLabel={upgradesLabel}
+    parentsLabel={parentsLabel}
+    conditionLabel={conditionLabel}
+/>

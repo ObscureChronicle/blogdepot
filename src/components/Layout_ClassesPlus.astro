@@ -1,14 +1,7 @@
 ---
-type ClassData = {
-    description?: string;
-    weapons?: string[];
-    classType?: string;
-    skills?: string[];
-    params?: { label: string; value: string | number }[];
-    parents?: string[];
-    upgrades?: string[];
-    condition?: string[];
-};
+import ClassSection, { type ClassData } from './ClassSection.astro';
+import TraitOwner from './TraitOwner.astro';
+import { EDITIONS, type Edition } from '../data/editions';
 
 type ClassWikiPlusProps = {
     base?: ClassData;
@@ -21,15 +14,6 @@ type ClassWikiPlusProps = {
 
 const { base, dlc, collab, baseOwner, dlcOwner, collabOwner } = Astro.props as ClassWikiPlusProps;
 
-import ClassDescription from './ClassDescription.astro';
-import ClassParams from './ClassParams.astro';
-import ClassSkills from './ClassSkills.astro';
-import ClassTree from './ClassTree.astro';
-import ClassType from './ClassType.astro';
-import ClassWeapons from './ClassWeapons.astro';
-import TraitOwner from './TraitOwner.astro';
-import { EDITIONS, type Edition } from '../data/editions';
-
 type Section = {
     tone: Edition;
     title: string;
@@ -38,7 +22,7 @@ type Section = {
     titleClass: string;
     treeTitle?: string;
     upgradesLabel?: string;
-    conditionitemLabel?: string;
+    parentsLabel?: string;
     conditionLabel?: string;
 };
 
@@ -52,7 +36,7 @@ const sections: Section[] = [
         titleClass: EDITIONS.dlc.badgeColor,
         treeTitle: '详情',
         upgradesLabel: '可变化阵势',
-        conditionitemLabel: '解锁道具',
+        parentsLabel: '解锁道具',
         conditionLabel: '解锁条件'
     }
 ];
@@ -65,19 +49,13 @@ const sections: Section[] = [
             section.data && (
                 <>
                     <h2 class={`${section.titleClass} text-3xl font-bold px-3 pt-2 pb-1 rounded-sm inline-block`}>{section.title}</h2>
-                    <ClassDescription description={section.data.description || ''} hideTitle={true} />
-                    <ClassWeapons weapons={section.data.weapons || []} tone={section.tone} />
-                    <ClassType classType={section.data.classType || ''} tone={section.tone} />
-                    <ClassSkills skills={section.data.skills || []} tone={section.tone} />
-                    <ClassParams params={section.data.params || []} tone={section.tone} />
-                    <ClassTree
-                        parents={section.data.parents || []}
-                        upgrades={section.data.upgrades || []}
-                        condition={section.data.condition || []}
+                    <ClassSection
+                        data={section.data}
                         tone={section.tone}
+                        showDescriptionTitle={false}
                         treeTitle={section.treeTitle}
                         upgradesLabel={section.upgradesLabel}
-                        conditionitemLabel={section.conditionitemLabel}
+                        parentsLabel={section.parentsLabel}
                         conditionLabel={section.conditionLabel}
                     />
                 </>
