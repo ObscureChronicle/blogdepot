@@ -46,7 +46,11 @@ npm run check:content    # 内容 frontmatter 校验（scripts/validate-content.
 
 ### 数据批处理脚本
 
-`scripts/*.cjs` 是一次性/批量维护内容的 CommonJS 脚本（生成宝物、装备、特性、兵种页面，更新所属者等），数据源是 `src/components/` 下的游戏导出文本（`item.txt`、`item - dlc.txt`、`bingzhuang.txt`、`class.xlsx` 等）以及 `scripts/*.json`。部分生成脚本带有 `SKIP` 列表，用来保护手写内容不被覆盖；运行前先确认不会覆盖已手工编辑的词条。
+`scripts/*.cjs` 是批量改写词条 MDX 的 CommonJS 脚本，**会直接覆盖文件**，运行前先确认不会冲掉手工编辑的内容：
+
+- `update-class-owners.cjs`：把人物的 `baseclass/dlcclass` 汇总后写进兵种词条的 `baseOwner/dlcOwner`（与持有人表格共用 `wiki-owners-parser.ts`）
+- `find-regional-owners.cjs` → `regional-owners.json` → `update-regional-traits.cjs`：重写地域特性词条
+- `add-class-links.cjs`：给兵种描述里的兵种名加链接
 
 ### 测试分层
 
