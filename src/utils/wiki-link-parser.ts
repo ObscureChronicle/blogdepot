@@ -76,13 +76,14 @@ export function buildWikiLinkMaps(rawFiles: Record<string, string>): { maps: Wik
             continue;
         }
 
-        const href = `/projects/${dir}/${slug}`;
+        const href = `/projects/${dir}/${slug}/`;
         const map = maps[kind];
         for (const name of namesForTitle(kind, title)) {
             const existing = map[name];
             if (existing && existing !== href) {
                 // 同名时优先不带数字后缀的 slug（如 xxx 优先于 xxx2）
-                const keepExisting = !/\d$/.test(existing) || /\d$/.test(slug);
+                // href 以 / 结尾，判断数字后缀时要去掉它
+                const keepExisting = !/\d\/$/.test(existing) || /\d$/.test(slug);
                 warnings.push(`「${name}」同时对应 ${existing} 和 ${href}，采用 ${keepExisting ? existing : href}`);
                 if (keepExisting) continue;
             }

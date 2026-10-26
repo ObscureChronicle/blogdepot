@@ -48,7 +48,7 @@ test('OWNER_DISPLAY_NAMES: every display name still links to its character entry
     // 显示名必须是 wiki-link-parser 从标题自动拆出的名字之一，否则表格里会变成纯文本
     for (const [title, names] of Object.entries(OWNER_DISPLAY_NAMES)) {
         const { maps } = buildWikiLinkMaps({ 'projects/bio/x.mdx': `---\ntitle: ${title}\n---\n` });
-        for (const name of Object.values(names)) assert.equal(maps.character[name], '/projects/bio/x', `${title} → ${name}`);
+        for (const name of Object.values(names)) assert.equal(maps.character[name], '/projects/bio/x/', `${title} → ${name}`);
     }
 });
 

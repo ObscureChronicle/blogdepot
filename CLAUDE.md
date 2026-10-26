@@ -15,13 +15,15 @@ npm run typecheck        # astro check
 npm test                 # 纯逻辑单测：Node 内置 test runner，跑 tests/*.test.ts
 npm run test:components  # Vitest + Astro Container API，只跑 tests/components/**
 npm run test:e2e         # Playwright：先 build 再用 astro preview（端口 4324）测真实产物
-npm run check:content    # 内容 frontmatter 校验（scripts/validate-content.ts）
+npm run check:content    # 内容校验：frontmatter + 正文站内链接（scripts/validate-content.ts）
+npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺结尾斜杠报错、目标不存在警告
 ```
 
 - 单个文件：`node --test tests/sort-by-pinyin.test.ts`、`npx vitest run tests/components/pagination.test.ts`、`npx playwright test tests/e2e/smoke.spec.ts`
 - 更新组件快照：`npx vitest run -u`
 - Node 24 直接运行 `.ts`（type stripping），因此 `tests/*.test.ts` 和 `scripts/validate-content.ts` 不需要编译；导入本地 TS 文件时要写 `.ts` 后缀。
-- CI（`.github/workflows/ci.yml`）阻塞项：typecheck、`npm test` + `test:components`、`check:content`、build；e2e 为非阻塞。提交前至少跑这四项。
+- CI（`.github/workflows/ci.yml`）阻塞项：typecheck、`npm test` + `test:components`、`check:content`、build + `check:links`；e2e 为非阻塞。提交前至少跑这几项。
+- 站内地址统一带结尾斜杠（`astro.config.mjs` 设了 `trailingSlash: 'always'`）：代码里生成的链接要写成 `/projects/bio/caocao/` 这样；本地 dev 打开不带斜杠的地址会显示提醒页而不是自动跳转。
 
 ## 架构要点
 

@@ -47,10 +47,10 @@ export function getPaginationRange(currentPage: number, lastPage: number, siblin
     return items;
 }
 
-/** Astro `paginate()` convention: page 1 has no numeric suffix, page N (>1) is `${basePath}/${N}`. */
+/** Astro `paginate()` convention: page 1 has no numeric suffix, page N (>1) is `${basePath}/${N}/`（站内地址统一带结尾斜杠） */
 export function buildPageUrl(basePath: string, pageNumber: number): string {
-    const normalizedBase = basePath.replace(/\/+$/, '') || '/';
-    return pageNumber <= 1 ? normalizedBase : `${normalizedBase}/${pageNumber}`;
+    const base = basePath.replace(/\/+$/, '');
+    return pageNumber <= 1 ? `${base}/` : `${base}/${pageNumber}/`;
 }
 
 export function clampPage(value: number, lastPage: number): number {

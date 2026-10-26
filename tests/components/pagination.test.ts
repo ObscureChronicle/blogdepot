@@ -6,7 +6,7 @@ import Pagination from '../../src/components/Pagination.astro';
 const BASE = '/blog';
 
 function pageUrl(n: number): string {
-    return n <= 1 ? BASE : `${BASE}/${n}`;
+    return n <= 1 ? `${BASE}/` : `${BASE}/${n}/`;
 }
 
 function makePage(currentPage: number, lastPage: number): Page<unknown> {
@@ -91,10 +91,10 @@ describe('Pagination.astro', () => {
 
     it('generates correct hrefs via buildPageUrl for boundary and sibling pages', async () => {
         const html = await render(makePage(10, 30));
-        expect(html).toContain(`href="${BASE}"`);
-        expect(html).toContain(`href="${BASE}/30"`);
-        expect(html).toContain(`href="${BASE}/9"`);
-        expect(html).toContain(`href="${BASE}/11"`);
+        expect(html).toContain(`href="${BASE}/"`);
+        expect(html).toContain(`href="${BASE}/30/"`);
+        expect(html).toContain(`href="${BASE}/9/"`);
+        expect(html).toContain(`href="${BASE}/11/"`);
     });
 
     it('includes data-astro-prefetch on prev/next and page-number links', async () => {

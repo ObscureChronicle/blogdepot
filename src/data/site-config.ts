@@ -53,11 +53,11 @@ const siteConfig: SiteConfig = {
         },
         {
             text: '百科',
-            href: '/tags'
+            href: '/tags/'
         },
         {
             text: '日志',
-            href: '/blog'
+            href: '/blog/'
         }
     ],
     footerNavLinks: [
@@ -67,7 +67,7 @@ const siteConfig: SiteConfig = {
         // },
         {
             text: '联系作者',
-            href: '/contact'
+            href: '/contact/'
         },
         {
             text: 'QQ群',

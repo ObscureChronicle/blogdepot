@@ -67,11 +67,11 @@ describe('回归快照基线', () => {
             currentPage: 10,
             lastPage: 30,
             url: {
-                current: '/blog/10',
-                prev: '/blog/9',
-                next: '/blog/11',
-                first: '/blog',
-                last: '/blog/30'
+                current: '/blog/10/',
+                prev: '/blog/9/',
+                next: '/blog/11/',
+                first: '/blog/',
+                last: '/blog/30/'
             }
         };
         const html = await container.renderToString(Pagination, {

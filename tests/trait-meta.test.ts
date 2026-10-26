@@ -6,7 +6,7 @@ import { TRAIT_MAP } from '../src/data/trait-meta.ts';
 // TRAIT_MAP 是手工维护的静态数据（浏览器端组件也要用，不能构建时扫描），用真实内容检查它没有跟词条脱节
 const dir = 'src/content/projects/trait';
 const files = fs.readdirSync(dir).filter((f) => f.endsWith('.mdx'));
-const slugOf = (link: string) => link.replace('/projects/trait/', '');
+const slugOf = (link: string) => link.replace('/projects/trait/', '').replace(/\/$/, '');
 
 test('TRAIT_MAP: every link points to an existing trait entry', () => {
     const slugs = new Set(files.map((f) => f.replace(/\.mdx$/, '')));

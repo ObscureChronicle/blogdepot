@@ -12,7 +12,8 @@
         "test:components": "vitest run",
         "test:e2e": "playwright test",
         "typecheck": "astro check",
-        "check:content": "node scripts/validate-content.ts"
+        "check:content": "node scripts/validate-content.ts",
+        "check:links": "node scripts/check-dist-links.ts"
     },
     "dependencies": {
         "@astrojs/mdx": "^7.0.3",

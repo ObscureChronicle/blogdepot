@@ -38,14 +38,14 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
         '../content/projects/class/gongbing.mdx': mdx('弓兵'),
         '../content/projects/class/00_total.mdx': mdx('兵种')
     });
-    assert.deepEqual(maps.character, { 曹操: '/projects/bio/caocao' });
+    assert.deepEqual(maps.character, { 曹操: '/projects/bio/caocao/' });
     assert.deepEqual(maps.item, {
-        '蛇矛（丈八蛇矛）': '/projects/treasure/treasure-shemao',
-        蛇矛: '/projects/treasure/treasure-shemao',
-        丈八蛇矛: '/projects/treasure/treasure-shemao',
-        革盾: '/projects/equipment/equipment-gedun'
+        '蛇矛（丈八蛇矛）': '/projects/treasure/treasure-shemao/',
+        蛇矛: '/projects/treasure/treasure-shemao/',
+        丈八蛇矛: '/projects/treasure/treasure-shemao/',
+        革盾: '/projects/equipment/equipment-gedun/'
     });
-    assert.deepEqual(maps.class, { 弓兵: '/projects/class/gongbing' });
+    assert.deepEqual(maps.class, { 弓兵: '/projects/class/gongbing/' });
     assert.deepEqual(warnings, []);
 });
 
@@ -55,7 +55,7 @@ test('buildWikiLinkMaps: on a name clash prefers the slug without a numeric suff
         { 'projects/class/qibing.mdx': mdx('骑兵'), 'projects/class/qibing2.mdx': mdx('骑兵') }
     ]) {
         const { maps, warnings } = buildWikiLinkMaps(files);
-        assert.equal(maps.class['骑兵'], '/projects/class/qibing');
+        assert.equal(maps.class['骑兵'], '/projects/class/qibing/');
         assert.equal(warnings.length, 1);
     }
 });
@@ -83,6 +83,6 @@ test('buildWikiLinkMaps (real content): every entry is reachable by its own titl
         const [dir, name] = file.split('/').slice(-2);
         const slug = name.replace(/\.mdx$/, '');
         if (isOverviewPage(slug)) continue;
-        assert.equal(maps[kindOf[dir]][extractTitle(raw)!], `/projects/${dir}/${slug}`, file);
+        assert.equal(maps[kindOf[dir]][extractTitle(raw)!], `/projects/${dir}/${slug}/`, file);
     }
 });

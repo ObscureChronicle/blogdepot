@@ -32,7 +32,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
                     .map((tag) => {
                         const postCount = postCounts.get(tag.id) ?? 0;
                         return (
-                            <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[390px]" href={`/tags/${tag.id}`}>
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 gap-8 mr-4 w-[390px]" href={`/tags/${tag.id}/`}>
                                 <div class="">
                                     <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl w-[180px]">
                                         {tag.name}
@@ -58,7 +58,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
                     .map((tag) => {
                         const postCount = postCounts.get(tag.id) ?? 0;
                         return (
-                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}`}>
+                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}/`}>
                                 <div class="sm:w-[85px]">
                                     <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                         {tag.name}

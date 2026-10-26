@@ -120,7 +120,7 @@ export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow
             const at = (arr: (number | null)[], i: number) => (arr.length > i ? arr[i] : null);
             groupRows.push({
                 name,
-                href: `/projects/bio/${slug}`,
+                href: `/projects/bio/${slug}/`,
                 pinyin: pinyinKey(name),
                 source: group.source,
                 sourceIndex: group.sourceIndex,

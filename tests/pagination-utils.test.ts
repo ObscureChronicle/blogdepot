@@ -28,17 +28,17 @@ test('getPaginationRange: respects custom sibling/boundary counts', () => {
 });
 
 test('buildPageUrl: page 1 has no numeric suffix', () => {
-    assert.equal(buildPageUrl('/blog', 1), '/blog');
-    assert.equal(buildPageUrl('/tags/wiki-1', 1), '/tags/wiki-1');
+    assert.equal(buildPageUrl('/blog', 1), '/blog/');
+    assert.equal(buildPageUrl('/tags/wiki-1', 1), '/tags/wiki-1/');
 });
 
 test('buildPageUrl: page N (>1) appends the page number', () => {
-    assert.equal(buildPageUrl('/blog', 2), '/blog/2');
-    assert.equal(buildPageUrl('/tags/wiki-1', 5), '/tags/wiki-1/5');
+    assert.equal(buildPageUrl('/blog', 2), '/blog/2/');
+    assert.equal(buildPageUrl('/tags/wiki-1', 5), '/tags/wiki-1/5/');
 });
 
 test('buildPageUrl: strips trailing slashes from basePath', () => {
-    assert.equal(buildPageUrl('/blog/', 3), '/blog/3');
+    assert.equal(buildPageUrl('/blog/', 3), '/blog/3/');
 });
 
 test('clampPage: clamps below range, above range, and passes through valid values', () => {

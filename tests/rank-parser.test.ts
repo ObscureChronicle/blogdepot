@@ -16,7 +16,7 @@ test('buildRankData: maps baseData/baseData2 into the seven output values in dis
     assert.equal(rows.length, 1);
     assert.deepEqual(rows[0], {
         name: '曹操',
-        href: '/projects/bio/caocao',
+        href: '/projects/bio/caocao/',
         pinyin: 'cao cao',
         source: '本传',
         sourceIndex: 0,
@@ -88,5 +88,5 @@ test('buildRankData: skips files with no name or no attribute arrays, and record
 
 test('buildRankData: takes the slug from Windows-style paths too', () => {
     const { rows } = buildRankData({ 'src\\content\\projects\\bio\\liubei.mdx': mdx('刘备', 'baseData={[1, 1, 1, 1, 1]}') });
-    assert.equal(rows[0].href, '/projects/bio/liubei');
+    assert.equal(rows[0].href, '/projects/bio/liubei/');
 });

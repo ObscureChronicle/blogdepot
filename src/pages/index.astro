@@ -31,7 +31,7 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
                     <ProjectPreview project={project} class="mb-4 sm:mb-4" headingLevel="h3" />
                 ))}
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <Button href="/tags" target="_self">
+                    <Button href="/tags/" target="_self">
                         所有百科条目
                     </Button>
                     <Button id="random-project-btn">随机百科条目</Button>
@@ -47,7 +47,7 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <Button href="/blog" target="_self">
+                    <Button href="/blog/" target="_self">
                         所有日志
                     </Button>
                     <Button id="random-post-btn">随机日志</Button>

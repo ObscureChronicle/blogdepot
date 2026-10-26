@@ -11,8 +11,8 @@ export default function FiveStringTable({ data }) {
     const rowTitles = ['地域', '个人', '个人', '个人', '个人'];
 
     // 添加地域特质的链接
-    const regionTraitLink = '/projects/trait/trait_00_regional';
-    const personalTraitLink = '/projects/trait/trait_00_personal';
+    const regionTraitLink = '/projects/trait/trait_00_regional/';
+    const personalTraitLink = '/projects/trait/trait_00_personal/';
 
     // 获取特质颜色（如果存在）；普通特质沿用正文颜色
     const getTraitColor = (trait) => {
