@@ -56,7 +56,17 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     skills: ['刀兵', '援护'],
     params: {
       基本参数: { 兵力补正: 0, 机动: 6 },
-      成长: { 兵力: 60, 技能点: 4 }
+      成长: { 兵力: 60, 技能点: 4 },
+      伤害减免: {
+        民兵: 30,
+        刀兵: 0,
+        矛兵: -30,
+        弓兵: 50,
+        刀骑: -20,
+        矛骑: -50,
+        弓骑: 50,
+        器械: -30
+      }
     },
     parents: [],
     upgrades: [],

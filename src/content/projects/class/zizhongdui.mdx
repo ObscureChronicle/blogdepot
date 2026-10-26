@@ -21,7 +21,17 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     skills: ['车队', '武装', '施令'],
     params: {
       基本参数: { 兵力补正: 0, 机动: 4 },
-      成长: { 兵力: 50, 技能点: 4 }
+      成长: { 兵力: 50, 技能点: 4 },
+    伤害减免: {
+      民兵: -30,
+      刀兵: -70,
+      矛兵: -40,
+      弓兵: 65,
+      刀骑: 10,
+      矛骑: 20,
+      弓骑: 65,
+      器械: -70
+    }
     },
     parents: [],
     upgrades: ['车兵'],

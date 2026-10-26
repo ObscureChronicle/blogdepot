@@ -21,7 +21,17 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     skills: ['民兵', '镇心'],
     params: {
       基本参数: { 兵力补正: 0, 机动: 6 },
-      成长: { 兵力: 60, 技能点: 4 }
+      成长: { 兵力: 60, 技能点: 4 },
+      伤害减免: {
+        民兵: 0,
+        刀兵: -55,
+        矛兵: -55,
+        弓兵: -45,
+        刀骑: -65,
+        矛骑: -65,
+        弓骑: -60,
+        器械: 0
+      }
     },
     parents: [],
     upgrades: [],
