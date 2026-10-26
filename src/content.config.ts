@@ -1,19 +1,19 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { blogSchema, pagesSchema, projectsSchema } from './content-schemas';
+import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema } from './content-schemas';
 
 const blog = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
+    loader: glob({ pattern: CONTENT_PATTERN, base: COLLECTION_BASES.blog }),
     schema: blogSchema
 });
 
 const pages = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
+    loader: glob({ pattern: CONTENT_PATTERN, base: COLLECTION_BASES.pages }),
     schema: pagesSchema
 });
 
 const projects = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+    loader: glob({ pattern: CONTENT_PATTERN, base: COLLECTION_BASES.projects }),
     schema: projectsSchema
 });
 

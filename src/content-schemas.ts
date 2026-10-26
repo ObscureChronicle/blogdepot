@@ -47,3 +47,12 @@ export const projectsSchema = z.object({
     seo: seoSchema.optional(),
     tags: z.array(z.string()).default([])
 });
+
+/** 内容集合的目录与文件匹配规则（content.config.ts 与 scripts/validate-content.ts 共用） */
+export const CONTENT_PATTERN = '**/*.{md,mdx}';
+export const COLLECTION_BASES = {
+    blog: './src/content/blog',
+    pages: './src/content/pages',
+    projects: './src/content/projects'
+} as const;
+export type CollectionName = keyof typeof COLLECTION_BASES;
