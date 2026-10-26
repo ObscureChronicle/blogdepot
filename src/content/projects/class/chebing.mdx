@@ -19,12 +19,10 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['刀类', '矛类', '弓类', '弩类', '兵法书'],
     classType: '器械系',
     skills: ['车兵', '驷乘', '重甲'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 5 },
-      { label: '兵力成长', value: 40 },
-      { label: '技能点成长', value: 4.8 },
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 5 },
+      成长: { 兵力: 40, 技能点: 4.8 }
+    },
     parents: ['辎重队'],
     upgrades: [],
     condition: ['统御≥70'],
@@ -34,10 +32,9 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['无'],
     classType: '器械系',
     skills: ['车兵'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 6 }
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 6 }
+    },
     parents: [],
     upgrades: ['驷乘', '圜营', '叠屋'],
     condition: [],

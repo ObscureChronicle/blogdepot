@@ -19,12 +19,10 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['军令', '辎重'],
     classType: '器械系',
     skills: ['车队', '武装', '施令'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 4 },
-      { label: '兵力成长', value: 50 },
-      { label: '技能点成长', value: 4 },
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 4 },
+      成长: { 兵力: 50, 技能点: 4 }
+    },
     parents: [],
     upgrades: ['车兵'],
     condition: [],
@@ -34,12 +32,10 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['辎重'],
     classType: '轻步兵系',
     skills: ['民兵', '黎氓'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 6 },
-      { label: '兵力成长', value: 60 },
-      { label: '技能点成长', value: 4 },
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 6 },
+      成长: { 兵力: 60, 技能点: 4 }
+    },
     parents: [],
     upgrades: [],
     condition: [],
@@ -49,10 +45,9 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['军令'],
     classType: '器械系',
     skills: ['车队', '武装', '施令'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 8 }
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 8 }
+    },
     parents: ['典农营印绶'],
     upgrades: ['车兵'],
     condition: [],

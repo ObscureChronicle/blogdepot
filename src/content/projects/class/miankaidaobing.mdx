@@ -18,12 +18,10 @@ import ClassWiki from "../../../components/Layout_Classes.astro";
   weapons={['刀类', '兵法书']}
   classType={'轻步兵系'}
   skills={['刀兵', '冲锋', '无衣']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 7 },
-    { label: '兵力成长', value: 50 },
-    { label: '技能点成长', value: 4.8 },
-  ]}
+  params={{
+    基本参数: { 兵力补正: 0, 机动: 7 },
+    成长: { 兵力: 50, 技能点: 4.8 }
+  }}
   parents={['刀兵']}
   upgrades={['死士']}
   condition={['武勇≥85']}

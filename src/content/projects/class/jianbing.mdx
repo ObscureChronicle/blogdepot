@@ -19,12 +19,10 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['刀类'],
     classType: '轻步兵系',
     skills: ['刀兵', '冲锋'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 6 },
-      { label: '兵力成长', value: 60 },
-      { label: '技能点成长', value: 4 },
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 6 },
+      成长: { 兵力: 60, 技能点: 4 }
+    },
     parents: [],
     upgrades: [],
     condition: [],

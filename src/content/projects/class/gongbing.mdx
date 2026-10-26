@@ -19,12 +19,10 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['弓类', '兵法书'],
     classType: '轻步兵系',
     skills: ['弓兵', '齐射'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 6 },
-      { label: '兵力成长', value: 60 },
-      { label: '技能点成长', value: 4 },
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 6 },
+      成长: { 兵力: 60, 技能点: 4 }
+    },
     parents: [],
     upgrades: ['重装弓兵', '强弓兵', '弩兵', '游侠弓兵', '负盾弓兵', '贼兵'],
     condition: [],
@@ -34,10 +32,9 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     weapons: ['弓类', '弩类'],
     classType: '步兵系',
     skills: ['弓兵', '变阵'],
-    params: [
-      { label: '兵力补正', value: 0 },
-      { label: '机动', value: 10 }
-    ],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 10 }
+    },
     parents: ['射声营印绶'],
     upgrades: ['方阵', '圆阵', '疏阵', '数阵', '锥行', '雁行', '钩行', '玄襄'],
     condition: [],

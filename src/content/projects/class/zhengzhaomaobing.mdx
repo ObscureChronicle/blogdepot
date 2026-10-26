@@ -18,12 +18,10 @@ import ClassWiki from "../../../components/Layout_Classes.astro";
   weapons={['矛类', '兵法书']}
   classType={'轻步兵系'}
   skills={['矛兵', '寒芒', '黎氓', '韭生']}
-  params={[
-    { label: '兵力补正', value: 1500 },
-    { label: '机动', value: 6 },
-    { label: '兵力成长', value: 100 },
-    { label: '技能点成长', value: 4.8 },
-  ]}
+  params={{
+    基本参数: { 兵力补正: 1500, 机动: 6 },
+    成长: { 兵力: 100, 技能点: 4.8 }
+  }}
   parents={['矛兵']}
   upgrades={['义从矛兵']}
   condition={['魅力≥85']}

@@ -18,12 +18,10 @@ import ClassWiki from "../../../components/Layout_Classes.astro";
   weapons={['弓类', '弩类', '兵法书']}
   classType={'器械系'}
   skills={['器械', '远射']}
-  params={[
-    { label: '兵力补正', value: 0 },
-    { label: '机动', value: 4 },
-    { label: '兵力成长', value: 35 },
-    { label: '技能点成长', value: 4 },
-  ]}
+  params={{
+    基本参数: { 兵力补正: 0, 机动: 4 },
+    成长: { 兵力: 35, 技能点: 4 }
+  }}
   parents={['发石车']}
   upgrades={['施令射楼', '发石车']}
   condition={['智略≥90']}

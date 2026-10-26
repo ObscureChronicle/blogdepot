@@ -5,12 +5,16 @@ import type { Edition } from '../data/editions';
 import ClassTree from './ClassTree.astro';
 import SectionTitle from './SectionTitle.astro';
 
+// 兵种参数：与装备页的 damageReduction 一样，按「组名 → { 名称: 数值 }」书写。
+// 只写有数据的组与行，没写的自动隐藏。
+export type ClassParams = Partial<Record<'基本参数' | '成长' | '伤害减免', Record<string, string | number>>>;
+
 export type ClassData = {
     description?: string;
     weapons?: string[];
     classType?: string;
     skills?: string[];
-    params?: { label: string; value: string | number }[];
+    params?: ClassParams;
     parents?: string[];
     upgrades?: string[];
     condition?: string[];
@@ -31,6 +35,29 @@ type Props = {
 
 const { data, tone, showDescriptionTitle = true, treeTitle, upgradesLabel, parentsLabel, conditionLabel } = Astro.props as Props;
 const { description, weapons, classType, skills, params } = data;
+
+// 参数分组顺序固定，组内顺序按数据书写顺序
+const PARAM_GROUP_ORDER = ['基本参数', '成长', '伤害减免'] as const;
+
+// 与 EquipmentStats 一致：正数前面加 +，负数着色为红色，其余为绿色
+const formatParamValue = (value: string | number, isPercent: boolean) => {
+    if (!isPercent || typeof value !== 'number') {
+        return { display: value, tone: '' };
+    }
+    return {
+        display: value > 0 ? `+${value}%` : `${value}%`,
+        tone: value < 0 ? 'text-stat-neg' : 'text-stat-pos'
+    };
+};
+
+// 没有数据的组与行都不渲染
+const filledParamGroups = PARAM_GROUP_ORDER.map((title) => {
+    const isPercent = title === '伤害减免';
+    const rows = Object.entries(params?.[title] ?? {})
+        .filter(([, value]) => value !== undefined && value !== null && value !== '')
+        .map(([label, value]) => ({ label, ...formatParamValue(value, isPercent) }));
+    return { title, isPercent, rows };
+}).filter((group) => group.rows.length > 0);
 ---
 
 {
@@ -66,16 +93,28 @@ const { description, weapons, classType, skills, params } = data;
     )
 }
 {
-    params && params.length > 0 && (
+    filledParamGroups.length > 0 && (
         <>
             <SectionTitle tone={tone}>兵种参数</SectionTitle>
-            <div class="flex flex-col pl-4 gap-1">
-                {params.map((p) => (
-                    <p class="text-base leading-relaxed">
-                        {p.label}：{p.value}
-                    </p>
+            <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                {filledParamGroups.map((group) => (
+                    <tbody>
+                        <tr>
+                            <th scope="rowgroup" colspan={2}>
+                                {group.title}
+                            </th>
+                        </tr>
+                        {group.rows.map((row) => (
+                            <tr>
+                                <th scope="row" class="w-28">
+                                    {row.label}
+                                </th>
+                                <td class:list={[group.isPercent && 'text-right font-semibold', row.tone]}>{row.display}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 ))}
-            </div>
+            </table>
         </>
     )
 }
