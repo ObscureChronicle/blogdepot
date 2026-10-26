@@ -1,7 +1,7 @@
 ---
 import { TRAIT_OWNERS as traitOwners } from '../utils/wiki-owners';
 import { TRAIT_MAP, TraitColor } from './Table_Traits.jsx';
-import LinkedNames from './LinkedNames.astro';
+import OwnerRows from './OwnerRows.astro';
 
 type Props = {
     mode: 'personal' | 'regional';
@@ -80,12 +80,6 @@ if (mode === 'regional') {
     }
 }
 
-// 样式见 global.css 的 .wiki-table--merged：
-// 地区第一行加 cat-start（含 rowspan 的 cat-cell），特质第一行加 cls-start（含 cls-cell），悬停时联动高亮所属合并格
-const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
-const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
-const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
-
 // 特质名样式：颜色 + 顶级(Ordinary)发光（与 Table_Traits.jsx 一致）
 const traitStyle = (trait: string) => {
     const color = getTraitInfo(trait)?.color;
@@ -108,63 +102,22 @@ const traitStyle = (trait: string) => {
             {
                 sortedTraits.map((trait, traitIndex) => {
                     const data = traitOwners[trait] ?? {};
-                    const baseList = data.base ?? [];
-                    const dlcList = data.dlc ?? [];
                     const info = getTraitInfo(trait);
-                    const hasBase = baseList.length > 0;
-                    const hasDlc = dlcList.length > 0;
-                    const hasBoth = hasBase && hasDlc;
                     const region = getRegion(trait);
                     const isFirstInRegion = mode === 'regional' && (traitIndex === 0 || getRegion(sortedTraits[traitIndex - 1]) !== region);
                     return (
-                        <>
-                            {hasBase && (
-                                <tr class={rowClass(isFirstInRegion && 'cat-start', 'cls-start')}>
-                                    {isFirstInRegion && (
-                                        <th scope="rowgroup" rowspan={regionRowspan.get(region)} class="cat-cell">
-                                            {region}
-                                        </th>
-                                    )}
-                                    <th scope="rowgroup" rowspan={hasBoth ? 2 : 1} class="cls-cell">
-                                        {info?.link ? (
-                                            <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
-                                                {trait}
-                                            </a>
-                                        ) : (
-                                            <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
-                                        )}
-                                    </th>
-                                    <td class={srcBaseClass}>本体</td>
-                                    <td>
-                                        <LinkedNames kind="character" names={baseList} />
-                                    </td>
-                                </tr>
-                            )}
-                            {hasDlc && (
-                                <tr class={rowClass(isFirstInRegion && !hasBase && 'cat-start', !hasBase && 'cls-start')}>
-                                    {isFirstInRegion && !hasBase && (
-                                        <th scope="rowgroup" rowspan={regionRowspan.get(region)} class="cat-cell">
-                                            {region}
-                                        </th>
-                                    )}
-                                    {!hasBase && (
-                                        <th scope="rowgroup" rowspan={1} class="cls-cell">
-                                            {info?.link ? (
-                                                <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
-                                                    {trait}
-                                                </a>
-                                            ) : (
-                                                <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
-                                            )}
-                                        </th>
-                                    )}
-                                    <td class={srcDlcClass}>星命诀</td>
-                                    <td>
-                                        <LinkedNames kind="character" names={dlcList} />
-                                    </td>
-                                </tr>
-                            )}
-                        </>
+                        <OwnerRows base={data.base ?? []} dlc={data.dlc ?? []} groupRowspan={isFirstInRegion ? regionRowspan.get(region) : undefined}>
+                            <Fragment slot="group">{region}</Fragment>
+                            <Fragment slot="entity">
+                                {info?.link ? (
+                                    <a href={info.link} class="hover:underline" style={traitStyle(trait)}>
+                                        {trait}
+                                    </a>
+                                ) : (
+                                    <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
+                                )}
+                            </Fragment>
+                        </OwnerRows>
                     );
                 })
             }

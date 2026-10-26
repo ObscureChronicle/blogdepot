@@ -1,0 +1,67 @@
+---
+// 持有人合并表格（.wiki-table--merged）中的一个条目：本体、星命诀各占一行，
+// 前面依次是可选的分组单元格（地区 / 大类，slot="group"）和条目单元格（特质名 / 兵种名，slot="entity"）。
+// 样式见 global.css：分组第一行加 cat-start，条目第一行加 cls-start，悬停时联动高亮所属合并格。
+import LinkedNames from './LinkedNames.astro';
+
+type Props = {
+    base: string[];
+    dlc: string[];
+    /** 本条目是所在分组的第一项时传入分组总行数，渲染合并的分组单元格 */
+    groupRowspan?: number;
+    /** 是否有条目单元格；大类视图只有分组没有条目 */
+    hasEntity?: boolean;
+    entityCellClass?: string;
+};
+
+const { base, dlc, groupRowspan, hasEntity = true, entityCellClass = 'cls-cell' } = Astro.props as Props;
+
+const hasBase = base.length > 0;
+const hasDlc = dlc.length > 0;
+const isGroupStart = groupRowspan !== undefined;
+
+const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
+const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
+const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
+---
+
+{
+    hasBase && (
+        <tr class={rowClass(isGroupStart && 'cat-start', hasEntity && 'cls-start')}>
+            {isGroupStart && (
+                <th scope="rowgroup" rowspan={groupRowspan} class="cat-cell">
+                    <slot name="group" />
+                </th>
+            )}
+            {hasEntity && (
+                <th scope="rowgroup" rowspan={hasDlc ? 2 : 1} class={entityCellClass}>
+                    <slot name="entity" />
+                </th>
+            )}
+            <td class={srcBaseClass}>本体</td>
+            <td>
+                <LinkedNames kind="character" names={base} />
+            </td>
+        </tr>
+    )
+}
+{
+    hasDlc && (
+        <tr class={rowClass(isGroupStart && !hasBase && 'cat-start', hasEntity && !hasBase && 'cls-start')}>
+            {isGroupStart && !hasBase && (
+                <th scope="rowgroup" rowspan={groupRowspan} class="cat-cell">
+                    <slot name="group" />
+                </th>
+            )}
+            {hasEntity && !hasBase && (
+                <th scope="rowgroup" rowspan={1} class={entityCellClass}>
+                    <slot name="entity" />
+                </th>
+            )}
+            <td class={srcDlcClass}>星命诀</td>
+            <td>
+                <LinkedNames kind="character" names={dlc} />
+            </td>
+        </tr>
+    )
+}

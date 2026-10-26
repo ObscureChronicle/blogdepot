@@ -1,7 +1,7 @@
 ---
 import { getWikiLink } from '../utils/wiki-links';
 import { CLASS_OWNERS as owners } from '../utils/wiki-owners';
-import LinkedNames from './LinkedNames.astro';
+import OwnerRows from './OwnerRows.astro';
 
 const getClassLink = (cls: string) => getWikiLink('class', cls);
 
@@ -141,9 +141,6 @@ type ClassItem = {
     cls: string;
     base: string[];
     dlc: string[];
-    hasBase: boolean;
-    hasDlc: boolean;
-    hasBoth: boolean;
     rowCount: number;
 };
 
@@ -151,17 +148,11 @@ const groupMap = new Map<string, ClassItem[]>();
 
 for (const cls of sortedClasses) {
     const data = owners[cls];
-    const hasBase = data.base.length > 0;
-    const hasDlc = data.dlc.length > 0;
-
     const item: ClassItem = {
         cls,
         base: data.base,
         dlc: data.dlc,
-        hasBase,
-        hasDlc,
-        hasBoth: hasBase && hasDlc,
-        rowCount: (hasBase ? 1 : 0) + (hasDlc ? 1 : 0)
+        rowCount: (data.base.length > 0 ? 1 : 0) + (data.dlc.length > 0 ? 1 : 0)
     };
 
     const category = categoryMap.get(cls) ?? '未分类';
@@ -193,23 +184,14 @@ const categoryGroups = groups.map((group) => {
     }
     const baseNames = Array.from(baseSet);
     const dlcNames = Array.from(dlcSet);
-    const hasBase = baseNames.length > 0;
-    const hasDlc = dlcNames.length > 0;
     return {
         category: group.category,
         baseNames,
         dlcNames,
-        hasBase,
-        hasDlc,
-        totalRows: (hasBase ? 1 : 0) + (hasDlc ? 1 : 0)
+        totalRows: (baseNames.length > 0 ? 1 : 0) + (dlcNames.length > 0 ? 1 : 0)
     };
 });
 
-// 样式见 global.css 的 .wiki-table--merged：
-// 大类第一行加 cat-start（含 rowspan 的 cat-cell），兵种第一行加 cls-start（含 cls-cell），悬停时联动高亮所属合并格
-const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
-const srcDlcClass = 'whitespace-nowrap font-semibold text-(--side-yellow)';
-const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' ') || undefined;
 ---
 
 <div class="mb-3 flex justify-end">
@@ -236,65 +218,27 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
             </thead>
             <tbody>
                 {
-                    groups.map((group) => (
-                        <>
-                            {group.classes.map((item, clsIndex) => (
-                                <>
-                                    {item.hasBase && (
-                                        <tr class={rowClass(clsIndex === 0 && 'cat-start', 'cls-start')}>
-                                            {clsIndex === 0 && (
-                                                <th scope="rowgroup" rowspan={group.totalRows} class="cat-cell">
-                                                    {group.category}
-                                                </th>
-                                            )}
-                                            <th scope="rowgroup" rowspan={item.hasBoth ? 2 : 1} class={`cls-cell ${getTierClass(item.cls)}`}>
-                                                {getClassLink(item.cls) ? (
-                                                    <a href={getClassLink(item.cls) || ''} class="hover:underline" style={getTierStyle(item.cls) || undefined}>
-                                                        {item.cls}
-                                                    </a>
-                                                ) : (
-                                                    item.cls
-                                                )}
-                                            </th>
-                                            <td class={srcBaseClass}>本体</td>
-                                            <td>
-                                                <LinkedNames kind="character" names={item.base} />
-                                            </td>
-                                        </tr>
+                    groups.map((group) =>
+                        group.classes.map((item, clsIndex) => (
+                            <OwnerRows
+                                base={item.base}
+                                dlc={item.dlc}
+                                groupRowspan={clsIndex === 0 ? group.totalRows : undefined}
+                                entityCellClass={`cls-cell ${getTierClass(item.cls)}`}
+                            >
+                                <Fragment slot="group">{group.category}</Fragment>
+                                <Fragment slot="entity">
+                                    {getClassLink(item.cls) ? (
+                                        <a href={getClassLink(item.cls) || ''} class="hover:underline" style={getTierStyle(item.cls) || undefined}>
+                                            {item.cls}
+                                        </a>
+                                    ) : (
+                                        item.cls
                                     )}
-
-                                    {item.hasDlc && (
-                                        <tr class={rowClass(clsIndex === 0 && !item.hasBase && 'cat-start', !item.hasBase && 'cls-start')}>
-                                            {clsIndex === 0 && !item.hasBase && (
-                                                <th scope="rowgroup" rowspan={group.totalRows} class="cat-cell">
-                                                    {group.category}
-                                                </th>
-                                            )}
-                                            {!item.hasBase && (
-                                                <th scope="rowgroup" rowspan={1} class={`cls-cell ${getTierClass(item.cls)}`}>
-                                                    {getClassLink(item.cls) ? (
-                                                        <a
-                                                            href={getClassLink(item.cls) || ''}
-                                                            class="hover:underline"
-                                                            style={getTierStyle(item.cls) || undefined}
-                                                        >
-                                                            {item.cls}
-                                                        </a>
-                                                    ) : (
-                                                        item.cls
-                                                    )}
-                                                </th>
-                                            )}
-                                            <td class={srcDlcClass}>星命诀</td>
-                                            <td>
-                                                <LinkedNames kind="character" names={item.dlc} />
-                                            </td>
-                                        </tr>
-                                    )}
-                                </>
-                            ))}
-                        </>
-                    ))
+                                </Fragment>
+                            </OwnerRows>
+                        ))
+                    )
                 }
             </tbody>
         </table>
@@ -315,33 +259,9 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
             <tbody>
                 {
                     categoryGroups.map((g) => (
-                        <>
-                            {g.hasBase && (
-                                <tr class="cat-start">
-                                    <th scope="rowgroup" rowspan={g.totalRows} class="cat-cell">
-                                        {g.category}
-                                    </th>
-                                    <td class={srcBaseClass}>本体</td>
-                                    <td>
-                                        <LinkedNames kind="character" names={g.baseNames} />
-                                    </td>
-                                </tr>
-                            )}
-
-                            {g.hasDlc && (
-                                <tr class={rowClass(!g.hasBase && 'cat-start')}>
-                                    {!g.hasBase && (
-                                        <th scope="rowgroup" rowspan={g.totalRows} class="cat-cell">
-                                            {g.category}
-                                        </th>
-                                    )}
-                                    <td class={srcDlcClass}>星命诀</td>
-                                    <td>
-                                        <LinkedNames kind="character" names={g.dlcNames} />
-                                    </td>
-                                </tr>
-                            )}
-                        </>
+                        <OwnerRows base={g.baseNames} dlc={g.dlcNames} groupRowspan={g.totalRows} hasEntity={false}>
+                            <Fragment slot="group">{g.category}</Fragment>
+                        </OwnerRows>
                     ))
                 }
             </tbody>
