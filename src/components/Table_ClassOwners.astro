@@ -264,12 +264,17 @@ const categoryGroups = groups.map((group) => {
 </div>
 
 <script>
-    const btn = document.getElementById('view-toggle');
-    const viewClass = document.getElementById('view-class');
-    const viewCategory = document.getElementById('view-category');
+    // ClientRouter 换页后 DOM 是新的，而 module 脚本只执行一次，所以每次 astro:page-load 都要重新绑定
+    function initViewToggle() {
+        const btn = document.getElementById('view-toggle');
+        if (!btn || btn.dataset.bound === 'true') return;
+        btn.dataset.bound = 'true';
 
-    btn?.addEventListener('click', () => {
-        viewClass?.classList.toggle('hidden');
-        viewCategory?.classList.toggle('hidden');
-    });
+        btn.addEventListener('click', () => {
+            document.getElementById('view-class')?.classList.toggle('hidden');
+            document.getElementById('view-category')?.classList.toggle('hidden');
+        });
+    }
+
+    document.addEventListener('astro:page-load', initViewToggle);
 </script>
