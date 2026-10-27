@@ -136,7 +136,7 @@ const dlcname_short = EDITIONS.dlc.shortName;
     biography && (
         <>
             <SectionTitle>列传</SectionTitle>
-            <p class="whitespace-pre-line text-base leading-relaxed">{biography}</p>
+            <p class="whitespace-pre-line text-base leading-relaxed" set:html={biography} />
         </>
     )
 }
