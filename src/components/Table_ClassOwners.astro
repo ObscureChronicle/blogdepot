@@ -53,7 +53,6 @@ const CLASS_DATA: { name: string; category: string; tier: Tier }[] = [
     { name: '施令弓兵', category: '弓兵类', tier: 'high' },
     { name: '重装弩兵', category: '弓兵类', tier: 'high' },
     { name: '施令弩兵', category: '弓兵类', tier: 'high' },
-    { name: '施令射楼', category: '弓兵类', tier: 'high' },
 
     // 刀骑兵类
     { name: '刀骑兵', category: '刀骑兵类', tier: 'base' },
@@ -100,6 +99,7 @@ const CLASS_DATA: { name: string; category: string; tier: Tier }[] = [
     { name: '井阑', category: '器械类', tier: 'mid' },
     { name: '床弩', category: '器械类', tier: 'mid' },
     { name: '车兵', category: '器械类', tier: 'mid' },
+    { name: '施令射楼', category: '器械类', tier: 'high' },
     { name: '发石车', category: '器械类', tier: 'high' }
 ];
 
@@ -185,7 +185,6 @@ const categoryGroups = groups.map((group) => {
         totalRows: Math.max(1, (baseNames.length > 0 ? 1 : 0) + (dlcNames.length > 0 ? 1 : 0))
     };
 });
-
 ---
 
 <div class="mb-3 flex justify-end">
