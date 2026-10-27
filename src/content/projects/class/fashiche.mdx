@@ -43,7 +43,17 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     classType: '器械系',
     skills: ['器械', '攻具', '折冲'],
     params: {
-      基本参数: { 兵力补正: -300, 机动: 0 }
+      基本参数: { 兵力补正: -300, 机动: 0 },
+      伤害减免: {
+        民兵: -20,
+        刀兵: -35,
+        矛兵: 10,
+        弓兵: 80,
+        刀骑: -45,
+        矛骑: 0,
+        弓骑: 80,
+        器械: -70
+      }
     },
     parents: [],
     upgrades: [],

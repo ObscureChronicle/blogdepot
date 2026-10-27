@@ -9,30 +9,54 @@ excerpt:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-城门是《后汉稽异录》中的一种<a href="../00_total/">特殊兵种</a>。
+城门是《后汉稽异录》与《后汉稽异录外传·星命诀》中的一种<a href="../00_total/">特殊兵种</a>。
 
-<ClassWiki
-  description={''}
-  weapons={[]}
-  classType={'器械系'}
-  skills={['城门', '重甲']}
-  params={{
-    基本参数: { 兵力补正: 0, 机动: 0 },
-    成长: { 兵力: 30, 技能点: 4 },
-    伤害减免: {
-      民兵: 50,
-      刀兵: 50,
-      矛兵: 60,
-      弓兵: 95,
-      刀骑: 55,
-      矛骑: 65,
-      弓骑: 96,
-      器械: -50
-    }
+<ClassWikiPlus
+  base={{
+    description: '',
+    weapons: [],
+    classType: '器械系',
+    skills: ['城门', '重甲'],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 0 },
+      成长: { 兵力: 30, 技能点: 4 },
+      伤害减免: {
+        民兵: 50,
+        刀兵: 50,
+        矛兵: 60,
+        弓兵: 95,
+        刀骑: 55,
+        矛骑: 65,
+        弓骑: 96,
+        器械: -50
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: [],
   }}
-  parents={[]}
-  upgrades={[]}
-  condition={[]}
+  dlc={{
+    description: '',
+    weapons: [],
+    classType: '器械系',
+    skills: ['城门'],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 0 },
+      伤害减免: {
+        民兵: 50,
+        刀兵: 50,
+        矛兵: 60,
+        弓兵: 95,
+        刀骑: 55,
+        矛骑: 65,
+        弓骑: 96,
+        器械: -50
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
 />

@@ -43,7 +43,17 @@ import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
     classType: '器械系',
     skills: ['车兵'],
     params: {
-      基本参数: { 兵力补正: 0, 机动: 6 }
+      基本参数: { 兵力补正: 0, 机动: 6 },
+      伤害减免: {
+        民兵: -30,
+        刀兵: -70,
+        矛兵: -40,
+        弓兵: 40,
+        刀骑: 10,
+        矛骑: 20,
+        弓骑: 40,
+        器械: -70
+      }
     },
     parents: [],
     upgrades: ['驷乘', '圜营', '叠屋'],
