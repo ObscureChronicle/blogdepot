@@ -12,12 +12,15 @@ type Props = {
     /** 是否有条目单元格；大类视图只有分组没有条目 */
     hasEntity?: boolean;
     entityCellClass?: string;
+    /** base 与 dlc 均为空时，在“人物”栏输出的占位文本；不传则保持隐藏该行 */
+    emptyPlaceholder?: string;
 };
 
-const { base, dlc, groupRowspan, hasEntity = true, entityCellClass = 'cls-cell' } = Astro.props as Props;
+const { base, dlc, groupRowspan, hasEntity = true, entityCellClass = 'cls-cell', emptyPlaceholder } = Astro.props as Props;
 
 const hasBase = base.length > 0;
 const hasDlc = dlc.length > 0;
+const hasAny = hasBase || hasDlc;
 const isGroupStart = groupRowspan !== undefined;
 
 const srcBaseClass = 'whitespace-nowrap font-semibold text-(--side-blue)';
@@ -62,6 +65,24 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
             <td>
                 <LinkedNames kind="character" names={dlc} />
             </td>
+        </tr>
+    )
+}
+{
+    !hasAny && emptyPlaceholder !== undefined && (
+        <tr class={rowClass(isGroupStart && 'cat-start', hasEntity && 'cls-start')}>
+            {isGroupStart && (
+                <th scope="rowgroup" rowspan={groupRowspan} class="cat-cell">
+                    <slot name="group" />
+                </th>
+            )}
+            {hasEntity && (
+                <th scope="rowgroup" rowspan={1} class={entityCellClass}>
+                    <slot name="entity" />
+                </th>
+            )}
+            <td></td>
+            <td class="text-(--wiki-label)">{emptyPlaceholder}</td>
         </tr>
     )
 }

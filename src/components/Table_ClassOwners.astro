@@ -106,8 +106,7 @@ const CLASS_DATA: { name: string; category: string; tier: Tier }[] = [
 // 大类显示顺序
 const CATEGORY_ORDER = ['民兵类', '刀兵类', '矛兵类', '弓兵类', '刀骑兵类', '矛骑兵类', '弓骑兵类', '器械类'];
 
-// 从 CLASS_DATA 派生：顺序、大类、阶位
-const orderIndex = new Map(CLASS_DATA.map((c, i) => [c.name, i]));
+// 从 CLASS_DATA 派生：大类、阶位
 const categoryMap = new Map(CLASS_DATA.map((c) => [c.name, c.category]));
 const tierMap = new Map(CLASS_DATA.map((c) => [c.name, c.tier]));
 const catIndex = new Map(CATEGORY_ORDER.map((name, i) => [name, i]));
@@ -128,13 +127,8 @@ const tierStyleMap: Record<Tier, string> = {
 };
 const getTierStyle = (cls: string) => tierStyleMap[tierMap.get(cls) ?? 'base'];
 
-// 按 CLASS_DATA 顺序排出 owners 里的兵种
-const sortedClasses = Object.keys(owners).sort((a, b) => {
-    const ia = orderIndex.get(a) ?? Number.MAX_SAFE_INTEGER;
-    const ib = orderIndex.get(b) ?? Number.MAX_SAFE_INTEGER;
-    if (ia !== ib) return ia - ib;
-    return a.localeCompare(b, 'zh-Hans');
-});
+// 遍历 CLASS_DATA 中全部兵种（含无持有人的兵种），按 CLASS_DATA 顺序输出
+const sortedClasses = CLASS_DATA.map((c) => c.name);
 
 // 按大类分组
 type ClassItem = {
@@ -147,12 +141,12 @@ type ClassItem = {
 const groupMap = new Map<string, ClassItem[]>();
 
 for (const cls of sortedClasses) {
-    const data = owners[cls];
+    const data = owners[cls] ?? { base: [], dlc: [] };
     const item: ClassItem = {
         cls,
         base: data.base,
         dlc: data.dlc,
-        rowCount: (data.base.length > 0 ? 1 : 0) + (data.dlc.length > 0 ? 1 : 0)
+        rowCount: Math.max(1, (data.base.length > 0 ? 1 : 0) + (data.dlc.length > 0 ? 1 : 0))
     };
 
     const category = categoryMap.get(cls) ?? '未分类';
@@ -188,7 +182,7 @@ const categoryGroups = groups.map((group) => {
         category: group.category,
         baseNames,
         dlcNames,
-        totalRows: (baseNames.length > 0 ? 1 : 0) + (dlcNames.length > 0 ? 1 : 0)
+        totalRows: Math.max(1, (baseNames.length > 0 ? 1 : 0) + (dlcNames.length > 0 ? 1 : 0))
     };
 });
 
@@ -225,6 +219,7 @@ const categoryGroups = groups.map((group) => {
                                 dlc={item.dlc}
                                 groupRowspan={clsIndex === 0 ? group.totalRows : undefined}
                                 entityCellClass={`cls-cell ${getTierClass(item.cls)}`}
+                                emptyPlaceholder="暂无"
                             >
                                 <Fragment slot="group">{group.category}</Fragment>
                                 <Fragment slot="entity">
@@ -259,7 +254,7 @@ const categoryGroups = groups.map((group) => {
             <tbody>
                 {
                     categoryGroups.map((g) => (
-                        <OwnerRows base={g.baseNames} dlc={g.dlcNames} groupRowspan={g.totalRows} hasEntity={false}>
+                        <OwnerRows base={g.baseNames} dlc={g.dlcNames} groupRowspan={g.totalRows} hasEntity={false} emptyPlaceholder="暂无">
                             <Fragment slot="group">{g.category}</Fragment>
                         </OwnerRows>
                     ))
