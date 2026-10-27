@@ -1,0 +1,13 @@
+---
+title: 驷乘
+tags:
+  - term
+  - wiki-s
+isFeatured: true
+excerpt: 
+publishDate: 
+---
+
+<h2 class='section-title'>星命诀</h2>
+
+驷乘是适于对抗步兵的车阵。辎重队武装为驷乘后，将会获得使用刀类武器的能力，同时获得15%的伤害系数加成，但巧变-20。

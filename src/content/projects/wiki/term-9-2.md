@@ -1,0 +1,19 @@
+---
+title: 方阵
+tags:
+  - term
+  - wiki-f
+isFeatured: true
+excerpt: 
+publishDate: 
+---
+
+<h2 class='section-title'>星命诀</h2>
+
+方阵是用以正面接战的阵型。部队列为方阵后，将会获得15%的伤害系数加成，但巧变-20。
+
+变阵条件：
+
+目前兵种为刀骑兵；
+
+或统御≥50。

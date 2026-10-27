@@ -14,6 +14,7 @@ const CATEGORY_TAG_SLUGS = {
     参考文献: 'reference',
     创作手记: 'diary',
     更新日志: 'changelog',
+    游戏术语: 'term',
     事典: 'encyclopedia',
     文存: 'wen-yan',
     人物: 'biography',
