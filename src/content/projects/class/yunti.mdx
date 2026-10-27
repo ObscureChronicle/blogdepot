@@ -1,0 +1,41 @@
+---
+title: 云梯
+tags:
+  - class
+  - wiki-y
+isFeatured: true
+publishDate: 
+excerpt: 
+
+---
+
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
+
+云梯是《后汉稽异录外传：星命诀》中的一种<a href="">攻具阵型</a>。
+
+<ClassWikiPlus
+  dlc={{
+    description: '无视地形阻挡移动的攻城器械，本身没有攻击能力。',
+    weapons: [],
+    classType: '器械系',
+    skills: ['器械', '攻具', '蹑云'],
+    params: {
+      基本参数: { 兵力补正: -300, 机动: 8 },
+      伤害减免: {
+        民兵: -20,
+        刀兵: -35,
+        矛兵: 10,
+        弓兵: 80,
+        刀骑: -45,
+        矛骑: 0,
+        弓骑: 80,
+        器械: -70
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: [],
+  }}
+  baseOwner={[]}
+  dlcOwner={[]}
+/>

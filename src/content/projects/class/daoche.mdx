@@ -1,0 +1,41 @@
+---
+title: 刀车
+tags:
+  - class
+  - wiki-d
+isFeatured: true
+publishDate: 
+excerpt: 
+
+---
+
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
+
+刀车是《后汉稽异录外传：星命诀》中的一种<a href="">攻具阵型</a>。
+
+<ClassWikiPlus
+  dlc={{
+    description: '强化了防御力的攻城器械。',
+    weapons: ['刀类'],
+    classType: '器械系',
+    skills: ['器械', '攻具', '拒马'],
+    params: {
+      基本参数: { 兵力补正: -300, 机动: 8 },
+      伤害减免: {
+        民兵: -10,
+        刀兵: -25,
+        矛兵: 20,
+        弓兵: 80,
+        刀骑: -35,
+        矛骑: 10,
+        弓骑: 80,
+        器械: -70
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: ['智略≥75\n或：智略≥70且处于「谨慎」状态'],
+  }}
+  baseOwner={[]}
+  dlcOwner={[]}
+/>

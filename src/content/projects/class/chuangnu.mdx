@@ -9,32 +9,56 @@ excerpt:
 
 ---
 
-import ClassWiki from "../../../components/Layout_Classes.astro";
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
 
-床弩是《后汉稽异录》中的一种<a href="../00_total/">特殊兵种</a>。
+床弩是《后汉稽异录》中的一种<a href="../00_total/">特殊兵种</a>，也是《后汉稽异录外传：星命诀》中的一种<a href="">攻具阵型</a>。
 
-<ClassWiki
-  description={'发射巨矢的攻城器械，在高地时射程增加。'}
-  weapons={['弩炮', '兵法书']}
-  classType={'器械系'}
-  skills={['器械']}
-  params={{
-    基本参数: { 兵力补正: 0, 机动: 4 },
-    成长: { 兵力: 35, 技能点: 4 },
-    伤害减免: {
-      民兵: -20,
-      刀兵: -65,
-      矛兵: -30,
-      弓兵: 80,
-      刀骑: 0,
-      矛骑: 0,
-      弓骑: 80,
-      器械: -100
-    }
+<ClassWikiPlus
+  base={{
+    description: '发射巨矢的攻城器械，在高地时射程增加。',
+    weapons: ['弩炮', '兵法书'],
+    classType: '器械系',
+    skills: ['器械'],
+    params: {
+      基本参数: { 兵力补正: 0, 机动: 4 },
+      成长: { 兵力: 35, 技能点: 4 },
+      伤害减免: {
+        民兵: -20,
+        刀兵: -65,
+        矛兵: -30,
+        弓兵: 80,
+        刀骑: 0,
+        矛骑: 0,
+        弓骑: 80,
+        器械: -100
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: [],
   }}
-  parents={[]}
-  upgrades={[]}
-  condition={[]}
+  dlc={{
+    description: '发射巨矢的攻城器械，在高地时射程增加。',
+    weapons: ['弩砲'],
+    classType: '器械系',
+    skills: ['器械', '攻具', '狙击'],
+    params: {
+      基本参数: { 兵力补正: -300, 机动: 0 },
+      伤害减免: {
+        民兵: -20,
+        刀兵: -35,
+        矛兵: 10,
+        弓兵: 80,
+        刀骑: -45,
+        矛骑: 0,
+        弓骑: 80,
+        器械: -70
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: ['智略≥90\n或：智略≥85且处于「谨慎」状态'],
+  }}
   baseOwner={['曹羲', '马钧', '司马孚']}
   dlcOwner={[]}
 />

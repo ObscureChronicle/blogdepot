@@ -1,0 +1,43 @@
+---
+title: 冲车
+tags:
+  - class
+  - wiki-c
+isFeatured: true
+publishDate: 
+excerpt: 
+
+---
+
+import ClassWikiPlus from "../../../components/Layout_ClassesPlus.astro";
+
+冲车是《后汉稽异录外传：星命诀》中的一种<a href="">攻具阵型</a>。
+
+在《后汉稽异录》中，该兵种由持有破城槌的<a href="../daobing/">刀兵</a>表示。
+
+<ClassWikiPlus
+  dlc={{
+    description: '强化了对器械攻击力的攻城器械。',
+    weapons: ['矛类'],
+    classType: '器械系',
+    skills: ['器械', '攻具', '崩摧'],
+    params: {
+      基本参数: { 兵力补正: -300, 机动: 8, 伤害系数: "-75%" },
+      伤害减免: {
+        民兵: -20,
+        刀兵: -35,
+        矛兵: 10,
+        弓兵: 99,
+        刀骑: -45,
+        矛骑: 0,
+        弓骑: 99,
+        器械: -70
+      }
+    },
+    parents: [],
+    upgrades: [],
+    condition: ['智略≥80\n或：智略≥75且处于「谨慎」状态'],
+  }}
+  baseOwner={[]}
+  dlcOwner={[]}
+/>
