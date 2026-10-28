@@ -83,8 +83,7 @@ const steamWidgetUrl = (appId: number) => `https://store.steampowered.com/widget
                                     src={index === 0 ? steamWidgetUrl(slide.steamAppId) : undefined}
                                     data-src={steamWidgetUrl(slide.steamAppId)}
                                     title={`${slide.label} Steam 商店`}
-                                    frameborder="0"
-                                    class="mt-4 w-full"
+                                    class="mt-4 w-full border-0"
                                     height="190"
                                 />
                             </div>

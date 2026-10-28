@@ -24,9 +24,9 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
             }
         </script>
         <ClientRouter />
-        <script src="/cursor-click.js" defer></script>
+        <script is:inline src="/cursor-click.js" defer></script>
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YFXCM8DEXJ"></script>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-YFXCM8DEXJ"></script>
         <script>
         declare global {
             interface Window {
@@ -54,7 +54,7 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
             <Footer />
         </div>
         <!-- 引入一次脚本 -->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
+        <script is:inline type="text/javascript" src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
 
         <!-- 初始化 -->
         <script>

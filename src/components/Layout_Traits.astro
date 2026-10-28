@@ -16,8 +16,7 @@ type TraitWikiProps = {
     noteHtml?: string;
 };
 
-const { intro, introHtml, level, baseEnable, dlcEnable, baseData, dlcData, baseOwner, dlcOwner, baseDescription, dlcDescription, effect, dlcEffect, noteHtml } =
-    Astro.props as TraitWikiProps;
+const { introHtml, level, baseOwner, dlcOwner, baseDescription, dlcDescription, effect, dlcEffect, noteHtml } = Astro.props as TraitWikiProps;
 
 import TraitDescription from './TraitDescription.astro';
 import TraitEffect from './TraitEffect.astro';

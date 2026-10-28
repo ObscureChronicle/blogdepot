@@ -26,9 +26,6 @@ classFiles.forEach(file => {
 
     const ownerData = owners[title];
 
-    // Determine if file uses ClassWiki or ClassWikiPlus
-    const isPlus = content.includes('ClassWikiPlus');
-
     // Remove existing baseOwner and dlcOwner lines
     content = content.replace(/\n\s*baseOwner=\{[^}]*\}/g, '');
     content = content.replace(/\n\s*dlcOwner=\{[^}]*\}/g, '');

@@ -79,7 +79,6 @@ const anchorSplitRegex = /(<a\s[^>]*>.*?<\/a>)/;
 for (const file of files) {
     const filePath = path.join(bioDir, file);
     let content = fs.readFileSync(filePath, 'utf-8');
-    const slug = file.replace(/\.mdx$/, '');
 
     // 自身名字
     const selfMatch = content.match(nameRegexInMDX);
