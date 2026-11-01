@@ -129,7 +129,6 @@ export const thirdParty = {
         styleUrl: 'https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.css'
     },
     waline: {
-        clientUrl: 'https://unpkg.com/@waline/client@v3/dist/waline.js',
         serverURL: 'https://ocod-commemts.netlify.app/.netlify/functions/comment'
     }
 } as const;

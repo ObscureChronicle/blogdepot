@@ -67,6 +67,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 - 站点配置（导航、Hero 等）在 `src/data/site-config.ts`。
 - GA4、Algolia、Waline 的 ID 和地址集中在 `site-config.ts` 的具名导出 `thirdParty`（都是公开的客户端配置，项目不依赖 `.env`）。客户端 `<script>` 只导入 `thirdParty`，不要导入默认的 `siteConfig`，否则整份站点配置会被打进浏览器 JS。
 - 评论（`WalineComments.astro`）、搜索框（`AlgoliaSearch.astro`，只在 `/tags/` 使用）、回到顶部按钮都是普通 Astro `<script>`，在 `astro:page-load` 里初始化以兼容 ClientRouter 换页；React 只用于人物页和 blog 里的图表。
+- Waline 的 JS 和样式来自 npm 包 `@waline/client`（版本由 package-lock 锁定），只在有评论区的页面加载；本站对官方样式的覆盖在 `src/styles/waline.css`，升级 Waline 后要确认这几条覆盖的选择器仍然存在。
 
 ## 约定
 

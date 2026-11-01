@@ -1,15 +1,19 @@
+---
+// 官方样式与本站覆盖只在有评论区的页面引入；覆盖必须排在官方样式之后
+import '@waline/client/style';
+import '../styles/waline.css';
+---
+
 <div id="waline"></div>
 
 <script>
     import { thirdParty } from '../data/site-config';
 
-    type WalineClient = { init: (options: { el: string; serverURL: string }) => unknown };
-
-    // Waline 客户端从 CDN 动态加载（样式是 vendored 的 waline.css，见 BaseHead）。
-    // 每次换页后页面上都是新的 #waline，需要重新 init。
+    // Waline 客户端来自 npm 包（版本由 package-lock 锁定），按需动态加载，
+    // 只有页面上有评论区时才下载这部分 JS。每次换页后都是新的 #waline，需要重新 init。
     async function initWaline() {
         if (!document.getElementById('waline')) return;
-        const { init } = (await import(/* @vite-ignore */ thirdParty.waline.clientUrl)) as WalineClient;
+        const { init } = await import('@waline/client');
         init({ el: '#waline', serverURL: thirdParty.waline.serverURL });
     }
 
