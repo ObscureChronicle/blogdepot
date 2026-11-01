@@ -6,7 +6,7 @@ import PostPreview from '../../components/PostPreview.astro';
 import { getSortedBlogPosts } from '../../utils/content-utils';
 import { resolveTag } from '../../utils/data-utils';
 import { withNeighbors } from '../../utils/neighbor-utils';
-import WalineComments from '../../components/WalineComments.tsx';
+import WalineComments from '../../components/WalineComments.astro';
 
 export async function getStaticPaths() {
     // 按日期从旧到新排列：上一篇是更早发布的文章，下一篇是更新的文章
@@ -85,5 +85,5 @@ const breadcrumb = {
             </div>
         )
     }
-<WalineComments client:load />
+<WalineComments />
 </BaseLayout>

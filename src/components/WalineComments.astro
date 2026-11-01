@@ -1,0 +1,17 @@
+<div id="waline"></div>
+
+<script>
+    import { thirdParty } from '../data/site-config';
+
+    type WalineClient = { init: (options: { el: string; serverURL: string }) => unknown };
+
+    // Waline 客户端从 CDN 动态加载（样式是 vendored 的 waline.css，见 BaseHead）。
+    // 每次换页后页面上都是新的 #waline，需要重新 init。
+    async function initWaline() {
+        if (!document.getElementById('waline')) return;
+        const { init } = (await import(/* @vite-ignore */ thirdParty.waline.clientUrl)) as WalineClient;
+        init({ el: '#waline', serverURL: thirdParty.waline.serverURL });
+    }
+
+    document.addEventListener('astro:page-load', initWaline);
+</script>

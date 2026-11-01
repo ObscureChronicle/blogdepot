@@ -5,7 +5,8 @@ import Breadcrumb from '../components/Breadcrumb.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import { thirdParty } from '../data/site-config';
 
 export type Props = HeadProps & { showHeader?: boolean; breadcrumbOwnTags?: string[] };
 
@@ -16,8 +17,6 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
 <html lang="zh" class="antialiased break-words">
     <head>
         <BaseHead breadcrumb={breadcrumb} {...head} />
-        <!-- Algolia for Netlify -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.css" />
         <script>
             if (localStorage.theme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -26,8 +25,10 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
         <ClientRouter />
         <script is:inline src="/cursor-click.js" defer></script>
         <!-- Google tag (gtag.js) -->
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-YFXCM8DEXJ"></script>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${thirdParty.ga4MeasurementId}`}></script>
         <script>
+        import { thirdParty } from '../data/site-config';
+
         declare global {
             interface Window {
                 dataLayer: unknown[];
@@ -39,7 +40,7 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
             window.dataLayer.push(arguments);
         }
         gtag('js', new Date());
-        gtag('config', 'G-YFXCM8DEXJ');
+        gtag('config', thirdParty.ga4MeasurementId);
         </script>
     </head>
     <body class="bg-main text-main">
@@ -50,44 +51,8 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
             <main class="grow w-full max-w-3xl mx-auto">
                 <slot />
             </main>
-            <ScrollToTop client:load />
+            <ScrollToTop />
             <Footer />
         </div>
-        <!-- 引入一次脚本 -->
-        <script is:inline type="text/javascript" src="https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js"></script>
-
-        <!-- 初始化 -->
-        <script>
-            // @ts-ignore
-            declare global {
-                interface Window {
-                    algoliasearchNetlify?: (...args: any[]) => void;
-                }
-            }
-
-            function initSearchIfNeeded() {
-                const el = document.querySelector('#search') as HTMLElement;
-                if (!el || el.dataset.initialized) return;
-                el.dataset.initialized = 'true';
-
-                if (typeof window.algoliasearchNetlify === 'function') {
-                    window.algoliasearchNetlify({
-                        appId: 'RNM6XVD15M',
-                        apiKey: 'fd8d188ac6fec286491d26f8c4493442',
-                        siteId: '72fc77ee-5596-45f9-95f3-7ceb21f85fdc',
-                        branch: 'main',
-                        selector: 'div#search'
-                    });
-                } else {
-                    console.error('Algolia script not loaded.');
-                }
-            }
-
-            // 首次加载
-            window.addEventListener('DOMContentLoaded', initSearchIfNeeded);
-
-            // Astro 页面跳转后
-            document.addEventListener('astro:after-swap', initSearchIfNeeded);
-        </script>
     </body>
 </html>

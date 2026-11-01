@@ -1,0 +1,55 @@
+---
+// Algolia（Netlify 插件版）站内搜索框。脚本和样式只在用到搜索框的页面加载。
+import { thirdParty } from '../data/site-config';
+
+type Props = { class?: string };
+
+const { class: className } = Astro.props;
+---
+
+<link rel="stylesheet" href={thirdParty.algolia.styleUrl} />
+<div id="search" class={className}></div>
+
+<script>
+    import { thirdParty } from '../data/site-config';
+
+    type AlgoliaNetlifyOptions = { appId: string; apiKey: string; siteId: string; branch: string; selector: string };
+
+    declare global {
+        interface Window {
+            algoliasearchNetlify?: (options: AlgoliaNetlifyOptions) => void;
+        }
+    }
+
+    // 库脚本整个会话只加载一次；ClientRouter 换页后再进入搜索页时直接复用
+    let loading: Promise<void> | undefined;
+    function loadAlgolia(): Promise<void> {
+        loading ??= new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = thirdParty.algolia.scriptUrl;
+            script.onload = () => resolve();
+            script.onerror = () => {
+                loading = undefined;
+                reject(new Error('Algolia script not loaded.'));
+            };
+            document.head.append(script);
+        });
+        return loading;
+    }
+
+    async function initSearch() {
+        const el = document.querySelector<HTMLElement>('#search');
+        if (!el || el.dataset.initialized) return;
+        el.dataset.initialized = 'true';
+        try {
+            await loadAlgolia();
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+        const { appId, apiKey, siteId, branch } = thirdParty.algolia;
+        window.algoliasearchNetlify?.({ appId, apiKey, siteId, branch, selector: 'div#search' });
+    }
+
+    document.addEventListener('astro:page-load', initSearch);
+</script>

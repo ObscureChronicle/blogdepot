@@ -1,4 +1,5 @@
 ---
+import AlgoliaSearch from '../../components/AlgoliaSearch.astro';
 import ArrowRight from '../../icons/ArrowRight.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../utils/content-utils';
@@ -20,7 +21,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
 >
     <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
     <div>
-        <div id="search" class="mb-12"></div>
+        <AlgoliaSearch class="mb-12" />
         <h2
             class="text-xl leading-tight font-serif font-bold group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl mb-6"
         >

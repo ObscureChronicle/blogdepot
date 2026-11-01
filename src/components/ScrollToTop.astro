@@ -1,0 +1,23 @@
+<button aria-label="回到顶部" class="scroll-top" data-scroll-top>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path
+            fill-rule="evenodd"
+            d="M3.293 12.707a1 1 0 011.414 0L10 7.414l5.293 5.293a1 1 0 001.414-1.414l-6-6a1 1 0 00-1.414 0l-6 6a1 1 0 010 1.414z"
+            clip-rule="evenodd"></path>
+    </svg>
+</button>
+
+<script>
+    // 模块脚本只执行一次，监听挂在 window / document 上，ClientRouter 换页后依然有效；
+    // 按钮本身每次换页都会被替换，所以每次都重新查找，点击用事件委托。
+    const button = () => document.querySelector<HTMLButtonElement>('[data-scroll-top]');
+    const updateVisibility = () => button()?.classList.toggle('visible', window.scrollY > 300);
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    document.addEventListener('astro:page-load', updateVisibility);
+    document.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('[data-scroll-top]')) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+</script>

@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
-import WalineComments from '../../components/WalineComments.tsx';
+import WalineComments from '../../components/WalineComments.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getProjectCategory, groupBy, withNeighbors } from '../../utils/neighbor-utils';
 import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
@@ -75,5 +75,5 @@ const breadcrumb = {
             </div>
         )
     }
-    <WalineComments client:load />
+    <WalineComments />
 </BaseLayout>

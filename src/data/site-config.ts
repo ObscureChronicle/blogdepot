@@ -113,3 +113,23 @@ const siteConfig: SiteConfig = {
 };
 
 export default siteConfig;
+
+/**
+ * 第三方服务的客户端配置。这些值本来就会出现在浏览器里（Algolia 的是只读搜索 key），不是密钥。
+ * 单独具名导出：客户端 <script> 只导入它，打包时不会把整个 siteConfig 带进浏览器 JS。
+ */
+export const thirdParty = {
+    ga4MeasurementId: 'G-YFXCM8DEXJ',
+    algolia: {
+        appId: 'RNM6XVD15M',
+        apiKey: 'fd8d188ac6fec286491d26f8c4493442',
+        siteId: '72fc77ee-5596-45f9-95f3-7ceb21f85fdc',
+        branch: 'main',
+        scriptUrl: 'https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.js',
+        styleUrl: 'https://cdn.jsdelivr.net/npm/@algolia/algoliasearch-netlify-frontend@1/dist/algoliasearchNetlify.css'
+    },
+    waline: {
+        clientUrl: 'https://unpkg.com/@waline/client@v3/dist/waline.js',
+        serverURL: 'https://ocod-commemts.netlify.app/.netlify/functions/comment'
+    }
+} as const;
