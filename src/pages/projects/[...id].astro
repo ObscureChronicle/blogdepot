@@ -28,7 +28,7 @@ type Props = {
 };
 
 const { project, prevProject, nextProject } = Astro.props;
-const { title, description, seo, tags } = project.data;
+const { title, seo, tags } = project.data;
 const { Content } = await render(project);
 
 const breadcrumb = {
@@ -42,7 +42,7 @@ const breadcrumb = {
 
 <BaseLayout
     title={seo?.title ?? title}
-    description={seo?.description ?? description}
+    description={seo?.description}
     image={seo?.image}
     pageType="article"
     showHeader={false}

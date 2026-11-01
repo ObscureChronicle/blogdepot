@@ -11,15 +11,14 @@ export function blogEntry(id: string, data: Partial<BlogData> = {}): CollectionE
     return {
         id,
         collection: 'blog',
-        data: { title: id, publishDate: new Date('2024-01-01T00:00:00Z'), isFeatured: false, tags: [], ...data }
+        data: { title: id, publishDate: new Date('2024-01-01T00:00:00Z'), tags: [], ...data }
     };
 }
 
-/** projects 的 publishDate 可选，百科词条一般不填 */
 export function projectEntry(id: string, data: Partial<ProjectData> = {}): CollectionEntry<'projects'> {
     return {
         id,
         collection: 'projects',
-        data: { title: id, isFeatured: false, tags: [], ...data }
+        data: { title: id, tags: [], ...data }
     };
 }

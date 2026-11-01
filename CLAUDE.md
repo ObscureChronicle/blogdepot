@@ -36,6 +36,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 `src/content/projects/<类别>/` 下有约 1000 个 `.mdx` 词条：`bio`（人物）、`trait`（特性）、`treasure`（宝物）、`class`（兵种）、`stage`（关卡）、`equipment`（装备）、`wiki`（杂项）。
 
 - 每个词条的 MDX 正文基本只是导入一个布局组件并传入大量 props，例如 `bio/*.mdx` → `BiographyLayout.astro`（少数用 `BiographyLayout2.astro`），其余类别 → `Layout_*.astro` 系列。修改词条展示时要改组件，不是逐个改 MDX。
+- frontmatter 只需要 `title` 和 `tags`（百科词条没有发布日期、摘要；`isFeatured`、`publishDate`、`excerpt` 已从 schema 删除，写了会被 `check:content` 提示为多余字段）。
 - tags 约定：一个分类标签（如 `biography`）+ 一个 `wiki-<拼音首字母>` 标签。`src/pages/projects/[...id].astro` 用"第一个非 `wiki-` 标签"分组，组内按标题拼音（`pinyin-pro`，`src/utils/sort-by-pinyin.ts`）排序，生成上一篇/下一篇。
 - 标签显示名与 slug 的映射在 `src/utils/data-utils.ts` 的 `TAG_SLUG_MAP`；未登记的标签会被 `check:content` 报 warning。新增分类标签时要同步这里。
 

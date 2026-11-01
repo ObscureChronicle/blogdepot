@@ -1,10 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { sortItemsByDateDesc } from '../src/utils/data-utils.ts';
-import { projectEntry } from './helpers/fixtures.ts';
+import { blogEntry, projectEntry } from './helpers/fixtures.ts';
 
+// 带日期的是 blog，不带日期的是 projects（百科词条没有 publishDate）
 function entry(id: string, publishDate?: string) {
-    return projectEntry(id, { publishDate: publishDate ? new Date(publishDate) : undefined });
+    return publishDate ? blogEntry(id, { publishDate: new Date(publishDate) }) : projectEntry(id);
 }
 
 test('sortItemsByDateDesc: sorts newest first', () => {
@@ -16,7 +17,7 @@ test('sortItemsByDateDesc: sorts newest first', () => {
     );
 });
 
-test('sortItemsByDateDesc: items without publishDate sort after all dated items', () => {
+test('sortItemsByDateDesc: projects (no publishDate) sort after all dated blog posts', () => {
     const items = [entry('undated'), entry('dated', '2020-01-01')];
     const sorted = [...items].sort(sortItemsByDateDesc);
     assert.deepEqual(
@@ -25,7 +26,7 @@ test('sortItemsByDateDesc: items without publishDate sort after all dated items'
     );
 });
 
-test('sortItemsByDateDesc: two undated items compare as equal', () => {
+test('sortItemsByDateDesc: two projects compare as equal', () => {
     assert.equal(sortItemsByDateDesc(entry('a'), entry('b')), 0);
 });
 

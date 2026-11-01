@@ -32,7 +32,6 @@ describe('回归快照基线', () => {
                 excerpt: '这是一段示例摘要，用来固定渲染结构的快照基线。',
                 publishDate: new Date('2024-05-01T00:00:00Z'),
                 updatedDate: undefined,
-                isFeatured: false,
                 tags: ['diary']
             }
         };
@@ -47,8 +46,6 @@ describe('回归快照基线', () => {
             collection: 'projects' as const,
             data: {
                 title: '示例百科条目',
-                description: '这是一段示例描述，用来固定渲染结构的快照基线。',
-                isFeatured: false,
                 tags: ['biography']
             }
         };

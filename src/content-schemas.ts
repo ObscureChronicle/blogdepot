@@ -31,7 +31,6 @@ export const baseEntrySchema = z.object({
 
 /** blog 与 projects 共有的列表字段 */
 const listedEntrySchema = baseEntrySchema.extend({
-    isFeatured: z.boolean().default(false),
     tags: z.array(z.string()).default([])
 });
 
@@ -43,11 +42,8 @@ export const blogSchema = listedEntrySchema.extend({
     updatedDate: z.coerce.date().optional()
 });
 
-export const projectsSchema = listedEntrySchema.extend({
-    description: z.string().optional(),
-    excerpt: z.string().nullish(),
-    publishDate: z.coerce.date().optional()
-});
+/** 百科词条不讲究发布时间和摘要，frontmatter 只需要 title 和 tags */
+export const projectsSchema = listedEntrySchema;
 
 /** 内容集合的目录与文件匹配规则（content.config.ts 与 scripts/validate-content.ts 共用） */
 export const CONTENT_PATTERN = '**/*.{md,mdx}';

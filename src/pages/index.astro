@@ -14,7 +14,6 @@ const posts = await getSortedBlogPosts();
 
 // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
 const projects = sortPostsByTitlePinyin(await getCollection('projects'));
-const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 // 随机百科条目按钮的可选路径池
 const projectPaths = projects.map(({ id }) => `/projects/${id}/`);
 // 随机日志按钮的可选路径池
@@ -24,10 +23,10 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
 <BaseLayout title="後漢・三国物語" description={siteConfig.description} image={siteConfig.image}>
     <Hero />
     {
-        featuredProjects?.length > 0 && (
+        projects.length > 0 && (
             <div class="mb-16 sm:mb-24">
                 <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">百科</h2>
-                {featuredProjects.slice(0, 5).map((project) => (
+                {projects.slice(0, 5).map((project) => (
                     <ProjectPreview project={project} class="mb-4 sm:mb-4" headingLevel="h3" />
                 ))}
                 <div class="mt-4 flex flex-wrap gap-2">

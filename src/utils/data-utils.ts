@@ -1,12 +1,16 @@
 import type { CollectionEntry } from 'astro:content';
 
-// projects.publishDate 是可选的（百科条目不讲究发布时间），缺失时视为最旧、排在最后。
+// 只有 blog 有 publishDate；projects（百科条目）没有发布时间，视为最旧、排在最后。
 // 不能用 -Infinity 当哨兵值直接相减：两个都缺失时 -Infinity - (-Infinity) 是 NaN，不是 0。
+const publishDateOf = (item: CollectionEntry<'blog' | 'projects'>) => (item.collection === 'blog' ? item.data.publishDate : undefined);
+
 export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>, itemB: CollectionEntry<'blog' | 'projects'>) {
-    if (!itemA.data.publishDate && !itemB.data.publishDate) return 0;
-    if (!itemA.data.publishDate) return 1;
-    if (!itemB.data.publishDate) return -1;
-    return new Date(itemB.data.publishDate).getTime() - new Date(itemA.data.publishDate).getTime();
+    const dateA = publishDateOf(itemA);
+    const dateB = publishDateOf(itemB);
+    if (!dateA && !dateB) return 0;
+    if (!dateA) return 1;
+    if (!dateB) return -1;
+    return dateB.getTime() - dateA.getTime();
 }
 
 // 分类标签：中文名 → 英文 slug。新增分类标签时在这里登记，否则 check:content 会报 warning。
