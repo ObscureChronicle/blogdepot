@@ -5,10 +5,21 @@ on:
     branches: [main]
   pull_request:
 
+# 只需要读代码；没有发布、评论之类需要写权限的步骤
+permissions:
+  contents: read
+
+# 同一分支 / PR 连续推送时，取消还在跑的旧任务，只检查最新一次提交
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # 项目没有任何 .env/密钥依赖构建（GA4/Algolia/Waline 都是硬编码在源码里的
 # 公开级客户端配置），所以这个 workflow 不需要处理 secrets。
 jobs:
-  typecheck:
+  # 阻塞检查放在同一个 job：各项本身都只要几秒到几十秒，分成多个 job 时
+  # 大部分时间花在各自重复的 npm ci 上。
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,50 +27,35 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
+      - id: install
+        run: npm ci
+      # 后面几项互不依赖：某一项失败时其余照常跑完，一次就能看到全部问题
       - run: npm run typecheck
-
-  unit-and-component-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
       - run: npm test
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
       - run: npm run test:components
-
-  content-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
       - run: npm run check:content
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+      - id: build
+        run: npm run build
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
       # 扫描构建产物：站内链接缺少结尾斜杠报错，链接目标不存在给警告
       - run: npm run check:links
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+      # 交给 e2e 直接测这份产物，不再重新构建
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
 
   # E2E 目前先设为非阻塞（continue-on-error），观察一段时间稳定性之后再转成阻塞。
-  # 排在其他几个检查之后跑，避免在更基础的问题已经暴露时还浪费时间下载浏览器内核。
+  # 排在阻塞检查之后跑，避免在更基础的问题已经暴露时还浪费时间下载浏览器内核。
   e2e:
     runs-on: ubuntu-latest
-    needs: [typecheck, unit-and-component-tests, content-check, build]
+    needs: checks
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
@@ -68,6 +64,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v4
@@ -81,6 +81,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
       - run: npm run test:e2e
+        env:
+          E2E_SKIP_BUILD: '1'
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4

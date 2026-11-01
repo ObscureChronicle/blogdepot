@@ -10,7 +10,8 @@ export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 0,
-    reporter: 'list',
+    // CI 额外生成 HTML 报告，由 workflow 上传为 playwright-report artifact
+    reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
     use: {
         baseURL: BASE_URL,
         trace: 'on-first-retry'
@@ -18,7 +19,8 @@ export default defineConfig({
     webServer: {
         // --ignore-lock：astro 7.4 起，检测到 AI agent 环境时 preview 会自动转入后台并立即退出，
         // Playwright 会把它当成 webServer 提前退出。该参数让 preview 保持前台运行（也不写 lock 文件）。
-        command: `npm run build && npm run preview -- --port ${PORT} --ignore-lock`,
+        // E2E_SKIP_BUILD：CI 里直接测 checks job 构建好的 dist/，不再重新构建
+        command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}npm run preview -- --port ${PORT} --ignore-lock`,
         url: BASE_URL,
         reuseExistingServer: !process.env.CI,
         timeout: 120_000
