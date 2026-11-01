@@ -3,9 +3,6 @@ title: 武器类型
 tags:
   - term
   - wiki-w
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

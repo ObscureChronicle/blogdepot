@@ -3,9 +3,6 @@ title: 功勋
 tags:
   - term
   - wiki-g
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

@@ -2,9 +2,6 @@
 title: 参考文献
 tags:
   - reference
-isFeatured: true
-publishDate: 
-excerpt: 
 ---
 
 <h2 class="section-title">原典</h2>

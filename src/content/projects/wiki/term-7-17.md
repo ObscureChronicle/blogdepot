@@ -3,9 +3,6 @@ title: 士气衰减
 tags:
   - term
   - wiki-s
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

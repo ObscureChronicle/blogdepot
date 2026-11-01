@@ -3,9 +3,6 @@ title: 智略
 tags:
   - term
   - wiki-z
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

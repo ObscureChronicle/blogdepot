@@ -3,9 +3,6 @@ title: 施政倾向：民心
 tags:
   - term
   - wiki-s
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

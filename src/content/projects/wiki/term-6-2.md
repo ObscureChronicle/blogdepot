@@ -3,9 +3,6 @@ title: 兵法书
 tags:
   - term
   - wiki-b
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

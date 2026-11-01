@@ -3,9 +3,6 @@ title: 特性
 tags:
   - term
   - wiki-t
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

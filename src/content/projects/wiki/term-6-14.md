@@ -3,9 +3,6 @@ title: 异族部队
 tags:
   - term
   - wiki-y
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

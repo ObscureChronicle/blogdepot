@@ -3,9 +3,6 @@ title: 人物属性
 tags:
   - term
   - wiki-r
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

@@ -3,9 +3,6 @@ title: 培养
 tags:
   - term
   - wiki-p
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

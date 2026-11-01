@@ -3,9 +3,6 @@ title: 巧变
 tags:
   - term
   - wiki-q
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

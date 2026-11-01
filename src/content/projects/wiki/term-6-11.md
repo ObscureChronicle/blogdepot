@@ -3,9 +3,6 @@ title: 训练场
 tags:
   - term
   - wiki-x
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

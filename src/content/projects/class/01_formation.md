@@ -3,9 +3,6 @@ title: 阵型
 tags:
   - class
   - wiki-z
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 阵型是《后汉稽异录外传·星命诀》中的概念，用以代替《后汉稽异录》中的兵种转职。

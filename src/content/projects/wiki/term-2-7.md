@@ -3,9 +3,6 @@ title: 胆识
 tags:
   - term
   - wiki-d
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

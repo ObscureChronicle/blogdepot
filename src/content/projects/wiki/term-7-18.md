@@ -3,9 +3,6 @@ title: 弓弩区别
 tags:
   - term
   - wiki-g
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

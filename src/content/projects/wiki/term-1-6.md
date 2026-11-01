@@ -3,9 +3,6 @@ title: 伤害
 tags:
   - term
   - wiki-s
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

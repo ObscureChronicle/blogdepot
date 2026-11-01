@@ -3,9 +3,6 @@ title: 阀阅
 tags:
   - term
   - wiki-f
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

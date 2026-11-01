@@ -3,9 +3,6 @@ title: 魅力
 tags:
   - term
   - wiki-m
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

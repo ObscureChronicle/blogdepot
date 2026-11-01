@@ -3,9 +3,6 @@ title: 操作说明
 tags:
   - term
   - wiki-c
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

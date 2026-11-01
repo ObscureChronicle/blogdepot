@@ -3,9 +3,6 @@ title: 军略盘
 tags:
   - term
   - wiki-j
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

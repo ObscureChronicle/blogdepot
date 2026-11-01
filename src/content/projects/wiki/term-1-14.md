@@ -3,9 +3,6 @@ title: 秩级
 tags:
   - term
   - wiki-z
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>星命诀</h2>

@@ -3,9 +3,6 @@ title: 攻城器械
 tags:
   - class
   - wiki-g
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>

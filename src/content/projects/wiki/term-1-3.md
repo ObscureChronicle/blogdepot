@@ -3,9 +3,6 @@ title: 游戏难度
 tags:
   - term
   - wiki-y
-isFeatured: true
-excerpt: 
-publishDate: 
 ---
 
 <h2 class='section-title'>本传</h2>
