@@ -23,29 +23,30 @@ export const seoSchema = z.object({
     pageType: z.enum(['website', 'article']).default('website')
 });
 
-export const blogSchema = z.object({
+/** 所有集合共有的字段；pages 只用这些 */
+export const baseEntrySchema = z.object({
     title: z.string(),
+    seo: seoSchema.optional()
+});
+
+/** blog 与 projects 共有的列表字段 */
+const listedEntrySchema = baseEntrySchema.extend({
+    isFeatured: z.boolean().default(false),
+    tags: z.array(z.string()).default([])
+});
+
+export const pagesSchema = baseEntrySchema;
+
+export const blogSchema = listedEntrySchema.extend({
     excerpt: z.string().optional(),
     publishDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    isFeatured: z.boolean().default(false),
-    tags: z.array(z.string()).default([]),
-    seo: seoSchema.optional()
+    updatedDate: z.coerce.date().optional()
 });
 
-export const pagesSchema = z.object({
-    title: z.string(),
-    seo: seoSchema.optional()
-});
-
-export const projectsSchema = z.object({
-    title: z.string(),
+export const projectsSchema = listedEntrySchema.extend({
     description: z.string().optional(),
     excerpt: z.string().nullish(),
-    publishDate: z.coerce.date().optional(),
-    isFeatured: z.boolean().default(false),
-    seo: seoSchema.optional(),
-    tags: z.array(z.string()).default([])
+    publishDate: z.coerce.date().optional()
 });
 
 /** 内容集合的目录与文件匹配规则（content.config.ts 与 scripts/validate-content.ts 共用） */
