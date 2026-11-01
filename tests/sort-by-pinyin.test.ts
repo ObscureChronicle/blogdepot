@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { comparePinyin, pinyinKey, sortPostsByTitlePinyin } from '../src/utils/sort-by-pinyin.ts';
+import { projectEntry } from './helpers/fixtures.ts';
 
 function post(id: string, title: string) {
-    return { id, data: { title } };
+    return projectEntry(id, { title });
 }
 
 test('sortPostsByTitlePinyin: sorts Chinese titles into pinyin order', () => {

@@ -6,6 +6,7 @@ import { getViteConfig } from 'astro/config';
 // 两者用目录分开，避免各自的 runner 尝试去跑对方那一批文件。
 export default getViteConfig({
     test: {
-        include: ['tests/components/**/*.test.ts']
+        include: ['tests/components/**/*.test.ts'],
+        setupFiles: ['tests/components/helpers/setup.ts']
     }
 });

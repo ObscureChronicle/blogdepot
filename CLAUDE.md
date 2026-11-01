@@ -59,6 +59,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 - `tests/*.test.ts`：纯函数（utils），零依赖 `node:test`。
 - `tests/components/`：用 `experimental_AstroContainer` 渲染组件。整页渲染因 Container API 的 `Astro.site` 局限无法使用，所以只给关键组件做快照；快照里机器相关的绝对路径会先被 normalize。
 - `tests/e2e/`：针对 `dist/` 的预览服务，覆盖 desktop 和 mobile（Pixel 5）两个 project。
+- 共用 helper：`tests/helpers/fixtures.ts`（`blogEntry` / `projectEntry` 构造带类型的条目）；组件测试的 `setupFiles` 统一把 `astro:content` 的 `getCollection` mock 成读磁盘（Vitest 下真实的 getCollection 在全新 checkout 会静默返回空数组）；`tests/e2e/helpers.ts` 提供 `onlyOn(project, reason)` 和 `expectNoNavigation(page, action)`，后者用来断言"不应跳转"，不要再用 `waitForTimeout`。
 
 ### 其他
 

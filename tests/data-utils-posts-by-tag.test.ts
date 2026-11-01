@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { getPostsByTag } from '../src/utils/data-utils.ts';
+import { projectEntry } from './helpers/fixtures.ts';
 
 function post(id: string, tags?: string[]) {
-    return { id, data: { tags } } as any;
+    return projectEntry(id, { tags });
 }
 
 test('getPostsByTag: matches a post whose tags include the given slug', () => {

@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { sortItemsByDateDesc } from '../src/utils/data-utils.ts';
+import { projectEntry } from './helpers/fixtures.ts';
 
 function entry(id: string, publishDate?: string) {
-    return { id, data: { publishDate: publishDate ? new Date(publishDate) : undefined } } as any;
+    return projectEntry(id, { publishDate: publishDate ? new Date(publishDate) : undefined });
 }
 
 test('sortItemsByDateDesc: sorts newest first', () => {

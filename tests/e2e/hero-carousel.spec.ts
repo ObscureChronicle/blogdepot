@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { onlyOn } from './helpers';
 
 // 激活状态以 data-active 为准：上层图片和下层简介各一组，同一下标同步切换，
 // 这里只看下层面板（带 role="group" 的那一组）。
@@ -37,8 +38,8 @@ test.describe('首页轮播', () => {
         await expect(panel(page, 1)).toHaveAttribute('data-active', 'true');
     });
 
-    test('鼠标悬停时暂停，移开后恢复', async ({ page }, testInfo) => {
-        test.skip(testInfo.project.name !== 'desktop', '触屏设备没有悬停');
+    test('鼠标悬停时暂停，移开后恢复', async ({ page }) => {
+        onlyOn('desktop', '触屏设备没有悬停');
         await page.goto('/');
         const carousel = page.locator('[data-hero-carousel]');
         const playState = () => progress(page).evaluate((el) => el.getAnimations()[0]?.playState);
@@ -52,8 +53,8 @@ test.describe('首页轮播', () => {
         expect(await playState()).toBe('running');
     });
 
-    test('触屏点击箭头后不会被当成悬停而停住自动播放', async ({ page }, testInfo) => {
-        test.skip(testInfo.project.name !== 'mobile', '只有触屏会在点击时模拟 mouseenter');
+    test('触屏点击箭头后不会被当成悬停而停住自动播放', async ({ page }) => {
+        onlyOn('mobile', '只有触屏会在点击时模拟 mouseenter');
         await page.goto('/');
         const carousel = page.locator('[data-hero-carousel]');
 
@@ -84,8 +85,8 @@ test.describe('首页轮播', () => {
         expect(await playState()).toBe('running');
     });
 
-    test('桌面端暂停按钮平时隐藏，悬停轮播时出现', async ({ page }, testInfo) => {
-        test.skip(testInfo.project.name !== 'desktop', '只有能悬停的设备才隐藏');
+    test('桌面端暂停按钮平时隐藏，悬停轮播时出现', async ({ page }) => {
+        onlyOn('desktop', '只有能悬停的设备才隐藏');
         await page.goto('/');
         const pause = page.locator('[data-hero-pause]');
 
@@ -95,8 +96,8 @@ test.describe('首页轮播', () => {
         await expect(pause).not.toHaveCSS('opacity', '0');
     });
 
-    test('触屏设备上暂停按钮常驻可见', async ({ page }, testInfo) => {
-        test.skip(testInfo.project.name !== 'mobile', '只有 hover: none 的设备常驻');
+    test('触屏设备上暂停按钮常驻可见', async ({ page }) => {
+        onlyOn('mobile', '只有 hover: none 的设备常驻');
         await page.goto('/');
         await expect(page.locator('[data-hero-pause]')).not.toHaveCSS('opacity', '0');
     });

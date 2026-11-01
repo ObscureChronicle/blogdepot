@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { onlyOn } from './helpers';
 
 test.describe('主题切换', () => {
     test('点击切换按钮会给 <html> 加/去 dark class', async ({ page }) => {
@@ -26,8 +27,8 @@ test.describe('主题切换', () => {
 });
 
 test.describe('移动端导航菜单', () => {
-    test('点击展开按钮会打开菜单，再点一次会关闭', async ({ page }, testInfo) => {
-        test.skip(testInfo.project.name !== 'mobile', '菜单展开按钮 md:hidden，只在窄视口下可见');
+    test('点击展开按钮会打开菜单，再点一次会关闭', async ({ page }) => {
+        onlyOn('mobile', '菜单展开按钮 md:hidden，只在窄视口下可见');
 
         await page.goto('/');
         const toggle = page.locator('.menu-toggle');

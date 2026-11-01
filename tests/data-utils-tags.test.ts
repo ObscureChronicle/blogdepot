@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { countPostsByTag, getAllTags, isPinyinIndexTag, sortTagsByName, SLUG_TAG_MAP, TAG_SLUG_MAP } from '../src/utils/data-utils.ts';
+import { projectEntry } from './helpers/fixtures.ts';
 
 function post(tags?: string[]) {
-    return { data: { tags } } as any;
+    return projectEntry('post', { tags });
 }
 
 test('getAllTags: returns the mapped {name, id} pair for a recognized Chinese tag', () => {

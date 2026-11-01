@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { expectNoNavigation, onlyOn } from './helpers';
 
 // biography 标签下有 400+ 篇内容，稳定跨很多页，用来测跳转框最合适。
 const TAG_PATH = '/tags/biography/';
@@ -8,9 +9,7 @@ const TAG_PATH = '/tags/biography/';
 // 脚本逻辑，移动端那份的存在性/可用性已经在 pagination-mobile.spec.ts 里单独
 // 覆盖了，这里只在 desktop project 下跑，避免重复测同一段 JS 逻辑两遍。
 test.describe('分页跳转输入框（桌面端）', () => {
-    test.beforeEach(async ({}, testInfo) => {
-        test.skip(testInfo.project.name !== 'desktop', '只在 desktop project 下有意义');
-    });
+    test.beforeEach(() => onlyOn('desktop', '只在 desktop project 下有意义'));
 
     test('输入合法页码并按 Enter，跳转到对应页', async ({ page }) => {
         await page.goto(TAG_PATH);
@@ -44,18 +43,14 @@ test.describe('分页跳转输入框（桌面端）', () => {
         await page.goto(`${TAG_PATH}20/`);
         const input = page.locator('ul .pagination-jump-input');
         await input.fill('');
-        await input.press('Enter');
-        await page.waitForTimeout(300);
-        await expect(page).toHaveURL(/\/tags\/biography\/20\/?$/);
+        await expectNoNavigation(page, () => input.press('Enter'));
     });
 
     test('非整数输入按 Enter 不会触发跳转，输入框会有错误提示样式', async ({ page }) => {
         await page.goto(`${TAG_PATH}20/`);
         const input = page.locator('ul .pagination-jump-input');
         await input.fill('3.5');
-        await input.press('Enter');
-        await page.waitForTimeout(300);
-        await expect(page).toHaveURL(/\/tags\/biography\/20\/?$/);
+        await expectNoNavigation(page, () => input.press('Enter'));
         await expect(input).toHaveClass(/border-red-500/);
     });
 });

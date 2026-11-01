@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { onlyOn } from './helpers';
 
 // NavLink 命中时加的是独立的 "underline" class；未命中时链接本身也常年带着
 // "hover:underline" 这种悬浮态 class，纯 /underline/ 的正则会把两者都匹配上，
@@ -9,9 +10,7 @@ const ACTIVE_CLASS = /(?:^|\s)underline(?:\s|$)/;
 // 仍在 DOM 里但不可见/不可交互，用 ul 限定桌面端这一份，和 pagination-jump.spec.ts
 // 里同样的原因，避免选中被藏起来的移动端副本。
 test.describe('主导航高亮', () => {
-    test.beforeEach(async ({}, testInfo) => {
-        test.skip(testInfo.project.name !== 'desktop', '只在 desktop project 下有意义');
-    });
+    test.beforeEach(() => onlyOn('desktop', '只在 desktop project 下有意义'));
 
     test('主页只在路径正好是 / 时高亮，不会在其他页面上一直亮着', async ({ page }) => {
         const home = page.locator('ul').getByRole('link', { name: '主页', exact: true });
