@@ -14,10 +14,6 @@ const posts = await getSortedBlogPosts();
 
 // projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
 const projects = sortPostsByTitlePinyin(await getCollection('projects'));
-// 随机百科条目按钮的可选路径池
-const projectPaths = projects.map(({ id }) => `/projects/${id}/`);
-// 随机日志按钮的可选路径池
-const postPaths = posts.map(({ id }) => `/blog/${id}/`);
 ---
 
 <BaseLayout title="後漢・三国物語" description={siteConfig.description} image={siteConfig.image}>
@@ -33,7 +29,7 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
                     <Button href="/tags/" target="_self">
                         所有百科条目
                     </Button>
-                    <Button id="random-project-btn">随机百科条目</Button>
+                    <Button data-random="projects">随机百科条目</Button>
                 </div>
             </div>
         )
@@ -49,7 +45,7 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
                     <Button href="/blog/" target="_self">
                         所有日志
                     </Button>
-                    <Button id="random-post-btn">随机日志</Button>
+                    <Button data-random="blog">随机日志</Button>
                 </div>
             </div>
         )
@@ -63,17 +59,36 @@ const postPaths = posts.map(({ id }) => `/blog/${id}/`);
         <h3 class="mb-4 text-base font-serif sm:mb-4 sm:text-lg text-center">星命诀</h3>
         <BiliBiliVideoPlayer bvid="BV1g7R7BTEd7" aid="116505232612070" cid="38040963285" />
     </div>
-    <script is:inline define:vars={{ projectPaths, postPaths }}>
-        function initRandomButtons() {
-            document.getElementById('random-project-btn')?.addEventListener('click', () => {
-                window.location.href = projectPaths[Math.floor(Math.random() * projectPaths.length)];
-            });
-            document.getElementById('random-post-btn')?.addEventListener('click', () => {
-                window.location.href = postPaths[Math.floor(Math.random() * postPaths.length)];
-            });
+    <script>
+        import { navigate } from 'astro:transitions/client';
+        import type { RandomPaths } from './random-paths.json.ts';
+
+        // 路径池（/random-paths.json）第一次点击时才加载，之后整个会话复用；加载失败下次点击再试
+        let pathsPromise: Promise<RandomPaths> | undefined;
+        function loadPaths(): Promise<RandomPaths> {
+            pathsPromise ??= fetch('/random-paths.json')
+                .then((res) => {
+                    if (!res.ok) throw new Error(`random-paths.json: HTTP ${res.status}`);
+                    return res.json() as Promise<RandomPaths>;
+                })
+                .catch((error) => {
+                    pathsPromise = undefined;
+                    throw error;
+                });
+            return pathsPromise;
         }
-        initRandomButtons();
-        // 监听 document 级别的 astro:page-load，客户端导航回首页时重新绑定
-        document.addEventListener('astro:page-load', initRandomButtons);
+
+        // 事件委托挂在 document 上：模块脚本只执行一次，ClientRouter 换页回首页后按钮依然有效
+        document.addEventListener('click', async (event) => {
+            const button = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-random]') : null;
+            const kind = button?.dataset.random;
+            if (kind !== 'projects' && kind !== 'blog') return;
+            try {
+                const paths = (await loadPaths())[kind];
+                navigate(paths[Math.floor(Math.random() * paths.length)]);
+            } catch (error) {
+                console.error(error);
+            }
+        });
     </script>
 </BaseLayout>
