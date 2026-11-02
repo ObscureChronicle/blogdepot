@@ -95,7 +95,7 @@ for (const file of files) {
     if (firstBt < 0 || secondBt < 0) { noBioFiles.push(file); continue; }
 
     const prefix = content.substring(0, firstBt + 1);
-    let bioText = content.substring(firstBt + 1, secondBt - firstBt - 1);
+    let bioText = content.substring(firstBt + 1, secondBt);
     const suffix = content.substring(secondBt);
 
     const existingLinks = (bioText.match(/<a\s/g) || []).length;
@@ -132,7 +132,7 @@ for (const file of files) {
         modifiedCount++;
         totalLinksAdded += added;
         console.log(`  ${file} (${selfName}): +${added} links (was ${existingLinks}, now ${newLinks})`);
-    } else if (bioText.length > 20) {
+    } else if (newLinks === 0 && bioText.length > 20) {
         zeroLinkFiles.push(`${file} (${selfName})`);
     }
 }
