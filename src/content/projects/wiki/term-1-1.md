@@ -5,11 +5,11 @@ tags:
   - wiki-j
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 这一部分介绍的是一些在游戏中会遇到的基本概念或术语。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 这一部分介绍的是一些在游戏中会遇到的基本概念或术语。
 

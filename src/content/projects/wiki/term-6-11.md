@@ -5,7 +5,7 @@ tags:
   - wiki-x
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 「训练场」可以以功勋换取武将的经验值。
 

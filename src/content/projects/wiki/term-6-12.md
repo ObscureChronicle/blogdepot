@@ -5,7 +5,7 @@ tags:
   - wiki-t
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 进入「游戏根目录\Mod\face\」文件夹下，依照指定格式添加图片，即可替换游戏中的头像。此外亦可在创意工坊订阅文件，然后手动将所下载之文件移动到游戏根目录下。
 
@@ -19,7 +19,7 @@ tags:
 
 其中，部分关键人物可以以「姓名1.png」「姓名2.png」的方式表现年龄变化。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 进入「游戏根目录\DLC\DLC03\Mod\face\」文件夹下，依照指定格式添加图片，即可替换游戏中的头像。此外亦可在创意工坊订阅文件，然后手动将所下载之文件移动到游戏根目录下。
 

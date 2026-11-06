@@ -5,7 +5,7 @@ tags:
   - wiki-y
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 难度分为四项，于游戏开始时选择，此后亦可于据点界面任意更改。在存档界面，难度以如右图的四种不同奖牌标识，可通过查看对应的图标确认该存档的难度。
 
@@ -17,7 +17,7 @@ tags:
 
 「危亡」：困难难度，以红带金牌为标识。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 难度共分为五项，于游戏开始时选择，此后除「维危」外，亦可在据点界面调整至任意难度。在存档界面，难度以如右图的五种不同奖牌标识，可通过查看对应的图标确认该存档的难度。
 

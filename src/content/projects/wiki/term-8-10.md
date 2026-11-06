@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 接纳：85~100
 

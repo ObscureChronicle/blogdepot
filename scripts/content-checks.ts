@@ -55,6 +55,23 @@ export function contentRoute(collection: CollectionName, id: string): string {
     return collection === 'pages' ? `/${slug}/` : `/${collection}/${slug}/`;
 }
 
+/** 版本分区标题：星命诀必须带 section-title--dlc，本传必须带 section-title--base */
+export function checkEditionSectionTitles(raw: string): Finding[] {
+    const findings: Finding[] = [];
+    for (const [, classList, inner] of raw.matchAll(/<h2\b[^>]*\bclass\s*=\s*['"]([^'"]*)['"][^>]*>([\s\S]*?)<\/h2>/g)) {
+        const classes = classList.split(/\s+/).filter(Boolean);
+        if (!classes.includes('section-title')) continue;
+        const text = inner.replace(/<[^>]*>/g, '').trim();
+        if (text.includes('星命诀') && !classes.includes('section-title--dlc')) {
+            findings.push({ level: 'error', message: `标题「${text}」缺少 section-title--dlc` });
+        }
+        if (text.includes('本传') && !classes.includes('section-title--base')) {
+            findings.push({ level: 'error', message: `标题「${text}」缺少 section-title--base` });
+        }
+    }
+    return findings;
+}
+
 /**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。

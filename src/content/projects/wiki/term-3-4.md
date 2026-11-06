@@ -5,7 +5,7 @@ tags:
   - wiki-z
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 战力，衡量的是部队对敌军造成杀伤的能力。
 
@@ -13,7 +13,7 @@ tags:
 
 战力高低是衡量一支部队在战场上能否合格的基础标准。除了增加统御之外，还请牢记武器应及时更新换代。原始人的木棍石块诚然能砸死人，但毕竟不如马克沁机枪那般高效。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 战力，衡量的是部队对敌军造成杀伤的能力。
 

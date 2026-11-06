@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 士家：91~100，且启用「士家制」
 

@@ -5,7 +5,7 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 爆发，指一支部队是否能扭转乾坤，爆发出惊人战果的概率，即部队造成必杀的能力。
 
@@ -13,7 +13,7 @@ tags:
 
 当然，气运花费的技能点委实过高，或许S/L大法才是爆发力的体现。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 爆发，指一支部队是否能扭转乾坤，爆发出惊人战果的概率，即部队造成必杀的能力。
 

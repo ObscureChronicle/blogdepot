@@ -5,7 +5,7 @@ tags:
   - wiki-q
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 巧变，指部队能否有效化解敌军必杀的能力。
 
@@ -13,7 +13,7 @@ tags:
 
 部队的巧变主要由将领的智略决定，也小部分受到将领气运和冷静与胆识间差值的加成。此外，盔甲和盾牌的重量亦会扣减部队的巧变。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 巧变，指部队能否有效化解敌军必杀的能力。巧变愈高，愈难以遭受必杀攻击。
 

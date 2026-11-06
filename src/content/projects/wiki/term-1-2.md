@@ -5,7 +5,7 @@ tags:
   - wiki-c
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 确认			鼠标左键
 
@@ -39,7 +39,7 @@ tags:
 
 退出游戏		F4
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 确认：鼠标左键
 

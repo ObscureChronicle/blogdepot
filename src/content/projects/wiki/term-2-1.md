@@ -5,7 +5,7 @@ tags:
   - wiki-r
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 人物有七项属性，分别为统御、武勇、智略、魅力、气运、胆识和冷静。
 
@@ -13,7 +13,7 @@ tags:
 
 注意，一旦选择增强某些数值，此操作将无法撤销，还请在选择之前慎重决定！
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 人物有七项属性，分别为统御、武勇、智略、魅力、运势、胆识和冷静。
 

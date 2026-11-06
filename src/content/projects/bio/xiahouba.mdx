@@ -6,7 +6,7 @@ tags:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout.astro";
+import CharacterWiki from "../../../components/BiographyLayout2.astro";
 
 <CharacterWiki
   intro={`可操控`}
@@ -43,12 +43,15 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
   }
 }}
   baseData={[80, 88, 91, 59, 67]}
+  postData={[85, 88, 94, 59, 67]}
   AttributeFigure={[0, 0, 1, 0, 0]}
   baseData2={[8, 3]}
-  traitsBase={['中原', '当先', '骁勇', '冯河']}
-  biography={`*夏侯霸为我军时，将不会获得「骁勇」「冯河」特质。
-  
-  字仲权，沛国谯县人，<a href="../xiahouyuan/">夏侯渊</a>次子。<a href="../caozhen/">曹真</a>伐蜀时，作为前锋进军至兴势，在被蜀军围困时亲自奋战到援军来临。曹芳即位后，被封为讨蜀护军、右将军，甚得陇西士卒爱戴。高平陵之变后，因<a href="../caoshuang/">曹爽</a>被杀，<a href="../xiahouxuan/">夏侯玄</a>被征召回朝，而又与新任征西将军<a href="../guohuai/">郭淮</a>不和，于是投奔蜀国，受到蜀国重用。`}
+  postBaseData2={[8, 3]}
+  prevDataName={'故人之子'}
+  postDataName={'西陲之敌'}
+  traitsBase={['中原', '当先']}
+  traitsPost={['中原', '当先', '骁勇', '冯河']}
+  biography={`字仲权，沛国谯县人，<a href="../xiahouyuan/">夏侯渊</a>次子。<a href="../caozhen/">曹真</a>伐蜀时，作为前锋进军至兴势，在被蜀军围困时亲自奋战到援军来临。曹芳即位后，被封为讨蜀护军、右将军，甚得陇西士卒爱戴。高平陵之变后，因<a href="../caoshuang/">曹爽</a>被杀，<a href="../xiahouxuan/">夏侯玄</a>被征召回朝，而又与新任征西将军<a href="../guohuai/">郭淮</a>不和，于是投奔蜀国，受到蜀国重用。`}
   baseclass={["刀骑兵", "骠骑兵", "虎豹骑"]}
   battlesBase={
     [

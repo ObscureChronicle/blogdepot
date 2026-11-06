@@ -5,7 +5,7 @@ tags:
   - wiki-j
 ---
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 军略盘分为七级。除第一级外，每一级所需消耗的颖悟点均+1，此外，主/弱属性，正/比秩均会影响颖悟军略所需消耗的颖悟点；颖悟点至少需消耗3点。
 

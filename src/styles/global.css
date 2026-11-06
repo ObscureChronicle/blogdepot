@@ -326,6 +326,10 @@ html.dark .section-title {
 }
 
 /* 兵种页按版本分区时的标题配色，与 editions.ts 中的版本标签一致 */
+.section-title--base {
+    color: var(--color-blue-800);
+    background-color: var(--color-blue-100);
+}
 .section-title--dlc {
     color: var(--color-yellow-800);
     background-color: var(--color-yellow-100);

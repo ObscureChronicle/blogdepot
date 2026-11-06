@@ -5,7 +5,7 @@ tags:
   - wiki-y
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 高昂：将领统御、胆识上升，持续4回合。
 
@@ -21,7 +21,7 @@ tags:
 
 「谨慎」可部分抵消师心、自矜状态。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 高昂：将领统御、胆识上升，持续4回合。
 

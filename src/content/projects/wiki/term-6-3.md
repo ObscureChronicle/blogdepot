@@ -5,13 +5,13 @@ tags:
   - wiki-t
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 不同于军略，特性提供被动的能力加成，分为地域特性与个人特性，地域特性每人皆有且仅有一个，大体依据此人籍贯或生长环境决定。
 
 个人特性上限至多为四个，除非含有某些特殊个人特性，否则敌军一旦拥有个人特性，将视为将领而失去高难度下的数值成长。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 不同于军略，特性提供被动的能力加成，分为地域特性与个人特性。
 

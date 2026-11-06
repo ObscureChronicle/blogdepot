@@ -5,7 +5,7 @@ tags:
   - wiki-g
 ---
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 一般而言，弓手的养成比弩手要困难许多，在本游戏中则体现为民兵、车兵无法使用任何「弓」类武器。
 

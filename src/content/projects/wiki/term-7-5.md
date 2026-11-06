@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 伤害类型分为统御、武勇与智略型三种。
 
@@ -17,7 +17,7 @@ tags:
 
 右图可以表示「统御型」（蓝色）、「武勇型」（红色）与「智略型」（绿色）兵力下降时，战力衰减的对比。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 伤害类型分为统御、武勇与智略型三种。
 

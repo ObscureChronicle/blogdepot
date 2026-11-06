@@ -5,7 +5,7 @@ tags:
   - wiki-j
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 反覆攻击同一敌军，且该敌军未败退时，获取经验的效率随攻击次数上升而下降，最终衰减至零。难度愈高，衰减速率愈快。
 

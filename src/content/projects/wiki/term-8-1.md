@@ -5,11 +5,11 @@ tags:
   - wiki-n
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 这部分介绍了游戏中施政倾向的详细说明。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 这部分介绍了游戏中内政数值的详细说明。
 

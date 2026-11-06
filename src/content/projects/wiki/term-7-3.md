@@ -5,7 +5,7 @@ tags:
   - wiki-d
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 胆识影响受到非攻城武器攻击时所受伤害之高低，而冷静则反之；独立减伤则会同时加算在胆识或冷静上。
 
@@ -15,7 +15,7 @@ tags:
 
 实际伤害百分比与独立减伤关系如右图所示，或可简单将一点「独立减伤总值」视作5%减伤。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 胆识影响受到非攻城武器攻击时所受伤害之高低，而冷静则反之；独立减伤则会同时加算在胆识或冷静上；因缘带来的伤害简称亦属于独立减伤。
 

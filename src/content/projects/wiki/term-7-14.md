@@ -5,7 +5,7 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 兵种克制主要取决于伤害减免。对某兵种伤害减免愈大，即愈克制该兵种；对某兵种伤害减免愈小，即愈被该兵种克制。
 
@@ -15,7 +15,7 @@ tags:
 
 此外亦可用以下方式近似概括，即将兵种以「弓兵→弓骑兵→矛兵→矛骑兵→刀骑兵→刀兵」之顺序排列，每一种兵种都克制其后的两种兵种。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 兵种克制主要取决于伤害减免。对某兵种伤害减免愈大，即愈克制该兵种；对某兵种伤害减免愈小，即愈被该兵种克制。
 

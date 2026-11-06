@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { blogSchema } from '../src/content-schemas.ts';
-import { checkFrontmatter, checkInternalLinks, contentRoute } from '../scripts/content-checks.ts';
+import { checkEditionSectionTitles, checkFrontmatter, checkInternalLinks, contentRoute } from '../scripts/content-checks.ts';
 
 const validBlog = { title: '标题', publishDate: '2024-01-01', tags: ['diary'] };
 
@@ -46,4 +46,34 @@ test('checkInternalLinks: reports a link to a missing page, including escaped qu
 test('checkInternalLinks: ignores external links, anchors and paths outside /projects and /blog', () => {
     const raw = `<a href="https://example.com">a</a> <a href="#top">b</a> <a href="/tags/biography">c</a>`;
     assert.deepEqual(checkInternalLinks(raw, page, routes), []);
+});
+
+test('checkEditionSectionTitles: version headings with the right variant class pass', () => {
+    const raw = [
+        `<h2 class="section-title section-title--base">本传</h2>`,
+        `<h2 class="section-title section-title--dlc">星命诀</h2>`,
+        `<h2  class='section-title section-title--base'>术语（本传）</h2>`,
+        `<h2 class='section-title section-title--dlc'>术语（星命诀）</h2>`,
+        `<h2 class='section-title'>初始设定</h2>`
+    ].join('\n');
+    assert.deepEqual(checkEditionSectionTitles(raw), []);
+});
+
+test('checkEditionSectionTitles: version headings missing the variant class are errors', () => {
+    const raw = [
+        `<h2 class='section-title'>本传</h2>`,
+        `<h2 class='section-title'>星命诀</h2>`,
+        `<h2 class='section-title'>术语（本传）</h2>`,
+        `<h2 class='section-title'>术语（星命诀）</h2>`
+    ].join('\n');
+    const findings = checkEditionSectionTitles(raw);
+    assert.equal(findings.length, 4);
+    assert.ok(findings.every((f) => f.level === 'error'));
+    assert.ok(findings.some((f) => f.message.includes('section-title--base')));
+    assert.ok(findings.some((f) => f.message.includes('section-title--dlc')));
+});
+
+test('checkEditionSectionTitles: ignores h2 elements that are not section titles', () => {
+    const raw = `<h2 class='other'>星命诀</h2>\n<h2>本传</h2>`;
+    assert.deepEqual(checkEditionSectionTitles(raw), []);
 });

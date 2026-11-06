@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 统御与魅力、智略与武勇即将产生属性互斥时，加点按钮变为红色，并以红字标识产生互斥后所需消耗的技能点；
 

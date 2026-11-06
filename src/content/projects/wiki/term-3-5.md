@@ -5,13 +5,13 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 士气，指的是部队攻击是否有效的能力。
 
 部队士气由将领的魅力决定，同时受到武器命中的加成。军队倘若不能造成有效攻击，即令战力再高亦无意义，请留意如何合理运用军略和道具，来提高一支部队的士气罢！
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 士气，指的是部队攻击是否有效的能力。
 

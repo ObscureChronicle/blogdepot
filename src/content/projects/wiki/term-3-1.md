@@ -5,11 +5,11 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 部队，也即玩家所能操控的每一个单位，具有兵力、战力、士气、爆发、指挥、巧变、守备、射程和机动九项属性。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 部队，也即玩家所能操控的每一个单位，具有部曲、战力、士气、爆发、指挥、巧变、守备、射程和机动九项属性。
 

@@ -5,7 +5,7 @@ tags:
   - wiki-p
 ---
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 沮鹄在「易京攻防战·下」之前会持续在外游历，不断随机（发生在据点整备之前）触发以下情形：
 

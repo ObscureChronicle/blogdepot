@@ -5,10 +5,10 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 部队兵力存在「伤兵」的概念，即因受伤而无法作战，不被算入既有兵力之中的士兵。在城里或据点驻扎时，这部分伤兵可自然恢复，重新算入兵力之中。在城中伤兵恢复的效果比据点稍好。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 一支部队存在「伤兵」的概念，即因受伤而无法作战，不被算入既有部曲之中的士兵。在城里或据点驻扎时，这部分伤兵可自然恢复，重新编入部曲之中。在城中伤兵恢复的效果比据点稍好。

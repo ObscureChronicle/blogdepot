@@ -5,7 +5,7 @@ tags:
   - wiki-a
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 「自由行动」的AI会依照以下方式计算目标分数，并选取得分最高的目标攻击：
 
@@ -21,7 +21,7 @@ tags:
 
 但设定了特定目标的AI则不会完全依照此行动方针行动。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 「自由行动」的AI会依照以下方式计算目标分数，并选取得分最高的目标攻击：
 

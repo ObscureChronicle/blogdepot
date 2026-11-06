@@ -5,7 +5,7 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 哗变：持续扣除少量兵力，将领魅力下降，持续8回合。且若为辎重队，则无法使用辎重，可使用旌解除。
 
@@ -47,7 +47,7 @@ tags:
 
 低落、气沮可被「高昂」状态部分抵消；师心、自矜可被「谨慎」状态部分抵消。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 以下四个状态可视作部队的不良状态，可通过使用「旌」来解除。
 

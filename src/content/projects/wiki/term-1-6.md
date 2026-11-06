@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 军队所能造成的伤害基础值在「伤害上限」与「伤害下限」之内波动，实际造成的伤害值可能会因兵种技能、军略而得到加成或削弱。
 
@@ -17,7 +17,7 @@ tags:
 
 「气运」高时，伤害基础值更倾向于向「伤害上限」波动；反之亦然。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 军队所能造成的伤害基础值在「伤害上限」与「伤害下限」之内波动，实际造成的伤害值可能会因兵种技能、军略而得到加成或削弱。
 

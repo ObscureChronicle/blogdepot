@@ -5,7 +5,7 @@ tags:
   - wiki-s
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 伤害减免与伤害系数参与最后一步伤害计算。
 
@@ -15,7 +15,7 @@ tags:
 
 其中，我军总伤害减免最高为99%。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 伤害减免与伤害系数参与最后一步伤害计算。
 

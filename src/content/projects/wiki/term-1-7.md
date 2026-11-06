@@ -5,7 +5,7 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 必杀是部队作战时能对对方造成额外伤害的概率值，范围从0%到100%，其概率值等于「我方爆发」-「敌方巧变」。
 
@@ -15,7 +15,7 @@ tags:
 
 「矫然」特性会使必杀伤害降低为普通伤害的80%，亦即将「加乘20%」变为「减乘20%」，然后再计算将领武勇对必杀带来的加成。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 必杀是部队作战时能对对方造成额外伤害的概率值，范围从0%到100%，其概率值等于「我方爆发」-「敌方巧变」。
 

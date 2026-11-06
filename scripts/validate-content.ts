@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema, type CollectionName } from '../src/content-schemas.ts';
-import { checkFrontmatter, checkInternalLinks, contentRoute, type Finding } from './content-checks.ts';
+import { checkEditionSectionTitles, checkFrontmatter, checkInternalLinks, contentRoute, type Finding } from './content-checks.ts';
 
 const SCHEMAS = { blog: blogSchema, pages: pagesSchema, projects: projectsSchema };
 
@@ -23,6 +23,7 @@ const allIssues: Issue[] = entries.flatMap(({ collection, file, id }) => {
     const raw = fs.readFileSync(file, 'utf8');
     const findings = [
         ...checkFrontmatter(collection, SCHEMAS[collection], matter(raw).data),
+        ...checkEditionSectionTitles(raw),
         ...checkInternalLinks(raw, contentRoute(collection, id), knownRoutes)
     ];
     return findings.map((f) => ({ ...f, file }));

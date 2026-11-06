@@ -5,7 +5,7 @@ tags:
   - wiki-b
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 兵法书是特殊的武器，无法直接通过兵法书发动攻击，只能在施放部分军略时使用。
 

@@ -5,7 +5,7 @@ tags:
   - wiki-w
 ---
 
-<h2 class='section-title'>本传</h2>
+<h2 class='section-title section-title--base'>本传</h2>
 
 武勇，衡量的是将领自身的武艺。武勇高超者，三军阵前可斩敌将，亦可先登陷阵，并藉此极大地激励我方士卒。
 
@@ -13,7 +13,7 @@ tags:
 
 此外，武勇亦决定了武勇类军略的成功率。同时，武勇高超的将领可以激励士兵，使军队更容易出现必杀，必杀时所能造成的伤害亦愈高。
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 武勇，衡量的是将领自身的武艺。武勇高超者，三军阵前可斩敌将，亦可先登陷阵，并藉此极大地激励我方士卒。
 

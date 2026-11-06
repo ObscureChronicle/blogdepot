@@ -5,7 +5,7 @@ tags:
   - wiki-f
 ---
 
-<h2 class='section-title'>星命诀</h2>
+<h2 class='section-title section-title--dlc'>星命诀</h2>
 
 阀阅，犹言功绩，用以衡量某位角色距离提升至下一秩级之距离。阀阅无法通过战场杀敌获取，而只能于据点以功勋兑换并使用「官钤」积累，且秩级愈高，积累速率愈慢。
 
