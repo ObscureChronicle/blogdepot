@@ -73,6 +73,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 
 - Commit message 用中文 Conventional Commits：内容变更用 `docs:`，组件/脚本用 `feat:` / `refactor:` 等，可带 scope（如 `refactor(bio):`）。
 - 版本分区标题统一用语义变体类：本传写 `<h2 class="section-title section-title--base">本传</h2>`，星命诀写 `<h2 class="section-title section-title--dlc">星命诀</h2>`；组件内用 `<SectionTitle tone="base">` / `<SectionTitle tone="dlc">`。配色与 `src/data/editions.ts` 保持一致，不要另写 Tailwind 字号、字重或颜色。
+- 兵种词条的术语性说明写进对应版本的 `terms` 字段（`ClassData.terms`，字符串数组，逐段渲染在 `description` 摘要之后），不要再单开「术语（本传）」「术语（星命诀）」h2 分区；`check:content` 会拦截这类回流。
 - Prettier：4 空格缩进、单引号、printWidth 160、无尾逗号；`md`/`mdx`/`yaml` 为 2 空格。
 
 ## 改动守则

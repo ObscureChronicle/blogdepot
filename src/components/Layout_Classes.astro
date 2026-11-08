@@ -4,6 +4,8 @@ import TraitOwner from './TraitOwner.astro';
 
 type ClassWikiProps = {
     description?: string;
+    /** 说明正文：在 description 摘要之后逐段渲染 */
+    terms?: string[];
     weapons?: string[];
     classType?: string;
     skills?: string[];
@@ -15,8 +17,8 @@ type ClassWikiProps = {
     dlcOwner?: string[];
 };
 
-const { description, weapons, classType, skills, params, parents, upgrades, condition, baseOwner, dlcOwner } = Astro.props as ClassWikiProps;
+const { description, terms, weapons, classType, skills, params, parents, upgrades, condition, baseOwner, dlcOwner } = Astro.props as ClassWikiProps;
 ---
 
 <TraitOwner baseOwner={baseOwner || []} dlcOwner={dlcOwner || []} />
-<ClassSection data={{ description, weapons, classType, skills, params, parents, upgrades, condition }} />
+<ClassSection data={{ description, terms, weapons, classType, skills, params, parents, upgrades, condition }} />

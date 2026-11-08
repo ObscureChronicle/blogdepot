@@ -11,6 +11,8 @@ export type ClassParams = Partial<Record<'基本参数' | '成长' | '伤害减�
 
 export type ClassData = {
     description?: string;
+    /** 说明正文：在 description 摘要之后逐段渲染 */
+    terms?: string[];
     weapons?: string[];
     classType?: string;
     skills?: string[];
@@ -24,7 +26,7 @@ type Props = {
     data: ClassData;
     /** 按版本分区时的标题配色 */
     tone?: Edition;
-    /** 是否显示「说明」标题（版本分区里由分区大标题代替） */
+    /** 是否显示「说明」标题；版本分区里同样显示，用 tone 着色 */
     showDescriptionTitle?: boolean;
     /** 以下透传给 ClassTree，用于星命诀把「兵种树」等文案换成阵势相关的说法 */
     treeTitle?: string;
@@ -34,7 +36,7 @@ type Props = {
 };
 
 const { data, tone, showDescriptionTitle = true, treeTitle, upgradesLabel, parentsLabel, conditionLabel } = Astro.props as Props;
-const { description, weapons, classType, skills, params } = data;
+const { description, terms, weapons, classType, skills, params } = data;
 
 // 参数分组顺序固定，组内顺序按数据书写顺序
 const PARAM_GROUP_ORDER = ['基本参数', '成长', '伤害减免'] as const;
@@ -61,10 +63,11 @@ const filledParamGroups = PARAM_GROUP_ORDER.map((title) => {
 ---
 
 {
-    description && description.length > 0 && (
+    ((description && description.length > 0) || (terms && terms.length > 0)) && (
         <>
-            {showDescriptionTitle && <SectionTitle>说明</SectionTitle>}
-            <p set:html={description} class="text-base leading-relaxed" />
+            {showDescriptionTitle && <SectionTitle tone={tone}>说明</SectionTitle>}
+            {description && description.length > 0 && <p set:html={description} class="text-base leading-relaxed" />}
+            {terms?.map((term) => <p set:html={term} class="text-base leading-relaxed" />)}
         </>
     )
 }

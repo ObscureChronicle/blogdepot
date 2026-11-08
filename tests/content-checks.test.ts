@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { blogSchema } from '../src/content-schemas.ts';
-import { checkEditionSectionTitles, checkFrontmatter, checkInternalLinks, contentRoute } from '../scripts/content-checks.ts';
+import { checkEditionSectionTitles, checkFrontmatter, checkInternalLinks, checkLegacyTermHeadings, contentRoute } from '../scripts/content-checks.ts';
 
 const validBlog = { title: '标题', publishDate: '2024-01-01', tags: ['diary'] };
 
@@ -76,4 +76,24 @@ test('checkEditionSectionTitles: version headings missing the variant class are 
 test('checkEditionSectionTitles: ignores h2 elements that are not section titles', () => {
     const raw = `<h2 class='other'>星命诀</h2>\n<h2>本传</h2>`;
     assert.deepEqual(checkEditionSectionTitles(raw), []);
+});
+
+test('checkLegacyTermHeadings: explicit h2 and Markdown headings for class terms are errors', () => {
+    const raw = [
+        `<h2 class='section-title section-title--base'>术语（本传）</h2>`,
+        `<h2 class="section-title section-title--dlc">术语（星命诀）</h2>`,
+        `## 术语（本传）`
+    ].join('\n');
+    const findings = checkLegacyTermHeadings(raw);
+    assert.equal(findings.length, 3);
+    assert.ok(findings.every((f) => f.level === 'error' && f.message.includes('terms 字段')));
+});
+
+test('checkLegacyTermHeadings: other headings and terms text are fine', () => {
+    const raw = [
+        `<h2 class='section-title section-title--base'>本传</h2>`,
+        `<h2 class='section-title section-title--dlc'>星命诀</h2>`,
+        `<ClassWiki terms={['术语性说明写进字段即可。']} />`
+    ].join('\n');
+    assert.deepEqual(checkLegacyTermHeadings(raw), []);
 });

@@ -73,6 +73,28 @@ export function checkEditionSectionTitles(raw: string): Finding[] {
 }
 
 /**
+ * 兵种词条不再用「术语（本传）」「术语（星命诀）」h2 分区：
+ * 术语性说明应写进兵种条目的 terms 字段，由布局组件渲染在「说明」摘要之后。
+ */
+export function checkLegacyTermHeadings(raw: string): Finding[] {
+    const findings: Finding[] = [];
+    const banned = ['术语（本传）', '术语（星命诀）'];
+    for (const [, inner] of raw.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)) {
+        const text = inner.replace(/<[^>]*>/g, '').trim();
+        if (banned.includes(text)) {
+            findings.push({ level: 'error', message: `不再使用 h2「${text}」分区，请写入兵种条目的 terms 字段` });
+        }
+    }
+    // 同时拦截 Markdown 写法的二级标题
+    for (const [, text] of raw.matchAll(/^##\s+(.+?)\s*$/gm)) {
+        if (banned.includes(text)) {
+            findings.push({ level: 'error', message: `不再使用 h2「${text}」分区，请写入兵种条目的 terms 字段` });
+        }
+    }
+    return findings;
+}
+
+/**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。
  * @param knownRoutes 全部内容页面的路径（contentRoute 的结果）

@@ -48,11 +48,13 @@ const sections: Section[] = [
         (section) =>
             section.data && (
                 <>
-                    <h2 class={`${section.titleClass} text-3xl font-bold px-3 pt-2 pb-1 rounded-sm inline-block`}>{section.title}</h2>
+                    <div class="mb-1">
+                        <h2 class={`${section.titleClass} text-3xl font-bold px-3 pt-2 pb-1 rounded-sm inline-block`}>{section.title}</h2>
+                    </div>
                     <ClassSection
                         data={section.data}
                         tone={section.tone}
-                        showDescriptionTitle={false}
+                        showDescriptionTitle
                         treeTitle={section.treeTitle}
                         upgradesLabel={section.upgradesLabel}
                         parentsLabel={section.parentsLabel}
