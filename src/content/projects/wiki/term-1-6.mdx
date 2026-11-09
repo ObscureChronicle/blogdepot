@@ -53,9 +53,9 @@ import Katex from '../../../components/Katex.astro';
 
 除智略型外，将领主属性包含「武勇」时，伤害类型为「武勇型」。
 
-<Katex block math={String.raw`P_{0}=\left\lfloor \frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}+\text{武勇}_{\text{攻}}\cdot\text{等级}_{\text{攻}}\cdot0.8}-3\right)}{3} \right\rfloor`} />
+<Katex block math={String.raw`P_{0}=\frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}+\text{武勇}_{\text{攻}}\cdot\text{等级}_{\text{攻}}\cdot0.8}-3\right)}{3}`} />
 
-<Katex block math={String.raw`P=\begin{cases} \left\lfloor \text{武勇}_{\text{攻}}/3 \right\rfloor, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}\ge0 \\[4pt] 0, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}<0 \\[4pt] P_{0}, & P_{0}\ge0 \end{cases}`} />
+<Katex block math={String.raw`P=\begin{cases} \text{武勇}_{\text{攻}}/3, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}\ge0 \\[4pt] 0, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}<0 \\[4pt] P_{0}, & P_{0}\ge0 \end{cases}`} />
 
 <Katex block math={String.raw`P'=P\cdot\left(1+(W-1)\cdot0.1\right)`} />
 
@@ -63,7 +63,7 @@ import Katex from '../../../components/Katex.astro';
 
 除智略型、武勇型外，伤害类型均为「统御型」。
 
-<Katex block math={String.raw`P=\left\lfloor \frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}}-1\right)}{3} \right\rfloor`} />
+<Katex block math={String.raw`P=\frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}}-1\right)}{3}`} />
 
 <Katex block math={String.raw`P'=P\cdot\left(1+(W-1)\cdot0.1\right)`} />
 
@@ -75,7 +75,7 @@ import Katex from '../../../components/Katex.astro';
 
 特攻后攻击力：
 
-<Katex block math={String.raw`P''=\begin{cases} \left\lfloor P'\cdot E \right\rfloor, & \text{触发特攻} \\[4pt] P', & \text{未触发特攻} \end{cases}`} />
+<Katex block math={String.raw`P''=\begin{cases} P'\cdot E, & \text{触发特攻} \\[4pt] P', & \text{未触发特攻} \end{cases}`} />
 
 ## 5. 命中差与随机
 
@@ -83,11 +83,11 @@ import Katex from '../../../components/Katex.astro';
 
 智略型：
 
-<Katex block math={String.raw`D_{0}=\left\lfloor P''\cdot\frac{19.8}{\text{冷静}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8} \right\rfloor`} />
+<Katex block math={String.raw`D_{0}=P''\cdot\frac{19.8}{\text{冷静}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8}`} />
 
 武勇型 / 统御型：
 
-<Katex block math={String.raw`D_{0}=\left\lfloor P''\cdot\frac{19.8}{\text{胆识}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8} \right\rfloor`} />
+<Katex block math={String.raw`D_{0}=P''\cdot\frac{19.8}{\text{胆识}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8}`} />
 
 ### 5.2 命中差
 
@@ -103,7 +103,7 @@ import Katex from '../../../components/Katex.astro';
 
 若 <Katex math={String.raw`\text{守备}_{\text{守}}>\text{士气}_{\text{攻}}`} />：
 
-<Katex block math={String.raw`r_{1}\mathrel{-}=\left\lfloor \frac{\text{守备}_{\text{守}}-\text{士气}_{\text{攻}}}{5} \right\rfloor`} />
+<Katex block math={String.raw`r_{1}\mathrel{-}=\frac{\text{守备}_{\text{守}}-\text{士气}_{\text{攻}}}{5}`} />
 
 <Katex block math={String.raw`r_{1}=\begin{cases} 100, & r_{1}>100 \\ 0, & r_{1}<5 \\ r_{1}, & \text{否则} \end{cases}`} />
 
@@ -113,9 +113,9 @@ import Katex from '../../../components/Katex.astro';
 
 若 <Katex math="H<100" />：
 
-<Katex block math={String.raw`D_{\max}=D_{0},\quad D_{\min}=\left\lfloor D_{0}\cdot\frac{\left\lfloor\frac{r_{2}}{100}(100-H)\right\rfloor+H}{100}\right\rfloor`} />
+<Katex block math={String.raw`D_{\max}=D_{0},\quad D_{\min}=D_{0}\cdot\frac{\frac{r_{2}}{100}(100-H)+H}{100}`} />
 
-<Katex block math={String.raw`D_{1}=\left\lfloor\frac{r_{1}}{100}(D_{\max}-D_{\min})\right\rfloor+D_{\min}`} />
+<Katex block math={String.raw`D_{1}=\frac{r_{1}}{100}(D_{\max}-D_{\min})+D_{\min}`} />
 
 ## 6. 暴击计算
 
@@ -125,11 +125,11 @@ import Katex from '../../../components/Katex.astro';
 
 暴击后伤害：
 
-<Katex block math={String.raw`D_{2}=\begin{cases} \left\lfloor D_{1}\cdot C \right\rfloor, & \text{触发暴击} \\[4pt] D_{1}, & \text{未触发暴击} \end{cases}`} />
+<Katex block math={String.raw`D_{2}=\begin{cases} D_{1}\cdot C, & \text{触发暴击} \\[4pt] D_{1}, & \text{未触发暴击} \end{cases}`} />
 
 ## 7. 最终伤害
 
-<Katex block math={String.raw`\boxed{D=D_{2}}`} />
+<Katex block math={String.raw`\boxed{D= \left\lfloor D_{2} \right\rfloor}`} />
 
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
