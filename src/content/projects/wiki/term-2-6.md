@@ -3,6 +3,7 @@ title: 运势（气运）
 tags:
   - term
   - wiki-y
+  - wiki-q
 ---
 
 <h2 class='section-title section-title--base'>本传</h2>

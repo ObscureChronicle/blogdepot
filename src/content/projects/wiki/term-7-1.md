@@ -24,7 +24,6 @@ tags:
 <a href='../term-7-12/'>AI目标</a>
 <a href='../term-7-13/'>经验衰减</a>
 <a href='../term-7-14/'>兵种克制</a>
-<a href='../term-7-17/'>士气衰减</a>
 <a href='../term-7-18/'>弓弩区别</a>
 <a href='../term-7-19/'>属性互斥</a>
 <a href='../term-7-20/'>培养</a>
