@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import siteConfig from './src/data/site-config';
 
+import { satteri } from '@astrojs/markdown-satteri'; // 关键导入
 import react from '@astrojs/react';
 
 // https://astro.build/config
@@ -14,6 +15,14 @@ export default defineConfig({
     trailingSlash: 'always',
     vite: {
         plugins: [tailwindcss()]
+    },
+    markdown: {
+        // 关键：使用 satteri 处理器并开启 math 特性
+        processor: satteri({
+            features: {
+                math: true,
+            },
+        }),
     },
     integrations: [mdx(), sitemap(), react()]
 });

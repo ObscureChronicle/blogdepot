@@ -1,0 +1,67 @@
+---
+title: 连击
+tags:
+  - term
+  - wiki-l
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+连击指作战时，军队得以再度乃至数次攻击敌军的情况。每次连击时，我军的基础伤害值、是否造成必杀伤害及是否发动成功军略都会重新计算。连击数分为「基础连击数」和「额外连击数」。
+
+「基础连击数」会直接显示在攻击界面中，其计算方式为：
+
+1、若双方「指挥」差＞25（连击阈值），每超过25点，追加一次连击，上不封顶；
+
+2、若武器有「多回攻击」的特性，则将此特性值与1相乘，得出「基础连击数」。
+
+「额外连击数」是特性或军略提供的，一定概率发动的连击，不会直接显示在攻击界面中，而是在发动时提示。此外，默认「连击阈值」会因极少数特殊宝物而降低，上述计算方式中的（1）亦会因之重新计算。这类宝物若应用得当，往往可以造成数倍于寻常的伤害。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{魅力}_{u}`} /> | 单位 <Katex math="u" /> 的魅力 |
+| <Katex math={String.raw`\text{统御}_{u}`} /> | 单位 <Katex math="u" /> 的统御 |
+| <Katex math={String.raw`\text{兵力}_{u}`} /> | 单位 <Katex math="u" /> 的兵力 |
+| <Katex math={String.raw`\text{指挥}_{u}`} /> | 单位 <Katex math="u" /> 的指挥值 |
+| <Katex math={String.raw`\text{指挥}_{\text{攻}}`} /> | 主动方总指挥值 |
+| <Katex math={String.raw`\text{指挥}_{\text{守}}`} /> | 被动方总指挥值 |
+| <Katex math="c" /> | 连击阈值修正（默认 <Katex math="0" />） |
+| <Katex math="T" /> | 连击阈值，<Katex math={String.raw`T = 25 - c`} /> |
+| <Katex math="N" /> | 连击次数 |
+
+## 公式
+
+### 1. 单位指挥值
+
+<Katex block math={String.raw`\text{指挥}_{u} = \max\left( \left\lfloor \frac{25.5 \cdot \text{魅力}_{u} + 81.8 \cdot \text{统御}_{u}}{\sqrt{\text{兵力}_{u} + 9000}} \right\rfloor, \left\lfloor \frac{93.2 \cdot \text{魅力}_{u} + 15.7 \cdot \text{统御}_{u}}{0.025 \cdot \text{兵力}_{u} + 88} \right\rfloor \right)`} />
+
+### 2. 连击阈值
+
+<Katex block math={String.raw`T = 25 - c`} />
+
+### 3. 连击次数
+
+<Katex block math={String.raw`N = \begin{cases} \left\lfloor \dfrac{\text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}}}{T} \right\rfloor + 1, & \text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}} \ge T \\[6pt] 1, & \text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}} < T \end{cases}`} />
+
+### 4. 合并总式
+
+<Katex block math={String.raw`\boxed{ N = \begin{cases} \left\lfloor \dfrac{\text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}}}{25-c} \right\rfloor + 1, & \text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}} \ge 25-c \\[6pt] 1, & \text{指挥}_{\text{攻}} - \text{指挥}_{\text{守}} < 25-c \end{cases} }`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+连击指作战时，军队得以再度乃至数次攻击敌军的情况。每次连击时，我军的基础伤害值、是否造成必杀伤害及是否发动成功军略都会重新计算。连击数分为「基础连击数」和「额外连击数」。
+
+「基础连击数」会直接显示在攻击界面中，其计算方式为：
+
+若双方「指挥」差＞25（连击阈值），每超过25点，追加一次连击，上不封顶；
+
+「额外连击数」是特性或军略提供的，一定概率发动的连击，不会直接显示在攻击界面中，而是在发动时提示。
+
+此外，默认「连击阈值」会因极少数特殊宝物而降低，上述计算方式亦会因之重新计算。这类宝物若应用得当，往往可以造成数倍于寻常的伤害。

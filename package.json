@@ -16,6 +16,7 @@
         "check:links": "node scripts/check-dist-links.ts"
     },
     "dependencies": {
+        "@astrojs/markdown-satteri": "^0.3.8",
         "@astrojs/mdx": "^7.0.3",
         "@astrojs/react": "^6.0.1",
         "@astrojs/rss": "^4.0.19",
@@ -25,6 +26,7 @@
         "@tailwindcss/vite": "^4.3.2",
         "@waline/client": "^3.16.1",
         "astro": "^7.0.9",
+        "katex": "^0.19.1",
         "marked": "^15.0.7",
         "pinyin-pro": "^3.26.0",
         "react": "^19.1.0",

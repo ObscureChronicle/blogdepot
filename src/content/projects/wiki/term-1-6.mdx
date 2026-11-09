@@ -1,0 +1,142 @@
+---
+title: 伤害
+tags:
+  - term
+  - wiki-s
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+军队所能造成的伤害基础值在「伤害上限」与「伤害下限」之内波动，实际造成的伤害值可能会因兵种技能、军略而得到加成或削弱。
+
+「伤害上限」由军队的战力与兵种、地形克度相乘，并加算武器克制值得出。
+
+「伤害下限」由「伤害上限」乘以一个百分系数得出，此百分系数为「我方士气」-「敌方守备」。
+
+伤害波动时会受到我方将领的「气运」影响。
+
+「气运」高时，伤害基础值更倾向于向「伤害上限」波动；反之亦然。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{统御}_{\text{攻}}`} /> | 攻方统御 |
+| <Katex math={String.raw`\text{武勇}_{\text{攻}}`} /> | 攻方武勇 |
+| <Katex math={String.raw`\text{兵力}_{\text{攻}}`} /> | 攻方兵力 |
+| <Katex math={String.raw`\text{等级}_{\text{攻}}`} /> | 攻方等级 |
+| <Katex math={String.raw`\text{智略}_{\text{攻}}`} /> | 攻方智略 |
+| <Katex math={String.raw`\text{气运}_{\text{攻}}`} /> | 攻方气运 |
+| <Katex math={String.raw`\text{胆识}_{\text{守}}`} /> | 守方胆识 |
+| <Katex math={String.raw`\text{冷静}_{\text{守}}`} /> | 守方冷静 |
+| <Katex math="W" /> | 攻方武器威力 |
+| <Katex math="n" /> | 攻守方曼哈顿距离 |
+| <Katex math={String.raw`\Delta_{\text{独立减伤}}`} /> | 独立减伤总值 |
+| <Katex math={String.raw`\text{士气}_{\text{攻}}`} /> | 攻方士气 |
+| <Katex math={String.raw`\text{守备}_{\text{守}}`} /> | 守方守备 |
+| <Katex math={String.raw`r_{1},r_{2}`} /> | 随机数，<Katex math={String.raw`\in[0,100]`} /> |
+
+## 1. 智略型伤害
+
+床弩、发石车、兵法书伤害类型为「智略型」。
+
+<Katex block math={String.raw`P=\text{智略}_{\text{攻}}\cdot3+\frac{\text{统御}_{\text{攻}}}{3}`} />
+
+<Katex block math={String.raw`P'=\begin{cases} 0, & W=0 \\[4pt] P\cdot\left(1+(W-1)\cdot0.1\right), & W\ne0 \end{cases}`} />
+
+## 2. 武勇型伤害
+
+除智略型外，将领主属性包含「武勇」时，伤害类型为「武勇型」。
+
+<Katex block math={String.raw`P_{0}=\left\lfloor \frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}+\text{武勇}_{\text{攻}}\cdot\text{等级}_{\text{攻}}\cdot0.8}-3\right)}{3} \right\rfloor`} />
+
+<Katex block math={String.raw`P=\begin{cases} \left\lfloor \text{武勇}_{\text{攻}}/3 \right\rfloor, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}\ge0 \\[4pt] 0, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}<0 \\[4pt] P_{0}, & P_{0}\ge0 \end{cases}`} />
+
+<Katex block math={String.raw`P'=P\cdot\left(1+(W-1)\cdot0.1\right)`} />
+
+## 3. 统御型伤害
+
+除智略型、武勇型外，伤害类型均为「统御型」。
+
+<Katex block math={String.raw`P=\left\lfloor \frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}}-1\right)}{3} \right\rfloor`} />
+
+<Katex block math={String.raw`P'=P\cdot\left(1+(W-1)\cdot0.1\right)`} />
+
+## 4. 特攻计算
+
+特攻倍率：
+
+<Katex block math={String.raw`E=\begin{cases} 1.45+\dfrac{\max\left(\text{智略}_{\text{攻}}-60,\;0\right)}{250}, & \text{守方无「因势」} \\[8pt] 0.55+\dfrac{\max\left(\text{智略}_{\text{攻}}-60,\;0\right)}{250}, & \text{守方有「因势」} \end{cases}`} />
+
+特攻后攻击力：
+
+<Katex block math={String.raw`P''=\begin{cases} \left\lfloor P'\cdot E \right\rfloor, & \text{触发特攻} \\[4pt] P', & \text{未触发特攻} \end{cases}`} />
+
+## 5. 命中差与随机
+
+### 5.1 基础伤害
+
+智略型：
+
+<Katex block math={String.raw`D_{0}=\left\lfloor P''\cdot\frac{19.8}{\text{冷静}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8} \right\rfloor`} />
+
+武勇型 / 统御型：
+
+<Katex block math={String.raw`D_{0}=\left\lfloor P''\cdot\frac{19.8}{\text{胆识}_{\text{守}}+\Delta_{\text{独立减伤}}+19.8} \right\rfloor`} />
+
+### 5.2 命中差
+
+<Katex block math={String.raw`H=\text{士气}_{\text{攻}}-\text{守备}_{\text{守}}-5(n-1)`} />
+
+修正：「必然偏高」 <Katex math={String.raw`H\mathrel{+}=10`} />；「不受距离波动」 <Katex math={String.raw`H\mathrel{+}=5(n-1)`} />。
+
+### 5.3 随机修正
+
+<Katex block math={String.raw`r_{1}\mathrel{*}=\begin{cases} 0.95, & 50<r_{1}\le80 \\ 0.93, & 30<r_{1}\le50 \\ 0.90, & r_{1}\le30 \end{cases}`} />
+
+<Katex block math={String.raw`r_{1}\mathrel{+}=\begin{cases} \text{气运}_{\text{攻}}/18, & \text{气运}_{\text{攻}}>80 \\ -\text{气运}_{\text{攻}}/8, & \text{气运}_{\text{攻}}<40 \\ (\text{气运}_{\text{攻}}-60)/15, & \text{否则} \end{cases}`} />
+
+若 <Katex math={String.raw`\text{守备}_{\text{守}}>\text{士气}_{\text{攻}}`} />：
+
+<Katex block math={String.raw`r_{1}\mathrel{-}=\left\lfloor \frac{\text{守备}_{\text{守}}-\text{士气}_{\text{攻}}}{5} \right\rfloor`} />
+
+<Katex block math={String.raw`r_{1}=\begin{cases} 100, & r_{1}>100 \\ 0, & r_{1}<5 \\ r_{1}, & \text{否则} \end{cases}`} />
+
+### 5.4 随机伤害
+
+若 <Katex math="H\ge100" />：<Katex math={String.raw`D_{\max}=D_{\min}=D_{0}`} />。
+
+若 <Katex math="H<100" />：
+
+<Katex block math={String.raw`D_{\max}=D_{0},\quad D_{\min}=\left\lfloor D_{0}\cdot\frac{\left\lfloor\frac{r_{2}}{100}(100-H)\right\rfloor+H}{100}\right\rfloor`} />
+
+<Katex block math={String.raw`D_{1}=\left\lfloor\frac{r_{1}}{100}(D_{\max}-D_{\min})\right\rfloor+D_{\min}`} />
+
+## 6. 暴击计算
+
+暴击倍率：
+
+<Katex block math={String.raw`C=\begin{cases} 1.2+\dfrac{\max\left(\text{武勇}_{\text{攻}}-60,\;0\right)}{200}, & \text{守方无「矫然」} \\[8pt] 0.8+\dfrac{\max\left(\text{武勇}_{\text{攻}}-60,\;0\right)}{200}, & \text{守方有「矫然」} \end{cases}`} />
+
+暴击后伤害：
+
+<Katex block math={String.raw`D_{2}=\begin{cases} \left\lfloor D_{1}\cdot C \right\rfloor, & \text{触发暴击} \\[4pt] D_{1}, & \text{未触发暴击} \end{cases}`} />
+
+## 7. 最终伤害
+
+<Katex block math={String.raw`\boxed{D=D_{2}}`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+军队所能造成的伤害基础值在「伤害上限」与「伤害下限」之内波动，实际造成的伤害值可能会因兵种技能、军略而得到加成或削弱。
+
+「伤害上限」由军队的战力与兵种、地形克度相乘，并加算武器克制值得出。
+
+「伤害下限」由「伤害上限」乘以一个百分系数得出，此百分系数为「我方士气」-「敌方守备」。
+
+伤害波动时会受到我方将领的「运势」影响。「运势」高时，伤害基础值更倾向于向「伤害上限」波动；反之亦然。

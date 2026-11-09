@@ -5,11 +5,31 @@ tags:
   - wiki-s
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 士气，指的是部队攻击是否有效的能力。
 
 部队士气由将领的魅力决定，同时受到武器命中的加成。军队倘若不能造成有效攻击，即令战力再高亦无意义，请留意如何合理运用军略和道具，来提高一支部队的士气罢！
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{魅力}_{\text{攻}}`} /> | 攻方魅力 |
+| <Katex math={String.raw`H_{w}`} /> | 攻方武器命中 |
+
+## 1 武勇型 / 统御型
+
+<Katex block math={String.raw`\text{士气}_{\text{攻}}=\begin{cases} H_{w}+\text{魅力}_{\text{攻}}\cdot1.4+10, & H_{w}+\text{魅力}_{\text{攻}}\cdot1.4>0 \\[4pt] H_{w}+\text{魅力}_{\text{攻}}\cdot1.4, & \text{否则} \end{cases}`} />
+
+## 2 智略型
+
+<Katex block math={String.raw`\text{士气}_{\text{攻}}=H_{w}+\text{魅力}_{\text{攻}}\cdot1.3`} />
 
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 

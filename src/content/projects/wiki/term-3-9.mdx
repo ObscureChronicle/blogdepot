@@ -1,0 +1,34 @@
+---
+title: 守备
+tags:
+  - term
+  - wiki-s
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+守备，指部队能否抵御敌军攻击的能力。守备愈高，敌军攻击所造成的「伤害下限」愈低，实际伤害的取值亦愈可能偏低。
+
+部队的守备能力由将领的统御决定，同时受到气运的些微影响。除此之外，守备亦与部队所装备的盔甲或盾牌的防御性能，及部队所处地形有莫大关联。无论是装备重甲良盾、厉兵秣马，或是在林地等可增加守备的地形迎战敌军，均可造成「一夫当关、万夫莫开」之效果。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{统御}_{\text{守}}`} /> | 守方统御 |
+| <Katex math={String.raw`\text{气运}_{\text{守}}`} /> | 守方气运 |
+| <Katex math={String.raw`\Delta_{\text{地形}}`} /> | 地形所提供的守备 |
+| <Katex math={String.raw`D_{a}`} /> | 防方兵装防御 |
+
+<Katex block math={String.raw`\text{守备}_{\text{守}}=\frac{\text{统御}_{\text{守}}+\text{气运}_{\text{守}}\cdot0.1}{1.3}+\Delta_{\text{地形}}+D_{a}`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+守备，指部队能否抵御敌军攻击的能力。守备愈高，敌军攻击所造成的「伤害下限」愈低，实际伤害的取值亦愈可能偏低。
+
+部队的守备能力由将领的统御决定，同时受到运势的些微影响。除此之外，守备亦与部队所装备的盔甲或盾牌的防御性能，及部队所处地形有莫大关联。无论是装备重甲良盾、厉兵秣马，或是在林地等可增加守备的地形迎战敌军，均可造成「一夫当关、万夫莫开」之效果。

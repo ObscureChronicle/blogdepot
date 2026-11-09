@@ -1,0 +1,13 @@
+---
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
+const { math, block = false } = Astro.props;
+const html = katex.renderToString(math, {
+    displayMode: block,
+    throwOnError: false,
+    strict: false
+});
+---
+
+<Fragment set:html={html} />
