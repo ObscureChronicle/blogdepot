@@ -1,0 +1,39 @@
+---
+title: 巧变
+tags:
+  - term
+  - wiki-q
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+巧变，指部队能否有效化解敌军必杀的能力。
+
+巧变愈高，愈难以遭受必杀攻击。
+
+部队的巧变主要由将领的智略决定，也小部分受到将领气运和冷静与胆识间差值的加成。此外，盔甲和盾牌的重量亦会扣减部队的巧变。
+
+## 分步公式
+
+<Katex block math={String.raw`C_{0}=\sqrt{\text{气运}_{u}}+1.1\cdot\text{智略}_{u}`} />
+
+<Katex block math={String.raw`C_{1}=\begin{cases} C_{0}+4, & C_{0}>0 \\[4pt] C_{0}, & C_{0}\le0 \end{cases}`} />
+
+<Katex block math={String.raw`C_{2}=\left\lfloor C_{1}\cdot\left(1+0.02\left(\text{冷静}_{u}-\frac{\text{胆识}_{u}}{1.8}\right)\right)\right\rfloor`} />
+
+<Katex block math={String.raw`C_{3}=C_{2}-\sum_{i=1}^{m}\text{重量}_{i}`} />
+
+<Katex block math={String.raw`\boxed{ \text{巧变}_{u}=\max(C_{3},\;0) }`} />
+
+## 合并总式
+
+<Katex block math={String.raw`\boxed{ \text{巧变}_{u}= \max\left( \left\lfloor \left( \sqrt{\text{气运}_{u}}+1.1\cdot\text{智略}_{u} + \begin{cases} 4, & \sqrt{\text{气运}_{u}}+1.1\cdot\text{智略}_{u}>0 \\ 0, & \text{否则} \end{cases} \right) \left( 1+0.02\left( \text{冷静}_{u}-\frac{\text{胆识}_{u}}{1.8} \right) \right) \right\rfloor -\sum_{i=1}^{m}\text{重量}_{i}, \; 0 \right) }`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+巧变，指部队能否有效化解敌军必杀的能力。巧变愈高，愈难以遭受必杀攻击。
+
+部队的巧变由将领的智略决定，同时受到运势的些微影响，也受到将领冷静与胆识间差值的加成。此外，在减去马或轮具提供的负重后，所有物品的重量亦会扣减部队的巧变。
