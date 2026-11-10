@@ -8,9 +8,9 @@ import Nav from '../components/Nav.astro';
 import ScrollToTop from '../components/ScrollToTop.astro';
 import { thirdParty } from '../data/site-config';
 
-export type Props = HeadProps & { showHeader?: boolean; breadcrumbOwnTags?: string[]; containerWidth?: 'default' | 'wide' };
+export type Props = HeadProps & { showHeader?: boolean; breadcrumbOwnTags?: string[] };
 
-const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], containerWidth = 'default', ...head } = Astro.props;
+const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro.props;
 ---
 
 <!doctype html>
@@ -48,7 +48,7 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], containerWidth = 
             <Nav />
             {breadcrumb && <Breadcrumb items={breadcrumb.items} current={breadcrumb.current} ownTags={breadcrumbOwnTags} class="mb-6" />}
             {showHeader && <Header />}
-            <main class:list={['grow w-full mx-auto', containerWidth === 'wide' ? 'max-w-5xl' : 'max-w-3xl']}>
+            <main class="grow w-full max-w-3xl mx-auto">
                 <slot />
             </main>
             <ScrollToTop />

@@ -18,7 +18,6 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
     title="Tags"
     description="Explore tag directory for easy navigation and discovery. Find a wide range of topics, articles, and insights organized by tags, making it effortless to locate the content that interests you most."
     showHeader={false}
-    containerWidth="wide"
 >
     <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
     <div>
@@ -28,25 +27,24 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
         >
             分类检索
         </h2>
-        <div class="mb-10 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mb-10 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {
-                sortTagsByName(nonWikiTags)
-                    .map((tag) => {
-                        const postCount = postCounts.get(tag.id) ?? 0;
-                        return (
-                            <a class="flex justify-between items-start group gap-8" href={`/tags/${tag.id}/`}>
-                                <div class="min-w-0">
-                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
-                                        {tag.name}
-                                    </h2>
-                                    <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
-                                </div>
-                                <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
-                                    查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
-                                </div>
-                            </a>
-                        );
-                    })
+                sortTagsByName(nonWikiTags).map((tag) => {
+                    const postCount = postCounts.get(tag.id) ?? 0;
+                    return (
+                        <a class="mb-10 flex justify-between items-start group gap-8" href={`/tags/${tag.id}/`}>
+                            <div class="min-w-0">
+                                <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                    {tag.name}
+                                </h2>
+                                <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
+                            </div>
+                            <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0 lg:hidden">
+                                查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
+                            </div>
+                        </a>
+                    );
+                })
             }
         </div>
         <h2
@@ -56,23 +54,22 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
         </h2>
         <div class="flex flex-wrap gap-4">
             {
-                sortTagsByName(wikiChildTags)
-                    .map((tag) => {
-                        const postCount = postCounts.get(tag.id) ?? 0;
-                        return (
-                            <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}/`}>
-                                <div class="sm:w-[85px]">
-                                    <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
-                                        {tag.name}
-                                    </h2>
-                                    <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
-                                </div>
-                                <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
-                                    查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
-                                </div>
-                            </a>
-                        );
-                    })
+                sortTagsByName(wikiChildTags).map((tag) => {
+                    const postCount = postCounts.get(tag.id) ?? 0;
+                    return (
+                        <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}/`}>
+                            <div class="sm:w-[85px]">
+                                <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                                    {tag.name}
+                                </h2>
+                                <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
+                            </div>
+                            <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                                查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
+                            </div>
+                        </a>
+                    );
+                })
             }
         </div>
     </div>

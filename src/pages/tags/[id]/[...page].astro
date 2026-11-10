@@ -43,10 +43,9 @@ const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'
     description={`Explore a curated collection of blog posts under ${tag.name}`}
     image={{ src: '/title.png', alt: 'The preview of the site' }}
     showHeader={false}
-    containerWidth="wide"
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{tag.name}"</h1>
-    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {blogPosts.map((post) => <PostPreview post={post} />)}
         {projectPosts.map((project) => <ProjectPreview project={project} />)}
     </div>
