@@ -4,13 +4,16 @@ import { type CollectionEntry } from 'astro:content';
 import Pagination from '../../../components/Pagination.astro';
 import PostPreview from '../../../components/PostPreview.astro';
 import ProjectPreview from '../../../components/ProjectPreview.astro';
-import siteConfig from '../../../data/site-config';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getAllPosts } from '../../../utils/content-utils';
 import { getAllTags, getPostsByTag, isPinyinIndexTag } from '../../../utils/data-utils';
 import { sortPostsByTitlePinyin } from '../../../utils/sort-by-pinyin';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    // 多列布局下每页 24 条（桌面 3 列 × 8 行）。这里不复用 siteConfig.postsPerPage：
+    // 那个值同时被 /blog/ 日志列表使用，本次只调整百科标签页，日志列表保持每页 8 条。
+    const PAGE_SIZE = 24;
+
     const posts = await getAllPosts();
     const tags = getAllTags(posts);
 
@@ -23,7 +26,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
         return paginate(sortedPosts, {
             params: { id: tag.id },
             props: { tag },
-            pageSize: siteConfig.postsPerPage || 4
+            pageSize: PAGE_SIZE
         });
     });
 }
@@ -40,10 +43,13 @@ const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'
     description={`Explore a curated collection of blog posts under ${tag.name}`}
     image={{ src: '/title.png', alt: 'The preview of the site' }}
     showHeader={false}
+    containerWidth="wide"
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{tag.name}"</h1>
-    {blogPosts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
-    {projectPosts.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+        {blogPosts.map((post) => <PostPreview post={post} />)}
+        {projectPosts.map((project) => <ProjectPreview project={project} />)}
+    </div>
     <Pagination page={page} basePath={`/tags/${tag.id}`} class="my-16 sm:my-24" />
 </BaseLayout>
 
