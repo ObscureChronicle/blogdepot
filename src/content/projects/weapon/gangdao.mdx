@@ -1,0 +1,41 @@
+---
+title: 钢刀
+tags:
+  - equipment
+  - wiki-g
+
+---
+
+import EquipmentWiki from '../../../components/Layout_Equipments.astro';
+
+钢刀是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一种<a href="../00_weapon-type/">刀类武器</a>。
+
+<EquipmentWiki
+  baseDescription={'随着冶铁技术的发展，经过反复锻打，更为锋利的钢刀逐渐生产出来。在东汉后期，已有30锻至50锻的钢刀出现。'}
+  dlcDescription={'汉末冶铁技术发展，更为锋利的三十锻至五十锻钢刀逐渐普及生产，三国时名匠蒲元更曾为诸葛亮锻三千口七十二炼刀。'}
+  baseEquipment={{
+    base: {
+      类型: '刀类',
+      价格: 4140,
+      威力: 6,
+      命中: 33,
+      必杀: 10,
+      重量: 10,
+      范围: 1
+    },
+    damageReduction: {}
+  }}
+  dlcEquipment={{
+    base: {
+      类型: '刀类',
+      价格: 8250,
+      威力: 7,
+      难度: 10,
+      必杀: 10,
+      重量: 8,
+      范围: 1,
+      效果: '【步】概率造成双倍伤害 【骑】小概率造成双倍伤害'
+    },
+    damageReduction: {}
+  }}
+/>
