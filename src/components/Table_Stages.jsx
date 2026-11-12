@@ -41,6 +41,7 @@ const CAMPAIGN_LINKS = {
         '绵竹关之战': '/projects/stage/stage_35/',
         '成都攻略战': '/projects/stage/stage_36/',
         '夷陵之战': '/projects/stage/stage_37/',
+        '南中征伐战': '/projects/stage/stage_37ex/',
         '骆谷之役': '/projects/stage/stage_38/',
         '襄阳潜袭战': '/projects/stage/stage_39/',
         '骆谷解围战': '/projects/stage/stage_39ex/',
