@@ -17,8 +17,6 @@ tags:
 
 <a href='../term-1-3/'>游戏难度</a>
 
-<a href='../term-1-4/'>武器类型</a>
-
 <a href='../term-1-5/'>部队所属</a>
 
 <a href='../term-1-6/'>伤害</a>
