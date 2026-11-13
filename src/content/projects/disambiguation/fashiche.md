@@ -1,6 +1,7 @@
 ---
 title: 发石车
 tags:
+  - disambiguation
   - wiki-f
 
 ---

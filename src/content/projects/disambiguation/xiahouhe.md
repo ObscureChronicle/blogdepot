@@ -1,6 +1,7 @@
 ---
 title: 夏侯和
 tags:
+  - disambiguation
   - wiki-x
 
 ---

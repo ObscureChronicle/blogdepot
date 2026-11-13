@@ -1,6 +1,7 @@
 ---
 title: 陈到
 tags:
+  - disambiguation
   - wiki-c
 
 ---

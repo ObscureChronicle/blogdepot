@@ -1,6 +1,7 @@
 ---
 title: 床弩
 tags:
+  - disambiguation
   - wiki-c
 
 ---

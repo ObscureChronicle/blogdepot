@@ -27,7 +27,8 @@ const CATEGORY_TAG_SLUGS = {
     特性与军略: 'trait',
     关卡: 'stage',
     状态: 'status',
-    兵种: 'class'
+    兵种: 'class',
+    消歧义: 'disambiguation'
 } as const;
 
 // 音序标签：A → wiki-a … Z → wiki-z

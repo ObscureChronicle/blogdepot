@@ -1,6 +1,7 @@
 ---
 title: 典韦
 tags:
+  - disambiguation
   - wiki-d
 
 ---
