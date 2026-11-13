@@ -1,0 +1,30 @@
+---
+title: 饬令
+tags:
+  - art-of-war
+  - wiki-c
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队士气大幅上升，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '2回合', effect: '士气+60' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '2回合', effect: '士气+70' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '士气+70' }
+  ]}
+  dlcDescription="大幅增加本队士气。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '士气+45'
+  }}
+/>

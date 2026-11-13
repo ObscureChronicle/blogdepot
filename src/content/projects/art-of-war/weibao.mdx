@@ -1,0 +1,30 @@
+---
+title: 伪报
+tags:
+  - art-of-war
+  - wiki-w
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入混乱状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '混乱' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '混乱' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '混乱' }
+  ]}
+  dlcDescription="使敌军陷入乱阵状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '智略类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(智略)%',
+    effect: '乱阵'
+  }}
+/>

@@ -1,0 +1,30 @@
+---
+title: 舍身
+tags:
+  - art-of-war
+  - wiki-s
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队士气极大幅上升，守备些微下降，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '士气+75　守备-18' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '士气+90　守备-23' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '士气+105　守备-28' }
+  ]}
+  dlcDescription="本队士气极大幅上升，守备些微下降。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '士气+75　守备-18'
+  }}
+/>

@@ -1,0 +1,30 @@
+---
+title: 言谶
+tags:
+  - art-of-war
+  - wiki-y
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="攻击一定命中"
+  baseDescription="本次攻击伤害随机取值结果必定偏高。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(气运)%', effect: '通常伤害' },
+    { level: 'Ⅱ', target: '本队', successRate: '(气运)%', effect: '通常伤害' },
+    { level: 'Ⅲ', target: '本队', successRate: '(气运)%', effect: '通常伤害' }
+  ]}
+  dlcDescription="本次攻击伤害随机取值结果必定偏高。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '特殊类',
+    skillType: '攻击一定命中',
+    target: '本队',
+    successRate: '(运势)%',
+    effect: '通常伤害'
+  }}
+/>

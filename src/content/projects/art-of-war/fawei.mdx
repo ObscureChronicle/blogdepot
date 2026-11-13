@@ -1,0 +1,31 @@
+---
+title: 发微
+tags:
+  - art-of-war
+  - wiki-f
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="攻击一定命中"
+  baseDescription="本队攻击时一定几率加强伤害，持续6回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(Lv×3)%', duration: '5回合', effect: '特攻伤害' },
+    { level: 'Ⅱ', target: '本队', successRate: '(Lv×3)%', duration: '5回合', effect: '特攻伤害' },
+    { level: 'Ⅲ', target: '本队', successRate: '(Lv×3)%', duration: '6回合', effect: '特攻伤害' }
+  ]}
+  dlcDescription="本队攻击时一定几率加强伤害，持续5回合。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '特殊类',
+    skillType: '攻击一定命中',
+    target: '本队',
+    successRate: '(Lv×3)%',
+    duration: '5回合',
+    effect: '特攻伤害'
+  }}
+/>

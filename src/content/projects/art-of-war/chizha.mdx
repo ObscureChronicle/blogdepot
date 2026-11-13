@@ -1,0 +1,30 @@
+---
+title: 叱咤
+tags:
+  - art-of-war
+  - wiki-c
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="对战斗对手的限制"
+  baseDescription="本次攻击后一回合内，敌军所造成的伤害始终减半。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', duration: '1回合', effect: '攻击减半' },
+    { level: 'Ⅱ', target: '敌军', duration: '1回合', effect: '攻击减半' },
+    { level: 'Ⅲ', target: '敌军', duration: '1回合', effect: '攻击减半' }
+  ]}
+  dlcDescription="提升本队对非器械类伤害减免。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '—'
+  }}
+/>

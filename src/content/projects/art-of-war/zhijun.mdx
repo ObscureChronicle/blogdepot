@@ -1,0 +1,30 @@
+---
+title: 治军
+tags:
+  - art-of-war
+  - wiki-z
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体士气上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '3回合', effect: '士气+35' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '士气+35' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '士气+42' }
+  ]}
+  dlcDescription="微幅增加除本队外我军全体士气。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '士气+9'
+  }}
+/>

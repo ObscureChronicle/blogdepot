@@ -1,0 +1,187 @@
+---
+// 军略词条布局。本传的军略存在等级（Ⅰ / Ⅱ / Ⅲ …），按等级列出效果；
+// 星命诀的军略不分等级，只有一段描述与效果。
+import { EDITIONS } from '../data/editions';
+import SectionTitle from './SectionTitle.astro';
+import TraitNote from './TraitNote.astro';
+
+export type SkillRow = {
+    /** 类型，如「增益型」「妨害型」 */
+    type?: string;
+    /** 分类，如「武勇类」「智略类」「统御类」「魅力类」 */
+    category?: string;
+    /** 技能种类，如「补正」「支援」「附加状态」 */
+    skillType?: string;
+    /** 对象，如「本队」「敌军一部队」「除本队外我军全体」 */
+    target?: string;
+    /** 成功率条件，如「100%」「(武勇)%」「Lv %」 */
+    successRate?: string;
+    /** 敌方对成功率的减益，如「(胆识×10)%」；无则留空 */
+    targetResist?: string;
+    /** 冷却时间，如「3回合」 */
+    cooldown?: string;
+    /** 持续时间，如「4回合」 */
+    duration?: string;
+    effect: string;
+};
+
+export type SkillLevel = SkillRow & {
+    level: string;
+};
+
+type SkillWikiProps = {
+    /** 本传的类型，如「增益型」「妨害型」 */
+    baseType?: string;
+    /** 本传的分类 */
+    baseCategory?: string;
+    /** 本传的技能种类 */
+    baseSkillType?: string;
+    baseDescription?: string;
+    baseLevels?: SkillLevel[];
+    /** 星命诀不分等级，除描述外的全部项目都放在这里，渲染为一张单行表格 */
+    dlcSkill?: SkillRow;
+    dlcDescription?: string;
+    noteHtml?: string;
+};
+
+const { baseType, baseCategory, baseSkillType, baseDescription, baseLevels = [], dlcSkill, dlcDescription, noteHtml } = Astro.props as SkillWikiProps;
+
+const hasBase = Boolean(baseType) || Boolean(baseCategory) || Boolean(baseSkillType) || Boolean(baseDescription) || baseLevels.length > 0;
+const hasDlc = Boolean(dlcSkill) || Boolean(dlcDescription);
+
+// 表格里没有数据的格子统一显示占位符
+const EMPTY = '—';
+const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
+---
+
+{
+    (hasBase || hasDlc) && (
+        <>
+            <SectionTitle>介绍</SectionTitle>
+            <p>
+                {hasBase && EDITIONS.base.name}
+                {hasBase && hasDlc && '与'}
+                {hasDlc && EDITIONS.dlc.name}中的军略。
+            </p>
+        </>
+    )
+}
+
+{
+    hasBase && (
+        <>
+            <SectionTitle tone="base">{EDITIONS.base.shortName}</SectionTitle>
+            {(baseType || baseCategory || baseSkillType) && (
+                <p class="text-base leading-relaxed">
+                    {[baseType && `类型：${baseType}`, baseCategory && `分类：${baseCategory}`, baseSkillType && `军略小类：${baseSkillType}`]
+                        .filter(Boolean)
+                        .join('；')}
+                </p>
+            )}
+            {baseDescription && <p set:html={baseDescription} class="text-base leading-relaxed" />}
+            {baseLevels.length > 0 && (
+                <table class="wiki-table wiki-table--hover not-prose mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-16">
+                                等级
+                            </th>
+                            <th scope="col">对象</th>
+                            <th scope="col">成功率</th>
+                            <th scope="col">目标减益</th>
+                            <th scope="col">冷却时间</th>
+                            <th scope="col">持续时间</th>
+                            <th scope="col">效果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {baseLevels.map((row) => (
+                            <tr>
+                                <th scope="row" class="w-16">
+                                    {row.level}
+                                </th>
+                                <td>{orEmpty(row.target)}</td>
+                                <td>{orEmpty(row.successRate)}</td>
+                                <td>{orEmpty(row.targetResist)}</td>
+                                <td>{orEmpty(row.cooldown)}</td>
+                                <td>{orEmpty(row.duration)}</td>
+                                <td>{row.effect}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </>
+    )
+}
+
+{
+    hasDlc && (
+        <>
+            <SectionTitle tone="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
+            {dlcDescription && <p set:html={dlcDescription} class="text-base leading-relaxed" />}
+            {dlcSkill && (
+                <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                类型
+                            </th>
+                            <td>{orEmpty(dlcSkill.type)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                分类
+                            </th>
+                            <td>{orEmpty(dlcSkill.category)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                军略小类
+                            </th>
+                            <td>{orEmpty(dlcSkill.skillType)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                对象
+                            </th>
+                            <td>{orEmpty(dlcSkill.target)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                成功率
+                            </th>
+                            <td>{orEmpty(dlcSkill.successRate)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                目标减益
+                            </th>
+                            <td>{orEmpty(dlcSkill.targetResist)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                冷却时间
+                            </th>
+                            <td>{orEmpty(dlcSkill.cooldown)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                持续时间
+                            </th>
+                            <td>{orEmpty(dlcSkill.duration)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                效果
+                            </th>
+                            <td>{dlcSkill.effect}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            )}
+        </>
+    )
+}
+
+<TraitNote noteHtml={noteHtml} />

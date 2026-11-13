@@ -1,0 +1,30 @@
+---
+title: 楚歌
+tags:
+  - art-of-war
+  - wiki-c
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入低落状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '低落' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '低落' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '低落' }
+  ]}
+  dlcDescription="本队五格内敌军士气下降。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '补正',
+    target: '周围敌军',
+    successRate: '100%',
+    effect: '士气-25'
+  }}
+/>

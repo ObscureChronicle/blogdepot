@@ -1,0 +1,31 @@
+---
+title: 格物
+tags:
+  - art-of-war
+  - wiki-g
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="独立减伤效果降低"
+  baseDescription="本队攻击时不受敌将冷静减成，持续6回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(Lv×2)%', duration: '6回合', effect: '独立减伤效果降低' },
+    { level: 'Ⅱ', target: '本队', successRate: '(Lv×2)%', duration: '6回合', effect: '独立减伤效果降低' },
+    { level: 'Ⅲ', target: '本队', successRate: '(Lv×2)%', duration: '6回合', effect: '独立减伤效果降低' }
+  ]}
+  dlcDescription="本队攻击时不受敌将冷静减成，持续6回合。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '特殊类',
+    skillType: '独立减伤效果降低',
+    target: '本队',
+    successRate: '(Lv×2)%',
+    duration: '6回合',
+    effect: '独立减伤效果降低'
+  }}
+/>

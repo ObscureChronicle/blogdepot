@@ -1,0 +1,30 @@
+---
+title: 喝阻
+tags:
+  - art-of-war
+  - wiki-h
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入止行状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '止行' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '止行' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '止行' }
+  ]}
+  dlcDescription="使敌军陷入止步状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '武勇类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(武勇)%',
+    effect: '止步'
+  }}
+/>

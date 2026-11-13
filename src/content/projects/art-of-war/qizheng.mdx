@@ -1,0 +1,30 @@
+---
+title: 奇正
+tags:
+  - art-of-war
+  - wiki-q
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="固定伤害"
+  baseDescription="无视敌我一切数值，固定造成大量兵力损伤。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' }
+  ]}
+  dlcDescription="锁定最低伤害值为300。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '智略类',
+    skillType: '固定伤害',
+    target: '本队',
+    successRate: '(统御)%',
+    effect: '固定伤害'
+  }}
+/>

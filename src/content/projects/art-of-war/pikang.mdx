@@ -1,0 +1,30 @@
+---
+title: 批亢
+tags:
+  - art-of-war
+  - wiki-p
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="固定伤害"
+  baseDescription="无视敌我一切数值，固定造成大量兵力损伤。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' }
+  ]}
+  dlcDescription="无视敌我一切数值，固定造成1200兵力损伤。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '武勇类',
+    skillType: '固定伤害',
+    target: '敌军',
+    successRate: '(武勇)%',
+    effect: '固定伤害'
+  }}
+/>

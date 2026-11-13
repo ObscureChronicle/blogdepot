@@ -1,0 +1,30 @@
+---
+title: 盘桓
+tags:
+  - art-of-war
+  - wiki-p
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="无效处理"
+  baseDescription="本队不会遭受特攻伤害，持续5回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '4回合', effect: '特攻' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '5回合', effect: '特攻' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '5回合', effect: '特攻' }
+  ]}
+  dlcDescription="本队不再受到特攻。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '无效处理',
+    target: '本队',
+    successRate: '100%',
+    effect: '特攻'
+  }}
+/>

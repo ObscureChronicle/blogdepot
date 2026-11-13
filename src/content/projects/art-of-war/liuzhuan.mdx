@@ -1,0 +1,31 @@
+---
+title: 流转
+tags:
+  - art-of-war
+  - wiki-l
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="不死之身"
+  baseDescription="本队遭受攻击后若将败退，则有概率完全回避之，持续2回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' },
+    { level: 'Ⅱ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' },
+    { level: 'Ⅲ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' }
+  ]}
+  dlcDescription="本队遭受攻击后若将败退，则有概率完全回避之，持续2回合。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '不死之身',
+    target: '本队',
+    successRate: 'Lv%',
+    duration: '2回合',
+    effect: '攻击回避'
+  }}
+/>

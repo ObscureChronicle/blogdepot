@@ -1,0 +1,30 @@
+---
+title: 訾詈
+tags:
+  - art-of-war
+  - wiki-z
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入混乱状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '混乱' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '混乱' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '混乱' }
+  ]}
+  dlcDescription="使敌军陷入乱阵状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '乱阵'
+  }}
+/>

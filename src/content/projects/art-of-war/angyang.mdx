@@ -1,0 +1,30 @@
+---
+title: 昂扬
+tags:
+  - art-of-war
+  - wiki-a
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="魅力类"
+  baseSkillType="再行动"
+  baseDescription="使本队一定概率再度行动数次。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(魅力)%', effect: '再行动（魅力%・0回合）' },
+    { level: 'Ⅱ', target: '本队', successRate: '(魅力)%', effect: '再行动（魅力%・0回合）' },
+    { level: 'Ⅲ', target: '本队', successRate: '(魅力)%', effect: '再行动（魅力%・0回合）' }
+  ]}
+  dlcDescription="使本队一定概率再度行动一次。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '再行动',
+    target: '本队',
+    successRate: '(魅力)%',
+    effect: '再行动（魅力%・6回合）'
+  }}
+/>

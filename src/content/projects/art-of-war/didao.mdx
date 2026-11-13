@@ -1,0 +1,30 @@
+---
+title: 帝道
+tags:
+  - art-of-war
+  - wiki-d
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体获得中幅独立减伤，持续12回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '8回合', effect: '独立减伤+4' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '10回合', effect: '独立减伤+5' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '12回合', effect: '独立减伤+6' }
+  ]}
+  dlcDescription="大幅增加除本队外我军全体独立减伤。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '独立减伤+5'
+  }}
+/>

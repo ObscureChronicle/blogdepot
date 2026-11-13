@@ -1,0 +1,30 @@
+---
+title: 招抚
+tags:
+  - art-of-war
+  - wiki-z
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="魅力类"
+  baseSkillType="伤害防御"
+  baseDescription="大幅减免一切近战伤害，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(魅力)%', duration: '3回合', effect: '对刀类・矛类伤害-60%' },
+    { level: 'Ⅱ', target: '本队', successRate: '(魅力)%', duration: '4回合', effect: '对刀类・矛类伤害-60%' },
+    { level: 'Ⅲ', target: '本队', successRate: '(魅力)%', duration: '4回合', effect: '对刀类・矛类伤害-60%' }
+  ]}
+  dlcDescription="大幅减免一切近战伤害。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '伤害防御',
+    target: '本队',
+    successRate: '(魅力)%',
+    effect: '对刀类・矛类伤害-60%'
+  }}
+/>

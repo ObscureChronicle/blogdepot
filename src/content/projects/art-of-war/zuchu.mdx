@@ -1,0 +1,31 @@
+---
+title: 诅楚
+tags:
+  - art-of-war
+  - wiki-z
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队七格内敌军士气下降，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-25' },
+    { level: 'Ⅱ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-40' },
+    { level: 'Ⅲ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-60' }
+  ]}
+  dlcDescription="本队五格内敌军士气下降，持续3回合。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '补正',
+    target: '周围敌军',
+    successRate: '100%',
+    duration: '3回合',
+    effect: '士气-25'
+  }}
+/>

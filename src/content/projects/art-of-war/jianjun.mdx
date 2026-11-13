@@ -1,0 +1,30 @@
+---
+title: 监军
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体全部能力值小幅上升，持续8回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '6回合', effect: '战力+20　士气+18　守备+20　爆发+8　巧变+5' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '7回合', effect: '战力+23　士气+21　守备+27　爆发+9　巧变+6' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '8回合', effect: '战力+26　士气+24　守备+34　爆发+10　巧变+7' }
+  ]}
+  dlcDescription="中幅增加除本队外我军全体战力。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '战力+40'
+  }}
+/>

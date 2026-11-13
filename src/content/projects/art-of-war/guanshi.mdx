@@ -1,0 +1,31 @@
+---
+title: 观蓍
+tags:
+  - art-of-war
+  - wiki-g
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="先发攻击"
+  baseDescription="本队一定概率先手反击，持续5回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(气运)%', duration: '5回合', effect: '先发攻击' },
+    { level: 'Ⅱ', target: '本队', successRate: '(气运)%', duration: '5回合', effect: '先发攻击' },
+    { level: 'Ⅲ', target: '本队', successRate: '(气运)%', duration: '5回合', effect: '先发攻击' }
+  ]}
+  dlcDescription="本队一定概率先手反击，持续5回合。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '先发攻击',
+    target: '本队',
+    successRate: '(运势)%',
+    duration: '5回合',
+    effect: '先发攻击'
+  }}
+/>

@@ -1,0 +1,30 @@
+---
+title: 奋战
+tags:
+  - art-of-war
+  - wiki-f
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体爆发上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '3回合', effect: '爆发+26' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '爆发+26' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '爆发+30' }
+  ]}
+  dlcDescription="微幅增加除本队外我军全体爆发。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '爆发+6'
+  }}
+/>

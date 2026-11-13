@@ -1,0 +1,30 @@
+---
+title: 霸道
+tags:
+  - art-of-war
+  - wiki-b
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体全部能力值大幅上升，持续2回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '2回合', effect: '战力+70　士气+30　守备+15　爆发+10　巧变+10' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '2回合', effect: '战力+80　士气+35　守备+17　爆发+15　巧变+16' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '2回合', effect: '战力+90　士气+40　守备+19　爆发+20　巧变+22' }
+  ]}
+  dlcDescription="大幅增加除本队外我军全体爆发。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '爆发+43'
+  }}
+/>

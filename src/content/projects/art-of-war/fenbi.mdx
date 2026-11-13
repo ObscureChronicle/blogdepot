@@ -1,0 +1,30 @@
+---
+title: 奋臂
+tags:
+  - art-of-war
+  - wiki-f
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队爆发极大幅上升，受到伤害些微增加，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '独立减伤-2　爆发+60' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '独立减伤-2　爆发+72' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '独立减伤-2　爆发+86' }
+  ]}
+  dlcDescription="本队爆发极大幅上升，受到伤害些微增加。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '独立减伤-2　爆发+60'
+  }}
+/>

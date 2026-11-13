@@ -1,0 +1,30 @@
+---
+title: 柔远
+tags:
+  - art-of-war
+  - wiki-r
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入止行状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '止行' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '止行' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '止行' }
+  ]}
+  dlcDescription="使敌军陷入止步状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '止步'
+  }}
+/>

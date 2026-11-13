@@ -1,0 +1,30 @@
+---
+title: 决死
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队战力、士气、爆发极大幅上升，守备、巧变大幅下降，持续6回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '5回合', effect: '战力+97　士气+38　守备-36　爆发+20　巧变-36' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '5回合', effect: '战力+111　士气+56　守备-41　爆发+27　巧变-41' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '6回合', effect: '战力+128　士气+64　守备-48　爆发+32　巧变-24' }
+  ]}
+  dlcDescription="本队战力、士气、爆发极大幅上升，守备、巧变大幅下降。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '战力+97　士气+38　守备-36　爆发+20　巧变-36'
+  }}
+/>

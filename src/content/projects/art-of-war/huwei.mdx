@@ -1,0 +1,30 @@
+---
+title: 虎威
+tags:
+  - art-of-war
+  - wiki-h
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="本队战力极大幅上升，持续2回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '2回合', effect: '战力+130' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '2回合', effect: '战力+150' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '2回合', effect: '战力+170' }
+  ]}
+  dlcDescription="大幅增加本队战力。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '战力+50'
+  }}
+/>

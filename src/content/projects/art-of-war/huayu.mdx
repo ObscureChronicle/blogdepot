@@ -1,0 +1,30 @@
+---
+title: 画圉
+tags:
+  - art-of-war
+  - wiki-h
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队获得独立减伤（降低所受伤害），持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '独立减伤+5' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '独立减伤+7' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '4回合', effect: '独立减伤+9' }
+  ]}
+  dlcDescription="本队获得小幅独立减伤。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '独立减伤+4'
+  }}
+/>

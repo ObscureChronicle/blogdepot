@@ -1,0 +1,30 @@
+---
+title: 兵锋
+tags:
+  - art-of-war
+  - wiki-b
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入畏葸状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '畏葸' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '畏葸' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '畏葸' }
+  ]}
+  dlcDescription="增加本队非器械类伤害系数。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '—'
+  }}
+/>

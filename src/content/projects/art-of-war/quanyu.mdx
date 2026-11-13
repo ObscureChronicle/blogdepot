@@ -1,0 +1,30 @@
+---
+title: 劝谕
+tags:
+  - art-of-war
+  - wiki-q
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="兵力削减至1"
+  baseDescription="使敌军兵力尽散。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '兵力削减至1' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '兵力削减至1' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '兵力削减至1' }
+  ]}
+  dlcDescription="使敌军部曲尽散。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '兵力削减至1',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '兵力削减至1'
+  }}
+/>

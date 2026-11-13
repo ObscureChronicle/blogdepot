@@ -1,0 +1,30 @@
+---
+title: 攻心
+tags:
+  - art-of-war
+  - wiki-g
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="直接败退"
+  baseDescription="使敌军直接败退。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' }
+  ]}
+  dlcDescription="使敌军直接败退。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '直接败退',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '直接败退'
+  }}
+/>

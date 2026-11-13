@@ -1,0 +1,31 @@
+---
+title: 天工
+tags:
+  - art-of-war
+  - wiki-t
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="连续攻击"
+  baseDescription="本队攻击次数大幅上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: 'Lv%', duration: '4回合', effect: '2回攻击' },
+    { level: 'Ⅱ', target: '本队', successRate: 'Lv%', duration: '4回合', effect: '2回攻击' },
+    { level: 'Ⅲ', target: '本队', successRate: 'Lv%', duration: '4回合', effect: '3回攻击' }
+  ]}
+  dlcDescription="本队攻击次数上升，持续4回合。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '连续攻击',
+    target: '本队',
+    successRate: 'Lv%',
+    duration: '4回合',
+    effect: '2回攻击'
+  }}
+/>

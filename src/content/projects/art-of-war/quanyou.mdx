@@ -1,0 +1,30 @@
+---
+title: 劝诱
+tags:
+  - art-of-war
+  - wiki-q
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="吸收伤害"
+  baseDescription="吸收敌方部分兵力，对城门无效。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力70%' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力77%' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力85%' }
+  ]}
+  dlcDescription="吸收敌方部分兵力。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '吸收伤害',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '吸收兵力50%'
+  }}
+/>

@@ -1,0 +1,30 @@
+---
+title: 巫蛊
+tags:
+  - art-of-war
+  - wiki-w
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="附加状态"
+  baseDescription="极小概率使敌将濒死。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌将', successRate: '(气运)%', effect: '濒死' },
+    { level: 'Ⅱ', target: '敌将', successRate: '(气运)%', effect: '濒死' },
+    { level: 'Ⅲ', target: '敌将', successRate: '(气运)%', effect: '濒死' }
+  ]}
+  dlcDescription="极小概率使敌将濒死。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '特殊类',
+    skillType: '附加状态',
+    target: '敌将',
+    successRate: '(运势)%',
+    effect: '濒死'
+  }}
+/>

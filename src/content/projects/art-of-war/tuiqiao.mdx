@@ -1,0 +1,30 @@
+---
+title: 推敲
+tags:
+  - art-of-war
+  - wiki-t
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="参数补正"
+  baseDescription="将领智略暂时上升，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '将领', successRate: '100%', duration: '3回合', effect: '智略+8' },
+    { level: 'Ⅱ', target: '将领', successRate: '100%', duration: '3回合', effect: '智略+10' },
+    { level: 'Ⅲ', target: '将领', successRate: '100%', duration: '3回合', effect: '智略+15' }
+  ]}
+  dlcDescription="提升将领智略。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '参数补正',
+    target: '将领',
+    successRate: '100%',
+    effect: '智略+8'
+  }}
+/>

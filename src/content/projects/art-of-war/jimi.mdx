@@ -1,0 +1,30 @@
+---
+title: 羁縻
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="魅力类"
+  baseSkillType="伤害防御"
+  baseDescription="中幅减免除攻城器械外的一切伤害，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(魅力)%', duration: '3回合', effect: '对刀类・矛类・弓类・弩类伤害-20%' },
+    { level: 'Ⅱ', target: '本队', successRate: '(魅力)%', duration: '3回合', effect: '对刀类・矛类・弓类・弩类伤害-30%' },
+    { level: 'Ⅲ', target: '本队', successRate: '(魅力)%', duration: '3回合', effect: '对刀类・矛类・弓类・弩类伤害-40%' }
+  ]}
+  dlcDescription="些微减免除攻城器械外的一切伤害。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '伤害防御',
+    target: '本队',
+    successRate: '(魅力)%',
+    effect: '对刀类・矛类・弓类・弩类伤害-20%'
+  }}
+/>

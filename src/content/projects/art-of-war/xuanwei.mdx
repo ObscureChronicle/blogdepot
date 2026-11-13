@@ -1,0 +1,30 @@
+---
+title: 宣慰
+tags:
+  - art-of-war
+  - wiki-x
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入哗变状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '哗变' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '哗变' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '哗变' }
+  ]}
+  dlcDescription="使敌军陷入师心状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '师心'
+  }}
+/>

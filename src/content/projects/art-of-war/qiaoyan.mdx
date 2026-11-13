@@ -1,0 +1,30 @@
+---
+title: 巧言
+tags:
+  - art-of-war
+  - wiki-q
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="魅力类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入畏葸状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '畏葸' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '畏葸' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '畏葸' }
+  ]}
+  dlcDescription="使敌军陷入畏葸状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '魅力类',
+    skillType: '附加状态',
+    target: '敌军',
+    successRate: '(魅力)%',
+    effect: '畏葸'
+  }}
+/>

@@ -1,0 +1,30 @@
+---
+title: 严阵
+tags:
+  - art-of-war
+  - wiki-y
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="反击时必杀"
+  baseDescription="本队反击时追加一定概率以发动必杀，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(武勇)%', duration: '3回合', effect: '反击时必杀' },
+    { level: 'Ⅱ', target: '本队', successRate: '(武勇)%', duration: '4回合', effect: '反击时必杀' },
+    { level: 'Ⅲ', target: '本队', successRate: '(武勇)%', duration: '4回合', effect: '反击时必杀' }
+  ]}
+  dlcDescription="本队反击时追加一定概率以发动必杀。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '反击时必杀',
+    target: '本队',
+    successRate: '(统御)%',
+    effect: '反击时必杀'
+  }}
+/>

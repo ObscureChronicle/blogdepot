@@ -1,0 +1,30 @@
+---
+title: 墨守
+tags:
+  - art-of-war
+  - wiki-m
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队守备大幅上升，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '2回合', effect: '守备+55' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '2回合', effect: '守备+65' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '守备+65' }
+  ]}
+  dlcDescription="大幅增加本队守备。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '守备+43'
+  }}
+/>

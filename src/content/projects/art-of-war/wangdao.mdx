@@ -1,0 +1,30 @@
+---
+title: 王道
+tags:
+  - art-of-war
+  - wiki-w
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体全部能力值微幅上升，士气大幅上升，持续7回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '5回合', effect: '战力+8　士气+45　守备+3　爆发+5　巧变+2' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '6回合', effect: '战力+8　士气+60　守备+5　爆发+5　巧变+3' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '7回合', effect: '战力+8　士气+75　守备+7　爆发+5　巧变+4' }
+  ]}
+  dlcDescription="大幅增加除本队外我军全体士气。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '士气+49'
+  }}
+/>

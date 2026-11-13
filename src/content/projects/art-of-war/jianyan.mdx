@@ -1,0 +1,30 @@
+---
+title: 建言
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="经验值上升"
+  baseDescription="本队经验获取率上升，持续5回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '5回合', effect: '经验获取率175%' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '5回合', effect: '经验获取率240%' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '5回合', effect: '经验获取率300%' }
+  ]}
+  dlcDescription="更易提升秩级。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '经验值上升',
+    target: '本队',
+    successRate: '100%',
+    effect: '经验获取率125%'
+  }}
+/>

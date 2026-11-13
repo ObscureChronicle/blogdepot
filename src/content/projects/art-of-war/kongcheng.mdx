@@ -1,0 +1,30 @@
+---
+title: 空城
+tags:
+  - art-of-war
+  - wiki-k
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="改变AI分数"
+  baseDescription="本队成为敌军目标几率大幅下降，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' }
+  ]}
+  dlcDescription="本队成为敌军目标几率下降。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '改变AI分数',
+    target: '本队',
+    successRate: '(统御)%',
+    effect: '成为目标几率下降'
+  }}
+/>

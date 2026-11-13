@@ -1,0 +1,30 @@
+---
+title: 嚄唶
+tags:
+  - art-of-war
+  - wiki-h
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="对战斗对手的限制"
+  baseDescription="本次攻击后一回合内，封锁敌军对本队一切攻击行为。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', duration: '1回合', effect: '攻击封锁' },
+    { level: 'Ⅱ', target: '敌军', duration: '1回合', effect: '攻击封锁' },
+    { level: 'Ⅲ', target: '敌军', duration: '1回合', effect: '攻击封锁' }
+  ]}
+  dlcDescription="非器械类伤害减半。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '伤害防御',
+    target: '本队',
+    successRate: '(武勇)%',
+    effect: '对刀类・矛类・弓类・弩类伤害-50%'
+  }}
+/>

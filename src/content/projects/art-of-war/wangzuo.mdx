@@ -1,0 +1,30 @@
+---
+title: 王佐
+tags:
+  - art-of-war
+  - wiki-w
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="魅力类"
+  baseSkillType="行动恢复"
+  baseDescription="使周围我军待机部队再次行动。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '周围我军待机部队', successRate: '100%', effect: '部队　exp5' },
+    { level: 'Ⅱ', target: '周围我军待机部队', successRate: '100%', effect: '部队　exp5' },
+    { level: 'Ⅲ', target: '周围我军待机部队', successRate: '100%', effect: '部队　exp5' }
+  ]}
+  dlcDescription="使周围我军待机部队再次行动。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '行动恢复',
+    target: '周围我军待机部队',
+    successRate: '100%',
+    effect: '部队　exp0'
+  }}
+/>

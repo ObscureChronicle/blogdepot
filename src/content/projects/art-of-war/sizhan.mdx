@@ -1,0 +1,30 @@
+---
+title: 死战
+tags:
+  - art-of-war
+  - wiki-s
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="不死之身"
+  baseDescription="本队一定概率不会败退，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '(武勇)%', duration: '3回合', effect: '生命值1存活' },
+    { level: 'Ⅱ', target: '本队', successRate: '(武勇)%', duration: '3回合', effect: '生命值1存活' },
+    { level: 'Ⅲ', target: '本队', successRate: '(武勇)%', duration: '4回合', effect: '生命值1存活' }
+  ]}
+  dlcDescription="本队一定概率不会败退。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '不死之身',
+    target: '本队',
+    successRate: '(武勇)%',
+    effect: '生命值1存活'
+  }}
+/>

@@ -1,0 +1,31 @@
+---
+title: 机杼
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="武器的使用次数不会减少"
+  baseDescription="本队攻击时不会损失巨矢数，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '弩炮' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '弩炮' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '弩炮' }
+  ]}
+  dlcDescription="本队攻击时不会损失巨矢数，持续3回合。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '武器的使用次数不会减少',
+    target: '本队',
+    successRate: '100%',
+    duration: '3回合',
+    effect: '武器的使用次数不会减少'
+  }}
+/>

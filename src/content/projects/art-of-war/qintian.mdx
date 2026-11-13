@@ -1,0 +1,30 @@
+---
+title: 钦天
+tags:
+  - art-of-war
+  - wiki-q
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="经验值上升"
+  baseDescription="本队经验获取率大幅上升，持续5回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '经验获取率333%' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '4回合', effect: '经验获取率333%' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '5回合', effect: '经验获取率333%' }
+  ]}
+  dlcDescription="本队一定概率先手反击。"
+  dlcSkill={{
+    type: '增益型',
+    category: '特殊类',
+    skillType: '先发攻击',
+    target: '本队',
+    successRate: '(运势)%',
+    effect: '先发攻击'
+  }}
+/>

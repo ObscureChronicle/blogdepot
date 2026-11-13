@@ -1,0 +1,30 @@
+---
+title: 激励
+tags:
+  - art-of-war
+  - wiki-j
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="武勇类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体战力上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '3回合', effect: '战力+75' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '3回合', effect: '战力+75' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '战力+75' }
+  ]}
+  dlcDescription="微幅增加除本队外我军全体战力。"
+  dlcSkill={{
+    type: '增益型',
+    category: '武勇类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '战力+10'
+  }}
+/>

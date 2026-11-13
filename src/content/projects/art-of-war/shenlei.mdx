@@ -1,0 +1,30 @@
+---
+title: 深垒
+tags:
+  - art-of-war
+  - wiki-s
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体守备上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '3回合', effect: '守备+28' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '守备+28' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '4回合', effect: '守备+33' }
+  ]}
+  dlcDescription="微幅增加除本队外我军全体守备。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '守备+8'
+  }}
+/>

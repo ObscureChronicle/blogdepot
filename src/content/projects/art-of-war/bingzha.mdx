@@ -1,0 +1,30 @@
+---
+title: 兵诈
+tags:
+  - art-of-war
+  - wiki-b
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="附加状态"
+  baseDescription="使敌军陷入师心状态。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '师心' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '师心' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '师心' }
+  ]}
+  dlcDescription="增加本队非器械类伤害系数。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '—'
+  }}
+/>

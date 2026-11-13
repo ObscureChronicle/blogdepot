@@ -1,0 +1,30 @@
+---
+title: 致师
+tags:
+  - art-of-war
+  - wiki-z
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="武勇类"
+  baseSkillType="附加状态"
+  baseDescription="极小概率使敌将濒死。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌将', successRate: '(武勇)%', effect: '濒死' },
+    { level: 'Ⅱ', target: '敌将', successRate: '(武勇)%', effect: '濒死' },
+    { level: 'Ⅲ', target: '敌将', successRate: '(武勇)%', effect: '濒死' }
+  ]}
+  dlcDescription="使敌将陷入濒死状态。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '武勇类',
+    skillType: '附加状态',
+    target: '敌将',
+    successRate: '(武勇)%',
+    effect: '濒死'
+  }}
+/>

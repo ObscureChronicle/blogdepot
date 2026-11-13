@@ -1,0 +1,30 @@
+---
+title: 反躬
+tags:
+  - art-of-war
+  - wiki-f
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="参数补正"
+  baseDescription="本队冷静上升，持续4回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '4回合', effect: '冷静+2' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '4回合', effect: '冷静+3' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '4回合', effect: '冷静+4' }
+  ]}
+  dlcDescription="提升将领冷静。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '参数补正',
+    target: '将领',
+    successRate: '100%',
+    effect: '冷静+2'
+  }}
+/>

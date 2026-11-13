@@ -1,0 +1,30 @@
+---
+title: 虚实
+tags:
+  - art-of-war
+  - wiki-x
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="本队巧变极大幅上升，持续2回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '2回合', effect: '巧变+60' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '2回合', effect: '巧变+68' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '2回合', effect: '巧变+76' }
+  ]}
+  dlcDescription="大幅增加本队巧变。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '本队',
+    successRate: '100%',
+    effect: '巧变+60'
+  }}
+/>

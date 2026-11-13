@@ -1,0 +1,30 @@
+---
+title: 八阵
+tags:
+  - art-of-war
+  - wiki-b
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="智略类"
+  baseSkillType="补正"
+  baseDescription="除本队外，我军全体全部能力值小幅上升，持续18回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '我军全体（除本队）', successRate: '100%', duration: '10回合', effect: '战力+8　士气+9　守备+10　巧变+7' },
+    { level: 'Ⅱ', target: '我军全体（除本队）', successRate: '100%', duration: '14回合', effect: '战力+10　士气+11　守备+11　爆发+1　巧变+8' },
+    { level: 'Ⅲ', target: '我军全体（除本队）', successRate: '100%', duration: '18回合', effect: '战力+12　士气+13　守备+12　爆发+2　巧变+10' }
+  ]}
+  dlcDescription="中幅增加除本队外我军全体守备。"
+  dlcSkill={{
+    type: '增益型',
+    category: '智略类',
+    skillType: '补正',
+    target: '我军全体（除本队）',
+    successRate: '100%',
+    effect: '守备+40'
+  }}
+/>

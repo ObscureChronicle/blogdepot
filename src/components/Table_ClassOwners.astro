@@ -1,6 +1,7 @@
 ---
 import { getWikiLink } from '../utils/wiki-links';
 import { CLASS_OWNERS as owners } from '../utils/wiki-owners';
+import { comparePinyin, pinyinKey } from '../utils/sort-by-pinyin';
 import OwnerRows from './OwnerRows.astro';
 
 const getClassLink = (cls: string) => getWikiLink('class', cls);
@@ -168,7 +169,13 @@ const groups = Array.from(groupMap.entries())
         return a.category.localeCompare(b.category, 'zh-Hans');
     });
 
-// 大类视图分组：合并同大类下所有兵种的人物，去重
+// 大类视图分组：合并同大类下所有兵种的人物，去重后按音序排序
+const sortNamesByPinyin = (names: string[]) =>
+    names
+        .map((name) => ({ name, key: pinyinKey(name) }))
+        .sort((a, b) => comparePinyin(a.key, b.key))
+        .map(({ name }) => name);
+
 const categoryGroups = groups.map((group) => {
     const baseSet = new Set<string>();
     const dlcSet = new Set<string>();
@@ -176,8 +183,8 @@ const categoryGroups = groups.map((group) => {
         for (const n of item.base) baseSet.add(n);
         for (const n of item.dlc) dlcSet.add(n);
     }
-    const baseNames = Array.from(baseSet);
-    const dlcNames = Array.from(dlcSet);
+    const baseNames = sortNamesByPinyin(Array.from(baseSet));
+    const dlcNames = sortNamesByPinyin(Array.from(dlcSet));
     return {
         category: group.category,
         baseNames,

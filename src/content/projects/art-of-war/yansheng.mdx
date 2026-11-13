@@ -1,0 +1,30 @@
+---
+title: 厌胜
+tags:
+  - art-of-war
+  - wiki-y
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="妨害型"
+  baseCategory="智略类"
+  baseSkillType="附加状态"
+  baseDescription="小概率使敌将重伤。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '敌将', successRate: '(气运)%', effect: '重伤' },
+    { level: 'Ⅱ', target: '敌将', successRate: '(气运)%', effect: '重伤' },
+    { level: 'Ⅲ', target: '敌将', successRate: '(气运)%', effect: '重伤' }
+  ]}
+  dlcDescription="小概率使敌将重伤。"
+  dlcSkill={{
+    type: '妨害型',
+    category: '特殊类',
+    skillType: '附加状态',
+    target: '敌将',
+    successRate: '(运势)%',
+    effect: '重伤'
+  }}
+/>

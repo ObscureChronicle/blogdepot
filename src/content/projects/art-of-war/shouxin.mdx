@@ -1,0 +1,30 @@
+---
+title: 守心
+tags:
+  - art-of-war
+  - wiki-s
+
+---
+
+import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
+
+<SkillWiki
+  baseType="增益型"
+  baseCategory="魅力类"
+  baseSkillType="参数补正"
+  baseDescription="将领魅力暂时上升，持续3回合。"
+  baseLevels={[
+    { level: 'Ⅰ', target: '将领', successRate: '100%', duration: '3回合', effect: '魅力+8' },
+    { level: 'Ⅱ', target: '将领', successRate: '100%', duration: '3回合', effect: '魅力+10' },
+    { level: 'Ⅲ', target: '将领', successRate: '100%', duration: '3回合', effect: '魅力+15' }
+  ]}
+  dlcDescription="提升将领魅力。"
+  dlcSkill={{
+    type: '增益型',
+    category: '魅力类',
+    skillType: '参数补正',
+    target: '将领',
+    successRate: '100%',
+    effect: '魅力+8'
+  }}
+/>
