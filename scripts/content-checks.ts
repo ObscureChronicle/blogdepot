@@ -1,7 +1,7 @@
 // 内容校验的检查逻辑（纯函数），由 validate-content.ts 调用，可直接用 node:test 测试
 import type { ZodObject } from 'astro/zod';
 import type { CollectionName } from '../src/content-schemas.ts';
-import { resolveTag } from '../src/utils/data-utils.ts';
+import { isPinyinIndexTag, resolveTag } from '../src/utils/data-utils.ts';
 
 export type Finding = { level: 'error' | 'warning'; message: string };
 
@@ -109,6 +109,53 @@ export function checkInternalLinks(raw: string, pageRoute: string, knownRoutes: 
         if (!/^\/(projects|blog)\//.test(path)) continue;
         const route = path.toLowerCase().replace(/\/?$/, '/');
         if (!knownRoutes.has(route)) findings.push({ level: 'warning', message: `链接 "${href}" 指向的页面 ${route} 不存在` });
+    }
+    return findings;
+}
+
+export type ProjectSummary = { id: string; title: unknown; tags: unknown };
+
+/**
+ * 重名词条的消歧义约定（只针对 projects）：
+ * - 多个词条同名时，必须有一个 disambiguation/ 下的同名消歧义页
+ * - 被消歧义的原词条不再带 wiki-X 音序标签，音序索引里只列消歧义页，避免出现几个一模一样的标题
+ * - 消歧义页本身要带 disambiguation 分类标签
+ * 返回的 finding 带上词条 id，由调用方映射回文件路径。
+ */
+export function checkDisambiguation(projects: ProjectSummary[]): Array<Finding & { id: string }> {
+    const findings: Array<Finding & { id: string }> = [];
+    const tagsOf = (p: ProjectSummary): string[] => (Array.isArray(p.tags) ? p.tags.filter((t): t is string => typeof t === 'string') : []);
+    const isDisambiguation = (p: ProjectSummary) => p.id.startsWith('disambiguation/');
+
+    const disambiguationTitles = new Set<string>();
+    for (const p of projects.filter(isDisambiguation)) {
+        if (typeof p.title === 'string') disambiguationTitles.add(p.title);
+        if (!tagsOf(p).includes('disambiguation')) {
+            findings.push({ id: p.id, level: 'warning', message: '消歧义页缺少分类标签 "disambiguation"' });
+        }
+    }
+
+    const byTitle = new Map<string, ProjectSummary[]>();
+    for (const p of projects) {
+        if (isDisambiguation(p) || typeof p.title !== 'string') continue;
+        byTitle.set(p.title, [...(byTitle.get(p.title) ?? []), p]);
+    }
+
+    for (const [title, group] of byTitle) {
+        if (group.length < 2) continue;
+        const ids = group.map((p) => p.id).join('、');
+        for (const p of group) {
+            if (!disambiguationTitles.has(title)) {
+                findings.push({
+                    id: p.id,
+                    level: 'warning',
+                    message: `标题「${title}」有多个同名词条（${ids}），需要在 disambiguation/ 下新建同名消歧义页`
+                });
+            }
+            if (tagsOf(p).some(isPinyinIndexTag)) {
+                findings.push({ id: p.id, level: 'warning', message: `重名词条「${title}」不应带 wiki-X 音序标签，音序索引只列消歧义页` });
+            }
+        }
     }
     return findings;
 }

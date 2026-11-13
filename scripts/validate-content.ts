@@ -3,6 +3,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema, type CollectionName } from '../src/content-schemas.ts';
 import {
+    checkDisambiguation,
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
@@ -26,16 +27,29 @@ const entries: Entry[] = (Object.keys(COLLECTION_BASES) as CollectionName[]).fla
 });
 const knownRoutes = new Set(entries.map((e) => contentRoute(e.collection, e.id)));
 
-const allIssues: Issue[] = entries.flatMap(({ collection, file, id }) => {
-    const raw = fs.readFileSync(file, 'utf8');
+const parsed = entries.map((entry) => {
+    const raw = fs.readFileSync(entry.file, 'utf8');
+    return { ...entry, raw, data: matter(raw).data };
+});
+
+const perFileIssues: Issue[] = parsed.flatMap(({ collection, file, id, raw, data }) => {
     const findings = [
-        ...checkFrontmatter(collection, SCHEMAS[collection], matter(raw).data),
+        ...checkFrontmatter(collection, SCHEMAS[collection], data),
         ...checkEditionSectionTitles(raw),
         ...(collection === 'projects' && id.startsWith('class/') ? checkLegacyTermHeadings(raw) : []),
         ...checkInternalLinks(raw, contentRoute(collection, id), knownRoutes)
     ];
     return findings.map((f) => ({ ...f, file }));
 });
+
+// 跨文件检查：重名词条的消歧义约定
+const projectEntries = parsed.filter((e) => e.collection === 'projects');
+const fileById = new Map(projectEntries.map((e) => [e.id, e.file]));
+const disambiguationIssues: Issue[] = checkDisambiguation(projectEntries.map(({ id, data }) => ({ id, title: data.title, tags: data.tags }))).map(
+    ({ id, ...finding }) => ({ ...finding, file: fileById.get(id) ?? id })
+);
+
+const allIssues: Issue[] = [...perFileIssues, ...disambiguationIssues];
 
 const errors = allIssues.filter((i) => i.level === 'error');
 const warnings = allIssues.filter((i) => i.level === 'warning');

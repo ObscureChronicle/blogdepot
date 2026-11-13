@@ -1,7 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { blogSchema } from '../src/content-schemas.ts';
-import { checkEditionSectionTitles, checkFrontmatter, checkInternalLinks, checkLegacyTermHeadings, contentRoute } from '../scripts/content-checks.ts';
+import {
+    checkDisambiguation,
+    checkEditionSectionTitles,
+    checkFrontmatter,
+    checkInternalLinks,
+    checkLegacyTermHeadings,
+    contentRoute
+} from '../scripts/content-checks.ts';
 
 const validBlog = { title: '标题', publishDate: '2024-01-01', tags: ['diary'] };
 
@@ -96,4 +103,38 @@ test('checkLegacyTermHeadings: other headings and terms text are fine', () => {
         `<ClassWiki terms={['术语性说明写进字段即可。']} />`
     ].join('\n');
     assert.deepEqual(checkLegacyTermHeadings(raw), []);
+});
+
+const bio = { id: 'bio/chendao', title: '陈到', tags: ['biography'] };
+const guard = { id: 'treasure/treasure-chendao', title: '陈到', tags: ['equipment'] };
+const disambiguationPage = { id: 'disambiguation/chendao', title: '陈到', tags: ['disambiguation', 'wiki-c'] };
+
+test('checkDisambiguation: duplicated titles with a disambiguation page and no pinyin tags pass', () => {
+    assert.deepEqual(checkDisambiguation([bio, guard, disambiguationPage, { id: 'bio/caocao', title: '曹操', tags: ['biography', 'wiki-c'] }]), []);
+});
+
+test('checkDisambiguation: duplicated titles without a disambiguation page warn on every entry', () => {
+    const findings = checkDisambiguation([bio, guard]);
+    assert.deepEqual(
+        findings.map((f) => [f.id, f.level]),
+        [
+            ['bio/chendao', 'warning'],
+            ['treasure/treasure-chendao', 'warning']
+        ]
+    );
+});
+
+test('checkDisambiguation: duplicated entries must not keep a pinyin index tag', () => {
+    const findings = checkDisambiguation([{ ...bio, tags: ['biography', 'wiki-c'] }, guard, disambiguationPage]);
+    assert.equal(findings.length, 1);
+    assert.equal(findings[0].id, 'bio/chendao');
+    assert.match(findings[0].message, /wiki-X/);
+});
+
+test('checkDisambiguation: a disambiguation page needs the disambiguation category tag', () => {
+    const findings = checkDisambiguation([bio, guard, { ...disambiguationPage, tags: ['wiki-c'] }]);
+    assert.deepEqual(
+        findings.map((f) => f.id),
+        ['disambiguation/chendao']
+    );
 });
