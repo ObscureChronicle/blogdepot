@@ -10,15 +10,19 @@ import { getAllTags, getPostsByTag, isPinyinIndexTag } from '../../../utils/data
 import { sortPostsByTitlePinyin } from '../../../utils/sort-by-pinyin';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    // 多列布局下每页 24 条（桌面 3 列 × 8 行）。这里不复用 siteConfig.postsPerPage：
-    // 那个值同时被 /blog/ 日志列表使用，本次只调整百科标签页，日志列表保持每页 8 条。
-    const PAGE_SIZE = 24;
-
     const posts = await getAllPosts();
     const tags = getAllTags(posts);
 
     return tags.flatMap((tag) => {
         const filteredPosts = getPostsByTag(posts, tag.id);
+        // 页长按标签的内容类型决定，与条目顺序无关：
+        // - 只有日志（单列 PostPreview，带摘要和「浏览全文」）时每页 12 条，避免下拉分页过长；
+        // - 含百科条目（3 列网格 ProjectPreview，只有标题）时每页 24 条。
+        // 混合标签（blog + projects）按「含百科」处理，统一取 24，保证规则只由内容类型决定。
+        // 当前没有任何标签同时属于 blog 和 projects，这条规则用于将来兜底。
+        const hasProjects = filteredPosts.some((post) => post.collection === 'projects');
+        const pageSize = hasProjects ? 24 : 12;
+
         // blog 和 projects 从不共用标签，同一个标签页下的内容永远只属于一种 collection：
         // projects 是百科条目，按标题拼音排序；blog 保留 getAllPosts() 已经排好的日期倒序。
         // 在分页之前排序，确保每一页内部顺序连续，而不是分页后再零散地重排当页内容。
@@ -26,7 +30,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
         return paginate(sortedPosts, {
             params: { id: tag.id },
             props: { tag },
-            pageSize: PAGE_SIZE
+            pageSize
         });
     });
 }
@@ -45,10 +49,29 @@ const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'
     showHeader={false}
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">"{tag.name}"</h1>
-    <div class="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-        {blogPosts.map((post) => <PostPreview post={post} />)}
-        {projectPosts.map((project) => <ProjectPreview project={project} />)}
-    </div>
+    {
+        blogPosts.length > 0 && (
+            <div class="space-y-10 sm:space-y-12">
+                {blogPosts.map((post) => (
+                    <PostPreview post={post} />
+                ))}
+            </div>
+        )
+    }
+    {
+        projectPosts.length > 0 && (
+            <div
+                class:list={[
+                    'grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3',
+                    blogPosts.length > 0 && 'mt-10 sm:mt-12'
+                ]}
+            >
+                {projectPosts.map((project) => (
+                    <ProjectPreview project={project} />
+                ))}
+            </div>
+        )
+    }
     <Pagination page={page} basePath={`/tags/${tag.id}`} class="my-16 sm:my-24" />
 </BaseLayout>
 

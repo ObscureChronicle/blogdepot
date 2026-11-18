@@ -76,6 +76,9 @@ describe('tags/[id]/[...page].astro getStaticPaths', () => {
         expect(diaryPages.length).toBeGreaterThan(0);
 
         const allDiaryPosts = diaryPages.flatMap((r) => r.props.page.data);
+        // 日志条目是单列（带摘要和「浏览全文」），每页固定 12 条
+        expect(diaryPages.every((r) => r.props.page.size === 12)).toBe(true);
+        expect(diaryPages.length).toBe(Math.ceil(allDiaryPosts.length / 12));
         expect(allDiaryPosts.every((p: any) => p.collection === 'blog')).toBe(true);
         for (let i = 1; i < allDiaryPosts.length; i++) {
             expect(new Date(allDiaryPosts[i - 1].data.publishDate).getTime()).toBeGreaterThanOrEqual(new Date(allDiaryPosts[i].data.publishDate).getTime());
@@ -99,6 +102,8 @@ describe('tags/[id]/[...page].astro getStaticPaths', () => {
 
         // 这个标签的文章数量足够多，一定会跨多页，才能真正检验"分页前排序"这件事
         expect(bioPages.length).toBeGreaterThan(1);
+        // 百科条目走 3 列网格，每页固定 24 条
+        expect(bioPages.every((r) => r.props.page.size === 24)).toBe(true);
 
         const flattened = bioPages.flatMap((r) => r.props.page.data);
         const expectedOrder = sortPostsByTitlePinyin(flattened).map((p: any) => p.id);

@@ -5,8 +5,6 @@ import TraitNote from './TraitNote.astro';
 
 /** 单条状态的全部可展示字段。空字符串/null/undefined 的行会自动隐藏。 */
 export type StatusRow = {
-    /** 状态说明文本 */
-    description?: string;
     /** 说明补充（原始 txt 里的第四列，很少用到） */
     descriptionAlt?: string;
     /** 持续回合数，0 表示永久 */
@@ -39,7 +37,6 @@ const { baseDescription, baseRow, dlcDescription, dlcRow, noteHtml } = Astro.pro
 
 // 原始 txt 的字段中文标签与 prop 名映射；按此顺序出现在竖式表格里
 const ROW_FIELDS: Array<{ label: string; key: keyof StatusRow }> = [
-    { label: '说明', key: 'description' },
     { label: '补充说明', key: 'descriptionAlt' },
     { label: '持续回合', key: 'duration' },
     { label: '自然恢复', key: 'naturalRecovery' },

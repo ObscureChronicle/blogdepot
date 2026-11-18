@@ -15,7 +15,7 @@ const traits = [
         hasBase: true,
         hasDlc: true,
         noteHtml: `<p>郡望为两汉益州者将获得此<a href="../trait_00_regional/">地域特性</a>。</p>
-<p>在星命诀中，武都郡、阴平郡被纳入此地域。</p>`,
+<p>在《后汉稽异录外传：星命诀》中，武都郡、阴平郡被纳入此地域。</p>`,
     },
     {
         fileName: 'trait_guanzhong.mdx',
@@ -26,7 +26,7 @@ const traits = [
         hasBase: true,
         hasDlc: true,
         noteHtml: `<p>郡望为两汉三辅，即京兆尹、左冯翊、右扶风，及北地郡者将获得此<a href="../trait_00_regional/">地域特性</a>。</p>
-<p>在星命诀中，河东郡、凉州南部被纳入此地域，并更改此<a href="../trait_00_regional/">地域特性</a>名为<a href="../trait_guanzhong/">关陇</a>。</p>`,
+<p>在《后汉稽异录外传：星命诀》中，河东郡、凉州南部被纳入此地域，并更改此<a href="../trait_00_regional/">地域特性</a>名为<a href="../trait_guanzhong/">关陇</a>。</p>`,
     },
     {
         fileName: 'trait_hebei.mdx',
@@ -61,7 +61,7 @@ const traits = [
         hasBase: true,
         hasDlc: true,
         noteHtml: `<p>郡望为两汉扬州、荆州（除南阳郡）者将获得此<a href="../trait_00_regional/">地域特性</a>。</p>
-<p>在星命诀中，扬州部分地区被划分为新的<a href="../trait_00_regional/">地域特性</a><a href="../trait_huaisi/">淮泗</a>与<a href="../trait_wuyue/">吴越</a>，此<a href="../trait_00_regional/">地域特性</a>改名为<a href="../trait_jingyang/">荆楚</a>。</p>`,
+<p>在《后汉稽异录外传：星命诀》中，扬州部分地区被划分为新的<a href="../trait_00_regional/">地域特性</a><a href="../trait_huaisi/">淮泗</a>与<a href="../trait_wuyue/">吴越</a>，此<a href="../trait_00_regional/">地域特性</a>改名为<a href="../trait_jingyang/">荆楚</a>。</p>`,
     },
     {
         fileName: 'trait_youbing.mdx',
@@ -82,7 +82,7 @@ const traits = [
         hasBase: true,
         hasDlc: true,
         noteHtml: `<p>郡望为两汉雍州（除三辅外）、凉州者将获得此<a href="../trait_00_regional/">地域特性</a>。</p>
-<p>在星命诀中，武都郡、阴平郡被划分为<a href="../trait_bashu/">巴蜀</a>，凉州南部及雍州被划分为<a href="../trait_guanzhong/">关陇</a>，此<a href="../trait_00_regional/">地域特性</a>改名为<a href="../trait_yongliang/">西凉</a>。</p>`,
+<p>在《后汉稽异录外传：星命诀》中，武都郡、阴平郡被划分为<a href="../trait_bashu/">巴蜀</a>，凉州南部及雍州被划分为<a href="../trait_guanzhong/">关陇</a>，此<a href="../trait_00_regional/">地域特性</a>改名为<a href="../trait_yongliang/">西凉</a>。</p>`,
     },
     {
         fileName: 'trait_huaisi.mdx',
@@ -119,11 +119,11 @@ traits.forEach(trait => {
     // introHtml
     let introHtml;
     if (trait.hasBase && trait.hasDlc) {
-        introHtml = '后汉稽异录与星命诀中的<a href="../trait_00_regional/">地域特性</a>。';
+        introHtml = '《后汉稽异录》与《后汉稽异录外传：星命诀》中的<a href="../trait_00_regional/">地域特性</a>。';
     } else if (trait.hasBase) {
-        introHtml = '后汉稽异录中的<a href="../trait_00_regional/">地域特性</a>。';
+        introHtml = '《后汉稽异录》中的<a href="../trait_00_regional/">地域特性</a>。';
     } else {
-        introHtml = '星命诀中的<a href="../trait_00_regional/">地域特性</a>。';
+        introHtml = '《后汉稽异录外传：星命诀》中的<a href="../trait_00_regional/">地域特性</a>。';
     }
 
     const content = `---
