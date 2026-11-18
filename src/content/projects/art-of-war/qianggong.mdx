@@ -11,22 +11,22 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 <SkillWiki
   baseType="妨害型"
   baseCategory="武勇类"
-  baseSkillType="独立减伤效果降低"
+  baseSkillType="攻击加成"
   baseDescription="本次攻击时，敌将胆识减成效果减半。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×1.12)%', targetResist: '胆识×10', cooldown: '3回合', effect: '50%' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×1.23)%', targetResist: '胆识×10', cooldown: '3回合', effect: '50%' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×1.44)%', targetResist: '胆识×10', cooldown: '3回合', effect: '50%' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×1.12)%', targetResist: '胆识×10', cooldown: '3回合', effect: '独立减伤效果降低50%' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×1.23)%', targetResist: '胆识×10', cooldown: '3回合', effect: '独立减伤效果降低50%' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×1.44)%', targetResist: '胆识×10', cooldown: '3回合', effect: '独立减伤效果降低50%' }
   ]}
   dlcDescription="攻击时，敌将胆识减成效果减半。"
   dlcSkill={{
     type: '妨害型',
     category: '武勇类',
-    skillType: '独立减伤效果降低',
+    skillType: '攻击加成',
     target: '本队',
     successRate: '(武勇×)%',
     targetResist: '胆识×10',
     cooldown: '回合',
-    effect: '独立减伤效果降低'
+    effect: '独立减伤效果降低50%'
   }}
 />

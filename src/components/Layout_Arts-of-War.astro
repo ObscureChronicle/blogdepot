@@ -52,6 +52,41 @@ const hasDlc = Boolean(dlcSkill) || Boolean(dlcDescription);
 // 表格里没有数据的格子统一显示占位符
 const EMPTY = '—';
 const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
+
+// 等级间变动高亮：与上一级比较，非效果列整格标记，效果列按分隔符逐项标记
+const SEPARATOR = /([　\s]+)/;
+const DIFF_CLASS = 'text-green-600 dark:text-green-400';
+
+const tokenizeEffect = (effect: string) => effect.split(SEPARATOR).filter((part) => part.trim() !== '');
+
+const levelRows = baseLevels.map((row, index) => {
+    const previous = index > 0 ? baseLevels[index - 1] : undefined;
+    const isChanged = (value?: string, previousValue?: string) => Boolean(previous) && (value ?? '') !== (previousValue ?? '');
+
+    const previousTokens = previous ? tokenizeEffect(previous.effect) : [];
+    let tokenIndex = 0;
+    const effectParts = row.effect
+        .split(SEPARATOR)
+        .filter((part) => part !== '')
+        .map((part) => {
+            if (part.trim() === '') return { text: part, separator: true, changed: false };
+            const changed = Boolean(previous) && (previousTokens[tokenIndex] ?? '') !== part;
+            tokenIndex += 1;
+            return { text: part, separator: false, changed };
+        });
+
+    return {
+        row,
+        changed: {
+            target: isChanged(row.target, previous?.target),
+            successRate: isChanged(row.successRate, previous?.successRate),
+            targetResist: isChanged(row.targetResist, previous?.targetResist),
+            cooldown: isChanged(row.cooldown, previous?.cooldown),
+            duration: isChanged(row.duration, previous?.duration)
+        },
+        effectParts
+    };
+});
 ---
 
 {
@@ -95,17 +130,31 @@ const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
                         </tr>
                     </thead>
                     <tbody>
-                        {baseLevels.map((row) => (
+                        {levelRows.map(({ row, changed, effectParts }) => (
                             <tr>
                                 <th scope="row" class="w-16">
                                     {row.level}
                                 </th>
-                                <td>{orEmpty(row.target)}</td>
-                                <td>{orEmpty(row.successRate)}</td>
-                                <td>{orEmpty(row.targetResist)}</td>
-                                <td>{orEmpty(row.cooldown)}</td>
-                                <td>{orEmpty(row.duration)}</td>
-                                <td>{row.effect}</td>
+                                <td>
+                                    <span class={changed.target ? DIFF_CLASS : undefined}>{orEmpty(row.target)}</span>
+                                </td>
+                                <td>
+                                    <span class={changed.successRate ? DIFF_CLASS : undefined}>{orEmpty(row.successRate)}</span>
+                                </td>
+                                <td>
+                                    <span class={changed.targetResist ? DIFF_CLASS : undefined}>{orEmpty(row.targetResist)}</span>
+                                </td>
+                                <td>
+                                    <span class={changed.cooldown ? DIFF_CLASS : undefined}>{orEmpty(row.cooldown)}</span>
+                                </td>
+                                <td>
+                                    <span class={changed.duration ? DIFF_CLASS : undefined}>{orEmpty(row.duration)}</span>
+                                </td>
+                                <td>
+                                    {effectParts.map((part) =>
+                                        part.separator || !part.changed ? part.text : <span class={DIFF_CLASS}>{part.text}</span>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

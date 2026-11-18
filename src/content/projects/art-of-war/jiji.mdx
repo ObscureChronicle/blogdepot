@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加属性至伤害"
   baseDescription="本队攻击时一定几率将武勇值附加至伤害中，持续5回合。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '(Lv×2.8)%', cooldown: '9回合', duration: '5回合', effect: '武勇' },
-    { level: 'Ⅱ', target: '本队', successRate: '(Lv×3.2)%', cooldown: '9回合', duration: '5回合', effect: '武勇' },
-    { level: 'Ⅲ', target: '本队', successRate: '(Lv×3.2)%', cooldown: '8回合', duration: '5回合', effect: '武勇' }
+    { level: 'Ⅰ', target: '本队', successRate: '(等级×2.8)%', cooldown: '9回合', duration: '5回合', effect: '武勇' },
+    { level: 'Ⅱ', target: '本队', successRate: '(等级×3.2)%', cooldown: '9回合', duration: '5回合', effect: '武勇' },
+    { level: 'Ⅲ', target: '本队', successRate: '(等级×3.2)%', cooldown: '8回合', duration: '5回合', effect: '武勇' }
   ]}
   dlcDescription="本队攻击时一定几率将武勇值附加至伤害中，持续5回合。"
   dlcSkill={{
@@ -24,7 +24,7 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '特殊类',
     skillType: '附加属性至伤害',
     target: '本队',
-    successRate: '(Lv×4)%',
+    successRate: '(等级×4)%',
     cooldown: '回合',
     duration: '5回合',
     effect: '附加属性至伤害'
