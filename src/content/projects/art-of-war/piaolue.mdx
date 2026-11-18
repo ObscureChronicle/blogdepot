@@ -11,19 +11,20 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 <SkillWiki
   baseType="妨害型"
   baseCategory="武勇类"
-  baseSkillType="偷盗"
+  baseSkillType="掠夺"
   baseDescription="抢夺武勇低于自身的敌军武器或装备。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', effect: '抢夺武器或装备（exp5）' },
-    { level: 'Ⅱ', target: '敌军', effect: '抢夺武器或装备（exp5）' },
-    { level: 'Ⅲ', target: '敌军', effect: '抢夺武器或装备（exp5）' }
+    { level: 'Ⅰ', target: '敌军', cooldown: '9回合', effect: '抢夺武器或装备' },
+    { level: 'Ⅱ', target: '敌军', cooldown: '8回合', effect: '抢夺武器或装备' },
+    { level: 'Ⅲ', target: '敌军', cooldown: '8回合', effect: '抢夺武器或装备' }
   ]}
   dlcDescription="攻击后若可击退敌军，则改为俘虏敌军，并允许掠夺其武器及装备。"
   dlcSkill={{
     type: '妨害型',
     category: '武勇类',
-    skillType: '合体',
+    skillType: '掠夺',
     target: '敌军',
-    effect: '剽掠'
+    cooldown: '回合',
+    effect: '俘虏后掠夺 剽掠'
   }}
 />

@@ -12,11 +12,11 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseType="增益型"
   baseCategory="智略类"
   baseSkillType="无效处理"
-  baseDescription="本队免疫敌军一切损害型特性，且不受必杀、特攻伤害，持续3回合。"
+  baseDescription="本队免疫敌军一切损害型特性，且不受必杀、特攻伤害。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '2回合', effect: '必杀　特攻　发动型技能　减半　封印' },
-    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '2回合', effect: '必杀　特攻　发动型技能　减半　封印' },
-    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '必杀　特攻　发动型技能　减半　封印' }
+    { level: 'Ⅰ', target: '本队', successRate: '100%', cooldown: '11回合', duration: '2回合', effect: '必杀　特攻　发动型技能　减半　封印' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', cooldown: '10回合', duration: '2回合', effect: '必杀　特攻　发动型技能　减半　封印' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', cooldown: '10回合', duration: '3回合', effect: '必杀　特攻　发动型技能　减半　封印' }
   ]}
   dlcDescription="提升对一般部队的伤害减免。"
   dlcSkill={{

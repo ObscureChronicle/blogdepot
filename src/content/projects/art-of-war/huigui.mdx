@@ -14,17 +14,18 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="行动恢复"
   baseDescription="使单个我军待机部队再次行动。"
   baseLevels={[
-    { level: 'Ⅰ', target: '我军待机部队', successRate: '100%', effect: '1部队　exp5' },
-    { level: 'Ⅱ', target: '我军待机部队', successRate: '100%', effect: '1部队　exp5' },
-    { level: 'Ⅲ', target: '我军待机部队', successRate: '100%', effect: '1部队　exp5' }
+    { level: 'Ⅰ', target: '周围我军待机部队', successRate: '100%', cooldown: '5回合', effect: '1部队' },
+    { level: 'Ⅱ', target: '周围我军待机部队', successRate: '100%', cooldown: '4回合', effect: '1部队' },
+    { level: 'Ⅲ', target: '周围我军待机部队', successRate: '100%', cooldown: '3回合', effect: '1部队' }
   ]}
   dlcDescription="使单个我军待机部队再次行动。"
   dlcSkill={{
     type: '增益型',
     category: '魅力类',
     skillType: '行动恢复',
-    target: '我军待机部队',
+    target: '周围我军待机部队',
     successRate: '100%',
-    effect: '1部队　exp0'
+    cooldown: '回合',
+    effect: '1部队'
   }}
 />

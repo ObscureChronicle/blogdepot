@@ -9,14 +9,14 @@ tags:
 import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 
 <SkillWiki
-  baseType="妨害型"
+  baseType="增益型"
   baseCategory="智略类"
   baseSkillType="对战斗对手的限制"
-  baseDescription="封锁敌军对本队一切攻击行为，持续4回合。"
+  baseDescription="封锁敌军对本队一切攻击行为。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', duration: '3回合', effect: '攻击封锁' },
-    { level: 'Ⅱ', target: '敌军', duration: '3回合', effect: '攻击封锁' },
-    { level: 'Ⅲ', target: '敌军', duration: '4回合', effect: '攻击封锁' }
+    { level: 'Ⅰ', target: '本队', cooldown: '11回合', duration: '3回合', effect: '攻击封锁' },
+    { level: 'Ⅱ', target: '本队', cooldown: '10回合', duration: '3回合', effect: '攻击封锁' },
+    { level: 'Ⅲ', target: '本队', cooldown: '10回合', duration: '4回合', effect: '攻击封锁' }
   ]}
   dlcDescription="每回合开始时，解除自身所有非永久持续不良状态。"
   dlcSkill={{

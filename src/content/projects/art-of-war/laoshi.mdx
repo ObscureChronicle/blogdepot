@@ -12,11 +12,11 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseType="增益型"
   baseCategory="智略类"
   baseSkillType="无效处理"
-  baseDescription="本队不会受到必杀，持续5回合。"
+  baseDescription="本队不会受到必杀。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '4回合', effect: '必杀' },
-    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '4回合', effect: '必杀' },
-    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '5回合', effect: '必杀' }
+    { level: 'Ⅰ', target: '本队', successRate: '100%', cooldown: '8回合', duration: '4回合', effect: '必杀' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', cooldown: '7回合', duration: '4回合', effect: '必杀' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', cooldown: '7回合', duration: '5回合', effect: '必杀' }
   ]}
   dlcDescription="本队不再受到必杀。"
   dlcSkill={{

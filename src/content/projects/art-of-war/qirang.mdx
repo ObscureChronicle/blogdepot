@@ -10,13 +10,13 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 
 <SkillWiki
   baseType="增益型"
-  baseCategory="智略类"
+  baseCategory="特殊类"
   baseSkillType="参数补正"
   baseDescription="将领气运暂时上升，持续3回合。"
   baseLevels={[
-    { level: 'Ⅰ', target: '将领', successRate: '100%', duration: '3回合', effect: '幸运+8' },
-    { level: 'Ⅱ', target: '将领', successRate: '100%', duration: '3回合', effect: '幸运+10' },
-    { level: 'Ⅲ', target: '将领', successRate: '100%', duration: '3回合', effect: '幸运+15' }
+    { level: 'Ⅰ', target: '将领', successRate: '100%', cooldown: '6回合', duration: '3回合', effect: '幸运+8' },
+    { level: 'Ⅱ', target: '将领', successRate: '100%', cooldown: '6回合', duration: '3回合', effect: '幸运+10' },
+    { level: 'Ⅲ', target: '将领', successRate: '100%', cooldown: '5回合', duration: '3回合', effect: '幸运+15' }
   ]}
   dlcDescription="将领气运暂时上升，持续3回合。"
   dlcSkill={{
@@ -25,6 +25,7 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     skillType: '参数补正',
     target: '将领',
     successRate: '100%',
+    cooldown: '回合',
     duration: '3回合',
     effect: '幸运+8'
   }}
