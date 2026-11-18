@@ -2,6 +2,7 @@
 // 军略词条布局。本传的军略存在等级（Ⅰ / Ⅱ / Ⅲ …），按等级列出效果；
 // 星命诀的军略不分等级，只有一段描述与效果。
 import { EDITIONS } from '../data/editions';
+import { getWikiLink } from '../utils/wiki-links';
 import SectionTitle from './SectionTitle.astro';
 import TraitNote from './TraitNote.astro';
 
@@ -59,6 +60,10 @@ const DIFF_CLASS = 'text-green-600 dark:text-green-400';
 
 const tokenizeEffect = (effect: string) => effect.split(SEPARATOR).filter((part) => part.trim() !== '');
 
+// 只有「附加状态」类军略的效果才是状态名，才需要链到 status 词条
+const isBaseStatusSkill = baseSkillType === '附加状态';
+const dlcEffectLink = dlcSkill?.skillType === '附加状态' ? getWikiLink('status', dlcSkill.effect.trim()) : null;
+
 const levelRows = baseLevels.map((row, index) => {
     const previous = index > 0 ? baseLevels[index - 1] : undefined;
     const isChanged = (value?: string, previousValue?: string) => Boolean(previous) && (value ?? '') !== (previousValue ?? '');
@@ -84,7 +89,9 @@ const levelRows = baseLevels.map((row, index) => {
             cooldown: isChanged(row.cooldown, previous?.cooldown),
             duration: isChanged(row.duration, previous?.duration)
         },
-        effectParts
+        effectParts,
+        effectChanged: effectParts.some((part) => part.changed),
+        effectLink: isBaseStatusSkill ? getWikiLink('status', row.effect.trim()) : null
     };
 });
 ---
@@ -130,7 +137,7 @@ const levelRows = baseLevels.map((row, index) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {levelRows.map(({ row, changed, effectParts }) => (
+                        {levelRows.map(({ row, changed, effectParts, effectChanged, effectLink }) => (
                             <tr>
                                 <th scope="row" class="w-16">
                                     {row.level}
@@ -151,8 +158,12 @@ const levelRows = baseLevels.map((row, index) => {
                                     <span class={changed.duration ? DIFF_CLASS : undefined}>{orEmpty(row.duration)}</span>
                                 </td>
                                 <td>
-                                    {effectParts.map((part) =>
-                                        part.separator || !part.changed ? part.text : <span class={DIFF_CLASS}>{part.text}</span>
+                                    {effectLink ? (
+                                        <a href={effectLink} class={effectChanged ? DIFF_CLASS : undefined}>{row.effect}</a>
+                                    ) : (
+                                        effectParts.map((part) =>
+                                            part.separator || !part.changed ? part.text : <span class={DIFF_CLASS}>{part.text}</span>
+                                        )
                                     )}
                                 </td>
                             </tr>
@@ -224,7 +235,7 @@ const levelRows = baseLevels.map((row, index) => {
                             <th scope="row" class="w-28">
                                 效果
                             </th>
-                            <td>{dlcSkill.effect}</td>
+                            <td>{dlcEffectLink ? <a href={dlcEffectLink}>{dlcSkill.effect}</a> : dlcSkill.effect}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,0 +1,124 @@
+---
+import { EDITIONS } from '../data/editions';
+import SectionTitle from './SectionTitle.astro';
+import TraitNote from './TraitNote.astro';
+
+/** 单条状态的全部可展示字段。空字符串/null/undefined 的行会自动隐藏。 */
+export type StatusRow = {
+    /** 状态说明文本 */
+    description?: string;
+    /** 说明补充（原始 txt 里的第四列，很少用到） */
+    descriptionAlt?: string;
+    /** 持续回合数，0 表示永久 */
+    duration?: string;
+    /** 自然恢复回合数，0 表示不可自然恢复 */
+    naturalRecovery?: string;
+    /** 封印条件，如「物理 魔法 道具 魔杖」 */
+    seal?: string;
+    /** 选项，如「行动禁止」「自动AI」 */
+    option?: string;
+    /** 添加技能，如「神工」「威慑状态用」 */
+    addSkill?: string;
+    /** 每回合奖金减少值 */
+    rewardPenalty?: string;
+    /** 自动解除条件，如「2」「3」 */
+    autoRelease?: string;
+    /** 参数补正，如「力量+5」「移动力-9」 */
+    statMods?: string;
+};
+
+type StatusWikiProps = {
+    baseDescription?: string;
+    baseRow?: StatusRow;
+    dlcDescription?: string;
+    dlcRow?: StatusRow;
+    noteHtml?: string;
+};
+
+const { baseDescription, baseRow, dlcDescription, dlcRow, noteHtml } = Astro.props as StatusWikiProps;
+
+const hasBase = Boolean(baseDescription) || Boolean(baseRow);
+const hasDlc = Boolean(dlcDescription) || Boolean(dlcRow);
+
+// 原始 txt 的字段中文标签与 prop 名映射；按此顺序出现在竖式表格里
+const ROW_FIELDS: Array<{ label: string; key: keyof StatusRow }> = [
+    { label: '说明', key: 'description' },
+    { label: '补充说明', key: 'descriptionAlt' },
+    { label: '持续回合', key: 'duration' },
+    { label: '自然恢复', key: 'naturalRecovery' },
+    { label: '无法使用', key: 'seal' },
+    { label: '效果', key: 'option' },
+    { label: '额外效果', key: 'addSkill' },
+    { label: '能力值恢复', key: 'rewardPenalty' },
+    { label: '战斗后解除', key: 'autoRelease' },
+    { label: '能力值补正', key: 'statMods' }
+];
+
+// 布尔字段的"隐藏规则"：0 对自然恢复是合法值（表示不可自然恢复），要显示；
+// 但 0 对奖金减少也是合法值（表示无减少），要显示；自动解除用 1/2/5，0 没出现过。
+// 一律按"空字符串/undefined/null 才隐藏"处理，保留所有数值型字段。
+const orNull = (value?: string | number): string | null => {
+    if (value === null || value === undefined) return null;
+    const text = String(value).trim();
+    return text === '' ? null : text;
+};
+
+function* visibleFields(row: StatusRow | undefined) {
+    if (!row) return;
+    for (const field of ROW_FIELDS) {
+        const value = orNull(row[field.key]);
+        if (value !== null) yield { label: field.label, value };
+    }
+}
+
+const baseFields = [...visibleFields(baseRow)];
+const dlcFields = [...visibleFields(dlcRow)];
+---
+
+{
+    (hasBase || hasDlc) && (
+        <>
+            <SectionTitle tone="base">{EDITIONS.base.shortName}</SectionTitle>
+            {baseDescription && <p set:html={baseDescription} class="text-base leading-relaxed" />}
+            {baseFields.length > 0 && (
+                <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                    <tbody>
+                        {baseFields.map(({ label, value }) => (
+                            <tr>
+                                <th scope="row" class="w-28">
+                                    {label}
+                                </th>
+                                <td>{value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </>
+    )
+}
+
+{
+    hasDlc && (
+        <>
+            <SectionTitle tone="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
+            {dlcDescription && <p set:html={dlcDescription} class="text-base leading-relaxed" />}
+            {dlcFields.length > 0 && (
+                <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                    <tbody>
+                        {dlcFields.map(({ label, value }) => (
+                            <tr>
+                                <th scope="row" class="w-28">
+                                    {label}
+                                </th>
+                                <td>{value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </>
+    )
+}
+
+<TraitNote noteHtml={noteHtml} />

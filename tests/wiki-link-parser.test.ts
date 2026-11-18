@@ -29,6 +29,11 @@ test('namesForTitle: item parentheses are NOT split automatically, only register
     assert.deepEqual(namesForTitle('item', '蛇矛（丈八蛇矛）'), ['蛇矛（丈八蛇矛）', '蛇矛', '丈八蛇矛']);
 });
 
+test('namesForTitle: a status title「本名（别名）」is reachable by both names', () => {
+    assert.deepEqual(namesForTitle('status', '疲弊（疲惫）'), ['疲弊（疲惫）', '疲弊', '疲惫']);
+    assert.deepEqual(namesForTitle('status', '高昂'), ['高昂']);
+});
+
 test('buildWikiLinkMaps: routes each content dir to its map and skips overview pages', () => {
     const { maps, warnings } = buildWikiLinkMaps({
         '../content/projects/bio/caocao.mdx': mdx('曹操'),
@@ -36,7 +41,9 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
         '../content/projects/treasure/00_item-type.mdx': mdx('宝物'),
         '../content/projects/equipment/equipment-gedun.mdx': mdx('革盾'),
         '../content/projects/class/gongbing.mdx': mdx('弓兵'),
-        '../content/projects/class/00_total.mdx': mdx('兵种')
+        '../content/projects/class/00_total.mdx': mdx('兵种'),
+        '../content/projects/status/pibi.mdx': mdx('疲弊（疲惫）'),
+        '../content/projects/status/00_status.mdx': mdx('状态')
     });
     assert.deepEqual(maps.character, { 曹操: '/projects/bio/caocao/' });
     assert.deepEqual(maps.item, {
@@ -46,6 +53,11 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
         革盾: '/projects/equipment/equipment-gedun/'
     });
     assert.deepEqual(maps.class, { 弓兵: '/projects/class/gongbing/' });
+    assert.deepEqual(maps.status, {
+        '疲弊（疲惫）': '/projects/status/pibi/',
+        疲弊: '/projects/status/pibi/',
+        疲惫: '/projects/status/pibi/'
+    });
     assert.deepEqual(warnings, []);
 });
 
@@ -66,11 +78,11 @@ test('buildWikiLinkMaps: warns about entries without a title instead of silently
     assert.match(warnings[0], /bio\/nobody\.mdx/);
 });
 
-// 用真实内容做一致性检查：每个人物 / 物品 / 兵种词条都能按标题找到自己的链接，且没有同名冲突
+// 用真实内容做一致性检查：每个人物 / 物品 / 兵种 / 状态词条都能按标题找到自己的链接，且没有同名冲突
 test('buildWikiLinkMaps (real content): every entry is reachable by its own title, with no warnings', () => {
     const root = 'src/content/projects';
     const rawFiles: Record<string, string> = {};
-    for (const dir of ['bio', 'treasure', 'equipment', 'class']) {
+    for (const dir of ['bio', 'treasure', 'equipment', 'class', 'status']) {
         for (const f of fs.readdirSync(path.join(root, dir)).filter((n) => n.endsWith('.mdx'))) {
             rawFiles[`${root}/${dir}/${f}`] = fs.readFileSync(path.join(root, dir, f), 'utf8');
         }
@@ -78,7 +90,13 @@ test('buildWikiLinkMaps (real content): every entry is reachable by its own titl
     const { maps, warnings } = buildWikiLinkMaps(rawFiles);
     assert.deepEqual(warnings, []);
 
-    const kindOf: Record<string, 'character' | 'item' | 'class'> = { bio: 'character', treasure: 'item', equipment: 'item', class: 'class' };
+    const kindOf: Record<string, 'character' | 'item' | 'class' | 'status'> = {
+        bio: 'character',
+        treasure: 'item',
+        equipment: 'item',
+        class: 'class',
+        status: 'status'
+    };
     for (const [file, raw] of Object.entries(rawFiles)) {
         const [dir, name] = file.split('/').slice(-2);
         const slug = name.replace(/\.mdx$/, '');

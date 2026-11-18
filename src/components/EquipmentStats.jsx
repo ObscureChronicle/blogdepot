@@ -1,5 +1,20 @@
-export default function EquipmentStats({ equipment }) {
+export default function EquipmentStats({ equipment, linkedValues = {} }) {
     const { base, damageBonus, damageReduction } = equipment;
+
+    // 带状态链接的文本片段；没有命中时按原字符串输出
+    const renderValue = (value) => {
+        const parts = linkedValues[String(value)];
+        if (!parts) return value;
+        return parts.map((part, index) =>
+            part.href ? (
+                <a key={index} href={part.href} className="text-blue-600 hover:text-blue-800 hover:underline">
+                    {part.text}
+                </a>
+            ) : (
+                part.text
+            )
+        );
+    };
 
     // 通用格式化函数：根据数值返回显示文本和颜色类名
     const formatValue = (value) => {
@@ -32,7 +47,7 @@ export default function EquipmentStats({ equipment }) {
                                     <th scope="row" className="w-28">
                                         {key}
                                     </th>
-                                    <td className="text-right">{value}</td>
+                                    <td className="text-right">{renderValue(value)}</td>
                                 </tr>
                             );
                         }

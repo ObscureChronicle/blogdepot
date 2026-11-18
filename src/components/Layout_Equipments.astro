@@ -34,6 +34,31 @@ import SectionTitle from './SectionTitle.astro';
 import EquipmentStats from './EquipmentStats.jsx';
 import TraitNote from './TraitNote.astro';
 import WikiLink from './WikiLink.astro';
+import { STATUS_MAP } from '../utils/wiki-links';
+import { linkStatusNames, linkStatusTokens, type StatusTextPart } from '../utils/status-link-parts';
+
+// 「免疫」「效果」里的状态名 → 状态词条；免疫中的非状态名（如「所有不良状态」）回退到状态总览
+const STATUS_OVERVIEW = '/projects/status/00_status/';
+const STATUS_NAMES = Object.keys(STATUS_MAP).sort((a, b) => b.length - a.length);
+const statusHref = (name: string) => STATUS_MAP[name] ?? null;
+
+const buildLinkedValues = (equipment?: EquipmentData): Record<string, StatusTextPart[]> => {
+    const result: Record<string, StatusTextPart[]> = {};
+    if (!equipment) return result;
+
+    for (const group of Object.values(equipment)) {
+        if (!group || typeof group !== 'object') continue;
+        for (const [key, value] of Object.entries(group)) {
+            if (typeof value !== 'string' || result[value]) continue;
+            if (key === '免疫') result[value] = linkStatusTokens(value, statusHref, STATUS_OVERVIEW);
+            else if (key === '效果') result[value] = linkStatusNames(value, STATUS_NAMES, statusHref);
+        }
+    }
+    return result;
+};
+
+const baseLinkedValues = buildLinkedValues(baseEquipment);
+const dlcLinkedValues = buildLinkedValues(dlcEquipment);
 
 
 const hasEquipment = (e?: EquipmentData) => !!e && Object.values(e).some((v) => !!v && Object.keys(v).length > 0);
@@ -69,8 +94,8 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
         <>
             <SectionTitle>效果</SectionTitle>
             <EditionSplit showBase={showBaseEquip} showDlc={showDlcEquip}>
-                <EquipmentStats slot="base" equipment={baseEquipment} />
-                <EquipmentStats slot="dlc" equipment={dlcEquipment} />
+                <EquipmentStats slot="base" equipment={baseEquipment} linkedValues={baseLinkedValues} />
+                <EquipmentStats slot="dlc" equipment={dlcEquipment} linkedValues={dlcLinkedValues} />
             </EditionSplit>
         </>
     )

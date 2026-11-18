@@ -6,7 +6,7 @@
  * node:test 测试；读取文件的部分在 wiki-links.ts。
  */
 
-export type WikiLinkKind = 'character' | 'item' | 'class';
+export type WikiLinkKind = 'character' | 'item' | 'class' | 'status';
 
 export type WikiLinkMaps = Record<WikiLinkKind, Record<string, string>>;
 
@@ -15,7 +15,8 @@ const DIR_KIND: Record<string, WikiLinkKind> = {
     bio: 'character',
     treasure: 'item',
     equipment: 'item',
-    class: 'class'
+    class: 'class',
+    status: 'status'
 };
 
 /**
@@ -46,8 +47,8 @@ export function isOverviewPage(slug: string): boolean {
 
 /** 一个词条能被哪些名字引用到：完整标题 + 别名 */
 export function namesForTitle(kind: WikiLinkKind, title: string): string[] {
-    if (kind === 'character') {
-        // 人物标题形如「陆逊（陆议）」：本名与括号内的别名都指向同一词条
+    if (kind === 'character' || kind === 'status') {
+        // 人物、状态标题形如「陆逊（陆议）」「疲弊（疲惫）」：本名与括号内的别名都指向同一词条
         const m = title.match(/^(.+?)（(.+)）$/);
         return m ? [title, m[1], m[2]] : [title];
     }
@@ -60,7 +61,7 @@ export function namesForTitle(kind: WikiLinkKind, title: string): string[] {
  * @returns 三张映射表，以及同名冲突等需要人工留意的警告
  */
 export function buildWikiLinkMaps(rawFiles: Record<string, string>): { maps: WikiLinkMaps; warnings: string[] } {
-    const maps: WikiLinkMaps = { character: {}, item: {}, class: {} };
+    const maps: WikiLinkMaps = { character: {}, item: {}, class: {}, status: {} };
     const warnings: string[] = [];
 
     // 按路径排序，保证不同环境下 glob 返回顺序不同时结果也一致

@@ -1,0 +1,36 @@
+---
+title: 神工
+tags:
+  - status
+
+---
+
+import StatusWiki from "../../../components/Layout_Status.astro";
+
+执行「神工」指令后，会同时附加「正在强化……」与「神工」状态。
+
+### 正在强化……
+
+<StatusWiki
+  baseDescription="因正在强化床弩，暂时无法行动！"
+  baseRow={{
+    description: '因正在强化床弩，暂时无法行动！',
+    duration: '3',
+    seal: '攻击 器械 宝物 军令 辎重',
+    option: '禁止行动',
+    autoRelease: '2'
+  }}
+/>
+
+### 神工
+
+<StatusWiki
+  baseDescription="追加行动次数。"
+  baseRow={{
+    description: '追加行动次数。',
+    duration: '6',
+    addSkill: '神工',
+    autoRelease: '2',
+    statMods: '移动力-9'
+  }}
+/>
