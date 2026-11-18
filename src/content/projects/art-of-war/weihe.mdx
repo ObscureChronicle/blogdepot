@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入惊惧状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '惊惧' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '惊惧' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '惊惧' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×0.54)%', targetResist: '胆识×10', cooldown: '5回合', effect: '惊惧' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×0.65)%', targetResist: '胆识×10', cooldown: '5回合', effect: '惊惧' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×0.76)%', targetResist: '胆识×10', cooldown: '5回合', effect: '惊惧' }
   ]}
   dlcDescription="使敌军陷入畏葸状态。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '武勇类',
     skillType: '附加状态',
     target: '敌军',
-    successRate: '(武勇)%',
+    successRate: '(武勇×)%',
+    targetResist: '胆识×10',
+    cooldown: '回合',
     effect: '畏葸'
   }}
 />

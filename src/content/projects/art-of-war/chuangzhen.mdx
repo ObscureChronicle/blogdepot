@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入惊扰状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '惊扰' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '惊扰' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '惊扰' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×0.49)%', targetResist: '胆识×10', cooldown: '4回合', effect: '惊扰' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '4回合', effect: '惊扰' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '3回合', effect: '惊扰' }
   ]}
   dlcDescription="本队周身内敌军士气大幅下降。"
   dlcSkill={{

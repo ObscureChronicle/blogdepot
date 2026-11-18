@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="对战斗对手的限制"
   baseDescription="本次攻击后一回合内，敌军所造成的伤害始终减半。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', duration: '1回合', effect: '攻击减半' },
-    { level: 'Ⅱ', target: '敌军', duration: '1回合', effect: '攻击减半' },
-    { level: 'Ⅲ', target: '敌军', duration: '1回合', effect: '攻击减半' }
+    { level: 'Ⅰ', target: '敌军', successRate: '100%', duration: '1回合', cooldown: '5回合', effect: '攻击减半' },
+    { level: 'Ⅱ', target: '敌军', successRate: '100%', duration: '1回合', cooldown: '4回合', effect: '攻击减半' },
+    { level: 'Ⅲ', target: '敌军', successRate: '100%', duration: '1回合', cooldown: '3回合', effect: '攻击减半' }
   ]}
   dlcDescription="提升本队对非器械类伤害减免。"
   dlcSkill={{

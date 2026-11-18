@@ -14,15 +14,16 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入重伤状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅳ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅴ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅵ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅶ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅷ', target: '敌军', successRate: '(武勇)%', effect: '重伤' },
-    { level: 'Ⅸ', target: '敌军', successRate: '(武勇)%', effect: '重伤' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×0.39)%', targetResist: '胆识×10', cooldown: '7回合', effect: '重伤' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×0.48)%', targetResist: '胆识×10', cooldown: '7回合', effect: '重伤' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×0.57)%', targetResist: '胆识×10', cooldown: '7回合', effect: '重伤' },
+    { level: 'Ⅳ', target: '敌军', successRate: '(武勇×0.57)%', targetResist: '胆识×10', cooldown: '6回合', effect: '重伤' },
+    { level: 'Ⅴ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '6回合', effect: '重伤' },
+    { level: 'Ⅵ', target: '敌军', successRate: '(武勇×0.63)%', targetResist: '胆识×10', cooldown: '6回合', effect: '重伤' },
+    { level: 'Ⅶ', target: '敌军', successRate: '(武勇×0.63)%', targetResist: '胆识×10', cooldown: '5回合', effect: '重伤' },
+    { level: 'Ⅷ', target: '敌军', successRate: '(武勇×0.64)%', targetResist: '胆识×10', cooldown: '4回合', effect: '重伤' },
+    { level: 'Ⅸ', target: '敌军', successRate: '(武勇×0.64)%', targetResist: '胆识×10', cooldown: '3回合', effect: '重伤' },
+    { level: 'Ⅹ', target: '敌军', successRate: '(武勇×0.65)%', targetResist: '胆识×10', cooldown: '2回合', effect: '重伤' }
   ]}
   dlcDescription="使敌将陷入重伤状态。"
   dlcSkill={{
@@ -30,7 +31,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '武勇类',
     skillType: '附加状态',
     target: '敌将',
-    successRate: '(武勇)%',
+    successRate: '(武勇×)%',
+    targetResist: '胆识×10',
+    cooldown: '回合',
     effect: '重伤'
   }}
 />

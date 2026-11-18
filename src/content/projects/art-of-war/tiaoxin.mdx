@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入愤怒状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '愤怒' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '愤怒' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '愤怒' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略×0.92)%', targetResist: '冷静×10', cooldown: '3回合', effect: '愤怒' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略×1.04)%', targetResist: '冷静×10', cooldown: '3回合', effect: '愤怒' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略×1.16)%', targetResist: '冷静×10', cooldown: '3回合', effect: '愤怒' }
   ]}
   dlcDescription="使敌军陷入愤恚状态。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '智略类',
     skillType: '附加状态',
     target: '敌军',
-    successRate: '(智略)%',
+    successRate: '(智略×)%',
+    targetResist: '冷静×10',
+    cooldown: '回合',
     effect: '愤恚'
   }}
 />

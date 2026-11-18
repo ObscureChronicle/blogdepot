@@ -10,13 +10,13 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 
 <SkillWiki
   baseType="增益型"
-  baseCategory="智略类"
+  baseCategory="特殊类"
   baseSkillType="补正"
-  baseDescription="本队七格内敌军士气下降，持续3回合。"
+  baseDescription="本队周围一定范围内敌军士气下降。"
   baseLevels={[
-    { level: 'Ⅰ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-25' },
-    { level: 'Ⅱ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-40' },
-    { level: 'Ⅲ', target: '周围敌军', successRate: '100%', duration: '3回合', effect: '士气-60' }
+    { level: 'Ⅰ', target: '周围5格内敌军', successRate: '100%', duration: '3回合', cooldown: '6回合', effect: '士气-25' },
+    { level: 'Ⅱ', target: '周围6格内敌军', successRate: '100%', duration: '3回合', cooldown: '6回合', effect: '士气-40' },
+    { level: 'Ⅲ', target: '周围7格内敌军', successRate: '100%', duration: '3回合', cooldown: '6回合', effect: '士气-60' }
   ]}
   dlcDescription="本队五格内敌军士气下降，持续3回合。"
   dlcSkill={{

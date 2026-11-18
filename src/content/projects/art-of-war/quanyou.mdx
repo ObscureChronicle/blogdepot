@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="吸收伤害"
   baseDescription="吸收敌方部分兵力，对城门无效。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力70%' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力77%' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '吸收兵力85%' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', targetResist: '魅力×0.1，冷静×5', cooldown: '3回合', effect: '吸收兵力70%' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力×1.08)%', targetResist: '魅力×0.1，冷静×5', cooldown: '2回合', effect: '吸收兵力77%' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力×1.15)%', targetResist: '魅力×0.1，冷静×5', cooldown: '2回合', effect: '吸收兵力85%' }
   ]}
   dlcDescription="吸收敌方部分兵力。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '魅力类',
     skillType: '吸收伤害',
     target: '敌军',
-    successRate: '(魅力)%',
+    successRate: '(魅力×)%',
+    targetResist: '魅力×0.1，冷静×5',
+    cooldown: '回合',
     effect: '吸收兵力50%'
   }}
 />

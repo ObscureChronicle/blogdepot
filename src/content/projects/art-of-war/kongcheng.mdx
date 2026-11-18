@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="改变AI分数"
   baseDescription="本队成为敌军目标几率大幅下降，持续3回合。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' },
-    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' },
-    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', effect: '成为目标几率下降' }
+    { level: 'Ⅰ', target: '本队', successRate: '100%', duration: '3回合', cooldown: '7回合', effect: 'AI目标分数-50' },
+    { level: 'Ⅱ', target: '本队', successRate: '100%', duration: '3回合', cooldown: '7回合', effect: 'AI目标分数-80' },
+    { level: 'Ⅲ', target: '本队', successRate: '100%', duration: '3回合', cooldown: '7回合', effect: 'AI目标分数-120' }
   ]}
   dlcDescription="本队成为敌军目标几率下降。"
   dlcSkill={{
@@ -24,7 +24,8 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '武勇类',
     skillType: '改变AI分数',
     target: '本队',
-    successRate: '(统御)%',
+    successRate: '(统御×)%',
+    cooldown: '回合',
     effect: '成为目标几率下降'
   }}
 />

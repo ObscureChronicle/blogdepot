@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="固定伤害"
   baseDescription="无视敌我一切数值，固定造成大量兵力损伤。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(武勇)%', effect: '固定伤害' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '7回合', effect: '1200' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '6回合', effect: '1200' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×0.6)%', targetResist: '胆识×10', cooldown: '5回合', effect: '1200' }
   ]}
   dlcDescription="无视敌我一切数值，固定造成1200兵力损伤。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '武勇类',
     skillType: '固定伤害',
     target: '敌军',
-    successRate: '(武勇)%',
-    effect: '固定伤害'
+    successRate: '(武勇×)%',
+    targetResist: '胆识×10',
+    cooldown: '回合',
+    effect: '1200'
   }}
 />

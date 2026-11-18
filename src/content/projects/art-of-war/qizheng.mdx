@@ -12,11 +12,11 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseType="妨害型"
   baseCategory="智略类"
   baseSkillType="固定伤害"
-  baseDescription="无视敌我一切数值，固定造成大量兵力损伤。"
+  baseDescription="无视敌我一切数值，固定造成兵力损伤。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '固定伤害' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略×0.78)%', targetResist: '冷静×10', cooldown: '4回合', effect: '300' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略×0.88)%', targetResist: '冷静×10', cooldown: '4回合', effect: '500' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略×0.88)%', targetResist: '冷静×10', cooldown: '3回合', effect: '800' }
   ]}
   dlcDescription="锁定最低伤害值为300。"
   dlcSkill={{
@@ -24,7 +24,8 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '智略类',
     skillType: '固定伤害',
     target: '本队',
-    successRate: '(统御)%',
+    successRate: '(统御×)%',
+    cooldown: '回合',
     effect: '固定伤害'
   }}
 />

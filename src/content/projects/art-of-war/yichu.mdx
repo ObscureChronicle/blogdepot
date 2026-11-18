@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加属性至伤害"
   baseDescription="本次攻击时，额外附加将领智略值至伤害中。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '(智略)%', effect: '附加属性至伤害' },
-    { level: 'Ⅱ', target: '本队', successRate: '(智略)%', effect: '附加属性至伤害' },
-    { level: 'Ⅲ', target: '本队', successRate: '(智略)%', effect: '附加属性至伤害' }
+    { level: 'Ⅰ', target: '本队', successRate: '(智略×1.2)%', targetResist: '冷静×10', cooldown: '3回合', effect: '智略' },
+    { level: 'Ⅱ', target: '本队', successRate: '(智略×1.25)%', targetResist: '冷静×10', cooldown: '3回合', effect: '智略' },
+    { level: 'Ⅲ', target: '本队', successRate: '(智略×1.3)%', targetResist: '冷静×10', cooldown: '3回合', effect: '智略' }
   ]}
   dlcDescription="额外附加将领智略值至伤害中。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '智略类',
     skillType: '附加属性至伤害',
     target: '将领',
-    successRate: '(智略)%',
-    effect: '附加属性至伤害'
+    successRate: '(智略×)%',
+    targetResist: '冷静×10',
+    cooldown: '回合',
+    effect: '智略'
   }}
 />

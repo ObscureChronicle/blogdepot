@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="直接败退"
   baseDescription="使敌军直接败退。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '直接败退' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力×0.35)%', targetResist: '魅力×0.5', cooldown: '9回合', effect: '直接败退' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力×0.41)%', targetResist: '魅力×0.5', cooldown: '9回合', effect: '直接败退' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力×0.47)%', targetResist: '魅力×0.5', cooldown: '9回合', effect: '直接败退' }
   ]}
   dlcDescription="使敌军直接败退。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '魅力类',
     skillType: '直接败退',
     target: '敌军',
-    successRate: '(魅力)%',
+    successRate: '(魅力×)%',
+    targetResist: '魅力×0.1，冷静×5',
+    cooldown: '回合',
     effect: '直接败退'
   }}
 />

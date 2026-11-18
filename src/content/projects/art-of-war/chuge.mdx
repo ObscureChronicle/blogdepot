@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入低落状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(魅力)%', effect: '低落' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(魅力)%', effect: '低落' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(魅力)%', effect: '低落' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力×0.87)%', targetResist: '魅力×0.1，冷静×5', cooldown: '5回合', effect: '低落' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力×0.94)%', targetResist: '魅力×0.1，冷静×5', cooldown: '5回合', effect: '低落' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力×1.01)%', targetResist: '魅力×0.1，冷静×5', cooldown: '5回合', effect: '低落' }
   ]}
   dlcDescription="本队五格内敌军士气下降。"
   dlcSkill={{

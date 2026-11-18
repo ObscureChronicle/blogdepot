@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加属性至伤害"
   baseDescription="本次攻击时，额外附加将领魅力值至伤害中。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '(魅力)%', effect: '附加属性至伤害' },
-    { level: 'Ⅱ', target: '本队', successRate: '(魅力)%', effect: '附加属性至伤害' },
-    { level: 'Ⅲ', target: '本队', successRate: '(魅力)%', effect: '附加属性至伤害' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(魅力×1.1)%', targetResist: '魅力×0.1，冷静×5', cooldown: '3回合', effect: '魅力' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(魅力×1.16)%', targetResist: '魅力×0.1，冷静×5', cooldown: '2回合', effect: '魅力' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(魅力×1.24)%', targetResist: '魅力×0.1，冷静×5', cooldown: '2回合', effect: '魅力' }
   ]}
   dlcDescription="本次攻击时，额外附加将领魅力值至伤害中。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '魅力类',
     skillType: '附加属性至伤害',
     target: '本队',
-    successRate: '(魅力)%',
+    successRate: '(魅力×)%',
+    targetResist: '魅力×0.1，冷静×5',
+    cooldown: '回合',
     effect: '附加属性至伤害'
   }}
 />

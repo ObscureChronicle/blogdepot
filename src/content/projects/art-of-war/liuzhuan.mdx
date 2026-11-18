@@ -10,21 +10,22 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
 
 <SkillWiki
   baseType="增益型"
-  baseCategory="智略类"
-  baseSkillType="不死之身"
+  baseCategory="特殊类"
+  baseSkillType="阻止败退"
   baseDescription="本队遭受攻击后若将败退，则有概率完全回避之，持续2回合。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' },
-    { level: 'Ⅱ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' },
-    { level: 'Ⅲ', target: '本队', successRate: 'Lv%', duration: '2回合', effect: '攻击回避' }
+    { level: 'Ⅰ', target: '本队', successRate: '等级×0.9%', cooldown: '10回合', duration: '2回合', effect: '攻击回避' },
+    { level: 'Ⅱ', target: '本队', successRate: '等级×1.05%', cooldown: '9回合', duration: '2回合', effect: '攻击回避' },
+    { level: 'Ⅲ', target: '本队', successRate: '等级×1.35%', cooldown: '8回合', duration: '2回合', effect: '攻击回避' }
   ]}
   dlcDescription="本队遭受攻击后若将败退，则有概率完全回避之，持续2回合。"
   dlcSkill={{
     type: '增益型',
     category: '特殊类',
-    skillType: '不死之身',
+    skillType: '阻止败退',
     target: '本队',
-    successRate: 'Lv%',
+    successRate: '等级%',
+    cooldown: '回合',
     duration: '2回合',
     effect: '攻击回避'
   }}

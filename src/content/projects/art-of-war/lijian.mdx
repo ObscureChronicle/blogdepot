@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入内讧状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '内讧' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '内讧' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '内讧' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略×0.6)%', targetResist: '冷静×10', cooldown: '6回合', effect: '内讧' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略×0.64)%', targetResist: '冷静×10', cooldown: '6回合', effect: '内讧' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略×0.68)%', targetResist: '冷静×10', cooldown: '6回合', effect: '内讧' }
   ]}
   dlcDescription="使敌军陷入内讧状态。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '智略类',
     skillType: '附加状态',
     target: '敌军',
-    successRate: '(智略)%',
+    successRate: '(智略×)%',
+    targetResist: '冷静×10',
+    cooldown: '回合',
     effect: '内讧'
   }}
 />

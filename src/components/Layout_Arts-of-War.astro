@@ -87,6 +87,9 @@ const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
                                 等级
                             </th>
                             <th scope="col">对象</th>
+                            <th scope="col">成功率</th>
+                            <th scope="col">目标减益</th>
+                            <th scope="col">冷却时间</th>
                             <th scope="col">持续时间</th>
                             <th scope="col">效果</th>
                         </tr>
@@ -98,6 +101,9 @@ const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
                                     {row.level}
                                 </th>
                                 <td>{orEmpty(row.target)}</td>
+                                <td>{orEmpty(row.successRate)}</td>
+                                <td>{orEmpty(row.targetResist)}</td>
+                                <td>{orEmpty(row.cooldown)}</td>
                                 <td>{orEmpty(row.duration)}</td>
                                 <td>{row.effect}</td>
                             </tr>
@@ -140,6 +146,30 @@ const orEmpty = (value?: string) => (value && value.trim() ? value : EMPTY);
                                 对象
                             </th>
                             <td>{orEmpty(dlcSkill.target)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                成功率
+                            </th>
+                            <td>{orEmpty(dlcSkill.successRate)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                目标减益
+                            </th>
+                            <td>{orEmpty(dlcSkill.targetResist)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                冷却时间
+                            </th>
+                            <td>{orEmpty(dlcSkill.cooldown)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-28">
+                                持续时间
+                            </th>
+                            <td>{orEmpty(dlcSkill.duration)}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="w-28">

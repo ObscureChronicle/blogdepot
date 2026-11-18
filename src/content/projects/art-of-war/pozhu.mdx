@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="独立减伤效果降低"
   baseDescription="本次攻击不受敌将胆识减成。"
   baseLevels={[
-    { level: 'Ⅰ', target: '本队', successRate: '(武勇)%', effect: '独立减伤效果降低' },
-    { level: 'Ⅱ', target: '本队', successRate: '(武勇)%', effect: '独立减伤效果降低' },
-    { level: 'Ⅲ', target: '本队', successRate: '(武勇)%', effect: '独立减伤效果降低' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(武勇×0.97)%', targetResist: '胆识×10', cooldown: '5回合', effect: '100%' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(武勇×1.08)%', targetResist: '胆识×10', cooldown: '5回合', effect: '100%' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(武勇×1.19)%', targetResist: '胆识×10', cooldown: '5回合', effect: '100%' }
   ]}
   dlcDescription="攻击不受敌将胆识减成。"
   dlcSkill={{
@@ -24,7 +24,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
     category: '武勇类',
     skillType: '独立减伤效果降低',
     target: '本队',
-    successRate: '(武勇)%',
+    successRate: '(武勇×)%',
+    targetResist: '胆识×10',
+    cooldown: '回合',
     effect: '独立减伤效果降低'
   }}
 />

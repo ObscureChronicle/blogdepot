@@ -14,9 +14,9 @@ import SkillWiki from "../../../components/Layout_Arts-of-War.astro";
   baseSkillType="附加状态"
   baseDescription="使敌军陷入师心状态。"
   baseLevels={[
-    { level: 'Ⅰ', target: '敌军', successRate: '(智略)%', effect: '师心' },
-    { level: 'Ⅱ', target: '敌军', successRate: '(智略)%', effect: '师心' },
-    { level: 'Ⅲ', target: '敌军', successRate: '(智略)%', effect: '师心' }
+    { level: 'Ⅰ', target: '敌军', successRate: '(智略×0.65)%', targetResist: '冷静×10', cooldown: '6回合', effect: '师心' },
+    { level: 'Ⅱ', target: '敌军', successRate: '(智略×0.65)%', targetResist: '冷静×10', cooldown: '5回合', effect: '师心' },
+    { level: 'Ⅲ', target: '敌军', successRate: '(智略×0.73)%', targetResist: '冷静×10', cooldown: '5回合', effect: '师心' }
   ]}
   dlcDescription="增加本队非器械类伤害系数。"
   dlcSkill={{
