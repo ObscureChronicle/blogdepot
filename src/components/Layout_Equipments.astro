@@ -1,6 +1,7 @@
 ---
 type EquipmentData = {
-    base?: Record<string, string | number>;
+    /** 基础属性组；效果 可传入字符串（单条）或数组（多条） */
+    base?: Record<string, string | number | string[]>;
     damageBonus?: Record<string, number>;
     damageReduction?: Record<string, number>;
 };
@@ -49,9 +50,17 @@ const buildLinkedValues = (equipment?: EquipmentData): Record<string, StatusText
     for (const group of Object.values(equipment)) {
         if (!group || typeof group !== 'object') continue;
         for (const [key, value] of Object.entries(group)) {
-            if (typeof value !== 'string' || result[value]) continue;
-            if (key === '免疫') result[value] = linkStatusTokens(value, statusHref, STATUS_OVERVIEW);
-            else if (key === '效果') result[value] = linkStatusNames(value, STATUS_NAMES, statusHref);
+            if (typeof value === 'number') continue;
+            if (key === '免疫' && typeof value === 'string' && !result[value]) {
+                result[value] = linkStatusTokens(value, statusHref, STATUS_OVERVIEW);
+            } else if (key === '效果') {
+                const items = Array.isArray(value) ? value : value ? [value] : [];
+                for (const item of items) {
+                    if (typeof item === 'string' && !result[item]) {
+                        result[item] = linkStatusNames(item, STATUS_NAMES, statusHref);
+                    }
+                }
+            }
         }
     }
     return result;

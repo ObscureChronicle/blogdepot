@@ -37,9 +37,6 @@ type StatusWikiProps = {
 
 const { baseDescription, baseRow, dlcDescription, dlcRow, noteHtml } = Astro.props as StatusWikiProps;
 
-const hasBase = Boolean(baseDescription) || Boolean(baseRow);
-const hasDlc = Boolean(dlcDescription) || Boolean(dlcRow);
-
 // 原始 txt 的字段中文标签与 prop 名映射；按此顺序出现在竖式表格里
 const ROW_FIELDS: Array<{ label: string; key: keyof StatusRow }> = [
     { label: '说明', key: 'description' },
@@ -73,10 +70,14 @@ function* visibleFields(row: StatusRow | undefined) {
 
 const baseFields = [...visibleFields(baseRow)];
 const dlcFields = [...visibleFields(dlcRow)];
+
+// 用实际展示内容来判断分区是否存在：描述非空 或 表格有可见字段
+const hasBase = Boolean(baseDescription) || baseFields.length > 0;
+const hasDlc = Boolean(dlcDescription) || dlcFields.length > 0;
 ---
 
 {
-    (hasBase || hasDlc) && (
+    hasBase && (
         <>
             <SectionTitle tone="base">{EDITIONS.base.shortName}</SectionTitle>
             {baseDescription && <p set:html={baseDescription} class="text-base leading-relaxed" />}
