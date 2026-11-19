@@ -98,8 +98,21 @@ html.dark {
     transform: translateY(20px);
 }
 
+/* 临时方案：原无衬线（Inter + 系统黑体）改为加粗宋体，以粗细与 font-serif 的常规宋体区分。
+   这是 --font-sans 专用的独立字体族，不与 --font-serif 共用；以后换成楷体等字体时，
+   只需删掉这条 @font-face 并改下方 --font-sans，font-serif 不受影响。
+   用 local() 只引用系统自带的粗体字面，并声明覆盖全部字重，
+   因此无论元素请求哪个字重都显示这一个粗体字面，不再额外合成加粗 */
+@font-face {
+    font-family: 'Songti Bold';
+    src: local('Songti SC Bold'), local('STSongti-SC-Bold'), local('Noto Serif CJK SC Bold'), local('NotoSerifCJKsc-Bold'),
+        local('Source Han Serif SC Bold'), local('SourceHanSerifSC-Bold');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
 @theme inline {
-    --font-sans: 'Inter Variable', sans-serif;
+    --font-sans: 'Songti Bold', serif;
     --font-serif: 'Newsreader Variable', serif;
     --text-color-main: var(--text-main);
     --background-color-main: var(--bg-main);
