@@ -5,6 +5,9 @@ tags:
   - wiki-t
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 特攻，指某些专用于克制某类部队的武器造成伤害时，伤害所附加的额外值。若当前武器可以对对方造成特攻伤害时，武器图标将会闪烁，且能造成的伤害值亦会用绿色来加以表示。
@@ -13,8 +16,29 @@ tags:
 
 「因势」特性会使特攻伤害降低为普通伤害的55%，亦即将「加乘45%」变为「减乘45%」，然后再计算将领智略对特攻带来的加成。
 
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{智略}_{\text{攻}}`} /> | 攻方智略 |
+| <Katex math={String.raw`P'`} /> | 特攻前的攻方战力 |
+
+## 1. 特攻倍率
+
+<Katex block math={String.raw`E=\begin{cases} 1.45+\dfrac{\max\left(\text{智略}_{\text{攻}}-60,\;0\right)}{250}, & \text{守方无「因势」} \\[8pt] 0.55+\dfrac{\max\left(\text{智略}_{\text{攻}}-60,\;0\right)}{250}, & \text{守方有「因势」} \end{cases}`} />
+
+## 2. 特攻后战力
+
+<Katex block math={String.raw`\boxed{P''=\begin{cases} \left\lfloor P'\cdot E\right\rfloor, & \text{触发特攻} \\[4pt] P', & \text{未触发特攻} \end{cases}}`} />
+
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
 特攻，指某些专用于克制某类部队的武器造成伤害时，伤害所附加的额外值。若当前武器可以对对方造成特攻伤害时，武器图标将会闪烁，且能造成的伤害值亦会用绿色来加以表示。一般而言，特攻伤害直接在原始的「伤害上限」与「伤害下限」上加乘45%，如果将领智略较高，还会继续提高特攻伤害所乘算的数值，某些更稀有的武器会加乘更多数值。因此特攻武器的威力虽未必大，但遇到特定对象时，所造成的伤害往往却异常可观。
 
 「因势」特性会使特攻伤害降低为普通伤害的55%，亦即将「加乘45%」变为「减乘45%」，然后再计算将领智略对特攻带来的加成。
+
+<h2 class='section-title'>公式</h2>
+
+与本传相同。

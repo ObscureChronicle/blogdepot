@@ -5,11 +5,28 @@ tags:
   - wiki-m
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 魅力，衡量的是将领纵横捭阖以及接人待物的能力。魅力高者，可以使军士乐于效死，上下一心，即令敌军面对如此军势，或许亦能折服罢。
 
 魅力影响着军队的士气和指挥，从而对攻击所能造成的伤害值和必杀概率造成巨大的影响；军队兵力较低时，魅力对指挥产生的影响亦更大于统御；过关后，部队能回复的兵力数亦与魅力相关。此外，魅力还决定了魅力类军略和使用增益型军乐的成功率，同时决定了辎重队回复士兵的人数。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{魅力}_{u}`} /> | 使用者的魅力 |
+| <Katex math={String.raw`V`} /> | 辎重队的基础回复量 |
+| <Katex math={String.raw`M`} /> | 回复对象的兵力上限 |
+
+## 辎重队回复量
+
+<Katex block math={String.raw`\boxed{\text{回复量}=\min\left(\left\lfloor V\cdot\left(1+\frac{\text{魅力}_{u}-60}{30}\right)\right\rfloor,\;M\right)}`} />
 
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
@@ -26,3 +43,7 @@ tags:
 | 履冰 | （魅力）% |
 | 时艰 | （魅力×0.9）% |
 | 维危 | （魅力×0.8）% |
+
+<h2 class='section-title'>公式</h2>
+
+与本传相同。

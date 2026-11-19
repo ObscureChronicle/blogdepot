@@ -5,14 +5,35 @@ tags:
   - wiki-z
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 指挥，指部队能否听从将军指令行军布阵的能力。指挥愈低，愈容易遭受多次连击。
 
 部队的指挥能力由将领的统御和魅力、部队的兵力多寡共同决定，且没有军略能够加成指挥能力。一般来说，兵力愈高，指挥部队的效率愈低，基本上以两千人为分界线，兵力愈少，魅力对指挥的作用愈大；兵力愈多，统御对指挥的作用影响愈大。如果上万的大军领导者统御不足，人数再多也难以形成战力，反而会被小而精的部队击溃。因此，面对数万规模的部队时不要胆怯——需知冷兵器时代的指挥效率，实在很难让大规模军团的战力达到预期。
 
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{魅力}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的魅力 |
+| <Katex math={String.raw`\text{统御}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的统御 |
+| <Katex math={String.raw`\text{兵力}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的兵力 |
+
+取「魅力为主」与「统御为主」两式中的较大者：
+
+<Katex block math={String.raw`\boxed{\text{指挥}_{u} = \max\left( \left\lfloor \frac{25.5 \cdot \text{魅力}_{u} + 81.8 \cdot \text{统御}_{u}}{\sqrt{\text{兵力}_{u} + 9000}} \right\rfloor, \left\lfloor \frac{93.2 \cdot \text{魅力}_{u} + 15.7 \cdot \text{统御}_{u}}{0.025 \cdot \text{兵力}_{u} + 88} \right\rfloor \right)}`} />
+
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
 指挥，指部队能否听从将军指令行军布阵的能力。指挥愈低，愈容易遭受多次连击。
 
 部队的指挥由将领的统御与魅力、部队的部曲数多寡共同决定，且没有军略能够加成指挥能力。一般来说，部曲愈多，指挥部队的效率愈低，基本上以两千人为分界线，部曲愈少，魅力对指挥的作用愈大；部曲愈多，统御对指挥的作用影响愈大。如果上万的大军领导者统御不足，人数再多也难以形成战力，反而会被小而精的部队击溃。因此，面对数万规模的部队时不要胆怯——需知冷兵器时代的指挥效率，实在很难让大规模军团的战力达到预期。
+
+<h2 class='section-title'>公式</h2>
+
+与本传相同。

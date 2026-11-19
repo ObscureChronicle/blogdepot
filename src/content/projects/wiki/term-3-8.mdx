@@ -16,6 +16,8 @@ import Katex from '../../../components/Katex.astro';
 
 部队的巧变主要由将领的智略决定，也小部分受到将领气运和冷静与胆识间差值的加成。此外，盔甲和盾牌的重量亦会扣减部队的巧变。
 
+注：相对星命诀而言，大部分宝物没有重量。
+
 ## 分步公式
 
 <Katex block math={String.raw`C_{0}=\sqrt{\text{气运}_{u}}+1.1\cdot\text{智略}_{u}`} />
@@ -37,3 +39,33 @@ import Katex from '../../../components/Katex.astro';
 巧变，指部队能否有效化解敌军必杀的能力。巧变愈高，愈难以遭受必杀攻击。
 
 部队的巧变由将领的智略决定，同时受到运势的些微影响，也受到将领冷静与胆识间差值的加成。此外，在减去马或轮具提供的负重后，所有物品的重量亦会扣减部队的巧变。
+
+<h2 class='section-title'>公式</h2>
+
+红色部分为与本传不同之处。
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{智略}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的智略 |
+| <Katex math={String.raw`\text{运势}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的运势 |
+| <Katex math={String.raw`\text{冷静}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的冷静 |
+| <Katex math={String.raw`\text{胆识}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的胆识 |
+| <Katex math={String.raw`\text{重量}_{i}`} /> | 所持第 <Katex math={String.raw`i`} /> 件非马物品的重量 |
+| <Katex math={String.raw`\text{重量}_{j}`} /> | 所持第 <Katex math={String.raw`j`} /> 件马的重量（负重） |
+| <Katex math={String.raw`L`} /> | 运势加值 |
+
+## 分步公式
+
+运势不再以开方形式计入，也不再有 +4 的加值。
+
+<Katex block math={String.raw`C_{0}=1.1\cdot\text{智略}_{u}`} />
+
+<Katex block math={String.raw`C_{2}=\left\lfloor C_{0}\cdot\left(1+0.02\left(\text{冷静}_{u}-\frac{\text{胆识}_{u}}{1.8}\right)\right)\right\rfloor`} />
+
+<Katex block math={String.raw`\htmlClass{dlc-diff}{L=\left\lfloor\sqrt{\text{运势}_{u}}\right\rfloor}`} />
+
+<Katex block math={String.raw`\htmlClass{dlc-diff}{G=\max\left(\sum_{i}\text{重量}_{i}-\sum_{j}\text{重量}_{j},\;0\right)}`} />
+
+<Katex block math={String.raw`\boxed{ \text{巧变}_{u}=\max\left(C_{2}\htmlClass{dlc-diff}{+L}-\htmlClass{dlc-diff}{G},\;0\right) }`} />

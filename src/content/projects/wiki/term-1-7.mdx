@@ -5,6 +5,9 @@ tags:
   - wiki-b
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 必杀是部队作战时能对对方造成额外伤害的概率值，范围从0%到100%，其概率值等于「我方爆发」-「敌方巧变」。
@@ -15,6 +18,33 @@ tags:
 
 「矫然」特性会使必杀伤害降低为普通伤害的80%，亦即将「加乘20%」变为「减乘20%」，然后再计算将领武勇对必杀带来的加成。
 
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{爆发}_{\text{攻}}`} /> | 攻方爆发 |
+| <Katex math={String.raw`\text{巧变}_{\text{守}}`} /> | 守方巧变 |
+| <Katex math={String.raw`\text{武勇}_{\text{攻}}`} /> | 攻方武勇 |
+| <Katex math={String.raw`n`} /> | 攻守方曼哈顿距离 |
+| <Katex math={String.raw`c_{a}`} /> | 弓骑兵近距必杀加成系数 |
+| <Katex math={String.raw`D`} /> | 必杀前的伤害 |
+
+## 1. 必杀率
+
+弓骑兵距离敌军愈近，必杀率愈高：
+
+<Katex block math={String.raw`A=\begin{cases} \max\left(c_{a}\cdot(4-n),\;0\right), & \text{攻方具备弓骑兵近距必杀加成} \\[4pt] 0, & \text{否则} \end{cases}`} />
+
+<Katex block math={String.raw`\boxed{\text{必杀率}=\min\left(\max\left(\text{爆发}_{\text{攻}}-\text{巧变}_{\text{守}}+A,\;0\right),\;100\right)}`} />
+
+## 2. 必杀倍率
+
+<Katex block math={String.raw`C=\begin{cases} 1.2+\dfrac{\max\left(\text{武勇}_{\text{攻}}-60,\;0\right)}{200}, & \text{守方无「矫然」} \\[8pt] 0.8+\dfrac{\max\left(\text{武勇}_{\text{攻}}-60,\;0\right)}{200}, & \text{守方有「矫然」} \end{cases}`} />
+
+<Katex block math={String.raw`\boxed{D_{\text{必杀}}=\left\lfloor D\cdot C\right\rfloor}`} />
+
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
 必杀是部队作战时能对对方造成额外伤害的概率值，范围从0%到100%，其概率值等于「我方爆发」-「敌方巧变」。
@@ -24,3 +54,7 @@ tags:
 造成必杀伤害时，伤害数值在伤害基础值上乘算20%，亦即造成120%的伤害。如果将领武勇较高，还会继续提高必杀伤害所乘算的数值。必杀伤害数值会用红色来表示。
 
 「矫然」特性会使必杀伤害降低为普通伤害的80%，亦即将「加乘20%」变为「减乘20%」，然后再计算将领武勇对必杀带来的加成。
+
+<h2 class='section-title'>公式</h2>
+
+与本传相同。

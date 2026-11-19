@@ -1,0 +1,66 @@
+---
+title: 运势（气运）
+tags:
+  - term
+  - wiki-y
+  - wiki-q
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+时也命也，气运虽然渺茫难觅，不为圣人所道，但古往今来，有太多偶然因素影响的结果，所谓「时无英雄，使竖子成名」，盖皆此类。虽几近乎妖妄，但气运仍然衡量着将领的命数是坎坷抑或通达，毕竟上帝也掷骰子。
+
+气运对决定军队的必杀率起到了决定性的作用，也些微影响到军队的守备能力和巧变能力。
+
+此外，气运亦是唯一直接参与各种随机数计算的数值，高气运时，随机数取值更倾向于有利，低气运时，随机数取值则往往不尽如人意。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{气运}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的气运 |
+| <Katex math={String.raw`r_{1}`} /> | 伤害随机数，<Katex math={String.raw`\in[0,100]`} /> |
+| <Katex math={String.raw`r`} /> | 成长随机数，<Katex math={String.raw`\in[0,90]`} /> |
+
+## 1. 伤害随机修正
+
+伤害取值随机数 <Katex math={String.raw`r_{1}`} /> 按气运修正（完整流程见「伤害」）：
+
+<Katex block math={String.raw`r_{1}\mathrel{+}=\begin{cases} \text{气运}_{u}/18, & \text{气运}_{u}>80 \\ -\text{气运}_{u}/8, & \text{气运}_{u}<40 \\ (\text{气运}_{u}-60)/15, & \text{否则} \end{cases}`} />
+
+## 2. 升级成长随机系数
+
+升级时各项属性的增加量都会乘以此系数（向下取整）：
+
+<Katex block math={String.raw`\boxed{\rho=\frac{\max\left(r+\min\left(\text{气运}_{u},\;80\right)-40,\;0\right)+950}{1000}}`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+时也命也，运势虽然渺茫难觅，不为圣人所道，但古往今来，有太多偶然因素影响的结果，所谓「时无英雄，使竖子成名」，盖皆此类。虽几近乎妖妄，但运势仍然衡量着将领的命数是坎坷抑或通达，毕竟上帝也掷骰子。
+
+运势对军队的战力、士气、爆发、守备与巧变均起到些微影响，但不足以使部队素质发生质变。
+
+此外，运势亦是唯一直接参与各种随机数计算的数值，高运势时，随机数取值更倾向于有利，低运势时，随机数取值则往往不尽如人意。
+
+<h2 class='section-title'>公式</h2>
+
+红色部分为与本传不同之处。
+
+## 1. 运势加值
+
+运势加值加算于战力、士气、守备、爆发与巧变：
+
+<Katex block math={String.raw`\htmlClass{dlc-diff}{L=\left\lfloor\sqrt{\text{运势}_{u}}\right\rfloor}`} />
+
+## 2. 伤害随机修正
+
+与本传相同。
+
+## 3. 升级成长随机系数
+
+星命诀中不适用。

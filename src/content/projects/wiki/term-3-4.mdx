@@ -5,6 +5,9 @@ tags:
   - wiki-z
 ---
 
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
 <h2 class='section-title section-title--base'>本传</h2>
 
 战力，衡量的是部队对敌军造成杀伤的能力。
@@ -13,6 +16,43 @@ tags:
 
 战力高低是衡量一支部队在战场上能否合格的基础标准。除了增加统御之外，还请牢记武器应及时更新换代。原始人的木棍石块诚然能砸死人，但毕竟不如马克沁机枪那般高效。
 
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{统御}_{\text{攻}}`} /> | 攻方统御 |
+| <Katex math={String.raw`\text{武勇}_{\text{攻}}`} /> | 攻方武勇 |
+| <Katex math={String.raw`\text{智略}_{\text{攻}}`} /> | 攻方智略 |
+| <Katex math={String.raw`\text{兵力}_{\text{攻}}`} /> | 攻方兵力 |
+| <Katex math={String.raw`\text{等级}_{\text{攻}}`} /> | 攻方等级 |
+| <Katex math={String.raw`W`} /> | 攻方武器威力 |
+
+## 1. 智略型
+
+床弩、发石车、兵法书伤害类型为「智略型」。
+
+<Katex block math={String.raw`P=\text{智略}_{\text{攻}}\cdot3+\frac{\text{统御}_{\text{攻}}}{3}`} />
+
+## 2. 武勇型
+
+除智略型外，将领主属性包含「武勇」时，伤害类型为「武勇型」。
+
+<Katex block math={String.raw`P_{0}=\left\lfloor\frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}+\text{武勇}_{\text{攻}}\cdot\text{等级}_{\text{攻}}\cdot0.8}-3\right)}{3}\right\rfloor`} />
+
+<Katex block math={String.raw`P=\begin{cases} \left\lfloor\text{武勇}_{\text{攻}}/3\right\rfloor, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}\ge0 \\[4pt] 0, & P_{0}<0\ \text{且}\ \text{武勇}_{\text{攻}}<0 \\[4pt] P_{0}, & P_{0}\ge0 \end{cases}`} />
+
+## 3. 统御型
+
+除智略型、武勇型外，伤害类型均为「统御型」。
+
+<Katex block math={String.raw`P=\left\lfloor\frac{\text{统御}_{\text{攻}}\cdot\left(\sqrt[3]{\text{兵力}_{\text{攻}}}-1\right)}{3}\right\rfloor`} />
+
+## 4. 武器威力加成
+
+<Katex block math={String.raw`\boxed{\text{战力}=\begin{cases} 0, & \text{智略型且}\ W=0 \\[4pt] P\cdot\left(1+(W-1)\cdot0.1\right), & \text{否则} \end{cases}}`} />
+
 <h2 class='section-title section-title--dlc'>星命诀</h2>
 
 战力，衡量的是部队对敌军造成杀伤的能力。
@@ -20,3 +60,42 @@ tags:
 一般部队的战力由部队的部曲数、统御与所装备武器之威力共同决定，又因统御与初始部曲数相关，实际上可看作战力与统御成正比之关系；若将领「主属性」包含武勇，则其战力同时亦受到武勇和将领等级的影响；攻具（攻城器械）的战力则主要由智略决定，同时也受到统御的影响，而与当前部曲数无关。同时，部队的战力也受到运势的些微影响。
 
 战力高低是衡量一支部队在战场上能否合格的基础标准。除了增加统御之外，还请牢记武器应及时自农具更新至制式武器。原始人的木棍石块诚然能砸死人，但毕竟不如马克沁机枪那般高效。
+
+<h2 class='section-title'>公式</h2>
+
+红色部分为与本传不同之处。
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{统御}_{\text{攻}}`} /> | 攻方统御 |
+| <Katex math={String.raw`\text{武勇}_{\text{攻}}`} /> | 攻方武勇 |
+| <Katex math={String.raw`\text{部曲}_{\text{攻}}`} /> | 攻方部曲数 |
+| <Katex math={String.raw`\text{运势}_{\text{攻}}`} /> | 攻方运势 |
+| <Katex math={String.raw`W`} /> | 攻方武器威力 |
+| <Katex math={String.raw`L`} /> | 运势加值 |
+
+## 0. 运势加值
+
+<Katex block math={String.raw`\htmlClass{dlc-diff}{L=\left\lfloor\sqrt{\text{运势}_{\text{攻}}}\right\rfloor}`} />
+
+## 1. 智略型
+
+与本传相同。
+
+## 2. 武勇型
+
+<Katex block math={String.raw`P_{0}=\left\lfloor\frac{\text{统御}_{\text{攻}}\cdot\left(\htmlClass{dlc-diff}{\sqrt[3]{\text{部曲}_{\text{攻}}}}-3\right)}{3}\htmlClass{dlc-diff}{+\text{武勇}_{\text{攻}}}\right\rfloor`} />
+
+P 的取值与本传相同。
+
+## 3. 统御型
+
+与本传相同。
+
+## 4. 武器威力加成
+
+<Katex block math={String.raw`\boxed{\text{战力}=\htmlClass{dlc-diff}{\lfloor}P\cdot\left(1+(W-1)\cdot0.1\right)\htmlClass{dlc-diff}{+L}\htmlClass{dlc-diff}{\rfloor}}`} />
+
+星命诀中，武器威力为 0 时不再使智略型战力归零。

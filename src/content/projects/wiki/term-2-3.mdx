@@ -1,0 +1,56 @@
+---
+title: 智略
+tags:
+  - term
+  - wiki-z
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+智略，衡量的是将领运筹帷幄的能力。智略高超者，不惟擅于运用各种攻城器械，更以善用各种奇策，庙算而决胜于千里之外，为战局带来转机。
+
+智略决定了智略类军略的成功率，同时决定了将领使用攻城器械的威力，亦决定了辎重队回复的最大范围，以及部队造成特攻时的伤害高低；此外，智略对部队的巧变能力起到了决定性的作用，从而可以更好地防范必杀。智略高的将领擅于自战局中获得更多的经验，使升级速度更快；而在其升级时，足够高的智略也会为将领带来额外的技能点数。
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{智略}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的智略 |
+| <Katex math={String.raw`\text{气运}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的气运 |
+| <Katex math={String.raw`s`} /> | 经验加成类特性提供的加成（%） |
+| <Katex math={String.raw`e`} /> | 经验倍率修正前的经验值 |
+| <Katex math={String.raw`g_{0}`} /> | 技能点成长值（%，100% 即 1 点） |
+| <Katex math={String.raw`r,r'`} /> | 随机数 |
+
+## 1. 经验倍率
+
+<Katex block math={String.raw`F=\begin{cases} \dfrac{100+s+\text{智略}_{u}/5}{100}\cdot2, & \text{难度选项「成长加倍」开启} \\[8pt] \dfrac{100+s+\text{智略}_{u}/5}{100}, & \text{否则} \end{cases}`} />
+
+<Katex block math={String.raw`\boxed{\text{获得经验}=\min\left(\max\left(\left\lfloor e\cdot F\right\rfloor,\;0\right),\;100\right)}`} />
+
+## 2. 升级技能点
+
+<Katex block math={String.raw`g=g_{0}+2\cdot\max\left(\text{智略}_{u}-60,\;0\right)`} />
+
+升级时技能点增加量（其中 <Katex math={String.raw`\rho`} /> 为气运决定的随机系数）：
+
+<Katex block math={String.raw`\rho=\frac{\max\left(r+\min\left(\text{气运}_{u},\;80\right)-40,\;0\right)+950}{1000},\quad r\in[0,90]`} />
+
+<Katex block math={String.raw`\Delta=\left\lfloor\left(\left\lfloor\frac{g}{100}\right\rfloor+\left[\,r'<g\bmod100\,\right]\right)\cdot\rho\right\rfloor,\quad r'\in[0,100)`} />
+
+<Katex math={String.raw`[\,r'<g\bmod100\,]`} /> 表示以 <Katex math={String.raw`g\bmod100`} />% 的概率再加 1。
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+智略，衡量的是将领运筹帷幄的能力。智略高超者，不惟擅于运用各种攻城器械，更以善用各种奇策，庙算而决胜于千里之外，为战局带来转机。
+
+智略决定了智略类军略的成功率，同时决定了将领使用攻城器械的威力，亦决定了辎重队回复的最大范围，以及部队造成特攻时的伤害高低；智略亦决定部队的巧变能力，从而可以更好地防范必杀。此外，每章结束时，人物会依照智略评档获得颖悟点，亦即获取（原始智略÷10）（向下取整）的颖悟点。
+
+<h2 class='section-title'>公式</h2>
+
+星命诀中不适用。

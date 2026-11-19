@@ -1,0 +1,51 @@
+---
+title: 经验衰减
+tags:
+  - term
+  - wiki-j
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+反覆攻击同一敌军，且该敌军未败退时，获取经验的效率随攻击次数上升而下降，最终衰减至零。难度愈高，衰减速率愈快。
+
+攻击等级低于自己的敌军时，获取经验的效率会大幅度下降，最终衰减至零。敌军相对自己等级愈低，衰减程度愈高。
+
+<h2 class='section-title'>公式</h2>
+
+下式为单次战斗获得经验的计算；反覆攻击同一敌军带来的衰减另行计算，未包含在内。
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{等级}_{\text{攻}},\text{等级}_{\text{守}}`} /> | 攻方、守方等级 |
+| <Katex math={String.raw`b`} /> | 难度的基础经验 |
+| <Katex math={String.raw`E_{\text{首领}}`} /> | 守方为首领、副首领时的额外经验 |
+| <Katex math={String.raw`E_{\text{兵种}}`} /> | 守方兵种的额外经验 |
+| <Katex math={String.raw`k`} /> | 攻守方兵种阶级不同时的经验系数 |
+| <Katex math={String.raw`e_{\min}`} /> | 最低经验 |
+| <Katex math={String.raw`F`} /> | 经验倍率（见「智略」） |
+
+## 1. 等级差
+
+等级差最多按 4 计算：
+
+<Katex block math={String.raw`\Delta=\min\left(\text{等级}_{\text{守}}-\text{等级}_{\text{攻}},\;4\right)`} />
+
+## 2. 基础经验
+
+<Katex block math={String.raw`n=\begin{cases} 5+\Delta, & \text{未对守方造成伤害} \\[4pt] 8+\Delta, & \text{造成伤害但未击破} \\[4pt] b+4\Delta+E_{\text{首领}}+E_{\text{兵种}}, & \text{击破且}\ \Delta>0 \\[4pt] b+2\Delta+E_{\text{首领}}+E_{\text{兵种}}, & \text{击破且}\ \Delta\le0 \end{cases}`} />
+
+守方兵种额外经验为负时，击破不获得经验。
+
+## 3. 兵种阶级修正
+
+<Katex block math={String.raw`n'=\begin{cases} \left\lfloor n\cdot k\right\rfloor, & \text{攻守方兵种阶级不同} \\[4pt] n, & \text{否则} \end{cases}`} />
+
+## 4. 最终经验
+
+<Katex block math={String.raw`\boxed{\text{获得经验}=\min\left(\max\left(\left\lfloor\max\left(n',\;e_{\min}\right)\cdot F\right\rfloor,\;0\right),\;100\right)}`} />

@@ -38,3 +38,30 @@ import Katex from '../../../components/Katex.astro';
 士气与当前部曲数及伤兵（已损失部曲数）相关，以模拟古代战争中战斗减员对军队之影响。当前部曲数占部曲上限比例愈低，士气愈低，当前部曲数减少至将领总部曲的（魅力）%时，士气线性递减至该将领部队满编时士气的（魅力）%。
 
 部队士气由将领的魅力决定，同时受到运势的些微影响，且亦受到武器难度的减成。此外，部队的伤兵与当前部曲数之比亦决定了该部队之士气，伤兵比例愈高，士气愈低。军队倘若不能造成有效攻击，即令战力再高亦无意义，请留意如何合理运用军略和道具，来提高一支部队的士气罢！
+
+<h2 class='section-title'>公式</h2>
+
+红色部分为与本传不同之处。
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{魅力}_{\text{攻}}`} /> | 攻方魅力 |
+| <Katex math={String.raw`H_{w}`} /> | 攻方武器难度 |
+| <Katex math={String.raw`\text{部曲}_{\text{攻}}`} /> | 攻方当前部曲数 |
+| <Katex math={String.raw`M_{\text{攻}}`} /> | 攻方部曲上限 |
+| <Katex math={String.raw`\text{运势}_{\text{攻}}`} /> | 攻方运势 |
+| <Katex math={String.raw`L`} /> | 运势加值 |
+
+星命诀不再区分智略型与其他类型。
+
+## 0. 运势加值
+
+<Katex block math={String.raw`\htmlClass{dlc-diff}{L=\left\lfloor\sqrt{\text{运势}_{\text{攻}}}\right\rfloor}`} />
+
+## 1. 士气
+
+<Katex block math={String.raw`S_{0}=\left\lfloor\left(\text{魅力}_{\text{攻}}\cdot\htmlClass{dlc-diff}{1.6}\htmlClass{dlc-diff}{-H_{w}}\right)\cdot\htmlClass{dlc-diff}{\max\left(\frac{\text{部曲}_{\text{攻}}}{M_{\text{攻}}},\;\frac{\text{魅力}_{\text{攻}}}{100}\right)}\right\rfloor`} />
+
+<Katex block math={String.raw`\boxed{\text{士气}_{\text{攻}}=\htmlClass{dlc-diff}{\max}\left(S_{0}\htmlClass{dlc-diff}{+L},\;\htmlClass{dlc-diff}{0}\right)}`} />

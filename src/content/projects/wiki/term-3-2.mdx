@@ -1,0 +1,50 @@
+---
+title: 兵力（部曲）
+tags:
+  - term
+  - wiki-b
+---
+
+import 'katex/dist/katex.min.css';
+import Katex from '../../../components/Katex.astro';
+
+<h2 class='section-title section-title--base'>本传</h2>
+
+兵力，顾名思义，即一支部队中所包含的士兵数量。当一支部队兵力降至零时，该部队即告消灭。辎重队可以回复兵力，同时，在据点或城内时，每回合起始亦会回复一定兵力。
+
+俗语云「人多势众」，兵力直接关系到一支部队能对敌军造成多大伤亡。而总大将兵力一旦归零，游戏即告失败，还请务必注意！
+
+<h2 class='section-title'>公式</h2>
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math={String.raw`\text{统御}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的统御 |
+| <Katex math={String.raw`\text{气运}_{u}`} /> | 单位 <Katex math={String.raw`u`} /> 的气运 |
+| <Katex math={String.raw`g_{0}`} /> | 人物与兵种的兵力成长值合计（%，100% 即 1 人） |
+| <Katex math={String.raw`r,r'`} /> | 随机数 |
+
+## 升级兵力
+
+升级时，兵力成长值额外受到统御加成：
+
+<Katex block math={String.raw`g=g_{0}-2000+140\cdot\left(\text{统御}_{u}-20\right)`} />
+
+兵力增加量（其中 <Katex math={String.raw`\rho`} /> 为气运决定的随机系数）：
+
+<Katex block math={String.raw`\rho=\frac{\max\left(r+\min\left(\text{气运}_{u},\;80\right)-40,\;0\right)+950}{1000},\quad r\in[0,90]`} />
+
+<Katex block math={String.raw`\Delta=\left\lfloor\left(\left\lfloor\frac{g}{100}\right\rfloor+\left[\,r'<g\bmod100\,\right]\right)\cdot\rho\right\rfloor,\quad r'\in[0,100)`} />
+
+<Katex math={String.raw`[\,r'<g\bmod100\,]`} /> 表示以 <Katex math={String.raw`g\bmod100`} />% 的概率再加 1。
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+部曲，犹言兵力，顾名思义，即一支部队中所包含的士兵数量。当一支部队部曲数降至零时，该部队即告消灭。辎重队可以回复部曲，同时，在据点或城内时，每回合起始亦会回复一定部曲。
+
+俗语云「人多势众」，部曲直接关系到一支部队能对敌军造成多大伤亡。而总大将部曲数一旦归零，游戏即告失败，还请务必注意！
+
+<h2 class='section-title'>公式</h2>
+
+星命诀中不适用。
