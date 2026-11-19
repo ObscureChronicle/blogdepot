@@ -37,6 +37,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 
 - 每个词条的 MDX 正文基本只是导入一个布局组件并传入大量 props，例如 `bio/*.mdx` → `BiographyLayout.astro`，其余类别 → `Layout_*.astro` 系列。修改词条展示时要改组件，不是逐个改 MDX。
 - 人物的本传数据写在 `baseForms` 数组里，每个元素是一个形态：`{ name, data, data2, traits, figure }`（`data` 为五维、`data2` 为胆识/冷静、`figure` 为各属性上限加成，可省略；不要再写顶层 `AttributeFigure`，`check:content` 会报错）。只有一个形态时可省略 `name`；多个形态时 `name` 是能力区切换按钮的文字，每个形态的 `data`/`data2`/`traits` 都要写全（不做回退）。排行榜按形态生成「本传」「本传2」「本传3」…，特性持有人汇总所有形态的 `traits`。这些构建时数据直接读 MDX 原文，解析规则在 `src/utils/bio-forms-parser.ts`。星命诀仍用 `dlcData`/`dlcData2`/`traitsDLC`。
+- 人物的特性是特性数据的唯一来源：总特质表（`Table_TraitOwners.astro`）和特性词条的「持有人」都在构建时由 `src/utils/wiki-owners.ts` 从人物的 `baseForms[].traits`、`traitsDLC` 汇总。特性词条按页面 slug 反查 `src/data/trait-meta.ts` 的 `TRAIT_MAP`，合并所有链接到该词条的名字（如「关中」「关陇」）。特性词条不要再写 `baseOwner`/`dlcOwner`，`check:content` 会报错；人物在本传/星命诀里的显示名不同时，登记在 `wiki-owners-parser.ts` 的 `OWNER_DISPLAY_NAMES`。
 - frontmatter 只需要 `title` 和 `tags`（百科词条没有发布日期、摘要；`isFeatured`、`publishDate`、`excerpt` 已从 schema 删除，写了会被 `check:content` 提示为多余字段）。
 - tags 约定：一个分类标签（如 `biography`）+ 一个 `wiki-<拼音首字母>` 标签。`src/pages/projects/[...id].astro` 用"第一个非 `wiki-` 标签"分组，组内按标题拼音（`pinyin-pro`，`src/utils/sort-by-pinyin.ts`）排序，生成上一篇/下一篇。
 - 标签显示名与 slug 的映射在 `src/utils/data-utils.ts` 的 `TAG_SLUG_MAP`；未登记的标签会被 `check:content` 报 warning。新增分类标签时要同步这里。
@@ -61,7 +62,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 `scripts/*.cjs` 是批量改写词条 MDX 的 CommonJS 脚本，**会直接覆盖文件**，运行前先确认不会冲掉手工编辑的内容：
 
 - `update-class-owners.cjs`：把人物的 `baseclass/dlcclass` 汇总后写进兵种词条的 `baseOwner/dlcOwner`（与持有人表格共用 `wiki-owners-parser.ts`）
-- `find-regional-owners.cjs` → `regional-owners.json` → `update-regional-traits.cjs`：重写地域特性词条
+- `find-regional-owners.cjs` → `regional-owners.json` → `update-regional-traits.cjs`：**已过时，不要运行**（整份覆盖地域特性词条，并写回已废弃的 `baseOwner`/`dlcOwner`；持有人现已自动生成）
 - `add-class-links.cjs`：给兵种描述里的兵种名加链接
 
 ### 测试分层

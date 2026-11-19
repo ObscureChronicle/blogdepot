@@ -106,6 +106,16 @@ export function checkLegacyAttributeFigure(raw: string): Finding[] {
 }
 
 /**
+ * 特性词条不再手写持有人：Layout_Traits.astro 按人物的 baseForms / traitsDLC 自动汇总。
+ * 组件已不接收 baseOwner / dlcOwner，写了也不会显示，所以按错误拦截。
+ */
+export function checkLegacyTraitOwners(raw: string): Finding[] {
+    return /^\s*(base|dlc)Owner\s*=/m.test(raw)
+        ? [{ level: 'error', message: '特性词条不再写 baseOwner / dlcOwner，持有人由人物的 baseForms / traitsDLC 自动生成' }]
+        : [];
+}
+
+/**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。
  * @param knownRoutes 全部内容页面的路径（contentRoute 的结果）

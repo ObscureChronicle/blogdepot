@@ -12,6 +12,7 @@ import {
     checkInternalLinks,
     checkLegacyAttributeFigure,
     checkLegacyTermHeadings,
+    checkLegacyTraitOwners,
     contentRoute
 } from '../scripts/content-checks.ts';
 import { extractBaseClassRelations, type ClassRelations } from '../src/utils/class-relations.ts';
@@ -213,4 +214,14 @@ test('checkLegacyAttributeFigure: a top-level AttributeFigure prop is an error',
 test('checkLegacyAttributeFigure: figure inside baseForms and dlcAttributeFigure are fine', () => {
     const raw = `<CharacterWiki\n  baseForms={[{ data: [1], figure: [1, 0, 0, 0, 0] }]}\n  dlcAttributeFigure={[0, 0, 0, 0, 0]}\n/>`;
     assert.deepEqual(checkLegacyAttributeFigure(raw), []);
+});
+
+test('checkLegacyTraitOwners: hand-written baseOwner / dlcOwner on a trait entry is an error', () => {
+    const findings = checkLegacyTraitOwners(`<TraitWiki\n  level={3}\n  dlcOwner={[ '关羽' ]}\n/>`);
+    assert.equal(findings.length, 1);
+    assert.ok(findings[0].level === 'error' && findings[0].message.includes('自动生成'));
+});
+
+test('checkLegacyTraitOwners: a trait entry without owner props is fine', () => {
+    assert.deepEqual(checkLegacyTraitOwners(`<TraitWiki\n  level={3}\n  dlcDescription={'x'}\n/>`), []);
 });

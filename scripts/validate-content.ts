@@ -12,6 +12,7 @@ import {
     checkInternalLinks,
     checkLegacyAttributeFigure,
     checkLegacyTermHeadings,
+    checkLegacyTraitOwners,
     contentRoute,
     type Finding
 } from './content-checks.ts';
@@ -42,6 +43,7 @@ const perFileIssues: Issue[] = parsed.flatMap(({ collection, file, id, raw, data
         ...checkEditionSectionTitles(raw),
         ...(collection === 'projects' && id.startsWith('class/') ? checkLegacyTermHeadings(raw) : []),
         ...(collection === 'projects' && id.startsWith('bio/') ? checkLegacyAttributeFigure(raw) : []),
+        ...(collection === 'projects' && id.startsWith('trait/') ? checkLegacyTraitOwners(raw) : []),
         ...checkInternalLinks(raw, contentRoute(collection, id), knownRoutes)
     ];
     return findings.map((f) => ({ ...f, file }));

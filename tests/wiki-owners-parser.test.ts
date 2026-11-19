@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { buildOwners, extractStringArray, OWNER_DISPLAY_NAMES } from '../src/utils/wiki-owners-parser.ts';
+import { buildOwners, extractStringArray, OWNER_DISPLAY_NAMES, ownersOfTraitEntry } from '../src/utils/wiki-owners-parser.ts';
 import { buildWikiLinkMaps } from '../src/utils/wiki-link-parser.ts';
 
 const bio = (title: string, props: string) => `---\ntitle: ${title}\n---\n\n<CharacterWiki\n${props}\n/>\n`;
@@ -61,4 +61,19 @@ test('OWNER_DISPLAY_NAMES (real content): every registered title still exists as
             .map((f) => fs.readFileSync(`${dir}/${f}`, 'utf8').match(/^title:\s*(.+?)\s*$/m)?.[1])
     );
     for (const title of Object.keys(OWNER_DISPLAY_NAMES)) assert.ok(titles.has(title), title);
+});
+
+test('ownersOfTraitEntry: merges every trait name linking to the entry, in link order, without duplicates', () => {
+    const links = { '关陇': '/projects/trait/guanzhong/', '中原': '/projects/trait/zhongyuan/', '关中': '/projects/trait/guanzhong/' };
+    const owners = {
+        '关陇': { base: ['马超'], dlc: [] },
+        '关中': { base: ['马超', '韩遂'], dlc: ['韩遂'] },
+        '中原': { base: ['曹操'], dlc: ['曹操'] }
+    };
+    assert.deepEqual(ownersOfTraitEntry('guanzhong', links, owners), { base: ['马超', '韩遂'], dlc: ['韩遂'] });
+});
+
+test('ownersOfTraitEntry: an entry nobody holds (or not in links) gets empty lists', () => {
+    assert.deepEqual(ownersOfTraitEntry('laoge', { '老革': '/projects/trait/laoge/' }, {}), { base: [], dlc: [] });
+    assert.deepEqual(ownersOfTraitEntry('unknown', {}, {}), { base: [], dlc: [] });
 });

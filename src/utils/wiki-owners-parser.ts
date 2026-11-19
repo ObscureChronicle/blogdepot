@@ -62,3 +62,20 @@ export function buildOwners(rawFiles: Record<string, string>): { traits: OwnersB
 
     return { traits, classes };
 }
+
+/**
+ * 某个特性词条的持有人：合并所有链接到该词条的特性名（如「关陇」「关中」都链接到 guanzhong），
+ * 按名字在 links 里的顺序拼接、去重。特性词条不再手写 baseOwner / dlcOwner，由此从人物数据生成。
+ * @param slug 词条文件名（不含扩展名），如 'guanzhong'
+ * @param links 特性名 → 词条链接（即 TRAIT_MAP 的 link）
+ */
+export function ownersOfTraitEntry(slug: string, links: Record<string, string>, owners: OwnersByName): OwnerLists {
+    const result: OwnerLists = { base: [], dlc: [] };
+    for (const [name, link] of Object.entries(links)) {
+        if (link !== `/projects/trait/${slug}/`) continue;
+        for (const side of ['base', 'dlc'] as const) {
+            for (const person of owners[name]?.[side] ?? []) if (!result[side].includes(person)) result[side].push(person);
+        }
+    }
+    return result;
+}
