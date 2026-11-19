@@ -1,5 +1,6 @@
 ---
 import NavLink from './NavLink.astro';
+import NavSearch from './NavSearch.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import siteConfig from '../data/site-config';
 
@@ -37,7 +38,8 @@ const navLinks = siteConfig.headerNavLinks || [];
             </div>
         )
     }
-    <div class="absolute right-0 top-3 z-10 md:top-8">
+    <div class="absolute right-0 top-3 z-10 flex items-center gap-2 md:top-8">
+        <NavSearch />
         <ThemeToggle />
     </div>
 </nav>

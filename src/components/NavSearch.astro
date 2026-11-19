@@ -1,0 +1,59 @@
+---
+// 顶栏的全局搜索按钮。第一次点击时才加载 Algolia，并用它自带的全屏面板（detached 模式）显示搜索框，
+// 平时页面上不加载任何搜索相关的脚本和样式。
+---
+
+<button type="button" class="nav-search w-8 h-8 flex items-center justify-center cursor-pointer" aria-label="搜索词条" data-nav-search>
+    <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6.5"></circle>
+        <path d="M15.5 15.5 21 21"></path>
+    </svg>
+</button>
+<div id="nav-search" hidden data-nav-search-mount></div>
+
+<script>
+    import { mountAlgolia } from '../utils/algolia-client';
+
+    // 等库把「独立面板」的打开按钮渲染出来；库的渲染是异步的
+    function waitFor<T extends Element>(find: () => T | null, timeout = 2000): Promise<T | null> {
+        return new Promise((resolve) => {
+            const start = performance.now();
+            const tick = () => {
+                const found = find();
+                if (found || performance.now() - start > timeout) resolve(found);
+                else requestAnimationFrame(tick);
+            };
+            tick();
+        });
+    }
+
+    async function openSearch(trigger: HTMLButtonElement) {
+        const mount = document.querySelector<HTMLElement>('[data-nav-search-mount]');
+        if (!mount || trigger.getAttribute('aria-busy') === 'true') return;
+        trigger.setAttribute('aria-busy', 'true');
+        try {
+            if (!(await mountAlgolia(mount, { detached: true }))) return;
+            const opener = await waitFor(() => mount.querySelector<HTMLButtonElement>('.aa-DetachedSearchButton'));
+            opener?.click();
+            // 库没有开放面板按钮文字的配置，打开后把「Cancel」换成中文
+            const cancel = await waitFor(() => document.querySelector<HTMLButtonElement>('.aa-DetachedCancelButton'));
+            if (cancel) cancel.textContent = '取消';
+        } finally {
+            trigger.removeAttribute('aria-busy');
+        }
+    }
+
+    // 委托在 document 上：模块脚本只执行一次，ClientRouter 换页后顶栏被替换，按钮依然有效
+    document.addEventListener('click', (event) => {
+        const trigger = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('[data-nav-search]') : null;
+        if (trigger) void openSearch(trigger);
+    });
+</script>
+
+<style is:global>
+    /* Algolia 全屏面板默认 z-index 只有 10，会被吸顶导航（30）和悬浮按钮（1000）盖住，提到它们之上。
+       它的样式表是运行时才插入的、排在本站样式之后，所以选择器多加一层 body 提高优先级 */
+    body .aa-DetachedOverlay {
+        z-index: 1100;
+    }
+</style>
