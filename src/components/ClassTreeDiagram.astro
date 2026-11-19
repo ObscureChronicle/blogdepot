@@ -1,0 +1,251 @@
+---
+// 本传兵种树：每个基础兵种一张卡片，三行自上而下（基础 → 中阶 → 高阶），样式仿军略盘。
+// 服务端渲染 SVG，不依赖 JS 也能看；悬停 / 聚焦节点时由下方脚本高亮同一卡片里直接相连的兵种。
+import { classTreeCards, type ClassTreeCard } from '../data/class-tree';
+import { getWikiLink } from '../utils/wiki-links';
+
+type Props = {
+    /** 默认显示全部卡片 */
+    cards?: ClassTreeCard[];
+    /** 当前词条的兵种，加描边突出 */
+    current?: string;
+};
+
+const { cards = classTreeCards, current } = Astro.props as Props;
+
+const NODE_W = 80;
+const NODE_H = 28;
+const CELL_W = 86;
+const ROW_H = 84;
+const PAD = 10;
+
+// 三行的配色：基础 / 中阶 / 高阶
+const TIER_COLORS = ['#3f6fa8', '#4c8a3a', '#b0562c'];
+const LINE_COLOR = '#6aa84f';
+
+type Node = { name: string; tier: number; x: number; y: number; href: string | null };
+// 一条线或一组汇流线；from / to 用于悬停时判断相关兵种
+type Edge = { d: string; arrows: string[]; from: string[]; to: string[] };
+
+const layout = (card: ClassTreeCard, index: number) => {
+    const cols = Math.max(card.mid.length, 1);
+    const width = PAD * 2 + (cols - 1) * CELL_W + NODE_W;
+    const height = PAD * 2 + (card.high.length > 0 ? 2 : 1) * ROW_H + NODE_H;
+    const rowY = (tier: number) => PAD + tier * ROW_H;
+    const colX = (col: number) => PAD + col * CELL_W;
+
+    const nodes: Node[] = [
+        { name: card.root, tier: 0, x: (width - NODE_W) / 2, y: rowY(0), href: getWikiLink('class', card.root) },
+        ...card.mid.map((name, i) => ({ name, tier: 1, x: colX(i), y: rowY(1), href: getWikiLink('class', name) })),
+        ...card.high.map(({ name, col }) => ({ name, tier: 2, x: colX(col), y: rowY(2), href: getWikiLink('class', name) }))
+    ];
+    const byName = (tier: number, name: string) => nodes.find((n) => n.tier === tier && n.name === name)!;
+    const top = (n: Node) => [n.x + NODE_W / 2, n.y] as const;
+    const bottom = (n: Node) => [n.x + NODE_W / 2, n.y + NODE_H] as const;
+    const line = ([x1, y1]: readonly [number, number], [x2, y2]: readonly [number, number]) => `M${x1} ${y1}L${x2} ${y2}`;
+
+    const root = nodes[0];
+    const edges: Edge[] = card.mid.map((name) => {
+        const d = line(bottom(root), top(byName(1, name)));
+        return { d: '', arrows: [d], from: [card.root], to: [name] };
+    });
+
+    for (const link of card.links) {
+        const sources = link.from.map((name) => byName(1, name));
+        const targets = link.to.map((name) => byName(2, name));
+        if (sources.length > 1 && targets.length > 1) {
+            // 汇流线：各起点竖直落到横线，再从横线竖直连到各终点
+            const barY = rowY(1) + NODE_H + (ROW_H - NODE_H) / 2;
+            const xs = [...sources, ...targets].map((n) => n.x + NODE_W / 2);
+            const stems = sources.map((n) => line(bottom(n), [n.x + NODE_W / 2, barY])).join('');
+            const bar = line([Math.min(...xs), barY], [Math.max(...xs), barY]);
+            edges.push({ d: stems + bar, arrows: targets.map((n) => line([n.x + NODE_W / 2, barY], top(n))), from: link.from, to: link.to });
+        } else {
+            for (const s of sources) {
+                for (const t of targets) edges.push({ d: '', arrows: [line(bottom(s), top(t))], from: [s.name], to: [t.name] });
+            }
+        }
+    }
+
+    return { width, height, nodes, edges, markerId: `ctree-arrow-${index}` };
+};
+
+const layouts = cards.map(layout);
+---
+
+<div class="class-tree not-prose my-4 mx-[calc(50%-50vw)] w-screen">
+    <div class="mx-auto grid max-w-[96rem] gap-4 px-4 sm:px-10 2xl:grid-cols-2">
+        {
+            layouts.map(({ width, height, nodes, edges, markerId }, i) => (
+                <div class="overflow-x-auto rounded-md border border-neutral-200 p-2 dark:border-neutral-700">
+                    <svg
+                        class="class-tree-card mx-auto block"
+                        role="group"
+                        aria-label={`兵种树：${cards[i].root}`}
+                        width={width}
+                        height={height}
+                        viewBox={`0 0 ${width} ${height}`}
+                    >
+                        <defs>
+                            <marker id={markerId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill={LINE_COLOR} />
+                            </marker>
+                        </defs>
+                        <g fill="none" stroke={LINE_COLOR} stroke-width="1.4">
+                            {edges.map((edge) => (
+                                <g class="ctree-edge" data-from={edge.from.join('|')} data-to={edge.to.join('|')}>
+                                    {edge.d && <path d={edge.d} />}
+                                    {edge.arrows.map((d) => (
+                                        <path d={d} marker-end={`url(#${markerId})`} />
+                                    ))}
+                                </g>
+                            ))}
+                        </g>
+                        {nodes.map((node) => {
+                            const body = (
+                                <>
+                                    <rect
+                                        class="ctree-halo"
+                                        x={node.x - 4}
+                                        y={node.y - 4}
+                                        width={NODE_W + 8}
+                                        height={NODE_H + 8}
+                                        rx="6"
+                                        fill={TIER_COLORS[node.tier]}
+                                    />
+                                    <rect
+                                        x={node.x}
+                                        y={node.y}
+                                        width={NODE_W}
+                                        height={NODE_H}
+                                        rx="3"
+                                        fill={TIER_COLORS[node.tier]}
+                                        stroke={node.name === current ? '#111827' : '#374151'}
+                                        stroke-width={node.name === current ? 2.5 : 1.2}
+                                    />
+                                    <text
+                                        x={node.x + NODE_W / 2}
+                                        y={node.y + NODE_H / 2 + 1}
+                                        text-anchor="middle"
+                                        dominant-baseline="central"
+                                        font-size="14"
+                                        font-weight="600"
+                                        fill="#ffffff"
+                                        stroke="#111111"
+                                        stroke-width="1.5"
+                                        paint-order="stroke"
+                                    >
+                                        {node.name}
+                                    </text>
+                                </>
+                            );
+                            const nodeClass = ['ctree-node', node.name === current && 'is-current'];
+                            return node.href ? (
+                                <a class:list={nodeClass} data-name={node.name} href={node.href}>
+                                    <title>{node.name}</title>
+                                    {body}
+                                </a>
+                            ) : (
+                                <g class:list={nodeClass} data-name={node.name} tabindex="0">
+                                    <title>{node.name}</title>
+                                    {body}
+                                </g>
+                            );
+                        })}
+                    </svg>
+                </div>
+            ))
+        }
+    </div>
+    <p class="mx-auto mt-2 flex max-w-[96rem] flex-wrap items-center gap-x-4 gap-y-1 px-4 text-xs text-neutral-600 sm:px-10 dark:text-neutral-400">
+        {
+            ['基础兵种', '中阶兵种', '高阶兵种'].map((label, i) => (
+                <span class="inline-flex items-center gap-1">
+                    <span class="inline-block h-3 w-3 rounded-sm border border-neutral-700" style={{ backgroundColor: TIER_COLORS[i] }} />
+                    {label}
+                </span>
+            ))
+        }
+        <span class="text-neutral-400">箭头指向可转职的兵种；悬停高亮相关兵种，点击进入词条</span>
+    </p>
+</div>
+
+<style>
+    .ctree-halo {
+        opacity: 0;
+        filter: blur(3px);
+        pointer-events: none;
+        transition: opacity 0.15s;
+    }
+    .ctree-node,
+    .ctree-edge {
+        transition: opacity 0.15s;
+    }
+    .ctree-node {
+        text-decoration: none;
+    }
+    .ctree-node:focus {
+        outline: none;
+    }
+    .class-tree-card.is-dim .ctree-node:not(.is-related),
+    .class-tree-card.is-dim .ctree-edge:not(.is-related) {
+        opacity: 0.2;
+    }
+    .class-tree-card .ctree-node.is-related .ctree-halo {
+        opacity: 0.55;
+    }
+    .class-tree-card .ctree-node.is-active .ctree-halo {
+        opacity: 0.9;
+    }
+</style>
+
+<script>
+    // 悬停 / 聚焦某个兵种时，只保留同一卡片里与它直接相连的兵种和连线
+    const split = (value: string | undefined) => (value ? value.split('|') : []);
+
+    function setup(svg: SVGSVGElement) {
+        if (svg.dataset.ready) return;
+        svg.dataset.ready = 'true';
+        const nodes = [...svg.querySelectorAll<SVGElement>('.ctree-node')];
+        const edges = [...svg.querySelectorAll<SVGElement>('.ctree-edge')].map((el) => ({ el, from: split(el.dataset.from), to: split(el.dataset.to) }));
+
+        const clear = () => {
+            svg.classList.remove('is-dim');
+            for (const el of svg.querySelectorAll('.is-related, .is-active')) el.classList.remove('is-related', 'is-active');
+        };
+        const activate = (name: string) => {
+            clear();
+            const related = new Set([name]);
+            for (const edge of edges) {
+                const isSource = edge.from.includes(name);
+                const isTarget = edge.to.includes(name);
+                if (!isSource && !isTarget) continue;
+                edge.el.classList.add('is-related');
+                for (const other of isSource ? edge.to : edge.from) related.add(other);
+            }
+            for (const node of nodes) {
+                const nodeName = node.dataset.name ?? '';
+                node.classList.toggle('is-related', related.has(nodeName));
+                node.classList.toggle('is-active', nodeName === name);
+            }
+            svg.classList.add('is-dim');
+        };
+
+        for (const node of nodes) {
+            const name = node.dataset.name ?? '';
+            node.addEventListener('mouseenter', () => activate(name));
+            node.addEventListener('focus', () => activate(name));
+            node.addEventListener('mouseleave', clear);
+            node.addEventListener('blur', clear);
+        }
+    }
+
+    document.addEventListener('astro:page-load', () => {
+        for (const svg of document.querySelectorAll<SVGSVGElement>('.class-tree-card')) {
+            setup(svg);
+            // 窄屏卡片需要横滑时，初始滚到中间，让居中的基础兵种落在可视范围内
+            const scroller = svg.parentElement;
+            if (scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
+        }
+    });
+</script>
