@@ -1,0 +1,299 @@
+---
+// 词条页章节目录。h2 一部分来自布局组件，一部分直接写在 MDX 里，构建时拿不到统一的标题列表，
+// 所以服务端只输出空壳，由脚本读取正文里的 h2 生成目录、并给 h2 写上锚点 id。
+// 同一份目录渲染到三处：
+// - 标题下方的目录（宽屏有侧栏时隐藏）；
+// - 宽屏（≥1280px）正文右侧的固定侧栏，高亮当前章节；
+// - 窄屏右下角的悬浮「目录」按钮与弹出面板。
+---
+
+<details class="entry-toc mb-8 font-serif text-sm sm:text-base" data-entry-toc hidden>
+    <summary>目录</summary>
+    <div data-entry-toc-list></div>
+</details>
+
+<aside class="entry-toc-side font-serif text-sm" aria-label="本页目录" data-entry-toc-side hidden>
+    <p class="entry-toc-side__title">目录</p>
+    <div data-entry-toc-list></div>
+</aside>
+
+<button type="button" class="entry-toc-fab" aria-label="本页目录" aria-expanded="false" aria-controls="entry-toc-panel" data-entry-toc-fab hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
+        <path
+            fill-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 4a1 1 0 100 2h12a1 1 0 100-2H4z"
+            clip-rule="evenodd"></path>
+    </svg>
+</button>
+<nav id="entry-toc-panel" class="entry-toc-panel font-serif text-sm" aria-label="本页目录" data-entry-toc-panel hidden>
+    <div data-entry-toc-list></div>
+</nav>
+
+<script>
+    import { buildToc, type TocEntry } from '../utils/entry-toc';
+
+    // 章节少于这个数时页面本身不长，不显示目录
+    const MIN_HEADINGS = 4;
+    const DESKTOP = '(min-width: 640px)';
+    // 与「回到顶部」按钮同一个出现时机
+    const FAB_SCROLL_Y = 300;
+
+    // 当前页面的状态；ClientRouter 换页后由 init 重新填写
+    let headings: HTMLHeadingElement[] = [];
+    let navHeight = 0;
+    let activeId: string | null = null;
+
+    const fab = () => document.querySelector<HTMLButtonElement>('[data-entry-toc-fab]');
+    const panel = () => document.querySelector<HTMLElement>('[data-entry-toc-panel]');
+
+    // 每一项单独一行；版本标题下的小节放进缩进的子列表
+    function renderList(entries: TocEntry[]): HTMLOListElement {
+        const ol = document.createElement('ol');
+        ol.className = 'entry-toc__list';
+        for (const entry of entries) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${encodeURIComponent(entry.id)}`;
+            a.textContent = entry.text;
+            a.dataset.tocId = entry.id;
+            li.append(a);
+            if (entry.children.length > 0) li.append(renderList(entry.children));
+            ol.append(li);
+        }
+        return ol;
+    }
+
+    function setPanelOpen(open: boolean) {
+        const button = fab();
+        const box = panel();
+        if (!button || !box) return;
+        box.hidden = !open;
+        button.setAttribute('aria-expanded', String(open));
+    }
+
+    function updateFab() {
+        fab()?.classList.toggle('visible', headings.length > 0 && window.scrollY > FAB_SCROLL_Y);
+    }
+
+    // 当前章节：顶部已经越过吸顶导航下沿的最后一个标题
+    function updateActive() {
+        let current: HTMLHeadingElement | undefined;
+        for (const h of headings) {
+            if (h.getBoundingClientRect().top - navHeight - 16 <= 0) current = h;
+            else break;
+        }
+        const id = current?.id ?? null;
+        if (id === activeId) return;
+        activeId = id;
+
+        document.querySelectorAll<HTMLAnchorElement>('[data-toc-id]').forEach((a) => {
+            if (a.dataset.tocId === id) a.setAttribute('aria-current', 'location');
+            else a.removeAttribute('aria-current');
+        });
+
+        // 侧栏内容比屏幕高时（兵种页），让高亮项留在侧栏可见范围内；只滚侧栏自身，不动页面
+        const side = document.querySelector<HTMLElement>('[data-entry-toc-side]');
+        const link = id ? side?.querySelector<HTMLElement>(`[data-toc-id="${CSS.escape(id)}"]`) : null;
+        if (side && link) {
+            // 侧栏是 fixed 定位，就是链接的 offsetParent，offsetTop 直接是侧栏内的位置
+            const linkTop = link.offsetTop;
+            if (linkTop < side.scrollTop || linkTop + link.offsetHeight > side.scrollTop + side.clientHeight) {
+                side.scrollTop = linkTop - side.clientHeight / 2;
+            }
+        }
+    }
+
+    let frame = 0;
+    function onScroll() {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+            frame = 0;
+            updateFab();
+            updateActive();
+        });
+    }
+
+    function init() {
+        headings = [];
+        activeId = null;
+
+        const toc = document.querySelector<HTMLDetailsElement>('[data-entry-toc]');
+        const side = document.querySelector<HTMLElement>('[data-entry-toc-side]');
+        if (!toc || !side) return;
+
+        const found = [...document.querySelectorAll<HTMLHeadingElement>('article .wiki h2:is(.section-title, .edition-frame)')];
+        if (found.length < MIN_HEADINGS) return;
+
+        const { items, ids } = buildToc(
+            found.map((h) => ({ text: h.textContent ?? '', kind: h.classList.contains('edition-frame') ? 'group' : 'section', id: h.id || undefined }))
+        );
+        found.forEach((h, i) => (h.id = ids[i]));
+        headings = found;
+
+        document.querySelectorAll<HTMLElement>('[data-entry-toc-list]').forEach((slot) => slot.replaceChildren(renderList(items)));
+        toc.open = window.matchMedia(DESKTOP).matches;
+        toc.hidden = false;
+        side.hidden = false;
+        const button = fab();
+        if (button) button.hidden = false;
+
+        // 跳到章节时留出吸顶导航的高度；按实际高度算，导航尺寸以后变了也不用改这里
+        navHeight = document.querySelector<HTMLElement>('.nav-bar')?.offsetHeight ?? 0;
+        document.documentElement.style.scrollPaddingTop = `${navHeight + 8}px`;
+        side.style.top = `${navHeight + 16}px`;
+
+        // 带 #章节 打开时，浏览器加载时 id 还不存在，生成后补一次定位
+        const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (target) target.scrollIntoView();
+
+        updateFab();
+        updateActive();
+    }
+
+    // 以下监听挂在 window / document 上，模块脚本只执行一次，换页后依然有效
+    document.addEventListener('astro:page-load', init);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // 窗口尺寸变化会改变标题位置，但不一定触发 scroll
+    window.addEventListener('resize', onScroll, { passive: true });
+    document.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest('[data-entry-toc-fab]')) {
+            setPanelOpen(panel()?.hidden ?? false);
+            return;
+        }
+        // 点了面板里的链接，或者点在面板外面，都收起面板
+        if (panel()?.hidden === false && (target?.closest('[data-entry-toc-panel] a') || !target?.closest('[data-entry-toc-panel]'))) {
+            setPanelOpen(false);
+        }
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && panel()?.hidden === false) {
+            setPanelOpen(false);
+            fab()?.focus();
+        }
+    });
+</script>
+
+<style is:global>
+    /* 脚本生成的节点没有 Astro 作用域属性，样式用全局类名 */
+    .entry-toc {
+        color: color-mix(in srgb, var(--text-main) 72%, transparent);
+        border-left: 3px solid color-mix(in srgb, var(--text-main) 18%, transparent);
+        padding-left: 0.875rem;
+    }
+    .entry-toc summary,
+    .entry-toc-side__title {
+        font-weight: 600;
+        width: fit-content;
+    }
+    .entry-toc summary {
+        cursor: pointer;
+    }
+    .entry-toc > div > .entry-toc__list {
+        margin-top: 0.5rem;
+    }
+
+    /* 列表：每项一行，子列表缩进 */
+    .entry-toc__list {
+        line-height: 1.6;
+    }
+    .entry-toc__list li {
+        margin: 0.15rem 0;
+    }
+    .entry-toc__list .entry-toc__list {
+        padding-left: 1em;
+    }
+    .entry-toc__list a {
+        color: var(--wiki-link);
+        text-decoration: none;
+    }
+    .entry-toc__list a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+    .entry-toc__list a[aria-current] {
+        color: var(--text-main);
+        font-weight: 600;
+    }
+
+    /* 宽屏侧栏：贴在 max-w-3xl（48rem）正文的右边，高度超出屏幕时侧栏自身滚动 */
+    .entry-toc-side {
+        position: fixed;
+        left: calc(50% + 24rem + 2.5rem);
+        width: min(14rem, calc(50% - 24rem - 4rem));
+        max-height: calc(100vh - 8rem);
+        overflow-y: auto;
+        color: color-mix(in srgb, var(--text-main) 72%, transparent);
+        border-left: 1px solid color-mix(in srgb, var(--text-main) 18%, transparent);
+        padding-left: 1rem;
+        z-index: 20;
+    }
+    .entry-toc-side__title {
+        margin-bottom: 0.5rem;
+    }
+
+    /* 窄屏悬浮按钮：外观与「回到顶部」一致，叠在它上方 */
+    .entry-toc-fab {
+        position: fixed;
+        right: 2.5rem;
+        bottom: calc(2.5rem + 44px + 0.75rem);
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        padding: 0.75rem;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(20px);
+        transition:
+            opacity 0.4s ease,
+            transform 0.3s ease;
+    }
+    .entry-toc-fab.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+    .entry-toc-fab svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+        fill: white;
+    }
+    .entry-toc-panel {
+        position: fixed;
+        right: 2.5rem;
+        bottom: calc(2.5rem + 2 * (44px + 0.75rem));
+        width: min(18rem, calc(100vw - 5rem));
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 0.75rem 1rem;
+        background: var(--bg-main);
+        color: color-mix(in srgb, var(--text-main) 72%, transparent);
+        border: 1px solid color-mix(in srgb, var(--text-main) 25%, transparent);
+        border-radius: 0.5rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        z-index: 1000;
+    }
+
+    /* 宽屏用侧栏，隐藏标题下的目录和悬浮按钮；窄屏反过来 */
+    @media (min-width: 1280px) {
+        .entry-toc,
+        .entry-toc-fab,
+        .entry-toc-panel {
+            display: none !important;
+        }
+    }
+    @media (max-width: 1279.98px) {
+        .entry-toc-side {
+            display: none !important;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .entry-toc-fab {
+            transition: none;
+        }
+    }
+</style>

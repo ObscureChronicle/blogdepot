@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import EntryToc from '../../components/EntryToc.astro';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import WalineComments from '../../components/WalineComments.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -74,6 +75,7 @@ const breadcrumb = {
                 )
             }
         </header>
+        <EntryToc />
         <div class="max-w-none prose sm:prose-lg font-serif wiki">
             <Content />
         </div>
