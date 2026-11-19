@@ -239,6 +239,54 @@ html.dark {
     }
 }
 
+/*
+ * 横向滚动提示：词条正文里的 .overflow-x-auto 容器（宽表格、军略盘等）在还有内容可滑的一侧边缘淡出。
+ * 用滚动驱动动画按滚动位置改变两侧淡出宽度；内容放得下时滚动时间线无效、动画不生效，不会出现淡出。
+ * 用 mask 而不是背景阴影：部分表格单元格自带底色，会盖住容器背景上的阴影。
+ * 不支持 animation-timeline 的浏览器（目前的 Firefox）没有提示，其余表现不变。
+ */
+@property --scroll-fade-start {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+}
+
+@property --scroll-fade-end {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+}
+
+@keyframes scroll-fade {
+    from {
+        --scroll-fade-start: 0px;
+        --scroll-fade-end: 2rem;
+    }
+    8%,
+    92% {
+        --scroll-fade-start: 2rem;
+        --scroll-fade-end: 2rem;
+    }
+    to {
+        --scroll-fade-start: 2rem;
+        --scroll-fade-end: 0px;
+    }
+}
+
+@supports (animation-timeline: scroll()) {
+    .wiki .overflow-x-auto {
+        animation: scroll-fade linear both;
+        animation-timeline: scroll(self inline);
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            #000 var(--scroll-fade-start),
+            #000 calc(100% - var(--scroll-fade-end)),
+            transparent
+        );
+    }
+}
+
 @layer utilities {
     .prose {
         --tw-prose-body: var(--text-color-main);

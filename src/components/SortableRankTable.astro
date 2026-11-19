@@ -61,47 +61,50 @@ const sourceTagClass = [
         }
     </div>
 
-    <table data-rank-table class="w-full text-sm">
-        <thead>
-            <tr>
+    <!-- 列数多，手机上放不下：放进横向滚动容器，避免撑宽整页 -->
+    <div class="overflow-x-auto">
+        <table data-rank-table class="w-full text-sm">
+            <thead>
+                <tr>
+                    {
+                        columns.map((col) => (
+                            <th
+                                data-col={col.key}
+                                data-numeric={col.numeric ? '1' : undefined}
+                                class="cursor-pointer select-none whitespace-nowrap"
+                                title="点击排序"
+                            >
+                                {col.label}
+                                <span data-arrow aria-hidden="true" />
+                            </th>
+                        ))
+                    }
+                </tr>
+            </thead>
+            <tbody>
                 {
-                    columns.map((col) => (
-                        <th
-                            data-col={col.key}
-                            data-numeric={col.numeric ? '1' : undefined}
-                            class="cursor-pointer select-none whitespace-nowrap"
-                            title="点击排序"
-                        >
-                            {col.label}
-                            <span data-arrow aria-hidden="true" />
-                        </th>
+                    rows.map((row) => (
+                        <tr data-source-index={String(row.sourceIndex)}>
+                            <td data-col="name" data-sort={row.pinyin}>
+                                <a href={row.href} class="text-blue-600 hover:text-blue-800 hover:underline">
+                                    {row.name}
+                                </a>
+                            </td>
+                            <td data-col="source" data-sort={String(row.sourceIndex)}>
+                                <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
+                            </td>
+                            {row.values.map((v, i) => (
+                                <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
+                                    {v === null ? '—' : v}
+                                </td>
+                            ))}
+                            <td data-col="zonghe" data-sort="" />
+                        </tr>
                     ))
                 }
-            </tr>
-        </thead>
-        <tbody>
-            {
-                rows.map((row) => (
-                    <tr data-source-index={String(row.sourceIndex)}>
-                        <td data-col="name" data-sort={row.pinyin}>
-                            <a href={row.href} class="text-blue-600 hover:text-blue-800 hover:underline">
-                                {row.name}
-                            </a>
-                        </td>
-                        <td data-col="source" data-sort={String(row.sourceIndex)}>
-                            <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
-                        </td>
-                        {row.values.map((v, i) => (
-                            <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
-                                {v === null ? '—' : v}
-                            </td>
-                        ))}
-                        <td data-col="zonghe" data-sort="" />
-                    </tr>
-                ))
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>

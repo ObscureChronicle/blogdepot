@@ -122,54 +122,57 @@ const levelRows = baseLevels.map((row, index) => {
             )}
             {baseDescription && <p set:html={baseDescription} class="text-base leading-relaxed" />}
             {baseLevels.length > 0 && (
-                <table class="wiki-table wiki-table--hover not-prose mt-2">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="w-16">
-                                等级
-                            </th>
-                            <th scope="col">对象</th>
-                            <th scope="col">成功率</th>
-                            <th scope="col">目标减益</th>
-                            <th scope="col">冷却时间</th>
-                            <th scope="col">持续时间</th>
-                            <th scope="col">效果</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {levelRows.map(({ row, changed, effectParts, effectChanged, effectLink }) => (
+                // 7 列在手机上放不下，放进横向滚动容器，避免撑宽整页
+                <div class="mt-2 overflow-x-auto">
+                    <table class="wiki-table wiki-table--hover not-prose">
+                        <thead>
                             <tr>
-                                <th scope="row" class="w-16">
-                                    {row.level}
+                                <th scope="col" class="w-16">
+                                    等级
                                 </th>
-                                <td>
-                                    <span class={changed.target ? DIFF_CLASS : undefined}>{orEmpty(row.target)}</span>
-                                </td>
-                                <td>
-                                    <span class={changed.successRate ? DIFF_CLASS : undefined}>{orEmpty(row.successRate)}</span>
-                                </td>
-                                <td>
-                                    <span class={changed.targetResist ? DIFF_CLASS : undefined}>{orEmpty(row.targetResist)}</span>
-                                </td>
-                                <td>
-                                    <span class={changed.cooldown ? DIFF_CLASS : undefined}>{orEmpty(row.cooldown)}</span>
-                                </td>
-                                <td>
-                                    <span class={changed.duration ? DIFF_CLASS : undefined}>{orEmpty(row.duration)}</span>
-                                </td>
-                                <td>
-                                    {effectLink ? (
-                                        <a href={effectLink} class={effectChanged ? DIFF_CLASS : undefined}>{row.effect}</a>
-                                    ) : (
-                                        effectParts.map((part) =>
-                                            part.separator || !part.changed ? part.text : <span class={DIFF_CLASS}>{part.text}</span>
-                                        )
-                                    )}
-                                </td>
+                                <th scope="col">对象</th>
+                                <th scope="col">成功率</th>
+                                <th scope="col">目标减益</th>
+                                <th scope="col">冷却时间</th>
+                                <th scope="col">持续时间</th>
+                                <th scope="col">效果</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {levelRows.map(({ row, changed, effectParts, effectChanged, effectLink }) => (
+                                <tr>
+                                    <th scope="row" class="w-16">
+                                        {row.level}
+                                    </th>
+                                    <td>
+                                        <span class={changed.target ? DIFF_CLASS : undefined}>{orEmpty(row.target)}</span>
+                                    </td>
+                                    <td>
+                                        <span class={changed.successRate ? DIFF_CLASS : undefined}>{orEmpty(row.successRate)}</span>
+                                    </td>
+                                    <td>
+                                        <span class={changed.targetResist ? DIFF_CLASS : undefined}>{orEmpty(row.targetResist)}</span>
+                                    </td>
+                                    <td>
+                                        <span class={changed.cooldown ? DIFF_CLASS : undefined}>{orEmpty(row.cooldown)}</span>
+                                    </td>
+                                    <td>
+                                        <span class={changed.duration ? DIFF_CLASS : undefined}>{orEmpty(row.duration)}</span>
+                                    </td>
+                                    <td>
+                                        {effectLink ? (
+                                            <a href={effectLink} class={effectChanged ? DIFF_CLASS : undefined}>{row.effect}</a>
+                                        ) : (
+                                            effectParts.map((part) =>
+                                                part.separator || !part.changed ? part.text : <span class={DIFF_CLASS}>{part.text}</span>
+                                            )
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </>
     )
