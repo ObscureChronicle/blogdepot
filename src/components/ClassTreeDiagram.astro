@@ -76,13 +76,33 @@ const layout = (card: ClassTreeCard, index: number) => {
 };
 
 const layouts = cards.map(layout);
+// 总览页卡片多（11 张，手机上页面 13000px），顶部给一行跳到各基础兵种的链接
+const showJumpBar = !inline && cards.length > 1;
+const cardId = (card: ClassTreeCard) => `ctree-${card.root}`;
 ---
 
-<div class:list={['class-tree not-prose my-4', !inline && 'mx-[calc(50%-50vw)] w-screen']}>
+{/* 撑满视口宽度：宽度扣掉竖向滚动条（--scrollbar-width 由下方脚本测量），否则 100vw 会多出滚动条宽度，产生横向滚动 */}
+<div class:list={['class-tree not-prose my-4', !inline && 'class-tree--bleed']}>
+    {
+        showJumpBar && (
+            <nav aria-label="跳到基础兵种" class="mx-auto mb-4 flex max-w-[96rem] flex-wrap gap-x-3 gap-y-1 px-4 text-base sm:px-10">
+                <span class="text-neutral-600 dark:text-neutral-400">跳到：</span>
+                {cards.map((card) => (
+                    <a class="ctree-jump" href={`#${encodeURIComponent(cardId(card))}`}>
+                        {card.root}
+                    </a>
+                ))}
+            </nav>
+        )
+    }
     <div class:list={['grid grid-cols-1 gap-4', !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10 2xl:grid-cols-2']}>
         {
             layouts.map(({ width, height, nodes, edges, markerId }, i) => (
-                <div class="min-w-0 rounded-md border border-neutral-200 p-2 dark:border-neutral-700" data-ctree-scope>
+                <div
+                    id={showJumpBar ? cardId(cards[i]) : undefined}
+                    class="min-w-0 scroll-mt-28 rounded-md border border-neutral-200 p-2 dark:border-neutral-700"
+                    data-ctree-scope
+                >
                     <div class="overflow-x-auto">
                         <svg
                             class="class-tree-card mx-auto block"
@@ -184,6 +204,17 @@ const layouts = cards.map(layout);
 </div>
 
 <style>
+    .class-tree--bleed {
+        width: calc(100vw - var(--scrollbar-width, 0px));
+        margin-inline: calc(50% - (100vw - var(--scrollbar-width, 0px)) / 2);
+    }
+    .ctree-jump {
+        color: var(--wiki-link);
+    }
+    .ctree-jump:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
     .ctree-halo {
         opacity: 0;
         filter: blur(3px);
@@ -215,6 +246,12 @@ const layouts = cards.map(layout);
 </style>
 
 <script>
+    // 竖向滚动条占用的宽度（触控板 / 手机上的悬浮滚动条为 0），供全宽卡片扣除
+    const measureScrollbar = () =>
+        document.documentElement.style.setProperty('--scrollbar-width', `${window.innerWidth - document.documentElement.clientWidth}px`);
+    document.addEventListener('astro:page-load', measureScrollbar);
+    window.addEventListener('resize', measureScrollbar, { passive: true });
+
     // 悬停 / 聚焦某个兵种时，只保留同一卡片里与它直接相连的兵种和连线；
     // 并与同一联动范围（data-ctree-scope）里的转职条件表行互相高亮。
     // 卡片容器是一个范围；中阶兵种页由 ClassTree 再包一层，让卡片之后的那一行表格联动全部卡片。

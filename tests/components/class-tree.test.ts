@@ -17,7 +17,10 @@ describe('ClassTreeDiagram.astro', () => {
         const html = await container.renderToString(ClassTreeDiagram);
         expect(cardLabels(html)).toEqual(classTreeCards.map((card) => card.root));
         expect(html).toContain('href="/projects/class/hufuqibing/"');
-        expect(html).toContain('mx-[calc(50%-50vw)]');
+        expect(html).toContain('class-tree--bleed');
+        // 总览页顶部有跳到各基础兵种的链接，卡片带对应 id
+        expect(html.match(/class="ctree-jump"/g)).toHaveLength(classTreeCards.length);
+        expect(html).toContain(`id="ctree-${classTreeCards[0].root}"`);
         expect(html.match(/<table/g)).toHaveLength(classTreeCards.length);
         // 每张卡片是一个联动范围，条件表行带兵种名供脚本对应节点
         expect(html.match(/data-ctree-scope/g)).toHaveLength(classTreeCards.length);
@@ -32,7 +35,8 @@ describe('ClassTreeDiagram.astro', () => {
     it('marks the current class and stays within the text width when inline', async () => {
         const html = await container.renderToString(ClassTreeDiagram, { props: { cards: classTreeCards.slice(0, 1), current: '虎兵', inline: true } });
         expect(html.match(/ctree-node is-current/g)).toHaveLength(1);
-        expect(html).not.toContain('mx-[calc(50%-50vw)]');
+        expect(html).not.toContain('class-tree--bleed');
+        expect(html).not.toContain('ctree-jump');
     });
 });
 
