@@ -176,9 +176,11 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
 
         // 鼠标事件监听
         const handleMouseMove = (e) => {
+            // 画布在窄屏上会按容器宽度缩小显示，鼠标坐标要换算回画布自身的坐标
             const rect = canvas.getBoundingClientRect();
-            const mx = e.clientX - rect.left;
-            const my = e.clientY - rect.top;
+            const scale = canvas.width / rect.width;
+            const mx = (e.clientX - rect.left) * scale;
+            const my = (e.clientY - rect.top) * scale;
 
             let found = null;
             points.forEach((p, i) => {
@@ -234,7 +236,8 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     <></>
                 // <div className="mb-[36.25px]"></div>
             )}
-            <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block' }} />
+            {/* 固定绘图尺寸，显示时不超过容器宽度（手机内容区只有 343px） */}
+            <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />
         </>
     );
 }

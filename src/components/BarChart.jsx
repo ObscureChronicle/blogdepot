@@ -123,9 +123,11 @@ export default function BarChart({ data }) {
 
         // 鼠标事件处理
         const handleMouseMove = (e) => {
+            // 画布在窄屏上会按容器宽度缩小显示，鼠标坐标要换算回画布自身的坐标
             const rect = canvas.getBoundingClientRect();
-            const mx = e.clientX - rect.left;
-            const my = e.clientY - rect.top;
+            const scale = canvas.width / rect.width;
+            const mx = (e.clientX - rect.left) * scale;
+            const my = (e.clientY - rect.top) * scale;
 
             let found = null;
             data.forEach((_, i) => {
@@ -166,7 +168,7 @@ export default function BarChart({ data }) {
                 width={300}
                 height={250}
                 className="mx-auto"
-                style={{ display: 'block' }}
+                style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
             />
         </div>
     );
