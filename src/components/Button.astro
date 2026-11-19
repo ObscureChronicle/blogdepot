@@ -13,7 +13,7 @@ const props = Astro.props as Props;
 const { class: className, ...rest } = props;
 
 const buttonClasses =
-  'inline-flex items-center justify-center px-6 py-2 font-serif leading-tight italic text-main bg-main border border-main rounded-full transition hover:bg-muted';
+  'btn-frame relative inline-flex items-center justify-center px-7 py-2.5 font-serif leading-tight text-main bg-main transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]';
 
 const isAnchor = 'href' in props;
 ---
@@ -32,3 +32,21 @@ const isAnchor = 'href' in props;
     <slot />
   </button>
 )}
+
+<style>
+  /* 框线样式：两端满高粗竖条 + 主体上下内嵌细横线，颜色跟随主题边框色 */
+  .btn-frame::before,
+  .btn-frame::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+  .btn-frame::before {
+    inset: 0;
+    border-inline: 3px solid var(--border-main);
+  }
+  .btn-frame::after {
+    inset: 4px 7px;
+    border-block: 1px solid var(--border-main);
+  }
+</style>
