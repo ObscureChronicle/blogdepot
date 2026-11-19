@@ -39,9 +39,11 @@ export const pagesSchema = baseEntrySchema;
 /**
  * 创作手记的人物雷达图：character 是人物词条的 slug（bio/ 下的文件名），用来取显示名和词条链接；
  * data 是写手记时的五维快照，刻意不读人物词条的 baseForms，以后调整数值也不影响手记。
+ * label 是可选的阶段名（如「初出茅庐」）；同一人物连续多项时，卡片在相邻两项之间画箭头。
  */
 export const blogRadarSchema = z.object({
     character: z.string(),
+    label: z.string().optional(),
     data: z.array(z.number()).length(5)
 });
 

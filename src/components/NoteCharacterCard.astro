@@ -11,25 +11,35 @@ const { radar, class: className } = Astro.props;
 const bios = await getCollection('projects', (entry) => entry.id.startsWith('bio/'));
 const titleById = new Map(bios.map((entry) => [entry.id, entry.data.title]));
 
-const characters = radar.map(({ character, data }) => {
+const characters = radar.map(({ character, label, data }, i) => {
     const title = titleById.get(`bio/${character}`);
-    return { key: character, name: title ?? character, href: title ? `/projects/bio/${character}/` : null, data };
+    // 同一人物的连续阶段：词条链接只放在最后一项，前一项之后画箭头
+    const continues = radar[i + 1]?.character === character;
+    return { name: title ?? character, label, href: title && !continues ? `/projects/bio/${character}/` : null, data, continues };
 });
 ---
 
 <aside aria-label="人物" class:list={['note-card not-prose font-serif', className]}>
-    <ul class="flex flex-wrap justify-evenly gap-x-8 gap-y-6">
+    <ul class="flex flex-col items-center justify-evenly gap-x-6 gap-y-6 sm:flex-row sm:flex-wrap">
         {
             characters.map((c) => (
-                <li class="flex w-full max-w-[18rem] flex-col items-center gap-2">
-                    <RadarChart client:visible data={c.data} />
-                    <span class="text-lg font-medium">{c.name}</span>
-                    {c.href && (
-                        <a href={c.href} class="text-sm opacity-70 transition hover:underline hover:opacity-100">
-                            查看百科词条 →
-                        </a>
+                <>
+                    <li class="flex w-full max-w-[18rem] flex-col items-center gap-1">
+                        <RadarChart client:visible data={c.data} />
+                        <span class="text-lg font-medium">{c.name}</span>
+                        {c.label && <span class="text-sm opacity-70">{c.label}</span>}
+                        {c.href && (
+                            <a href={c.href} class="mt-1 text-sm opacity-70 transition hover:underline hover:opacity-100">
+                                查看百科词条 →
+                            </a>
+                        )}
+                    </li>
+                    {c.continues && (
+                        <li aria-hidden="true" class="rotate-90 text-xl opacity-60 sm:rotate-0">
+                            →
+                        </li>
                     )}
-                </li>
+                </>
             ))
         }
     </ul>
