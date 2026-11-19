@@ -20,5 +20,5 @@ export const EDITIONS = {
 
 /** 版本小标签的 class（EditionBadge 与 React 组件共用） */
 export function editionBadgeClass(edition: Edition): string {
-    return `inline-block ${EDITIONS[edition].badgeColor} text-base font-medium px-1.5 pt-1 rounded-sm`;
+    return `edition-frame edition-frame--sm inline-block ${EDITIONS[edition].badgeColor} text-base font-medium px-2.5 pt-1 pb-0.5`;
 }

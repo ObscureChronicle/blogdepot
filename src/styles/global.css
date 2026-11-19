@@ -382,20 +382,32 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     position: relative;
 }
 
-/* 与 Button.astro 同一套框线：两端满高粗竖条 + 上下内嵌细横线，线色跟随标题文字色（即版本色） */
-.section-title::before,
-.section-title::after {
+/*
+ * 与 Button.astro 同一套框线：两端满高粗竖条 + 上下内嵌细横线，线色跟随文字色（即版本色）。
+ * 分区标题自带；兵种页的版本大标题、版本小标签（editions.ts）用 .edition-frame 套用，
+ * 小标签再加 .edition-frame--sm 缩小线条比例。
+ */
+.edition-frame {
+    position: relative;
+}
+:is(.section-title, .edition-frame)::before,
+:is(.section-title, .edition-frame)::after {
     content: '';
     position: absolute;
     pointer-events: none;
 }
-.section-title::before {
+:is(.section-title, .edition-frame)::before {
     inset: 0;
-    border-inline: 3px solid currentColor;
+    border-inline: var(--frame-bar, 3px) solid currentColor;
 }
-.section-title::after {
-    inset: 3px 7px;
+:is(.section-title, .edition-frame)::after {
+    inset: var(--frame-inset-y, 3px) var(--frame-inset-x, 7px);
     border-block: 1px solid currentColor;
+}
+.edition-frame--sm {
+    --frame-bar: 2px;
+    --frame-inset-y: 2px;
+    --frame-inset-x: 4px;
 }
 
 /* 不放进 @layer：要压过 prose 对 h2 字号与颜色的设置，因此下面的深色与按版本着色也写成普通规则 */
