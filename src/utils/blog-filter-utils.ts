@@ -32,6 +32,21 @@ export function groupBlogPostsByCategory(posts: BlogPost[]): BlogCategoryGroup[]
     return [...groups.values()].sort((a, b) => b.posts.length - a.posts.length);
 }
 
+/**
+ * 列表页插入年份小标题用：把已排好序的日志切成「连续同年」的若干段，不重新排序。
+ * 与 groupBlogPostsByYear 不同，同一年份被别的年份隔开时会出现两段。
+ */
+export function splitBlogPostsByYearRuns(posts: BlogPost[]): BlogYearGroup[] {
+    const runs: BlogYearGroup[] = [];
+    for (const post of posts) {
+        const year = getBlogYear(post);
+        const last = runs.at(-1);
+        if (last && last.year === year) last.posts.push(post);
+        else runs.push({ year, posts: [post] });
+    }
+    return runs;
+}
+
 /** 按年份分组：新年份在前；组内保持传入顺序 */
 export function groupBlogPostsByYear(posts: BlogPost[]): BlogYearGroup[] {
     const groups = new Map<string, BlogPost[]>();

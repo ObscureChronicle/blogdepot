@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { getBlogCategory, getBlogYear, groupBlogPostsByCategory, groupBlogPostsByYear } from '../src/utils/blog-filter-utils.ts';
+import { getBlogCategory, getBlogYear, groupBlogPostsByCategory, groupBlogPostsByYear, splitBlogPostsByYearRuns } from '../src/utils/blog-filter-utils.ts';
 import { blogEntry } from './helpers/fixtures.ts';
 
 function post(id: string, publishDate: string, tags: string[]) {
@@ -58,4 +58,26 @@ test('groupBlogPostsByYear: newest year first, keeps post order within a year', 
             ['2016', ['a']]
         ]
     );
+});
+
+test('splitBlogPostsByYearRuns: cuts consecutive same-year posts into runs without reordering', () => {
+    const posts = [post('a', '2026-03-30', []), post('b', '2025-05-09', []), post('c', '2025-01-01', []), post('d', '2024-12-31', [])];
+    const runs = splitBlogPostsByYearRuns(posts);
+    assert.deepEqual(
+        runs.map((r) => [r.year, r.posts.map((p) => p.id)]),
+        [
+            ['2026', ['a']],
+            ['2025', ['b', 'c']],
+            ['2024', ['d']]
+        ]
+    );
+});
+
+test('splitBlogPostsByYearRuns: a year split by another year yields two runs; empty input yields none', () => {
+    const posts = [post('a', '2025-02-01', []), post('b', '2024-02-01', []), post('c', '2025-01-01', [])];
+    assert.deepEqual(
+        splitBlogPostsByYearRuns(posts).map((r) => r.year),
+        ['2025', '2024', '2025']
+    );
+    assert.deepEqual(splitBlogPostsByYearRuns([]), []);
 });

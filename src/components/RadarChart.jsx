@@ -12,7 +12,7 @@ const VARIANTS = {
 
 /**
  * 多形态之间的切换由调用方（CharacterAbilitySection）负责，这里只画传入的一组数据。
- * @param {{ data: number[], attributefigure: number[], variant?: 'base' | 'dlc' }} props
+ * @param {{ data: number[], attributefigure?: number[], variant?: 'base' | 'dlc' }} props
  */
 export default function RadarChart({ data, attributefigure, variant = 'base' }) {
     const theme = VARIANTS[variant];

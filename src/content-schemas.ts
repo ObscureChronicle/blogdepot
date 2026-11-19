@@ -36,10 +36,20 @@ const listedEntrySchema = baseEntrySchema.extend({
 
 export const pagesSchema = baseEntrySchema;
 
+/**
+ * 创作手记的人物雷达图：character 是人物词条的 slug（bio/ 下的文件名），用来取显示名和词条链接；
+ * data 是写手记时的五维快照，刻意不读人物词条的 baseForms，以后调整数值也不影响手记。
+ */
+export const blogRadarSchema = z.object({
+    character: z.string(),
+    data: z.array(z.number()).length(5)
+});
+
 export const blogSchema = listedEntrySchema.extend({
     excerpt: z.string().optional(),
     publishDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional()
+    updatedDate: z.coerce.date().optional(),
+    radar: z.array(blogRadarSchema).optional()
 });
 
 /** 百科词条不讲究发布时间和摘要，frontmatter 只需要 title 和 tags */

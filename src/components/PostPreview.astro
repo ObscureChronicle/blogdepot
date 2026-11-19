@@ -2,20 +2,23 @@
 import { type CollectionEntry } from 'astro:content';
 import ArrowRight from '../icons/ArrowRight.astro';
 import FormattedDate from './FormattedDate.astro';
+import { splitBlogTitle } from '../utils/blog-title';
 
 type Props = { post: CollectionEntry<'blog'>; class?: string; headingLevel?: 'h2' | 'h3' };
 
 const { post, class: className, headingLevel = 'h2' } = Astro.props;
 const { title, publishDate, updatedDate, excerpt } = post.data;
 const TitleTag = headingLevel;
+const { eyebrow, main } = splitBlogTitle(title);
 ---
 
 <a class:list={['flex justify-between items-start gap-8 group', className]} href={`/${post.collection}/${post.id}/`}>
     <div class="grow">
+        {eyebrow && <div class="mb-1 text-xs tracking-widest font-serif opacity-70">{eyebrow}</div>}
         <TitleTag
             class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl"
         >
-            {title}
+            {main}
         </TitleTag>
         <div class="mt-1 text-sm leading-normal">
             {
@@ -26,7 +29,7 @@ const TitleTag = headingLevel;
                     <>
                         {' '}
                         <span>
-                            (Updated on <FormattedDate date={updatedDate} />)
+                            · 修订于 <FormattedDate date={updatedDate} />
                         </span>
                     </>
                 )

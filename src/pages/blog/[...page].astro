@@ -6,6 +6,7 @@ import Pagination from '../../components/Pagination.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { splitBlogPostsByYearRuns } from '../../utils/blog-filter-utils';
 import { getSortedBlogPosts } from '../../utils/content-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
@@ -30,12 +31,31 @@ const blog = page.data;
     <h1 class="mb-8 text-2xl leading-tight font-serif font-semibold sm:mb-10 sm:text-4xl">日志</h1>
     <BlogFilter active={{ kind: 'all' }} class="mb-12 sm:mb-16" />
     {
-        blog.map((post) => (
-            <div>
-                {post.id === latestSlug && <sup class="inline text-xs text-white bg-gray-500 rounded px-1 py-px">NEW</sup>}
-                <PostPreview post={post} class="mb-10 sm:mb-12"/>
-            </div>
+        splitBlogPostsByYearRuns(blog).map((run) => (
+            <section aria-label={`${run.year}年`}>
+                <h2 class="year-heading mb-6 font-serif text-sm tracking-widest opacity-70 sm:mb-8">{run.year}</h2>
+                {run.posts.map((post) => (
+                    <div>
+                        {post.id === latestSlug && <sup class="inline text-xs text-white bg-gray-500 rounded px-1 py-px">NEW</sup>}
+                        <PostPreview post={post} headingLevel="h3" class="mb-10 sm:mb-12" />
+                    </div>
+                ))}
+            </section>
         ))
     }
     <Pagination page={page} basePath="/blog" class="my-16 sm:my-24" />
 </BaseLayout>
+
+<style>
+    /* 年份小标题：左侧短横线 + 年份，提示列表在这里跨了年 */
+    .year-heading {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .year-heading::before {
+        content: '';
+        width: 1.5rem;
+        border-top: 1px solid currentColor;
+    }
+</style>

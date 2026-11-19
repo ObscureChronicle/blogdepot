@@ -2,9 +2,11 @@
 import { type CollectionEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import PostPreview from '../../components/PostPreview.astro';
+import NoteCharacterCard from '../../components/NoteCharacterCard.astro';
 import { getSortedBlogPosts } from '../../utils/content-utils';
 import { resolveTag } from '../../utils/data-utils';
+import { getBlogCategory } from '../../utils/blog-filter-utils';
+import { splitBlogTitle } from '../../utils/blog-title';
 import { withNeighbors } from '../../utils/neighbor-utils';
 import WalineComments from '../../components/WalineComments.astro';
 
@@ -20,8 +22,11 @@ export async function getStaticPaths() {
 type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'> | null; nextPost: CollectionEntry<'blog'> | null };
 
 const { post, prevPost, nextPost } = Astro.props;
-const { title, publishDate, updatedDate, excerpt, tags = [], seo } = post.data;
+const { title, publishDate, updatedDate, excerpt, tags = [], seo, radar } = post.data;
 const { Content } = await render(post);
+const { eyebrow, main } = splitBlogTitle(title);
+// 更新日志是版本条目 + 筛选工具栏，不是连续阅读的长文：保持整栏宽度，也不加结尾装饰符
+const isReadingPost = getBlogCategory(post)?.id !== 'changelog';
 
 const breadcrumb = {
     items: [
@@ -30,6 +35,11 @@ const breadcrumb = {
     ],
     current: title
 };
+
+const neighbors = [
+    prevPost && { label: '← 上一篇', post: prevPost, align: 'left' as const },
+    nextPost && { label: '下一篇 →', post: nextPost, align: 'right' as const }
+].filter((n) => n !== null);
 ---
 
 <BaseLayout
@@ -42,48 +52,75 @@ const breadcrumb = {
     breadcrumbOwnTags={tags}
 >
     <article class="mb-16 sm:mb-24">
-        <header class="mb-8">
-            <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
-            <div class="mt-4 text-sm">
+        <header class="mb-8 font-serif sm:mb-10">
+            {eyebrow && <p class="mb-2 text-sm tracking-widest opacity-70 sm:text-base">{eyebrow}</p>}
+            <h1 class="text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{main}</h1>
+            <div class="mt-4 text-sm opacity-70">
                 <FormattedDate date={publishDate} />
                 {
                     updatedDate && (
                         <>
-                            {' '}
+                            {' · '}
                             <span>
-                                (Updated on <FormattedDate date={updatedDate} />)
+                                修订于 <FormattedDate date={updatedDate} />
                             </span>
                         </>
                     )
                 }
             </div>
         </header>
-        <div class="max-w-none prose sm:prose-lg font-serif text-justify indent-[2em]">
+        {radar && radar.length > 0 && <NoteCharacterCard radar={radar} class="mb-10 sm:mb-12" />}
+        <div class:list={['prose sm:prose-lg font-serif text-justify indent-[2em]', isReadingPost ? 'mx-auto max-w-[38em]' : 'max-w-none']}>
             <Content />
+            {isReadingPost && <p class="note-end" aria-hidden="true">◆</p>}
         </div>
-        <div class="mt-8 flex flex-wrap items-center gap-6 text-sm justify-between sm:mt-12 sm:text-base">
-            {
-                tags.length > 0 && (
-                    <div class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-serif">
-                        {tags.map(resolveTag).map((tag) => (
-                            <a class="text-base text-[#131124] hover:underline bg-[#d8e3e7] px-[10px] py-[5px] mr-[10px]" href={`/tags/${tag.id}/`}>
-                                # {tag.name}
-                            </a>
-                        ))}
-                    </div>
-                )
-            }
-        </div>
+        {
+            tags.length > 0 && (
+                <div class="mt-8 flex flex-wrap gap-3 font-serif sm:mt-12">
+                    {tags.map(resolveTag).map((tag) => (
+                        <a class="bg-muted px-3 py-1 text-sm transition hover:underline" href={`/tags/${tag.id}/`}>
+                            # {tag.name}
+                        </a>
+                    ))}
+                </div>
+            )
+        }
     </article>
     {
-        (prevPost || nextPost) && (
-            <div class="my-16 sm:my-24">
-                {prevPost && <h2 class="mb-10 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl">←上一篇</h2>}
-                {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
-                {nextPost && <h2 class="mb-10 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl text-right">下一篇→</h2>}
-                {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
-            </div>
+        neighbors.length > 0 && (
+            <nav aria-label="上一篇与下一篇" class="my-16 grid gap-6 font-serif sm:my-24 sm:grid-cols-2">
+                {neighbors.map(({ label, post: neighbor, align }) => {
+                    const parts = splitBlogTitle(neighbor.data.title);
+                    return (
+                        <a
+                            href={`/blog/${neighbor.id}/`}
+                            class:list={['neighbor-link group flex flex-col gap-1 py-4', align === 'right' && 'sm:col-start-2 sm:text-right']}
+                        >
+                            <span class="text-sm opacity-70">{label}</span>
+                            {parts.eyebrow && <span class="text-xs tracking-widest opacity-70">{parts.eyebrow}</span>}
+                            <span class="text-lg leading-snug font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 sm:text-xl">
+                                {parts.main}
+                            </span>
+                        </a>
+                    );
+                })}
+            </nav>
         )
     }
-<WalineComments />
+    <WalineComments />
 </BaseLayout>
+
+<style>
+    /* 结尾装饰符：居中、不缩进，和正文拉开距离 */
+    .note-end {
+        margin-top: 2.5em;
+        text-align: center;
+        text-indent: 0;
+        font-size: 0.75em;
+        letter-spacing: 0;
+        opacity: 0.5;
+    }
+    .neighbor-link {
+        border-top: 1px solid color-mix(in srgb, var(--text-main) 14%, transparent);
+    }
+</style>
