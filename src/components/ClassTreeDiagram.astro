@@ -3,6 +3,7 @@
 // 服务端渲染 SVG，不依赖 JS 也能看；悬停 / 聚焦节点时由下方脚本高亮同一卡片里直接相连的兵种。
 import { classTreeCards, type ClassTreeCard } from '../data/class-tree';
 import { getWikiLink } from '../utils/wiki-links';
+import ClassConditionTable from './ClassConditionTable.astro';
 
 type Props = {
     /** 默认显示全部卡片 */
@@ -11,9 +12,11 @@ type Props = {
     current?: string;
     /** 词条页里不撑满视口，按正文宽度单列排 */
     inline?: boolean;
+    /** 每张卡片下方是否附第二行兵种的转职条件表；中阶 / 高阶词条页由 ClassTree 另行处理 */
+    showConditions?: boolean;
 };
 
-const { cards = classTreeCards, current, inline = false } = Astro.props as Props;
+const { cards = classTreeCards, current, inline = false, showConditions = true } = Astro.props as Props;
 
 const NODE_W = 80;
 const NODE_H = 28;
@@ -76,85 +79,88 @@ const layouts = cards.map(layout);
 ---
 
 <div class:list={['class-tree not-prose my-4', !inline && 'mx-[calc(50%-50vw)] w-screen']}>
-    <div class:list={['grid gap-4', !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10 2xl:grid-cols-2']}>
+    <div class:list={['grid grid-cols-1 gap-4', !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10 2xl:grid-cols-2']}>
         {
             layouts.map(({ width, height, nodes, edges, markerId }, i) => (
-                <div class="overflow-x-auto rounded-md border border-neutral-200 p-2 dark:border-neutral-700">
-                    <svg
-                        class="class-tree-card mx-auto block"
-                        role="group"
-                        aria-label={`兵种树：${cards[i].root}`}
-                        width={width}
-                        height={height}
-                        viewBox={`0 0 ${width} ${height}`}
-                    >
-                        <defs>
-                            <marker id={markerId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill={LINE_COLOR} />
-                            </marker>
-                        </defs>
-                        <g fill="none" stroke={LINE_COLOR} stroke-width="1.4">
-                            {edges.map((edge) => (
-                                <g class="ctree-edge" data-from={edge.from.join('|')} data-to={edge.to.join('|')}>
-                                    {edge.d && <path d={edge.d} />}
-                                    {edge.arrows.map((d) => (
-                                        <path d={d} marker-end={`url(#${markerId})`} />
-                                    ))}
-                                </g>
-                            ))}
-                        </g>
-                        {nodes.map((node) => {
-                            const body = (
-                                <>
-                                    <rect
-                                        class="ctree-halo"
-                                        x={node.x - 4}
-                                        y={node.y - 4}
-                                        width={NODE_W + 8}
-                                        height={NODE_H + 8}
-                                        rx="6"
-                                        fill={TIER_COLORS[node.tier]}
-                                    />
-                                    <rect
-                                        x={node.x}
-                                        y={node.y}
-                                        width={NODE_W}
-                                        height={NODE_H}
-                                        rx="3"
-                                        fill={TIER_COLORS[node.tier]}
-                                        stroke={node.name === current ? '#ffffff' : '#374151'}
-                                        stroke-width={node.name === current ? 2 : 1.2}
-                                    />
-                                    <text
-                                        x={node.x + NODE_W / 2}
-                                        y={node.y + NODE_H / 2 + 1}
-                                        text-anchor="middle"
-                                        dominant-baseline="central"
-                                        font-size="14"
-                                        font-weight="600"
-                                        fill="#ffffff"
-                                        stroke="#111111"
-                                        stroke-width="1.5"
-                                        paint-order="stroke"
-                                    >
-                                        {node.name}
-                                    </text>
-                                </>
-                            );
-                            const nodeClass = ['ctree-node', node.name === current && 'is-current'];
-                            return node.href ? (
-                                <a class:list={nodeClass} data-name={node.name} href={node.href}>
-                                    <title>{node.name}</title>
-                                    {body}
-                                </a>
-                            ) : (
-                                <g class:list={nodeClass} data-name={node.name} tabindex="0">
-                                    <title>{node.name}</title>
-                                    {body}
-                                </g>
-                            );
-                        })}
-                    </svg>
+                <div class="min-w-0 rounded-md border border-neutral-200 p-2 dark:border-neutral-700">
+                    <div class="overflow-x-auto">
+                        <svg
+                            class="class-tree-card mx-auto block"
+                            role="group"
+                            aria-label={`兵种树：${cards[i].root}`}
+                            width={width}
+                            height={height}
+                            viewBox={`0 0 ${width} ${height}`}
+                        >
+                            <defs>
+                                <marker id={markerId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill={LINE_COLOR} />
+                                </marker>
+                            </defs>
+                            <g fill="none" stroke={LINE_COLOR} stroke-width="1.4">
+                                {edges.map((edge) => (
+                                    <g class="ctree-edge" data-from={edge.from.join('|')} data-to={edge.to.join('|')}>
+                                        {edge.d && <path d={edge.d} />}
+                                        {edge.arrows.map((d) => (
+                                            <path d={d} marker-end={`url(#${markerId})`} />
+                                        ))}
+                                    </g>
+                                ))}
+                            </g>
+                            {nodes.map((node) => {
+                                const body = (
+                                    <>
+                                        <rect
+                                            class="ctree-halo"
+                                            x={node.x - 4}
+                                            y={node.y - 4}
+                                            width={NODE_W + 8}
+                                            height={NODE_H + 8}
+                                            rx="6"
+                                            fill={TIER_COLORS[node.tier]}
+                                        />
+                                        <rect
+                                            x={node.x}
+                                            y={node.y}
+                                            width={NODE_W}
+                                            height={NODE_H}
+                                            rx="3"
+                                            fill={TIER_COLORS[node.tier]}
+                                            stroke={node.name === current ? '#ffffff' : '#374151'}
+                                            stroke-width={node.name === current ? 2 : 1.2}
+                                        />
+                                        <text
+                                            x={node.x + NODE_W / 2}
+                                            y={node.y + NODE_H / 2 + 1}
+                                            text-anchor="middle"
+                                            dominant-baseline="central"
+                                            font-size="14"
+                                            font-weight="600"
+                                            fill="#ffffff"
+                                            stroke="#111111"
+                                            stroke-width="1.5"
+                                            paint-order="stroke"
+                                        >
+                                            {node.name}
+                                        </text>
+                                    </>
+                                );
+                                const nodeClass = ['ctree-node', node.name === current && 'is-current'];
+                                return node.href ? (
+                                    <a class:list={nodeClass} data-name={node.name} href={node.href}>
+                                        <title>{node.name}</title>
+                                        {body}
+                                    </a>
+                                ) : (
+                                    <g class:list={nodeClass} data-name={node.name} tabindex="0">
+                                        <title>{node.name}</title>
+                                        {body}
+                                    </g>
+                                );
+                            })}
+                        </svg>
+                    </div>
+                    {showConditions && <ClassConditionTable names={cards[i].mid} />}
                 </div>
             ))
         }

@@ -1,6 +1,7 @@
 // 内容校验的检查逻辑（纯函数），由 validate-content.ts 调用，可直接用 node:test 测试
 import type { ZodObject } from 'astro/zod';
 import type { CollectionName } from '../src/content-schemas.ts';
+import type { ClassRelations } from '../src/utils/class-relations.ts';
 import { isPinyinIndexTag, resolveTag } from '../src/utils/data-utils.ts';
 
 export type Finding = { level: 'error' | 'warning'; message: string };
@@ -160,30 +161,6 @@ export function checkDisambiguation(projects: ProjectSummary[]): Array<Finding &
     return findings;
 }
 
-export type ClassRelations = { parents: string[]; upgrades: string[] };
-
-/**
- * 读取兵种词条本传部分的 parents / upgrades。
- * Layout_Classes 写在顶层属性（parents={[...]}）；Layout_ClassesPlus 只取 base={{ ... }} 里的（parents: [...]），
- * 星命诀 / 联动分区的「解锁道具」「可变化阵势」不是转职关系。
- */
-export function extractBaseClassRelations(raw: string): ClassRelations {
-    let scope = raw;
-    const baseStart = raw.search(/\bbase=\{\{/);
-    if (baseStart >= 0) {
-        const rest = raw.slice(baseStart);
-        const end = rest.search(/\b(?:dlc|collab)=\{\{/);
-        scope = end >= 0 ? rest.slice(0, end) : rest;
-    } else if (/\b(?:dlc|collab)=\{\{/.test(raw)) {
-        return { parents: [], upgrades: [] };
-    }
-    const read = (field: string) => {
-        const m = scope.match(new RegExp(`\\b${field}\\s*(?:=\\s*\\{|:)\\s*\\[([^\\]]*)\\]`));
-        return m ? [...m[1].matchAll(/(['"])(.*?)\1/g)].map((s) => s[2].trim()).filter(Boolean) : [];
-    };
-    return { parents: read('parents'), upgrades: read('upgrades') };
-}
-
 type ClassTreeCardShape = { root: string; mid: string[]; high: { name: string; col: number }[]; links: { from: string[]; to: string[] }[] };
 
 /**
@@ -193,7 +170,7 @@ type ClassTreeCardShape = { root: string; mid: string[]; high: { name: string; c
  * - 卡片自身结构合法（兵种存在、连线两端在对应行、列号不越界不重复）
  * @param classes 兵种词条标题 → 本传转职关系
  */
-export function checkClassTree(cards: ClassTreeCardShape[], classes: Map<string, ClassRelations>): Finding[] {
+export function checkClassTree(cards: ClassTreeCardShape[], classes: Map<string, Pick<ClassRelations, 'parents' | 'upgrades'>>): Finding[] {
     const findings: Finding[] = [];
     const warn = (message: string) => findings.push({ level: 'warning', message });
     const key = (from: string, to: string) => `${from} → ${to}`;

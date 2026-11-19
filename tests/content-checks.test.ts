@@ -11,10 +11,9 @@ import {
     checkFrontmatter,
     checkInternalLinks,
     checkLegacyTermHeadings,
-    contentRoute,
-    extractBaseClassRelations,
-    type ClassRelations
+    contentRoute
 } from '../scripts/content-checks.ts';
+import { extractBaseClassRelations, type ClassRelations } from '../src/utils/class-relations.ts';
 
 const validBlog = { title: '标题', publishDate: '2024-01-01', tags: ['diary'] };
 
@@ -145,23 +144,7 @@ test('checkDisambiguation: a disambiguation page needs the disambiguation catego
     );
 });
 
-test('extractBaseClassRelations: Layout_Classes reads top-level props', () => {
-    const raw = "<ClassWiki\n  parents={['戟兵']}\n  upgrades={[]}\n/>";
-    assert.deepEqual(extractBaseClassRelations(raw), { parents: ['戟兵'], upgrades: [] });
-});
-
-test('extractBaseClassRelations: Layout_ClassesPlus only reads the base section', () => {
-    const raw =
-        "<ClassWiki\n  base={{\n    parents: [],\n    upgrades: ['重装刀兵', \"虎兵\"],\n  }}\n  dlc={{\n    parents: ['虎贲营印绶'],\n    upgrades: ['方阵'],\n  }}\n/>";
-    assert.deepEqual(extractBaseClassRelations(raw), { parents: [], upgrades: ['重装刀兵', '虎兵'] });
-});
-
-test('extractBaseClassRelations: a file with only dlc / collab sections has no base relations', () => {
-    const raw = "<ClassWiki\n  dlc={{\n    parents: ['印绶'],\n    upgrades: ['方阵'],\n  }}\n/>";
-    assert.deepEqual(extractBaseClassRelations(raw), { parents: [], upgrades: [] });
-});
-
-const rel = (parents: string[], upgrades: string[]): ClassRelations => ({ parents, upgrades });
+const rel = (parents: string[], upgrades: string[]): ClassRelations => ({ parents, upgrades, condition: [] });
 const sampleClasses = () =>
     new Map<string, ClassRelations>([
         ['刀兵', rel([], ['重装刀兵'])],

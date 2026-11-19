@@ -3,6 +3,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema, type CollectionName } from '../src/content-schemas.ts';
 import { classTreeCards } from '../src/data/class-tree.ts';
+import { extractBaseClassRelations } from '../src/utils/class-relations.ts';
 import {
     checkClassTree,
     checkDisambiguation,
@@ -11,7 +12,6 @@ import {
     checkInternalLinks,
     checkLegacyTermHeadings,
     contentRoute,
-    extractBaseClassRelations,
     type Finding
 } from './content-checks.ts';
 

@@ -1,0 +1,53 @@
+---
+// 兵种树卡片下方的转职条件表：条件取自兵种词条（本传 condition），
+// 补充说明（红字）取自 class-tree.ts 的 classConditionNotes；两者都没有的兵种不列。
+import { classConditionNotes } from '../data/class-tree';
+import { CLASS_CONDITIONS } from '../utils/class-conditions';
+import WikiLink from './WikiLink.astro';
+
+type Props = {
+    names: string[];
+};
+
+const { names } = Astro.props as Props;
+
+// 并列的属性门槛用顿号；以「且」开头的递进条件（如虎兵）用逗号。分隔符跟在前一条后面，每条整体不折行
+const separatorAfter = (items: string[], i: number) => (i === items.length - 1 ? '' : items[i + 1].startsWith('且') ? '，' : '、');
+
+const rows = names
+    .map((name) => ({ name, condition: CLASS_CONDITIONS[name] ?? [], note: classConditionNotes[name] }))
+    .filter((row) => row.condition.length > 0 || row.note);
+---
+
+{
+    rows.length > 0 && (
+        <table class="wiki-table wiki-table--hover not-prose mt-2 w-full">
+            <thead>
+                <tr>
+                    <th scope="col" class="w-28">
+                        兵种
+                    </th>
+                    <th scope="col">转职条件</th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows.map((row) => (
+                    <tr>
+                        <th scope="row">
+                            <WikiLink kind="class" name={row.name} />
+                        </th>
+                        <td>
+                            {row.condition.map((item, i) => (
+                                <span class="whitespace-nowrap">
+                                    {item}
+                                    {separatorAfter(row.condition, i)}
+                                </span>
+                            ))}
+                            {row.note && <span class="text-stat-neg">{row.note}</span>}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    )
+}

@@ -120,3 +120,8 @@ export const classTreeCards: ClassTreeCard[] = [
         links: []
     }
 ];
+
+/** 条件表里的补充说明（红字），用于词条数据没有转职条件、但需要提醒读者的兵种 */
+export const classConditionNotes: Record<string, string> = {
+    贼兵: '无条件，但后续亦无法再度转职'
+};

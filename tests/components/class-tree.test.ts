@@ -18,6 +18,7 @@ describe('ClassTreeDiagram.astro', () => {
         expect(cardLabels(html)).toEqual(classTreeCards.map((card) => card.root));
         expect(html).toContain('href="/projects/class/hufuqibing/"');
         expect(html).toContain('mx-[calc(50%-50vw)]');
+        expect(html.match(/<table/g)).toHaveLength(classTreeCards.length);
     });
 
     it('draws a many-to-many link group as one bus edge', async () => {
@@ -43,14 +44,36 @@ describe('ClassTree.astro', () => {
         expect(html).not.toContain('可转职兵种');
     });
 
-    it('keeps the conversion conditions as text below the cards', async () => {
+    it('lists the conditions of every second-row class under the card on a base class page', async () => {
         const html = await container.renderToString(ClassTree, {
-            params: { id: 'class/hejianmaobing' },
-            props: { tone: 'base', parents: ['刀兵', '矛兵'], condition: ['需要印绶'] }
+            params: { id: 'class/daobing' },
+            props: { tone: 'base', upgrades: ['重装刀兵'] }
         });
-        expect(cardLabels(html)).toEqual(['刀兵', '矛兵']);
-        expect(html.indexOf('转职条件')).toBeGreaterThan(html.lastIndexOf('class-tree-card'));
-        expect(html).toContain('需要印绶');
+        expect(cardLabels(html)).toEqual(['刀兵']);
+        expect(html).toContain('智略≥60');
+        expect(html).toContain('<span class="text-stat-neg">无条件，但后续亦无法再度转职</span>');
+        expect(html).not.toContain('转职条件</span>');
+    });
+
+    it('lists only its own condition once on a second-row class page', async () => {
+        const html = await container.renderToString(ClassTree, {
+            params: { id: 'class/hufuqibing' },
+            props: { parents: ['刀骑兵', '矛骑兵', '弓骑兵'], condition: ['未曾「厌弃」异族'] }
+        });
+        expect(cardLabels(html)).toHaveLength(3);
+        expect(html.match(/<tbody>/g)).toHaveLength(1);
+        expect(html).toContain('未曾「厌弃」异族');
+        expect(html).not.toContain('武勇≥90');
+        expect(html.indexOf('<table')).toBeGreaterThan(html.lastIndexOf('class-tree-card'));
+    });
+
+    it('shows no condition table on a third-row class page', async () => {
+        const html = await container.renderToString(ClassTree, {
+            params: { id: 'class/hubaoqi' },
+            props: { parents: ['驿传刀骑'] }
+        });
+        expect(cardLabels(html)).toEqual(['刀骑兵', '矛骑兵']);
+        expect(html).not.toContain('<table');
     });
 
     it('keeps the text list for the 星命诀 section', async () => {

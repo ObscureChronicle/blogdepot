@@ -41,6 +41,13 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 - 标签显示名与 slug 的映射在 `src/utils/data-utils.ts` 的 `TAG_SLUG_MAP`；未登记的标签会被 `check:content` 报 warning。新增分类标签时要同步这里。
 - 重名词条（如人物「陈到」与同名特殊护卫）：在 `disambiguation/` 下建同名消歧义页（tags 为 `disambiguation` + `wiki-<首字母>`），正文链接到各个词条；被消歧义的原词条去掉 `wiki-` 音序标签，只保留分类标签，音序索引里只列消歧义页。`check:content` 会对缺消歧义页、原词条残留音序标签报 warning。
 
+### 本传兵种树
+
+兵种总览页和兵种词条的「兵种树」由 `ClassTreeDiagram.astro` 画成卡片图（每个基础兵种一张）。卡片的节点顺序和连线是按游戏内兵种树手工转录的，登记在 `src/data/class-tree.ts`；转职条件表读取兵种词条本传部分的 `condition`（`src/utils/class-conditions.ts`）。
+
+- 改动兵种的 `parents` / `upgrades` 时要同步 `class-tree.ts`，反之亦然；`check:content` 会对两边不一致、词条关系没画出、图上多画的线报 warning。
+- 条件表里的红字补充说明（如贼兵）登记在 `class-tree.ts` 的 `classConditionNotes`。
+
 ### 名称 → 链接映射（构建时生成）
 
 布局组件用 `src/utils/wiki-links.ts` 的 `getWikiLink(kind, name)` 把人物、物品、兵种名自动变成词条链接。映射在构建时由 `import.meta.glob` 扫描 `bio/`、`treasure/`、`equipment/`、`class/` 的 frontmatter title 生成（规则在 `wiki-link-parser.ts`），新增或改名词条无需手动运行脚本。

@@ -2,6 +2,7 @@
 import { classTreeCards } from '../data/class-tree';
 import type { Edition } from '../data/editions';
 import { getWikiLink } from '../utils/wiki-links';
+import ClassConditionTable from './ClassConditionTable.astro';
 import ClassTreeDiagram from './ClassTreeDiagram.astro';
 import SectionTitle from './SectionTitle.astro';
 
@@ -30,23 +31,17 @@ const pageHref = `/projects/${String(Astro.params.id ?? '').toLowerCase()}/`;
 const treeNames = new Set(classTreeCards.flatMap((card) => [card.root, ...card.mid, ...card.high.map((h) => h.name)]));
 const current = isBase ? [...treeNames].find((name) => getWikiLink('class', name)?.toLowerCase() === pageHref) : undefined;
 const cards = current ? classTreeCards.filter((card) => card.root === current || card.mid.includes(current) || card.high.some((h) => h.name === current)) : [];
+// 转职条件表：基础兵种页在卡片下附全部中阶兵种的条件，中阶兵种页只列自己的一行，高阶兵种没有条件
+const isRoot = cards.some((card) => card.root === current);
+const isMid = !isRoot && cards.some((card) => current !== undefined && card.mid.includes(current));
 ---
 
 {
     cards.length > 0 ? (
         <>
             <SectionTitle tone={tone}>{treeTitle || '兵种树'}</SectionTitle>
-            <ClassTreeDiagram cards={cards} current={current} inline />
-            {condition && condition.length > 0 && (
-                <div class="flex flex-col items-start pl-4">
-                    <span class="bg-green-100 text-green-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-green-900 dark:text-green-300">
-                        {conditionLabel || '转职条件'}
-                    </span>
-                    {condition.map((c) => (
-                        <p class="text-base leading-relaxed pl-4">{c}</p>
-                    ))}
-                </div>
-            )}
+            <ClassTreeDiagram cards={cards} current={current} inline showConditions={isRoot} />
+            {isMid && current && <ClassConditionTable names={[current]} />}
         </>
     ) : (parents && parents.length > 0) || (upgrades && upgrades.length > 0) || (condition && condition.length > 0) ? (
         <>
