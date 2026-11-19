@@ -132,26 +132,16 @@ const sourceTagClass = (source: string) =>
             });
         };
 
-        // 「最高数值」单选：与各数据来源复选框互斥；选中时按综合分选出同名人物的最高分行
+        // 「最高数值」单选：与各数据来源复选框互斥；选中时按「总和」列选出同名人物的最高分行
         const maxRadio = wrapper?.querySelector<HTMLInputElement>('input[data-source-mode="max"]');
-        const getCellVal = (tr: HTMLTableRowElement, key: string) => {
-            const cell = tr.querySelector(`td[data-col="${key}"]`);
-            const raw = cell?.getAttribute('data-sort') ?? '';
-            return raw === '' ? 0 : Number(raw);
-        };
         const applyMaxScore = () => {
-            // 综合分 = 胆识*10 + 冷静*10 + 统御 + 智略 + 武勇 + 魅力 + 运势；缺失值按 0 计
+            // 「总和」只累加当前勾选的列（胆识、冷静 ×10），由 computeZonghe 写入 data-sort；
+            // 因此最高行会随列筛选变化。调用前须保证总和已按当前列勾选计算过
             const groups = new Map<string, { tr: HTMLTableRowElement; score: number }[]>();
             tbody.querySelectorAll<HTMLTableRowElement>('tr').forEach((tr) => {
                 const name = tr.querySelector('td[data-col="name"]')?.textContent?.trim() ?? '';
-                const score =
-                    getCellVal(tr, 'danshi') * 10 +
-                    getCellVal(tr, 'lengjing') * 10 +
-                    getCellVal(tr, 'tongyu') +
-                    getCellVal(tr, 'zhilue') +
-                    getCellVal(tr, 'wuyong') +
-                    getCellVal(tr, 'meili') +
-                    getCellVal(tr, 'yunshi');
+                const raw = tr.querySelector('td[data-col="zonghe"]')?.getAttribute('data-sort') ?? '';
+                const score = raw === '' ? 0 : Number(raw);
                 const arr = groups.get(name) ?? [];
                 arr.push({ tr, score });
                 groups.set(name, arr);
@@ -216,6 +206,8 @@ const sourceTagClass = (source: string) =>
                 });
             });
             computeZonghe();
+            // 「最高数值」模式下，总和变化会改变每个人物的最高行，需要重新挑选
+            if (maxRadio?.checked) applyMaxScore();
         };
         colFilters.forEach((cb) => cb.addEventListener('change', applyColFilter));
         applyColFilter(); // 初始化：默认全列可见，并填充总和
