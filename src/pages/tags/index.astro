@@ -27,12 +27,13 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
         >
             分类检索
         </h2>
-        <div class="mb-10 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* 手机上也排 2 列：分类名都很短，单列时整页长达 4700px */}
+        <div class="mb-16 grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-3 sm:mb-20 sm:gap-y-10">
             {
                 sortTagsByName(nonWikiTags).map((tag) => {
                     const postCount = postCounts.get(tag.id) ?? 0;
                     return (
-                        <a class="mb-10 flex justify-between items-start group gap-8" href={`/tags/${tag.id}/`}>
+                        <a class="flex justify-between items-start group gap-8" href={`/tags/${tag.id}/`}>
                             <div class="min-w-0">
                                 <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                     {tag.name}
@@ -52,25 +53,23 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
         >
             音序检索
         </h2>
-        <div class="flex flex-wrap gap-4">
+        {/* 字母只有一个字，排成紧凑的网格；不再给每个字母一个 h2，页面大纲里只保留「音序检索」 */}
+        <ul class="grid grid-cols-4 gap-x-4 gap-y-6 sm:grid-cols-6">
             {
                 sortTagsByName(wikiChildTags).map((tag) => {
                     const postCount = postCounts.get(tag.id) ?? 0;
                     return (
-                        <a class="mb-10 flex justify-between items-start group sm:mb-12 w-[255px]" href={`/tags/${tag.id}/`}>
-                            <div class="sm:w-[85px]">
-                                <h2 class="text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
+                        <li>
+                            <a class="group block" href={`/tags/${tag.id}/`}>
+                                <span class="block text-xl leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-2xl">
                                     {tag.name}
-                                </h2>
-                                <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
-                            </div>
-                            <div class="hidden font-serif opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
-                                查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
-                            </div>
-                        </a>
+                                </span>
+                                <span class="mt-1 block text-sm leading-normal">{`共 ${postCount} 篇`}</span>
+                            </a>
+                        </li>
                     );
                 })
             }
-        </div>
+        </ul>
     </div>
 </BaseLayout>
