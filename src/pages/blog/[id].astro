@@ -24,10 +24,10 @@ export async function getStaticPaths() {
 type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'> | null; nextPost: CollectionEntry<'blog'> | null };
 
 const { post, prevPost, nextPost } = Astro.props;
-const { title, publishDate, updatedDate, excerpt, tags = [], seo, radar } = post.data;
+const { title, publishDate, updatedDate, excerpt, tags = [], seo, radar, form } = post.data;
 const { Content } = await render(post);
 // 文存文章用刻本版式（样式见 styles/wenyan.css），其余文章为 null，保持原样
-const wenyanVariant = getWenyanVariant(tags);
+const wenyanVariant = getWenyanVariant(tags, form);
 const { eyebrow, main } = splitBlogTitle(title);
 // 更新日志是版本条目 + 筛选工具栏，不是连续阅读的长文：保持整栏宽度，也不加结尾装饰符
 const isReadingPost = getBlogCategory(post)?.id !== 'changelog';
@@ -79,7 +79,8 @@ const neighbors = [
             class:list={[
                 'prose sm:prose-lg font-serif text-justify indent-[2em]',
                 isReadingPost ? 'mx-auto max-w-[38em]' : 'max-w-none',
-                wenyanVariant && 'wenyan-body'
+                wenyanVariant && 'wenyan-body',
+                wenyanVariant === 'letter' && 'wenyan-body--letter'
             ]}
         >
             <Content />

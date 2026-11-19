@@ -79,3 +79,43 @@ html.dark {
     transform: rotate(-3deg);
     user-select: none;
 }
+
+/* 尺牍笺纸（frontmatter 写 form: letter 的文存）：米色笺纸 + 朱丝栏横线。
+   横线间距等于正文行高（2em），所以笺纸内段落不留外边距，靠首行缩进分段，否则字会压线。 */
+.wenyan-body--letter {
+    --wenyan-line: 2em;
+    --wenyan-paper: color-mix(in srgb, #e8d5a8 28%, var(--bg-main));
+    --wenyan-ruling: color-mix(in srgb, var(--wenyan-seal) 32%, transparent);
+    padding: 1em 1.5em;
+    border: 1px solid var(--wenyan-ruling);
+    background-color: var(--wenyan-paper);
+    /* 每行底部画一条 1px 的线；以内容区为原点，线才和文字行对齐 */
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(var(--wenyan-line) - 1px),
+        var(--wenyan-ruling) calc(var(--wenyan-line) - 1px),
+        var(--wenyan-ruling) var(--wenyan-line)
+    );
+    background-origin: content-box;
+}
+
+html.dark .wenyan-body--letter {
+    --wenyan-paper: color-mix(in srgb, #e8d5a8 6%, var(--bg-main));
+}
+
+.wenyan-body--letter p {
+    margin: 0;
+    line-height: var(--wenyan-line);
+}
+
+/* 朱印盖在笺纸上，上方空一行，保持行线对齐 */
+.wenyan-body--letter .wenyan-seal-wrap {
+    margin-top: var(--wenyan-line);
+}
+
+@media (max-width: 639px) {
+    .wenyan-body--letter {
+        padding: 0.75em 1em;
+    }
+}

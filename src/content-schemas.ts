@@ -51,7 +51,9 @@ export const blogSchema = listedEntrySchema.extend({
     excerpt: z.string().optional(),
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    radar: z.array(blogRadarSchema).optional()
+    radar: z.array(blogRadarSchema).optional(),
+    /** 文存的体裁版式：letter 在刻本版式上叠加尺牍笺纸（书信、檄文用）；只对带 wen-yan 标签的文章生效 */
+    form: z.enum(['letter']).optional()
 });
 
 /** 百科词条不讲究发布时间和摘要，frontmatter 只需要 title 和 tags */

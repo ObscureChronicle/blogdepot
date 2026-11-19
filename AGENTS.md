@@ -77,6 +77,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 - GA4、Algolia、Waline 的 ID 和地址集中在 `site-config.ts` 的具名导出 `thirdParty`（都是公开的客户端配置，项目不依赖 `.env`）。客户端 `<script>` 只导入 `thirdParty`，不要导入默认的 `siteConfig`，否则整份站点配置会被打进浏览器 JS。
 - 评论（`WalineComments.astro`）、搜索框（`AlgoliaSearch.astro`，只在 `/tags/` 使用）、回到顶部按钮都是普通 Astro `<script>`，在 `astro:page-load` 里初始化以兼容 ClientRouter 换页；React 只用于人物页和 blog 里的图表。
 - 更新日志（`blog/changelog*.mdx`）每个版本是一个 `<ChangelogEntry version date items />`，文首放一个 `<ChangelogToolbar />`（类别筛选、搜索、全部展开、年份分隔、默认展开最新版）。`items` 的书写格式由 `src/utils/changelog-parser.ts` 解析：`【类别】正文`（可叠加如 `【修正】【本地化】`）；Tab 开头为上一条的补充（`·` 开头是子项，其余是备注）；顶格 `*` 开头是上一条的备注，位于版本首行时是版本说明；无标签的行是上一条的子项。新增主要类别时同步 `CHANGELOG_CATEGORIES` 及其配色。
+- 文存（`blog/wenyan-*.md`，标签 `wen-yan`）在文章页自动套用刻本版式（楷体、题解、朱印，样式在 `src/styles/wenyan.css`，判断逻辑在 `src/utils/wenyan.ts`）。书信、檄文在 frontmatter 加 `form: letter`，叠加尺牍笺纸；笺纸的行线按行高对齐，正文段落之间不留空行间距，靠首行缩进分段。抬头、落款写成 `<p class="wenyan-salute">…</p>`（顶格）、`<p class="wenyan-sign">…</p>`（右对齐）。
 - Waline 的 JS 和样式来自 npm 包 `@waline/client`（版本由 package-lock 锁定），只在有评论区的页面加载；本站对官方样式的覆盖在 `src/styles/waline.css`，升级 Waline 后要确认这几条覆盖的选择器仍然存在。
 
 ## 约定
