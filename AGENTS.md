@@ -62,7 +62,6 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 `scripts/*.cjs` 是批量改写词条 MDX 的 CommonJS 脚本，**会直接覆盖文件**，运行前先确认不会冲掉手工编辑的内容：
 
 - `update-class-owners.cjs`：把人物的 `baseclass/dlcclass` 汇总后写进兵种词条的 `baseOwner/dlcOwner`（与持有人表格共用 `wiki-owners-parser.ts`）
-- `find-regional-owners.cjs` → `regional-owners.json` → `update-regional-traits.cjs`：**已过时，不要运行**（整份覆盖地域特性词条，并写回已废弃的 `baseOwner`/`dlcOwner`；持有人现已自动生成）
 - `add-class-links.cjs`：给兵种描述里的兵种名加链接
 
 ### 测试分层
