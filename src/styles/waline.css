@@ -23,3 +23,28 @@
 .wl-meta-foot {
     display: none;
 }
+
+/*
+ * 配色跟随站点主题：Waline 默认是白底 + #999 小字，暗色下面板刺眼、「暂无评论」几乎看不见，
+ * 亮色下字数、排序等 12px 小字对比度只有约 2.5:1。这里把它的颜色变量都映射到站点变量，
+ * html.dark 切换时自动跟着变；次要文字用 62% 混色，亮暗两色下对比度都在 4.5:1 以上。
+ * 主按钮改为与站点选中态一致的反色（文字色底 + 背景色字）。
+ */
+[data-waline] {
+    --waline-color: var(--text-main);
+    --waline-bg-color: var(--bg-main);
+    --waline-bg-color-light: var(--bg-muted);
+    --waline-bg-color-hover: var(--bg-muted);
+    --waline-disable-bg-color: var(--bg-muted);
+    --waline-info-bg-color: var(--bg-muted);
+    --waline-bq-color: var(--bg-muted);
+    --waline-border-color: color-mix(in srgb, var(--text-main) 22%, transparent);
+    --waline-dark-grey: color-mix(in srgb, var(--text-main) 75%, var(--bg-main));
+    --waline-light-grey: color-mix(in srgb, var(--text-main) 62%, var(--bg-main));
+    --waline-info-color: color-mix(in srgb, var(--text-main) 62%, var(--bg-main));
+    --waline-theme-color: var(--text-main);
+    --waline-active-color: var(--text-main);
+    --waline-white: var(--bg-main);
+    /* 元信息默认 0.625em（10px），提到 12px */
+    --waline-info-font-size: 0.75em;
+}
