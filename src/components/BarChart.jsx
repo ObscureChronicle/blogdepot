@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import useChartTheme from './useChartTheme';
 
 const labels = ['胆识', '冷静'];
 const maxValue = 10;
@@ -7,6 +8,7 @@ const colors = ['#de1c31', '#2775b6']; // 胆识(红)和冷静(蓝绿)的颜色
 export default function BarChart({ data }) {
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
+    const chart = useChartTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -33,15 +35,15 @@ export default function BarChart({ data }) {
             ctx.moveTo(margin.left, margin.top);
             ctx.lineTo(margin.left, margin.top + chartHeight);
             ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight);
-            ctx.strokeStyle = '#333';
+            ctx.strokeStyle = chart.text;
             ctx.lineWidth = 1;
             ctx.stroke();
 
             // 绘制网格线和刻度
-            ctx.strokeStyle = '#eee';
+            ctx.strokeStyle = chart.grid;
             ctx.lineWidth = 0.5;
             ctx.font = '12px sans-serif';
-            ctx.fillStyle = '#333';
+            ctx.fillStyle = chart.text;
 
             // Y轴刻度和网格线
             const ySteps = 5;
@@ -68,12 +70,12 @@ export default function BarChart({ data }) {
                 ctx.fillRect(x, y, barWidth, barHeight);
 
                 // 柱子边框
-                ctx.strokeStyle = '#333';
+                ctx.strokeStyle = chart.text;
                 ctx.lineWidth = 1;
                 ctx.strokeRect(x, y, barWidth, barHeight);
 
                 // 柱子标签
-                ctx.fillStyle = '#333';
+                ctx.fillStyle = chart.text;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
                 ctx.font = '14px sans-serif';
@@ -81,7 +83,7 @@ export default function BarChart({ data }) {
 
                 // 显示数值（在柱子顶部）
                 if (hoverIndex !== i || hoverIndex === null) {
-                    ctx.fillStyle = hoverIndex === i ? '#333' : '#666';
+                    ctx.fillStyle = hoverIndex === i ? chart.text : chart.textMuted;
                     ctx.textBaseline = 'bottom';
                     ctx.fillText(value, x + barWidth / 2, y - 5);
                 }
@@ -108,7 +110,7 @@ export default function BarChart({ data }) {
                 ctx.stroke();
 
                 // 提示框文字
-                ctx.fillStyle = '#333';
+                ctx.fillStyle = chart.text;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 // 原写法 'sans-serif' 缺字号是无效值会被忽略，实际沿用的是上面柱标签设置的 14px
@@ -155,7 +157,7 @@ export default function BarChart({ data }) {
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [data, hoverIndex]);
+    }, [data, hoverIndex, chart]);
 
     return (
         <div className="bar-chart-container">

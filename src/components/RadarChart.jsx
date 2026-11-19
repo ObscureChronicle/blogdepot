@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import DataToggle from './DataToggle';
+import useChartTheme from './useChartTheme';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
 const maxValues = [100, 100, 100, 100, 100];
@@ -15,6 +16,7 @@ const VARIANTS = {
  */
 export default function RadarChart({ data, postdata, prevDataName = 'prevDataName', postDataName = 'postDataName', attributefigure, variant = 'base' }) {
     const theme = VARIANTS[variant];
+    const colors = useChartTheme();
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
@@ -52,7 +54,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     else ctx.lineTo(x, y);
                 }
                 ctx.closePath();
-                ctx.strokeStyle = '#ccc';
+                ctx.strokeStyle = colors.grid;
                 ctx.stroke();
             }
 
@@ -64,17 +66,17 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(x, y);
-                ctx.strokeStyle = '#ccc';
+                ctx.strokeStyle = colors.grid;
                 ctx.stroke();
 
                 // 文字标签
                 if (theme.labels?.[i]) {
                     ctx.font = '16px sans-serif';
-                    ctx.fillStyle = '#333';
+                    ctx.fillStyle = colors.text;
                     if (attributefigure?.[i] > 0) {
-                        ctx.fillStyle = '#1ba784';
+                        ctx.fillStyle = colors.pos;
                     } else if (attributefigure?.[i] < 0) {
-                        ctx.fillStyle = '#de1c31';
+                        ctx.fillStyle = colors.neg;
                     }
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
@@ -128,7 +130,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             if (hoverIndex !== null) {
                 const p = points[hoverIndex];
                 ctx.save(); // 保存当前绘图状态
-                ctx.fillStyle = '#fff';
+                ctx.fillStyle = colors.tooltipBg;
                 ctx.strokeStyle = theme.color;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
@@ -149,7 +151,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                 const labelPos = labelPositions.find((p) => p.index === hoverLabelIndex);
                 if (labelPos && attributefigure[hoverLabelIndex] !== 0) {
                     ctx.save();
-                    ctx.fillStyle = '#fff';
+                    ctx.fillStyle = colors.tooltipBg;
                     ctx.strokeStyle = theme.color;
                     ctx.lineWidth = 1;
                     ctx.beginPath();
@@ -157,7 +159,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
                     ctx.fill();
                     ctx.stroke();
 
-                    ctx.fillStyle = '#333';
+                    ctx.fillStyle = colors.text;
                     ctx.font = '12px sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
@@ -214,7 +216,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure, theme]);
+    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure, theme, colors]);
 
     return (
         <>

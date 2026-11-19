@@ -32,6 +32,11 @@
     --tier-high: #b91c1c;
     /* 百科正文链接色（.wiki a） */
     --wiki-link: #2775b6;
+    /* canvas 图表（RadarChart / BarChart，经 useChartTheme.js 读取）：文字 ≥4.5:1，网格只作弱分隔 */
+    --chart-text: var(--text-main);
+    --chart-text-muted: #555555;
+    --chart-grid: #cccccc;
+    --chart-tooltip-bg: var(--bg-main);
 }
 
 html.dark {
@@ -51,6 +56,8 @@ html.dark {
     --tier-mid: #fdba74;
     --tier-high: #f87171;
     --wiki-link: #6aa8e0;
+    --chart-text-muted: #b5b4ae;
+    --chart-grid: #444444;
 }
 
 .scroll-top {
