@@ -82,7 +82,7 @@ const layouts = cards.map(layout);
     <div class:list={['grid grid-cols-1 gap-4', !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10 2xl:grid-cols-2']}>
         {
             layouts.map(({ width, height, nodes, edges, markerId }, i) => (
-                <div class="min-w-0 rounded-md border border-neutral-200 p-2 dark:border-neutral-700">
+                <div class="min-w-0 rounded-md border border-neutral-200 p-2 dark:border-neutral-700" data-ctree-scope>
                     <div class="overflow-x-auto">
                         <svg
                             class="class-tree-card mx-auto block"
@@ -215,12 +215,16 @@ const layouts = cards.map(layout);
 </style>
 
 <script>
-    // 悬停 / 聚焦某个兵种时，只保留同一卡片里与它直接相连的兵种和连线
+    // 悬停 / 聚焦某个兵种时，只保留同一卡片里与它直接相连的兵种和连线；
+    // 并与同一联动范围（data-ctree-scope）里的转职条件表行互相高亮。
+    // 卡片容器是一个范围；中阶兵种页由 ClassTree 再包一层，让卡片之后的那一行表格联动全部卡片。
     const split = (value: string | undefined) => (value ? value.split('|') : []);
+    const SCOPE = '[data-ctree-scope]';
 
-    function setup(svg: SVGSVGElement) {
-        if (svg.dataset.ready) return;
-        svg.dataset.ready = 'true';
+    type Controller = { names: Set<string>; activate: (name: string) => void; clear: () => void };
+    const controllers = new WeakMap<SVGSVGElement, Controller>();
+
+    function setup(svg: SVGSVGElement): Controller {
         const nodes = [...svg.querySelectorAll<SVGElement>('.ctree-node')];
         const edges = [...svg.querySelectorAll<SVGElement>('.ctree-edge')].map((el) => ({ el, from: split(el.dataset.from), to: split(el.dataset.to) }));
 
@@ -245,22 +249,72 @@ const layouts = cards.map(layout);
             }
             svg.classList.add('is-dim');
         };
+        return { names: new Set(nodes.map((node) => node.dataset.name ?? '')), activate, clear };
+    }
 
-        for (const node of nodes) {
-            const name = node.dataset.name ?? '';
-            node.addEventListener('mouseenter', () => activate(name));
-            node.addEventListener('focus', () => activate(name));
-            node.addEventListener('mouseleave', clear);
-            node.addEventListener('blur', clear);
+    /** 节点所在的各层范围里，直接属于该范围的同名表格行 */
+    function rowsForNode(svg: SVGSVGElement, name: string) {
+        const rows: HTMLElement[] = [];
+        for (let scope = svg.closest<HTMLElement>(SCOPE); scope; scope = scope.parentElement?.closest<HTMLElement>(SCOPE) ?? null) {
+            for (const row of scope.querySelectorAll<HTMLElement>('tr[data-name]')) {
+                if (row.dataset.name === name && row.closest(SCOPE) === scope) rows.push(row);
+            }
         }
+        return rows;
+    }
+
+    /** 表格行所在范围里，含有同名节点的卡片 */
+    function cardsForRow(row: HTMLElement, name: string) {
+        const scope = row.closest<HTMLElement>(SCOPE);
+        if (!scope) return [];
+        return [...scope.querySelectorAll<SVGSVGElement>('.class-tree-card')].filter((svg) => controllers.get(svg)?.names.has(name));
+    }
+
+    function bindNodes(svg: SVGSVGElement, controller: Controller) {
+        for (const node of svg.querySelectorAll<SVGElement>('.ctree-node')) {
+            const name = node.dataset.name ?? '';
+            const on = () => {
+                controller.activate(name);
+                for (const row of rowsForNode(svg, name)) row.classList.add('is-hl');
+            };
+            const off = () => {
+                controller.clear();
+                for (const row of rowsForNode(svg, name)) row.classList.remove('is-hl');
+            };
+            node.addEventListener('mouseenter', on);
+            node.addEventListener('focus', on);
+            node.addEventListener('mouseleave', off);
+            node.addEventListener('blur', off);
+        }
+    }
+
+    function bindRow(row: HTMLElement) {
+        if (row.dataset.ready) return;
+        row.dataset.ready = 'true';
+        const name = row.dataset.name ?? '';
+        const on = () => {
+            for (const svg of cardsForRow(row, name)) controllers.get(svg)?.activate(name);
+        };
+        const off = () => {
+            for (const svg of cardsForRow(row, name)) controllers.get(svg)?.clear();
+        };
+        row.addEventListener('mouseenter', on);
+        row.addEventListener('focusin', on);
+        row.addEventListener('mouseleave', off);
+        row.addEventListener('focusout', off);
     }
 
     document.addEventListener('astro:page-load', () => {
         for (const svg of document.querySelectorAll<SVGSVGElement>('.class-tree-card')) {
-            setup(svg);
+            if (!controllers.has(svg)) {
+                const controller = setup(svg);
+                controllers.set(svg, controller);
+                bindNodes(svg, controller);
+            }
             // 窄屏卡片需要横滑时，初始滚到中间，让居中的基础兵种落在可视范围内
             const scroller = svg.parentElement;
             if (scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
         }
+        for (const row of document.querySelectorAll<HTMLElement>(`${SCOPE} tr[data-name]`)) bindRow(row);
     });
 </script>

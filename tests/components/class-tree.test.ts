@@ -19,6 +19,9 @@ describe('ClassTreeDiagram.astro', () => {
         expect(html).toContain('href="/projects/class/hufuqibing/"');
         expect(html).toContain('mx-[calc(50%-50vw)]');
         expect(html.match(/<table/g)).toHaveLength(classTreeCards.length);
+        // 每张卡片是一个联动范围，条件表行带兵种名供脚本对应节点
+        expect(html.match(/data-ctree-scope/g)).toHaveLength(classTreeCards.length);
+        expect(html).toContain('<tr data-name="荷剑矛兵"');
     });
 
     it('draws a many-to-many link group as one bus edge', async () => {
@@ -65,6 +68,9 @@ describe('ClassTree.astro', () => {
         expect(html).toContain('未曾「厌弃」异族');
         expect(html).not.toContain('武勇≥90');
         expect(html.indexOf('<table')).toBeGreaterThan(html.lastIndexOf('class-tree-card'));
+        // 外层再包一个联动范围，让这一行与全部卡片联动
+        expect(html.indexOf('data-ctree-scope')).toBeLessThan(html.indexOf('class-tree-card'));
+        expect(html).toContain('<tr data-name="胡服骑兵"');
     });
 
     it('shows no condition table on a third-row class page', async () => {

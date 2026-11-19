@@ -32,7 +32,7 @@ const rows = names
             </thead>
             <tbody>
                 {rows.map((row) => (
-                    <tr>
+                    <tr data-name={row.name}>
                         <th scope="row">
                             <WikiLink kind="class" name={row.name} />
                         </th>

@@ -121,7 +121,7 @@ html.dark {
  * 全站表格统一样式（书刊三线表 + 悬停行高亮）。
  * 表格上要同时加 not-prose，避开 Typography 插件给 table 加的外边距和深色表头线。
  *   .wiki-table            基础：只用横线分层，颜色全部取自主题变量，深浅色自动适配
- *   .wiki-table--hover     悬停 / 键盘聚焦时整行加深（组标题行除外）
+ *   .wiki-table--hover     悬停 / 键盘聚焦时整行加深（组标题行除外）；脚本给行加 .is-hl 也会加深（兵种树联动）
  *   .wiki-table--list      没有表头的单列名单，补一条顶线
  *   .wiki-table--matrix    多列表格，单元格不换行，需放在 overflow-x-auto 容器里
  *   .wiki-table--merged    带 rowspan 合并列的表格，悬停时联动高亮所属的合并格（见下方说明）
@@ -193,7 +193,7 @@ html.dark {
     }
 
     @media (hover: hover) {
-        .wiki-table--hover tbody tr:not(:has(> th[colspan])):is(:hover, :focus-within) > * {
+        .wiki-table--hover tbody tr:not(:has(> th[colspan])):is(:hover, :focus-within, .is-hl) > * {
             background-color: var(--bg-muted);
         }
     }

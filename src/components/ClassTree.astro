@@ -40,8 +40,11 @@ const isMid = !isRoot && cards.some((card) => current !== undefined && card.mid.
     cards.length > 0 ? (
         <>
             <SectionTitle tone={tone}>{treeTitle || '兵种树'}</SectionTitle>
-            <ClassTreeDiagram cards={cards} current={current} inline showConditions={isRoot} />
-            {isMid && current && <ClassConditionTable names={[current]} />}
+            {/* data-ctree-scope：中阶兵种页卡片之后的那一行条件与全部卡片联动高亮 */}
+            <div data-ctree-scope>
+                <ClassTreeDiagram cards={cards} current={current} inline showConditions={isRoot} />
+                {isMid && current && <ClassConditionTable names={[current]} />}
+            </div>
         </>
     ) : (parents && parents.length > 0) || (upgrades && upgrades.length > 0) || (condition && condition.length > 0) ? (
         <>
