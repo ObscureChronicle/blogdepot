@@ -49,3 +49,37 @@ import Katex from '../../../components/Katex.astro';
 ## 4. 最终经验
 
 <Katex block math={String.raw`\boxed{\text{获得经验}=\min\left(\max\left(\left\lfloor\max\left(n',\;e_{\min}\right)\cdot F\right\rfloor,\;0\right),\;100\right)}`} />
+
+<h2 class='section-title section-title--dlc'>星命诀</h2>
+
+星命诀中，只有对敌军造成伤害且未将其击破时才会获得经验；未造成伤害或击破敌军时不获得经验。所获经验与敌我等级差无关，而随秩级升高而递减。
+
+秩级达到（比）二千石及以上时，除非拥有「雅望」特性，否则不再获得经验。
+
+<h2 class='section-title'>公式</h2>
+
+红色部分为与本传不同之处。
+
+## 符号定义
+
+| 符号 | 含义 |
+|---|---|
+| <Katex math="R" /> | 攻方秩级序号（白身为 <Katex math="1" />，（比）二千石为 <Katex math="8" />） |
+| <Katex math="s" /> | 经验加成类特性提供的加成（%） |
+| <Katex math={String.raw`e_{\min}`} /> | 最低经验 |
+
+## 1. 基础经验
+
+<Katex block math={String.raw`n=\htmlClass{dlc-diff}{\begin{cases} e_{\min}, & \text{造成伤害但未击破} \\[4pt] 0, & \text{否则} \end{cases}}`} />
+
+## 2. 经验倍率
+
+智略不再参与计算，改为按秩级递减：
+
+<Katex block math={String.raw`F_{0}=\htmlClass{dlc-diff}{\left\lceil\frac{100+s}{\max\left(R-1,\;1\right)}\right\rceil}`} />
+
+<Katex block math={String.raw`F=\begin{cases} \dfrac{F_{0}}{100}\cdot2, & \text{难度选项「成长加倍」开启} \\[8pt] \dfrac{F_{0}}{100}, & \text{否则} \end{cases}`} />
+
+## 3. 最终经验
+
+<Katex block math={String.raw`\boxed{\text{获得经验}=\begin{cases} \htmlClass{dlc-diff}{0}, & \htmlClass{dlc-diff}{R\ge8\ \text{且无「雅望」}} \\[4pt] \min\left(\max\left(\left\lfloor n\cdot F\right\rfloor,\;0\right),\;100\right), & \text{否则} \end{cases}}`} />
