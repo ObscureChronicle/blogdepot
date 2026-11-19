@@ -17,6 +17,8 @@ const projects = pickFeaturedProjects(featuredProjects, await getCollection('pro
 ---
 
 <BaseLayout title="後漢・三国物語" description={siteConfig.description} image={siteConfig.image}>
+    {/* 首页标题图本身就是视觉标题，h1 只给读屏器和搜索引擎，不在页面上重复显示 */}
+    <h1 class="sr-only">后汉稽异录</h1>
     <Hero />
     {
         projects.length > 0 && (
