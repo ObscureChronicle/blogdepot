@@ -86,13 +86,13 @@ const breadcrumb = {
                 {prevProject && (
                     <div>
                         <h2 class="mb-12 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl">←上一篇</h2>{' '}
-                        <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />
+                        <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" deferTitle />
                     </div>
                 )}
                 {nextProject && (
                     <div>
                         <h2 class="mb-12 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl text-right">下一篇→</h2>{' '}
-                        <ProjectPreview project={nextProject} class="mb-10 sm:mb-12 text-right" headingLevel="h3" />
+                        <ProjectPreview project={nextProject} class="mb-10 sm:mb-12 text-right" headingLevel="h3" deferTitle />
                     </div>
                 )}
             </div>
@@ -100,6 +100,15 @@ const breadcrumb = {
     }
     <WalineComments />
 </BaseLayout>
+
+<script>
+    // 上一篇 / 下一篇的词条名不写进 HTML（见 ProjectPreview 的 deferTitle），换页后由这里填入
+    document.addEventListener('astro:page-load', () => {
+        for (const el of document.querySelectorAll<HTMLElement>('[data-deferred-title]')) {
+            el.textContent = el.dataset.deferredTitle ?? '';
+        }
+    });
+</script>
 
 <style>
     /* 消歧义回链：次要文字色 + 百科链接色，颜色取主题变量，亮暗两色自动适配 */

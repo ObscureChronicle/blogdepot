@@ -2,9 +2,11 @@
 import { type CollectionEntry } from 'astro:content';
 
 // displayTitle：需要显示与词条标题不同的文字时传入（如首页的「曹操 · 人物」），不传时显示词条标题
-type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3'; displayTitle?: string };
+// deferTitle：标题不写进 HTML 文本，只放在 data-deferred-title 属性里，由页面脚本填入。
+//   词条页的上一篇 / 下一篇用它：站内搜索的爬虫不执行 JS，邻居词条名就不会被算进本页内容
+type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3'; displayTitle?: string; deferTitle?: boolean };
 
-const { project, class: className, headingLevel = 'h2', displayTitle } = Astro.props;
+const { project, class: className, headingLevel = 'h2', displayTitle, deferTitle = false } = Astro.props;
 const title = displayTitle ?? project.data.title;
 const TitleTag = headingLevel;
 ---
@@ -13,8 +15,9 @@ const TitleTag = headingLevel;
     <div class="grow">
         <TitleTag
             class="text-lg leading-tight font-serif font-medium group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4 group-hover:decoration-1 sm:text-xl"
+            data-deferred-title={deferTitle ? title : undefined}
         >
-            {title}
+            {!deferTitle && title}
         </TitleTag>
     </div>
 </a>
