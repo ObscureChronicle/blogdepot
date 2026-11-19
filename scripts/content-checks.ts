@@ -159,3 +159,97 @@ export function checkDisambiguation(projects: ProjectSummary[]): Array<Finding &
     }
     return findings;
 }
+
+export type ClassRelations = { parents: string[]; upgrades: string[] };
+
+/**
+ * 读取兵种词条本传部分的 parents / upgrades。
+ * Layout_Classes 写在顶层属性（parents={[...]}）；Layout_ClassesPlus 只取 base={{ ... }} 里的（parents: [...]），
+ * 星命诀 / 联动分区的「解锁道具」「可变化阵势」不是转职关系。
+ */
+export function extractBaseClassRelations(raw: string): ClassRelations {
+    let scope = raw;
+    const baseStart = raw.search(/\bbase=\{\{/);
+    if (baseStart >= 0) {
+        const rest = raw.slice(baseStart);
+        const end = rest.search(/\b(?:dlc|collab)=\{\{/);
+        scope = end >= 0 ? rest.slice(0, end) : rest;
+    } else if (/\b(?:dlc|collab)=\{\{/.test(raw)) {
+        return { parents: [], upgrades: [] };
+    }
+    const read = (field: string) => {
+        const m = scope.match(new RegExp(`\\b${field}\\s*(?:=\\s*\\{|:)\\s*\\[([^\\]]*)\\]`));
+        return m ? [...m[1].matchAll(/(['"])(.*?)\1/g)].map((s) => s[2].trim()).filter(Boolean) : [];
+    };
+    return { parents: read('parents'), upgrades: read('upgrades') };
+}
+
+type ClassTreeCardShape = { root: string; mid: string[]; high: { name: string; col: number }[]; links: { from: string[]; to: string[] }[] };
+
+/**
+ * 兵种树卡片（src/data/class-tree.ts）与兵种词条数据的一致性：
+ * - 词条 parents / upgrades 双向一致
+ * - 图上每条线都是词条里的转职关系，词条里每条转职关系至少在一张卡片里画出
+ * - 卡片自身结构合法（兵种存在、连线两端在对应行、列号不越界不重复）
+ * @param classes 兵种词条标题 → 本传转职关系
+ */
+export function checkClassTree(cards: ClassTreeCardShape[], classes: Map<string, ClassRelations>): Finding[] {
+    const findings: Finding[] = [];
+    const warn = (message: string) => findings.push({ level: 'warning', message });
+    const key = (from: string, to: string) => `${from} → ${to}`;
+
+    // 词条数据：两个方向各自登记，并检查是否对称
+    const dataEdges = new Set<string>();
+    for (const [name, { parents, upgrades }] of classes) {
+        for (const p of parents) {
+            dataEdges.add(key(p, name));
+            if (classes.has(p) && !classes.get(p)!.upgrades.includes(name)) warn(`「${name}」的前置有「${p}」，但「${p}」的可转职兵种里没有「${name}」`);
+        }
+        for (const u of upgrades) {
+            dataEdges.add(key(name, u));
+            if (classes.has(u) && !classes.get(u)!.parents.includes(name)) warn(`「${name}」的可转职兵种有「${u}」，但「${u}」的前置里没有「${name}」`);
+        }
+    }
+
+    const drawnEdges = new Set<string>();
+    for (const card of cards) {
+        const where = `兵种树「${card.root}」卡片`;
+        const midSet = new Set(card.mid);
+        const highNames = new Set(card.high.map((h) => h.name));
+        for (const name of [card.root, ...card.mid, ...card.high.map((h) => h.name)]) {
+            if (!classes.has(name)) warn(`${where}：「${name}」不是已有的兵种词条`);
+        }
+        if (midSet.size !== card.mid.length || highNames.size !== card.high.length) warn(`${where}：同一行里有重复的兵种`);
+        const cols = card.high.map((h) => h.col);
+        if (new Set(cols).size !== cols.length) warn(`${where}：第三行有重复的列号`);
+        for (const h of card.high) {
+            if (!Number.isInteger(h.col) || h.col < 0 || h.col >= card.mid.length) warn(`${where}：「${h.name}」的列号 ${h.col} 超出第二行范围`);
+        }
+
+        const cardEdges = card.mid.map((m) => [card.root, m] as const);
+        const linkedHigh = new Set<string>();
+        for (const link of card.links) {
+            for (const from of link.from) {
+                if (!midSet.has(from)) warn(`${where}：连线起点「${from}」不在第二行`);
+                for (const to of link.to) {
+                    if (!highNames.has(to)) warn(`${where}：连线终点「${to}」不在第三行`);
+                    cardEdges.push([from, to]);
+                    linkedHigh.add(to);
+                }
+            }
+        }
+        for (const h of card.high) {
+            if (!linkedHigh.has(h.name)) warn(`${where}：「${h.name}」没有任何连线`);
+        }
+        for (const [from, to] of cardEdges) {
+            const k = key(from, to);
+            drawnEdges.add(k);
+            if (!dataEdges.has(k)) warn(`${where}：画了「${k}」，但兵种词条里没有这条转职关系`);
+        }
+    }
+
+    for (const k of dataEdges) {
+        if (!drawnEdges.has(k)) warn(`兵种词条里有转职关系「${k}」，但兵种树（src/data/class-tree.ts）没有画出`);
+    }
+    return findings;
+}

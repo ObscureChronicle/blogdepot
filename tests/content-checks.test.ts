@@ -1,13 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { blogSchema } from '../src/content-schemas.ts';
+import fs from 'node:fs';
+import path from 'node:path';
+import { classTreeCards } from '../src/data/class-tree.ts';
 import {
+    checkClassTree,
     checkDisambiguation,
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
     checkLegacyTermHeadings,
-    contentRoute
+    contentRoute,
+    extractBaseClassRelations,
+    type ClassRelations
 } from '../scripts/content-checks.ts';
 
 const validBlog = { title: '标题', publishDate: '2024-01-01', tags: ['diary'] };
@@ -137,4 +143,79 @@ test('checkDisambiguation: a disambiguation page needs the disambiguation catego
         findings.map((f) => f.id),
         ['disambiguation/chendao']
     );
+});
+
+test('extractBaseClassRelations: Layout_Classes reads top-level props', () => {
+    const raw = "<ClassWiki\n  parents={['戟兵']}\n  upgrades={[]}\n/>";
+    assert.deepEqual(extractBaseClassRelations(raw), { parents: ['戟兵'], upgrades: [] });
+});
+
+test('extractBaseClassRelations: Layout_ClassesPlus only reads the base section', () => {
+    const raw =
+        "<ClassWiki\n  base={{\n    parents: [],\n    upgrades: ['重装刀兵', \"虎兵\"],\n  }}\n  dlc={{\n    parents: ['虎贲营印绶'],\n    upgrades: ['方阵'],\n  }}\n/>";
+    assert.deepEqual(extractBaseClassRelations(raw), { parents: [], upgrades: ['重装刀兵', '虎兵'] });
+});
+
+test('extractBaseClassRelations: a file with only dlc / collab sections has no base relations', () => {
+    const raw = "<ClassWiki\n  dlc={{\n    parents: ['印绶'],\n    upgrades: ['方阵'],\n  }}\n/>";
+    assert.deepEqual(extractBaseClassRelations(raw), { parents: [], upgrades: [] });
+});
+
+const rel = (parents: string[], upgrades: string[]): ClassRelations => ({ parents, upgrades });
+const sampleClasses = () =>
+    new Map<string, ClassRelations>([
+        ['刀兵', rel([], ['重装刀兵'])],
+        ['重装刀兵', rel(['刀兵'], ['亲卫队'])],
+        ['亲卫队', rel(['重装刀兵'], [])]
+    ]);
+const sampleCard = () => ({ root: '刀兵', mid: ['重装刀兵'], high: [{ name: '亲卫队', col: 0 }], links: [{ from: ['重装刀兵'], to: ['亲卫队'] }] });
+const messages = (findings: { message: string }[]) => findings.map((f) => f.message);
+
+test('checkClassTree: a card matching the data has no findings', () => {
+    assert.deepEqual(checkClassTree([sampleCard()], sampleClasses()), []);
+});
+
+test('checkClassTree: reports asymmetric parents / upgrades', () => {
+    const classes = sampleClasses();
+    classes.set('亲卫队', rel([], []));
+    assert.deepEqual(messages(checkClassTree([sampleCard()], classes)), ['「重装刀兵」的可转职兵种有「亲卫队」，但「亲卫队」的前置里没有「重装刀兵」']);
+});
+
+test('checkClassTree: reports relations that are not drawn and lines that are not in the data', () => {
+    const undrawn = { ...sampleCard(), high: [], links: [] };
+    assert.ok(messages(checkClassTree([undrawn], sampleClasses())).some((m) => m.includes('「重装刀兵 → 亲卫队」，但兵种树') && m.includes('没有画出')));
+
+    const extra = sampleCard();
+    extra.mid.push('亲卫队');
+    assert.ok(messages(checkClassTree([extra], sampleClasses())).includes('兵种树「刀兵」卡片：画了「刀兵 → 亲卫队」，但兵种词条里没有这条转职关系'));
+});
+
+test('checkClassTree: reports malformed cards', () => {
+    const card = {
+        root: '刀兵',
+        mid: ['重装刀兵'],
+        high: [
+            { name: '亲卫队', col: 3 },
+            { name: '不存在', col: 3 }
+        ],
+        links: [{ from: ['刀兵'], to: ['亲卫队'] }]
+    };
+    const found = messages(checkClassTree([card], sampleClasses()));
+    assert.ok(found.includes('兵种树「刀兵」卡片：「不存在」不是已有的兵种词条'));
+    assert.ok(found.includes('兵种树「刀兵」卡片：第三行有重复的列号'));
+    assert.ok(found.includes('兵种树「刀兵」卡片：「亲卫队」的列号 3 超出第二行范围'));
+    assert.ok(found.includes('兵种树「刀兵」卡片：连线起点「刀兵」不在第二行'));
+    assert.ok(found.includes('兵种树「刀兵」卡片：「不存在」没有任何连线'));
+});
+
+test('checkClassTree: real data — the class tree matches every class entry', () => {
+    const dir = path.join(import.meta.dirname, '../src/content/projects/class');
+    const classes = new Map<string, ClassRelations>();
+    for (const file of fs.readdirSync(dir).filter((f) => /\.mdx?$/.test(f))) {
+        const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+        const title = raw.match(/^title:\s*(.+?)\s*$/m)?.[1];
+        if (title) classes.set(title, extractBaseClassRelations(raw));
+    }
+    assert.ok(classes.size > 50);
+    assert.deepEqual(checkClassTree(classTreeCards, classes), []);
 });

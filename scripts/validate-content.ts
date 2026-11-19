@@ -2,13 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema, type CollectionName } from '../src/content-schemas.ts';
+import { classTreeCards } from '../src/data/class-tree.ts';
 import {
+    checkClassTree,
     checkDisambiguation,
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
     checkLegacyTermHeadings,
     contentRoute,
+    extractBaseClassRelations,
     type Finding
 } from './content-checks.ts';
 
@@ -49,7 +52,15 @@ const disambiguationIssues: Issue[] = checkDisambiguation(projectEntries.map(({ 
     ({ id, ...finding }) => ({ ...finding, file: fileById.get(id) ?? id })
 );
 
-const allIssues: Issue[] = [...perFileIssues, ...disambiguationIssues];
+// 跨文件检查：兵种树卡片与兵种词条的转职关系
+const classRelations = new Map(
+    projectEntries
+        .filter((e) => e.id.startsWith('class/') && typeof e.data.title === 'string')
+        .map((e) => [e.data.title as string, extractBaseClassRelations(e.raw)])
+);
+const classTreeIssues: Issue[] = checkClassTree(classTreeCards, classRelations).map((f) => ({ ...f, file: 'src/data/class-tree.ts' }));
+
+const allIssues: Issue[] = [...perFileIssues, ...disambiguationIssues, ...classTreeIssues];
 
 const errors = allIssues.filter((i) => i.level === 'error');
 const warnings = allIssues.filter((i) => i.level === 'warning');
