@@ -39,3 +39,13 @@ export function getProjectCategoryName(entry: { id: string; data: { tags: string
 export function formatProjectTitle(title: string, categoryName: string | null): string {
     return categoryName ? `${title} · ${categoryName}` : title;
 }
+
+/** 按名单顺序取出重点词条；名单里有找不到的 id 时抛错，让构建失败而不是悄悄少显示一条 */
+export function pickFeaturedProjects<T extends { id: string }>(ids: string[], entries: T[]): T[] {
+    const byId = new Map(entries.map((entry) => [entry.id, entry]));
+    const missing = ids.filter((id) => !byId.has(id));
+    if (missing.length > 0) {
+        throw new Error(`featuredProjects 中有不存在的词条：${missing.join('、')}（请检查 src/data/site-config.ts）`);
+    }
+    return ids.map((id) => byId.get(id) as T);
+}

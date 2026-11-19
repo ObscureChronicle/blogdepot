@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { formatProjectTitle, getProjectCategory, getProjectCategoryName, groupBy, withNeighbors } from '../src/utils/neighbor-utils.ts';
+import { formatProjectTitle, getProjectCategory, getProjectCategoryName, groupBy, pickFeaturedProjects, withNeighbors } from '../src/utils/neighbor-utils.ts';
 
 test('withNeighbors: first item has no prev, last item has no next', () => {
     const result = withNeighbors(['a', 'b', 'c']);
@@ -50,4 +50,20 @@ test('getProjectCategoryName: returns null when there is no registered category 
 test('formatProjectTitle: appends the category with a middle dot, or keeps the title as is', () => {
     assert.equal(formatProjectTitle('陈到', '人物'), '陈到 · 人物');
     assert.equal(formatProjectTitle('陈到', null), '陈到');
+});
+
+test('pickFeaturedProjects: returns entries in the order of the id list', () => {
+    const entries = [{ id: 'bio/a' }, { id: 'bio/b' }, { id: 'bio/c' }];
+    assert.deepEqual(
+        pickFeaturedProjects(['bio/c', 'bio/a'], entries).map((e) => e.id),
+        ['bio/c', 'bio/a']
+    );
+});
+
+test('pickFeaturedProjects: throws and names every missing id', () => {
+    assert.throws(() => pickFeaturedProjects(['bio/a', 'bio/typo', 'bio/x'], [{ id: 'bio/a' }]), /bio\/typo、bio\/x/);
+});
+
+test('pickFeaturedProjects: an empty list returns an empty array', () => {
+    assert.deepEqual(pickFeaturedProjects([], [{ id: 'bio/a' }]), []);
 });

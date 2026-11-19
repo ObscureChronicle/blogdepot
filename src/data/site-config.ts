@@ -132,3 +132,10 @@ export const thirdParty = {
         serverURL: 'https://ocod-commemts.netlify.app/.netlify/functions/comment'
     }
 } as const;
+
+/**
+ * 首页「百科」区块展示的重点词条，按显示顺序排列。
+ * 填词条路径：src/content/projects/ 下的相对路径，不带扩展名（如 'bio/caocao'）。
+ * 写错的路径会让构建直接报错（见 neighbor-utils.ts 的 pickFeaturedProjects）。
+ */
+export const featuredProjects: string[] = ['bio/liaohao', 'bio/xunyu', 'bio/caocao', 'bio/zhugeliang', 'bio/jushou'];

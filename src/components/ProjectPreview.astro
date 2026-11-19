@@ -1,10 +1,11 @@
 ---
 import { type CollectionEntry } from 'astro:content';
 
-type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3' };
+// displayTitle：需要显示与词条标题不同的文字时传入（如首页的「曹操 · 人物」），不传时显示词条标题
+type Props = { project: CollectionEntry<'projects'>; class?: string; headingLevel?: 'h2' | 'h3'; displayTitle?: string };
 
-const { project, class: className, headingLevel = 'h2' } = Astro.props;
-const { title } = project.data;
+const { project, class: className, headingLevel = 'h2', displayTitle } = Astro.props;
+const title = displayTitle ?? project.data.title;
 const TitleTag = headingLevel;
 ---
 

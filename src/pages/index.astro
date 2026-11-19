@@ -5,15 +5,15 @@ import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
-import siteConfig from '../data/site-config';
+import siteConfig, { featuredProjects } from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSortedBlogPosts } from '../utils/content-utils';
-import { sortPostsByTitlePinyin } from '../utils/sort-by-pinyin';
+import { formatProjectTitle, getProjectCategoryName, pickFeaturedProjects } from '../utils/neighbor-utils';
 
 const posts = await getSortedBlogPosts();
 
-// projects 是百科条目，不讲究发布时间，按标题拼音排序而非日期
-const projects = sortPostsByTitlePinyin(await getCollection('projects'));
+// 百科区块展示 site-config 里人工指定的重点词条（按名单顺序），名单写错时构建报错
+const projects = pickFeaturedProjects(featuredProjects, await getCollection('projects'));
 ---
 
 <BaseLayout title="後漢・三国物語" description={siteConfig.description} image={siteConfig.image}>
@@ -22,8 +22,13 @@ const projects = sortPostsByTitlePinyin(await getCollection('projects'));
         projects.length > 0 && (
             <div class="mb-16 sm:mb-24">
                 <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">百科</h2>
-                {projects.slice(0, 5).map((project) => (
-                    <ProjectPreview project={project} class="mb-4 sm:mb-4" headingLevel="h3" />
+                {projects.map((project) => (
+                    <ProjectPreview
+                        project={project}
+                        displayTitle={formatProjectTitle(project.data.title, getProjectCategoryName(project))}
+                        class="mb-4 sm:mb-4"
+                        headingLevel="h3"
+                    />
                 ))}
                 <div class="mt-4 flex flex-wrap gap-2">
                     <Button href="/tags/" target="_self">
