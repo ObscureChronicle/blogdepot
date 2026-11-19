@@ -9,9 +9,11 @@ type Props = {
     cards?: ClassTreeCard[];
     /** 当前词条的兵种，加描边突出 */
     current?: string;
+    /** 词条页里不撑满视口，按正文宽度单列排 */
+    inline?: boolean;
 };
 
-const { cards = classTreeCards, current } = Astro.props as Props;
+const { cards = classTreeCards, current, inline = false } = Astro.props as Props;
 
 const NODE_W = 80;
 const NODE_H = 28;
@@ -73,8 +75,8 @@ const layout = (card: ClassTreeCard, index: number) => {
 const layouts = cards.map(layout);
 ---
 
-<div class="class-tree not-prose my-4 mx-[calc(50%-50vw)] w-screen">
-    <div class="mx-auto grid max-w-[96rem] gap-4 px-4 sm:px-10 2xl:grid-cols-2">
+<div class:list={['class-tree not-prose my-4', !inline && 'mx-[calc(50%-50vw)] w-screen']}>
+    <div class:list={['grid gap-4', !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10 2xl:grid-cols-2']}>
         {
             layouts.map(({ width, height, nodes, edges, markerId }, i) => (
                 <div class="overflow-x-auto rounded-md border border-neutral-200 p-2 dark:border-neutral-700">
@@ -120,8 +122,8 @@ const layouts = cards.map(layout);
                                         height={NODE_H}
                                         rx="3"
                                         fill={TIER_COLORS[node.tier]}
-                                        stroke={node.name === current ? '#111827' : '#374151'}
-                                        stroke-width={node.name === current ? 2.5 : 1.2}
+                                        stroke={node.name === current ? '#ffffff' : '#374151'}
+                                        stroke-width={node.name === current ? 2 : 1.2}
                                     />
                                     <text
                                         x={node.x + NODE_W / 2}
@@ -157,7 +159,12 @@ const layouts = cards.map(layout);
             ))
         }
     </div>
-    <p class="mx-auto mt-2 flex max-w-[96rem] flex-wrap items-center gap-x-4 gap-y-1 px-4 text-xs text-neutral-600 sm:px-10 dark:text-neutral-400">
+    <p
+        class:list={[
+            'mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-neutral-600 dark:text-neutral-400',
+            !inline && 'mx-auto max-w-[96rem] px-4 sm:px-10'
+        ]}
+    >
         {
             ['基础兵种', '中阶兵种', '高阶兵种'].map((label, i) => (
                 <span class="inline-flex items-center gap-1">
@@ -194,6 +201,8 @@ const layouts = cards.map(layout);
     .class-tree-card .ctree-node.is-related .ctree-halo {
         opacity: 0.55;
     }
+    /* 当前词条的兵种常亮 */
+    .class-tree-card .ctree-node.is-current .ctree-halo,
     .class-tree-card .ctree-node.is-active .ctree-halo {
         opacity: 0.9;
     }

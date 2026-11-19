@@ -1,5 +1,8 @@
 ---
+import { classTreeCards } from '../data/class-tree';
 import type { Edition } from '../data/editions';
+import { getWikiLink } from '../utils/wiki-links';
+import ClassTreeDiagram from './ClassTreeDiagram.astro';
 import SectionTitle from './SectionTitle.astro';
 
 type Props = {
@@ -18,10 +21,34 @@ type Props = {
 const { parents, upgrades, condition, tone, treeTitle, upgradesLabel, parentsLabel, conditionLabel } = Astro.props as Props;
 
 import LinkedNames from './LinkedNames.astro';
+
+// 本传（Layout_Classes 不带 tone，Layout_ClassesPlus 的本传分区 tone 为 base）画成兵种树卡片：
+// 当前兵种由页面参数（形如 class/hejianmaobing）对应到卡片里的兵种名，显示所有包含它的卡片。
+// 星命诀的「解锁道具 → 阵势」不是转职关系，仍用文字。
+const isBase = tone === undefined || tone === 'base';
+const pageHref = `/projects/${String(Astro.params.id ?? '').toLowerCase()}/`;
+const treeNames = new Set(classTreeCards.flatMap((card) => [card.root, ...card.mid, ...card.high.map((h) => h.name)]));
+const current = isBase ? [...treeNames].find((name) => getWikiLink('class', name)?.toLowerCase() === pageHref) : undefined;
+const cards = current ? classTreeCards.filter((card) => card.root === current || card.mid.includes(current) || card.high.some((h) => h.name === current)) : [];
 ---
 
 {
-    (parents && parents.length > 0) || (upgrades && upgrades.length > 0) || (condition && condition.length > 0) ? (
+    cards.length > 0 ? (
+        <>
+            <SectionTitle tone={tone}>{treeTitle || '兵种树'}</SectionTitle>
+            <ClassTreeDiagram cards={cards} current={current} inline />
+            {condition && condition.length > 0 && (
+                <div class="flex flex-col items-start pl-4">
+                    <span class="bg-green-100 text-green-800 text-base font-medium px-1.5 pt-1 rounded-sm dark:bg-green-900 dark:text-green-300">
+                        {conditionLabel || '转职条件'}
+                    </span>
+                    {condition.map((c) => (
+                        <p class="text-base leading-relaxed pl-4">{c}</p>
+                    ))}
+                </div>
+            )}
+        </>
+    ) : (parents && parents.length > 0) || (upgrades && upgrades.length > 0) || (condition && condition.length > 0) ? (
         <>
             <SectionTitle tone={tone}>{treeTitle || '兵种树'}</SectionTitle>
             <div class="flex flex-col pl-4 gap-4">
