@@ -7,7 +7,9 @@ const src = `https://player.bilibili.com/player.html?isOutside=true&aid=${aid}&b
 <div class="relative w-full overflow-hidden pt-[56.25%] mb-8"> {/* 16:9 响应式比例容器 */}
   <iframe
     src={src}
+    title="B 站视频播放器"
     class="absolute top-0 left-0 h-full w-full border-0"
+    loading="lazy"
     allowfullscreen
   ></iframe>
 </div>
