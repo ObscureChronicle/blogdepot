@@ -35,9 +35,12 @@ export function getProjectCategoryName(entry: { id: string; data: { tags: string
     return SLUG_TAG_MAP[getProjectCategory(entry)] ?? null;
 }
 
-/** 词条页 <title> 用的标题：带上分类以区分同名词条（如「陈到 · 人物」），没有分类名时保持原标题 */
+/**
+ * 词条页 <title> 用的标题：带上分类以区分同名词条（如「陈到 · 人物」）。
+ * 没有分类名、或分类名与标题相同（如「参考文献」词条的分类也叫参考文献）时保持原标题，避免重复。
+ */
 export function formatProjectTitle(title: string, categoryName: string | null): string {
-    return categoryName ? `${title} · ${categoryName}` : title;
+    return categoryName && categoryName !== title ? `${title} · ${categoryName}` : title;
 }
 
 /** 按名单顺序取出重点词条；名单里有找不到的 id 时抛错，让构建失败而不是悄悄少显示一条 */

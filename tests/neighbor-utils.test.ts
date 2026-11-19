@@ -50,6 +50,7 @@ test('getProjectCategoryName: returns null when there is no registered category 
 test('formatProjectTitle: appends the category with a middle dot, or keeps the title as is', () => {
     assert.equal(formatProjectTitle('陈到', '人物'), '陈到 · 人物');
     assert.equal(formatProjectTitle('陈到', null), '陈到');
+    assert.equal(formatProjectTitle('参考文献', '参考文献'), '参考文献');
 });
 
 test('pickFeaturedProjects: returns entries in the order of the id list', () => {
