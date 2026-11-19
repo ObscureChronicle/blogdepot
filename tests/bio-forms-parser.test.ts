@@ -29,3 +29,9 @@ test('extractBaseForms: brackets inside strings do not end the array', () => {
 test('extractBaseForms: throws on unbalanced brackets instead of silently ignoring', () => {
     assert.throws(() => extractBaseForms(`baseForms={[{ data: [1, 2] }`), /没有配对/);
 });
+
+test('extractBaseForms: an extra figure field does not leak into data / data2', () => {
+    assert.deepEqual(extractBaseForms(`baseForms={[{ data: [1, 2], data2: [3, 4], traits: ['甲'], figure: [0, 1] }]}`), [
+        { name: undefined, data: '1, 2', data2: '3, 4', traits: ['甲'] }
+    ]);
+});

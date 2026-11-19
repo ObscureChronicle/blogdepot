@@ -10,6 +10,7 @@ import {
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
+    checkLegacyAttributeFigure,
     checkLegacyTermHeadings,
     contentRoute
 } from '../scripts/content-checks.ts';
@@ -201,4 +202,15 @@ test('checkClassTree: real data — the class tree matches every class entry', (
     }
     assert.ok(classes.size > 50);
     assert.deepEqual(checkClassTree(classTreeCards, classes), []);
+});
+
+test('checkLegacyAttributeFigure: a top-level AttributeFigure prop is an error', () => {
+    const findings = checkLegacyAttributeFigure(`<CharacterWiki\n  AttributeFigure={[1, 0, 0, 0, 0]}\n/>`);
+    assert.equal(findings.length, 1);
+    assert.ok(findings[0].level === 'error' && findings[0].message.includes('figure 字段'));
+});
+
+test('checkLegacyAttributeFigure: figure inside baseForms and dlcAttributeFigure are fine', () => {
+    const raw = `<CharacterWiki\n  baseForms={[{ data: [1], figure: [1, 0, 0, 0, 0] }]}\n  dlcAttributeFigure={[0, 0, 0, 0, 0]}\n/>`;
+    assert.deepEqual(checkLegacyAttributeFigure(raw), []);
 });

@@ -15,13 +15,12 @@ beforeAll(async () => {
 
 const render = (props: Record<string, unknown>) => container.renderToString(BiographyLayout, { props: { intro: '主要', nameTableData: {}, ...props } });
 
-const form = (name: string, n: number, traits: string[]) => ({ name, data: [n, n, n, n, n], data2: [n, n], traits });
+const form = (name: string, n: number, traits: string[]) => ({ name, data: [n, n, n, n, n], data2: [n, n], traits, figure: [n, 0, 0, 0, 0] });
 
 describe('BiographyLayout.astro 能力区', () => {
     it('renders one toggle button per base form, the first one active, showing its traits', async () => {
         const html = await render({
-            baseForms: [form('初期', 1, ['甲特性']), form('中期', 2, ['乙特性']), form('后期', 3, ['丙特性'])],
-            AttributeFigure: [0, 0, 0, 0, 0]
+            baseForms: [form('初期', 1, ['甲特性']), form('中期', 2, ['乙特性']), form('后期', 3, ['丙特性'])]
         });
         const buttons = [...html.matchAll(/<button[^>]*aria-pressed="(true|false)"[^>]*>([^<]*)<\/button>/g)].map((m) => [m[2], m[1]]);
         expect(buttons).toEqual([
@@ -35,8 +34,19 @@ describe('BiographyLayout.astro 能力区', () => {
         expect(rendered).not.toContain('乙特性');
     });
 
+    it('passes each form its own figure (上限加成) to the island', async () => {
+        const html = await render({ baseForms: [form('初期', 1, []), form('后期', 2, [])] });
+        const props = JSON.parse(html.match(/<astro-island[^>]*\sprops="([^"]*)"/)![1].replaceAll('&quot;', '"'));
+        // Astro 序列化格式：数组为 [1, [[0, 值], ...]]，对象为 [0, { 键: 值 }]
+        const figures = props.baseForms[1].map(([, f]: [number, { figure: [number, [number, number][]] }]) => f.figure[1].map(([, v]) => v));
+        expect(figures).toEqual([
+            [1, 0, 0, 0, 0],
+            [2, 0, 0, 0, 0]
+        ]);
+    });
+
     it('renders no toggle for a single form', async () => {
-        const html = await render({ baseForms: [{ data: [1, 1, 1, 1, 1], data2: [1, 1], traits: ['甲特性'] }], AttributeFigure: [0, 0, 0, 0, 0] });
+        const html = await render({ baseForms: [{ data: [1, 1, 1, 1, 1], data2: [1, 1], traits: ['甲特性'] }] });
         expect(html).not.toContain('aria-pressed');
         expect(html).toContain(EDITIONS.base.shortName);
         expect(html).toContain('甲特性');
@@ -45,7 +55,6 @@ describe('BiographyLayout.astro 能力区', () => {
     it('adds an invisible placeholder toggle in the 星命诀 column so both columns line up', async () => {
         const html = await render({
             baseForms: [form('初期', 1, []), form('后期', 2, [])],
-            AttributeFigure: [0, 0, 0, 0, 0],
             dlcData: [5, 5, 5, 5, 5],
             dlcData2: [5, 5],
             dlcAttributeFigure: [0, 0, 0, 0, 0],

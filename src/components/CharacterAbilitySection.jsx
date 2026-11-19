@@ -6,8 +6,9 @@ import FiveStringTable from '../components/Table_Traits.jsx';
 import { editionBadgeClass } from '../data/editions';
 
 /**
- * @typedef {{ name?: string, data: number[], data2: number[], traits: string[] }} BaseForm
- *   本传的一个形态（如曹操「奋武将军」「魏武挥鞭」）；只有一个形态时 name 可省略
+ * @typedef {{ name?: string, data: number[], data2: number[], traits: string[], figure?: number[] }} BaseForm
+ *   本传的一个形态（如曹操「奋武将军」「魏武挥鞭」）；只有一个形态时 name 可省略。
+ *   figure 是各属性的上限加成（雷达图属性名变色、悬停显示「统御上限+4」），省略则不显示
  */
 
 /**
@@ -16,7 +17,6 @@ import { editionBadgeClass } from '../data/editions';
  *
  * @param {{
  *   baseForms?: BaseForm[],
- *   attributefigure?: number[],
  *   basename_short: string,
  *   dlcData?: number[],
  *   dlcData2?: number[],
@@ -25,7 +25,7 @@ import { editionBadgeClass } from '../data/editions';
  *   traitsDLC?: string[]
  * }} props
  */
-export default function CharacterAbilitySection({ baseForms = [], attributefigure, basename_short, dlcData, dlcData2, dlcAttributeFigure, dlcname_short, traitsDLC }) {
+export default function CharacterAbilitySection({ baseForms = [], basename_short, dlcData, dlcData2, dlcAttributeFigure, dlcname_short, traitsDLC }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const current = baseForms[activeIndex];
     const toggleOptions = baseForms.map((form, i) => ({ value: String(i), label: form.name ?? `形态${i + 1}` }));
@@ -37,7 +37,7 @@ export default function CharacterAbilitySection({ baseForms = [], attributefigur
                 <div className="flex flex-col items-center">
                     <span className={editionBadgeClass('base')}>{basename_short}</span>
                     {hasToggle && <DataToggle className="mt-2" options={toggleOptions} value={String(activeIndex)} onChange={(v) => setActiveIndex(Number(v))} />}
-                    <RadarChart data={current.data} attributefigure={attributefigure} />
+                    <RadarChart data={current.data} attributefigure={current.figure} />
                     <BarChart data={current.data2} />
                     <FiveStringTable data={current.traits} />
                 </div>

@@ -15,13 +15,14 @@ type BaseForm = {
     /** [胆识, 冷静] */
     data2: number[];
     traits: string[];
+    /** 各属性的上限加成，顺序同 data；省略则雷达图不显示上限标记 */
+    figure?: number[];
 };
 
 type CharacterWikiProps = {
     intro: string;
     /** 本传各形态，按游戏内出现顺序；没有本传数据时省略 */
     baseForms?: BaseForm[];
-    AttributeFigure: number[];
     dlcData: number[];
     dlcAttributeFigure: number[];
     dlcData2: number[];
@@ -39,7 +40,6 @@ type CharacterWikiProps = {
 const {
     intro,
     baseForms,
-    AttributeFigure,
     dlcData,
     dlcAttributeFigure,
     dlcData2,
@@ -74,7 +74,6 @@ const dlcname_short = EDITIONS.dlc.shortName;
         <CharacterAbilitySection
             client:load
             baseForms={baseForms}
-            attributefigure={AttributeFigure}
             basename_short={basename_short}
             dlcData={dlcData}
             dlcData2={dlcData2}

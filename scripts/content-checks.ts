@@ -96,6 +96,16 @@ export function checkLegacyTermHeadings(raw: string): Finding[] {
 }
 
 /**
+ * 人物词条不再用顶层 AttributeFigure：上限加成按形态写进 baseForms 每个元素的 figure 字段。
+ * 布局组件已不接收顶层 AttributeFigure，写了也不会显示，所以按错误拦截。
+ */
+export function checkLegacyAttributeFigure(raw: string): Finding[] {
+    return /^\s*AttributeFigure\s*=/m.test(raw)
+        ? [{ level: 'error', message: '不再使用顶层 AttributeFigure，请写入 baseForms 各形态的 figure 字段' }]
+        : [];
+}
+
+/**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。
  * @param knownRoutes 全部内容页面的路径（contentRoute 的结果）

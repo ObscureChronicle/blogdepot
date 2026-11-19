@@ -10,6 +10,7 @@ import {
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
+    checkLegacyAttributeFigure,
     checkLegacyTermHeadings,
     contentRoute,
     type Finding
@@ -40,6 +41,7 @@ const perFileIssues: Issue[] = parsed.flatMap(({ collection, file, id, raw, data
         ...checkFrontmatter(collection, SCHEMAS[collection], data),
         ...checkEditionSectionTitles(raw),
         ...(collection === 'projects' && id.startsWith('class/') ? checkLegacyTermHeadings(raw) : []),
+        ...(collection === 'projects' && id.startsWith('bio/') ? checkLegacyAttributeFigure(raw) : []),
         ...checkInternalLinks(raw, contentRoute(collection, id), knownRoutes)
     ];
     return findings.map((f) => ({ ...f, file }));
