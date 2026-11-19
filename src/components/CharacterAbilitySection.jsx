@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import BarChart from '../components/BarChart';
+import DataToggle from '../components/DataToggle';
 import RadarChart from '../components/RadarChart';
 import FiveStringTable from '../components/Table_Traits.jsx';
 import { editionBadgeClass } from '../data/editions';
@@ -33,20 +34,15 @@ export default function CharacterAbilitySection({
             <div className="flex flex-col items-center">
                 <span className={editionBadgeClass('base')}>{basename_short}</span>
                 {postData && (
-                    <div className="flex justify-end gap-2 mt-4">
-                        <button
-                            onClick={() => setActiveDataType('data')}
-                            className={`cursor-pointer px-2 py-1 rounded text-sm border ${activeDataType === 'data' ? 'bg-gray-400 text-white' : 'bg-white'}`}
-                        >
-                            {prevDataName}
-                        </button>
-                        <button
-                            onClick={() => setActiveDataType('postdata')}
-                            className={`cursor-pointer px-2 py-1 rounded text-sm border ${activeDataType === 'postdata' ? 'bg-gray-400 text-white' : 'bg-white'}`}
-                        >
-                            {postDataName}
-                        </button>
-                    </div>
+                    <DataToggle
+                        className="mt-4"
+                        options={[
+                            { value: 'data', label: prevDataName },
+                            { value: 'postdata', label: postDataName }
+                        ]}
+                        value={activeDataType}
+                        onChange={setActiveDataType}
+                    />
                 )}
 
                 {/* 传递计算后的当前数据给子组件 */}

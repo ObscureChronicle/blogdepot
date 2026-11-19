@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import DataToggle from './DataToggle';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
 const maxValues = [100, 100, 100, 100, 100];
@@ -218,20 +219,15 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
     return (
         <>
             {postdata ? (
-                <div className="flex justify-end gap-2 mt-2">
-                    <button
-                        onClick={() => setActiveDataType('data')}
-                        className={`px-2 py-1 rounded text-sm border cursor-pointer ${activeDataType === 'data' ? 'bg-gray-400 text-white' : 'bg-white text-gray-700'}`}
-                    >
-                        {prevDataName}
-                    </button>
-                    <button
-                        onClick={() => setActiveDataType('postdata')}
-                        className={`px-2 py-1 rounded text-sm border cursor-pointer ${activeDataType === 'postdata' ? 'bg-gray-400 text-white' : 'bg-white text-gray-700'}`}
-                    >
-                        {postDataName}
-                    </button>
-                </div>
+                <DataToggle
+                    className="mt-2"
+                    options={[
+                        { value: 'data', label: prevDataName },
+                        { value: 'postdata', label: postDataName }
+                    ]}
+                    value={activeDataType}
+                    onChange={setActiveDataType}
+                />
             ) : (
                     <></>
                 // <div className="mb-[36.25px]"></div>
