@@ -1,0 +1,186 @@
+---
+// 参考文献词条的布局：原典画成按类别分排的书架（竖排书脊），著述排成紧凑的多栏书目。
+// 数据在 src/data/references.ts；纯 CSS，无客户端脚本。
+import { CLASSIC_GROUPS, classics, works } from '../data/references';
+import SectionTitle from './SectionTitle.astro';
+
+const shelves = CLASSIC_GROUPS.map((group, index) => ({
+    group,
+    index,
+    books: classics.filter((book) => book.group === group)
+}));
+---
+
+<SectionTitle>原典</SectionTitle>
+<div class="not-prose shelves">
+    {
+        shelves.map(({ group, index, books }) => (
+            <figure class="shelf" data-hue={index}>
+                <ul class="shelf-books">
+                    {books.map((book) => (
+                        <li class="spine" style={`--len: ${[...book.title].length}`}>
+                            {book.title}
+                        </li>
+                    ))}
+                </ul>
+                <figcaption class="shelf-label">{group}</figcaption>
+            </figure>
+        ))
+    }
+</div>
+
+<SectionTitle>著述</SectionTitle>
+<ul class="not-prose works">
+    {
+        works.map((work) => (
+            <li>
+                <span class="work-author">{work.author}</span>
+                <span class="work-title">《{work.title}》</span>
+            </li>
+        ))
+    }
+</ul>
+
+<style>
+    /* 书脊配色：每个分组一种色相，浅色模式浅底深字，深色模式深底浅字 */
+    .shelf {
+        --spine-bg: #e3edf8;
+        --spine-fg: #1f4e7a;
+    }
+    .shelf[data-hue='1'] {
+        --spine-bg: #f6ead2;
+        --spine-fg: #6b4a0e;
+    }
+    .shelf[data-hue='2'] {
+        --spine-bg: #e2efdc;
+        --spine-fg: #2f5a1c;
+    }
+    .shelf[data-hue='3'] {
+        --spine-bg: #f5e3da;
+        --spine-fg: #7a3417;
+    }
+    .shelf[data-hue='4'] {
+        --spine-bg: #e6e4dc;
+        --spine-fg: #45443f;
+    }
+    .shelf[data-hue='5'] {
+        --spine-bg: #e9e6f5;
+        --spine-fg: #42387f;
+    }
+    .shelf[data-hue='6'] {
+        --spine-bg: #f5e2e8;
+        --spine-fg: #7a2944;
+    }
+    :global(html.dark) .shelf {
+        --spine-bg: #1d3550;
+        --spine-fg: #b9d4ef;
+    }
+    :global(html.dark) .shelf[data-hue='1'] {
+        --spine-bg: #43320f;
+        --spine-fg: #f1d79e;
+    }
+    :global(html.dark) .shelf[data-hue='2'] {
+        --spine-bg: #233a1a;
+        --spine-fg: #c3e0b2;
+    }
+    :global(html.dark) .shelf[data-hue='3'] {
+        --spine-bg: #4a2416;
+        --spine-fg: #f3c3ad;
+    }
+    :global(html.dark) .shelf[data-hue='4'] {
+        --spine-bg: #34332f;
+        --spine-fg: #d6d4cb;
+    }
+    :global(html.dark) .shelf[data-hue='5'] {
+        --spine-bg: #2c2752;
+        --spine-fg: #cfc9f1;
+    }
+    :global(html.dark) .shelf[data-hue='6'] {
+        --spine-bg: #4a1c2c;
+        --spine-fg: #f1bfd0;
+    }
+
+    .shelves {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 1.75rem 2.25rem;
+        margin: 1.25rem 0 2.5rem;
+    }
+    .shelf {
+        margin: 0;
+    }
+    .shelf-books {
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+        margin: 0;
+        padding: 0 0.5rem;
+        list-style: none;
+    }
+    /* 搁板 */
+    .shelf-books {
+        border-bottom: 5px solid color-mix(in srgb, var(--text-main) 70%, transparent);
+    }
+    .spine {
+        position: relative;
+        writing-mode: vertical-rl;
+        /* 高度随书名字数变化，短书名也保留最低高度，看起来像一本书 */
+        height: max(5.5em, calc(var(--len) * 1.05em + 2em));
+        width: 2.3em;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        line-height: 1;
+        letter-spacing: 0.05em;
+        color: var(--spine-fg);
+        background-color: var(--spine-bg);
+        border: 1px solid color-mix(in srgb, var(--spine-fg) 35%, transparent);
+        border-bottom: 0;
+    }
+    /* 书脊上下两道细线，模拟线装书的包角 */
+    .spine::before,
+    .spine::after {
+        content: '';
+        position: absolute;
+        inset-inline: 3px;
+        border-top: 1px solid color-mix(in srgb, var(--spine-fg) 45%, transparent);
+    }
+    .spine::before {
+        top: 0.55em;
+    }
+    .spine::after {
+        bottom: 0.55em;
+    }
+    .shelf-label {
+        margin-top: 0.4rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: color-mix(in srgb, var(--text-main) 65%, transparent);
+    }
+
+    .works {
+        columns: 3 14em;
+        column-gap: 2.5rem;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+    .works li {
+        break-inside: avoid;
+        /* 书名换行时悬挂缩进，作者名保持在行首 */
+        padding-left: 1em;
+        text-indent: -1em;
+        margin-bottom: 0.45em;
+        line-height: 1.55;
+    }
+    .work-author {
+        font-size: 0.85em;
+        color: color-mix(in srgb, var(--text-main) 62%, transparent);
+    }
+    .work-title {
+        color: var(--text-main);
+    }
+</style>
