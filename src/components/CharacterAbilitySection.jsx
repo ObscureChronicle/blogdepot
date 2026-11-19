@@ -5,56 +5,52 @@ import RadarChart from '../components/RadarChart';
 import FiveStringTable from '../components/Table_Traits.jsx';
 import { editionBadgeClass } from '../data/editions';
 
-export default function CharacterAbilitySection({
-    baseData,
-    basename_short,
-    postData,
-    prevDataName,
-    postDataName,
-    attributefigure,
-    baseData2,
-    postBaseData2,
-    traitsBase,
-    traitsPost,
-    dlcData,
-    dlcData2,
-    dlcAttributeFigure,
-    dlcname_short,
-    traitsDLC,
-}) {
-    const [activeDataType, setActiveDataType] = useState('data');
+/**
+ * @typedef {{ name?: string, data: number[], data2: number[], traits: string[] }} BaseForm
+ *   本传的一个形态（如曹操「奋武将军」「魏武挥鞭」）；只有一个形态时 name 可省略
+ */
 
-    // 根据状态选择数据；后期数据缺失时沿用本传（与 rank-data.ts 的「本传2」规则一致）
-    const currentRadarData = activeDataType === 'data' ? baseData : postData;
-    const currentBarData = activeDataType === 'data' ? baseData2 : (postBaseData2 ?? baseData2);
-    const currentTraits = activeDataType === 'data' ? traitsBase : (traitsPost ?? traitsBase);
+/**
+ * 人物词条的能力区：本传一栏（多形态时上方的按钮同时切换雷达图、柱状图和特质表）+ 星命诀一栏。
+ * 两栏各自可缺省（背景人物两栏都没有时，BiographyLayout 不会渲染本组件）。
+ *
+ * @param {{
+ *   baseForms?: BaseForm[],
+ *   attributefigure?: number[],
+ *   basename_short: string,
+ *   dlcData?: number[],
+ *   dlcData2?: number[],
+ *   dlcAttributeFigure?: number[],
+ *   dlcname_short: string,
+ *   traitsDLC?: string[]
+ * }} props
+ */
+export default function CharacterAbilitySection({ baseForms = [], attributefigure, basename_short, dlcData, dlcData2, dlcAttributeFigure, dlcname_short, traitsDLC }) {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const current = baseForms[activeIndex];
+    const toggleOptions = baseForms.map((form, i) => ({ value: String(i), label: form.name ?? `形态${i + 1}` }));
+    const hasToggle = baseForms.length > 1;
 
     return (
-        <div className="flex md:flex-row flex-col">
-            <div className="flex flex-col items-center">
-                <span className={editionBadgeClass('base')}>{basename_short}</span>
-                {postData && (
-                    <DataToggle
-                        className="mt-4"
-                        options={[
-                            { value: 'data', label: prevDataName },
-                            { value: 'postdata', label: postDataName }
-                        ]}
-                        value={activeDataType}
-                        onChange={setActiveDataType}
-                    />
-                )}
-
-                {/* 传递计算后的当前数据给子组件 */}
-                {/* 不传 postdata，RadarChart 就不会渲染自己的切换按钮，切换统一由上面的按钮负责 */}
-                <RadarChart data={currentRadarData} attributefigure={attributefigure} />
-                <BarChart data={currentBarData} />
-                <FiveStringTable data={currentTraits} />
-            </div>
+        <div className="flex justify-evenly sm:flex-row flex-col">
+            {current && (
+                <div className="flex flex-col items-center">
+                    <span className={editionBadgeClass('base')}>{basename_short}</span>
+                    {hasToggle && <DataToggle className="mt-2" options={toggleOptions} value={String(activeIndex)} onChange={(v) => setActiveIndex(Number(v))} />}
+                    <RadarChart data={current.data} attributefigure={attributefigure} />
+                    <BarChart data={current.data2} />
+                    <FiveStringTable data={current.traits} />
+                </div>
+            )}
             {dlcData && (
                 <div className="flex flex-col items-center">
                     <span className={editionBadgeClass('dlc')}>{dlcname_short}</span>
-                    {postData && <div className='md:mb-[52px]'></div>}
+                    {/* 两栏并排时，用一份不可见的同款按钮占位，让星命诀的图表和本传对齐（按钮换行时高度也一致） */}
+                    {current && hasToggle && (
+                        <div aria-hidden="true" className="invisible hidden sm:block">
+                            <DataToggle className="mt-2" options={toggleOptions} value={String(activeIndex)} onChange={() => {}} />
+                        </div>
+                    )}
                     <RadarChart variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
                     <BarChart data={dlcData2} />
                     <FiveStringTable data={traitsDLC} />

@@ -1,8 +1,5 @@
 ---
-import BarChart from '../components/BarChart.jsx';
-import RadarChart from '../components/RadarChart';
 import StageStringTable from '../components/Table_Stages.jsx';
-import FiveStringTable from '../components/Table_Traits.jsx';
 import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import EditionBadge from './EditionBadge.astro';
@@ -10,18 +7,24 @@ import SectionTitle from './SectionTitle.astro';
 import { EDITIONS } from '../data/editions';
 import WikiLink from './WikiLink.astro';
 
+/** 本传的一个形态；多个形态时 name 是切换按钮文字 */
+type BaseForm = {
+    name?: string;
+    /** [统御, 气运, 武勇, 智略, 魅力] */
+    data: number[];
+    /** [胆识, 冷静] */
+    data2: number[];
+    traits: string[];
+};
+
 type CharacterWikiProps = {
     intro: string;
-    baseData: number[];
-    postData?: number[];
-    prevDataName?: string;
-    postDataName?: string;
+    /** 本传各形态，按游戏内出现顺序；没有本传数据时省略 */
+    baseForms?: BaseForm[];
     AttributeFigure: number[];
     dlcData: number[];
     dlcAttributeFigure: number[];
-    baseData2: number[];
     dlcData2: number[];
-    traitsBase: string[];
     traitsDLC: string[];
     biography: string;
     baseclass: string[];
@@ -31,25 +34,15 @@ type CharacterWikiProps = {
     equipments: string[];
     links: { label: string; href: string }[];
     nameTableData: {};
-    postBaseData2?: number[];
-    traitsPost?: string[];
-    /**
-     * 能力区的两种渲染方式（经 BiographyLayout2.astro 导入的词条为 true）：
-     * - false：雷达图、柱状图、特质表分别渲染，后期形态按钮由雷达图自带，只切换雷达图
-     * - true：交给 CharacterAbilitySection，后期形态按钮同时切换雷达图、柱状图和特质表
-     */
-    combinedAbility?: boolean;
 };
 
 const {
     intro,
-    baseData,
+    baseForms,
     AttributeFigure,
     dlcData,
     dlcAttributeFigure,
-    baseData2,
     dlcData2,
-    traitsBase,
     traitsDLC,
     biography,
     baseclass,
@@ -58,14 +51,10 @@ const {
     battlesDLC,
     equipments,
     links,
-    postData,
-    prevDataName,
-    postDataName,
-    nameTableData,
-    postBaseData2,
-    traitsPost,
-    combinedAbility = false
+    nameTableData
 } = Astro.props as CharacterWikiProps;
+
+const hasBase = (baseForms?.length ?? 0) > 0;
 
 const basename = EDITIONS.base.name;
 const dlcname = EDITIONS.dlc.name;
@@ -73,62 +62,26 @@ const basename_short = EDITIONS.base.shortName;
 const dlcname_short = EDITIONS.dlc.shortName;
 ---
 {
-    !baseData && !dlcData ? <><div>背景人物。</div>
+    !hasBase && !dlcData ? <><div>背景人物。</div>
         <SectionTitle>剧中别称</SectionTitle>
         <CharacterNameTable data={nameTableData ? nameTableData : {}} /></>: (
         <p>
-            登场于{baseData && basename}{baseData && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
+            登场于{hasBase && basename}{hasBase && dlcData && '与'}{dlcData && dlcname}的{intro}角色。
         </p>
         <SectionTitle>剧中别称</SectionTitle>
         <CharacterNameTable data={nameTableData ? nameTableData : {}} />
         <SectionTitle>能力</SectionTitle>
-        <div class="flex justify-evenly sm:flex-row flex-col">
-            {
-                combinedAbility ? (
-                    baseData && (
-                        <div class="flex flex-col items-center">
-                            <CharacterAbilitySection
-                                client:load
-                                baseData={baseData}
-                                postData={postData}
-                                prevDataName={prevDataName}
-                                postDataName={postDataName}
-                                attributefigure={AttributeFigure}
-                                baseData2={baseData2}
-                                basename_short={basename_short}
-                                postBaseData2={postBaseData2}
-                                traitsBase={traitsBase}
-                                traitsPost={traitsPost}
-                                dlcData={dlcData}
-                                dlcData2={dlcData2}
-                                dlcAttributeFigure={dlcAttributeFigure}
-                                dlcname_short={dlcname_short}
-                                traitsDLC={traitsDLC}
-                            />
-                        </div>
-                    )
-                ) : (
-                    <>
-                        {baseData && (
-                            <div class="flex flex-col items-center">
-                                <EditionBadge edition="base" />
-                                <RadarChart client:load data={baseData} postdata={postData} prevDataName={prevDataName} postDataName={postDataName} attributefigure={AttributeFigure} />
-                                <BarChart client:load data={baseData2} />
-                                <FiveStringTable data={traitsBase} />
-                            </div>
-                        )}
-                        {dlcData && (
-                            <div class="flex flex-col items-center">
-                                <EditionBadge edition="dlc" />
-                                <RadarChart client:load variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
-                                <BarChart client:load data={dlcData2} />
-                                <FiveStringTable data={traitsDLC} />
-                            </div>
-                        )}
-                    </>
-                )
-            }
-        </div>
+        <CharacterAbilitySection
+            client:load
+            baseForms={baseForms}
+            attributefigure={AttributeFigure}
+            basename_short={basename_short}
+            dlcData={dlcData}
+            dlcData2={dlcData2}
+            dlcAttributeFigure={dlcAttributeFigure}
+            dlcname_short={dlcname_short}
+            traitsDLC={traitsDLC}
+        />
     )
 }
 

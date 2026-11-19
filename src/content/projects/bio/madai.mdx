@@ -6,7 +6,7 @@ tags:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout2.astro";
+import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
   intro={``}
@@ -42,15 +42,11 @@ import CharacterWiki from "../../../components/BiographyLayout2.astro";
     english: ''
   }
 }}
-  baseData={[80, 83, 90, 61, 75]}
-  postData={[80, 83, 90, 61, 75]}
-  prevDataName={'西凉小将'}
-  postDataName={'梦隔重山'}
+  baseForms={[
+    { name: '西凉小将', data: [80, 83, 90, 61, 75], data2: [8, 3], traits: ["西羌", "当先"] },
+    { name: '梦隔重山', data: [80, 83, 90, 61, 75], data2: [8, 3], traits: ["雍凉", "先发", "当先"] }
+  ]}
   AttributeFigure={[-1, 1, 1, 0, 0]}
-  baseData2={[8, 3]}
-  postBaseData2={[8, 3]}
-  traitsBase={["西羌", "当先"]}
-  traitsPost={["雍凉", "先发", "当先"]}
   biography={`正史阙字，扶风茂陵人，<a href="../machao/">马超</a>从弟。跟随其从兄<a href="../machao/">马超</a>起兵，辗转随之投奔<a href="../liubei/">刘备</a>。累迁至平北将军，陈仓侯。<a href="../zhugeliang/">诸葛亮</a>死后受<a href="../yangyi/">杨仪</a>派遣，追杀并击斩<a href="../weiyan/">魏延</a>。<a href="../jiangwan/">蒋琬</a>主政后，曾率军北伐曹魏，被魏将<a href="../niujin/">牛金</a>击败。此后事迹不详。`}
   baseclass={["长矛骑"]}
   battlesBase={

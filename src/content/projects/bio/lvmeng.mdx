@@ -6,7 +6,7 @@ tags:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout2.astro";
+import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
   intro={``}
@@ -42,15 +42,11 @@ import CharacterWiki from "../../../components/BiographyLayout2.astro";
     english: ''
   }
 }}
-  baseData={[81, 62, 83, 65, 63]}
-  postData={[90, 62, 83, 91, 93]}
-  prevDataName={'吴下阿蒙'}
-  postDataName={'白衣渡江'}
+  baseForms={[
+    { name: '吴下阿蒙', data: [81, 62, 83, 65, 63], data2: [8, 1], traits: ["荆扬", "当先", "书蠹"] },
+    { name: '白衣渡江', data: [90, 62, 83, 91, 93], data2: [8, 7], traits: ["荆扬", "当先", "书蠹", "诡道", "心眼"] }
+  ]}
   AttributeFigure={[0, 0, 1, 3, 0]}
-  baseData2={[8, 1]}
-  postBaseData2={[8, 7]}
-  traitsBase={["荆扬", "当先", "书蠹"]}
-  traitsPost={["荆扬", "当先", "书蠹", "诡道", "心眼"]}
   biography={`字子明，汝南富陂人。因勇气被<a href="../sunce/">孙策</a>赏识，<a href="../sunce/">孙策</a>死后，继续率领其部曲，参与讨伐黄祖，在赤壁之战和南郡之战中亦有出色表现。<a href="../lusu/">鲁肃</a>死后接替其职位，在<a href="../guanyu/">关羽</a>攻打樊城时，施计夺取荆州，擒杀<a href="../guanyu/">关羽</a>，旋即病死。`}
   baseclass={["负盾弓兵"]}
   battlesBase={

@@ -13,10 +13,15 @@ const rawFiles = import.meta.glob('../content/projects/bio/*.mdx', {
     eager: true
 }) as Record<string, string>;
 
-const { rows, report } = buildRankData(rawFiles);
+const { rows, sources, report } = buildRankData(rawFiles);
 
 export function getRankRows(): RankRow[] {
     return rows;
+}
+
+/** 全站出现过的数据来源，下标即 RankRow.sourceIndex（如 ['本传', '本传2', '星命诀']） */
+export function getRankSources(): string[] {
+    return sources;
 }
 
 export function getRankReport(): RankReport {

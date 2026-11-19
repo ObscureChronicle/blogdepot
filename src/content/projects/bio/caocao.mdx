@@ -5,7 +5,7 @@ tags:
   - wiki-c
 ---
 
-import CharacterWiki from '../../../components/BiographyLayout2.astro';
+import CharacterWiki from '../../../components/BiographyLayout.astro';
 
 <CharacterWiki
   intro={`主要`}
@@ -41,18 +41,14 @@ import CharacterWiki from '../../../components/BiographyLayout2.astro';
     english: 'Ah Man'
     }
   }}
-  baseData={[90, 85, 84, 95, 93]}
-  postData={[100, 85, 79, 97, 93]}
-  prevDataName={'奋武将军'}
-  postDataName={'魏武挥鞭'}
+  baseForms={[
+    { name: '奋武将军', data: [90, 85, 84, 95, 93], data2: [8, 9], traits: ['中原', '明候'] },
+    { name: '魏武挥鞭', data: [100, 85, 79, 97, 93], data2: [8, 9], traits: ['中原', '霸者', '先发', '英杰', '号令'] }
+  ]}
   AttributeFigure={[4, 0, 0, 2, -2]}
   dlcData={[100, 89, 80, 97, 87]}
   dlcAttributeFigure={[20, 0, 0, 2, -2]}
-  baseData2={[8, 9]}
-  postBaseData2={[8, 9]}
   dlcData2={[8, 9]}
-  traitsBase={['中原', '明候']}
-  traitsPost={['中原', '霸者', '先发', '英杰', '号令']}
   traitsDLC={['淮泗', '霸者', '曜威', '先发', '英杰']}
   biography={`字孟德，一名吉利，小字阿瞒，沛国谯县人。少机警多权变，任侠放荡，被<a href="../xushao/">许劭</a>称为「治世之能臣，乱世之奸雄」。早年历任雒阳北部尉、顿丘令、济南相，执法峻严，不畏豪强；黄巾之乱时被任命为西园八校尉之一。<a href="../dongzhuo/">董卓</a>入京后，加入关东联军起兵伐董，与<a href="../sunjian/">孙坚</a>一样，是关东联军中为数不多的主动出击之人。后收纳青州黄巾，又采纳<a href="../xunyu/">荀彧</a>「奉天子而讨不臣」之意见，实行屯田制和士家制，逐步击溃<a href="../taoqian/">陶谦</a>、<a href="../lvbu/">吕布</a>、<a href="../yuanshu/">袁术</a>，与<a href="../yuanshao/">袁绍</a>成为中原两大势力，并在官渡之战中大败<a href="../yuanshao/">袁绍</a>，又北击乌丸，逐步统一了中原。于赤壁之战大败后，向西击败<a href="../machao/">马超</a>、<a href="../hansui/">韩遂</a>，将关西纳入管辖，又收降<a href="../zhanglu/">张鲁</a>，取得汉中，但最终易手于<a href="../liubei/">刘备</a>。建安二十五年去世，年六十六岁，<a href="../caopi/">曹丕</a>称帝后追谥其为武皇帝。在军事、政治、文学领域均有杰出成就。`}
   baseclass={['近卫刀兵', '施令刀兵', '虎豹骑']}

@@ -5,7 +5,11 @@
  * 对比表所需的行数据和扫描报告。不依赖 import.meta.glob，可以直接用 node:test 测试；
  * 读取文件的部分在 rank-data.ts。
  */
+import { extractBaseForms, type RawBaseForm } from './bio-forms-parser.ts';
 import { comparePinyin, pinyinKey } from './sort-by-pinyin.ts';
+
+/** 星命诀行的来源标签；本传各形态依次为「本传」「本传2」「本传3」… */
+export const DLC_SOURCE = '星命诀';
 
 export interface RankRow {
     /** 人物名：优先 frontmatter title，缺失时取 nameTableData.name.simplified */
@@ -14,9 +18,9 @@ export interface RankRow {
     href: string;
     /** 拼音排序键（无声调） */
     pinyin: string;
-    /** 数据来源标签 */
-    source: '本传' | '本传2' | '星命诀';
-    /** 数据来源固定枚举顺序：本传=0 < 本传2=1 < 星命诀=2 */
+    /** 数据来源标签：本传第 n 个形态为「本传」（n=1）或「本传n」，星命诀为 DLC_SOURCE */
+    source: string;
+    /** 数据来源顺序：本传第 n 个形态为 n-1，星命诀排在全站最多形态数之后 */
     sourceIndex: number;
     /**
      * 七个输出列的值，缺失为 null（渲染为「—」）：
@@ -61,24 +65,16 @@ function extractName(raw: string): string {
     return nameMatch ? nameMatch[2].trim() : '';
 }
 
-interface Group {
-    source: RankRow['source'];
-    sourceIndex: number;
-    baseField: string;
-    extraField: string;
+/** 本传第 index 个形态（从 0 起）的来源标签 */
+function baseSource(index: number): string {
+    return index === 0 ? '本传' : `本传${index + 1}`;
 }
-
-const GROUPS: Group[] = [
-    { source: '本传', sourceIndex: 0, baseField: 'baseData', extraField: 'baseData2' },
-    { source: '本传2', sourceIndex: 1, baseField: 'postData', extraField: 'postBaseData2' },
-    { source: '星命诀', sourceIndex: 2, baseField: 'dlcData', extraField: 'dlcData2' }
-];
 
 /**
  * 由 bio 目录 MDX 原始文本生成排行表行数据与扫描报告。
  * @param rawFiles 文件路径 → MDX 原始文本（路径只用来取 slug）
  */
-export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow[]; report: RankReport } {
+export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow[]; sources: string[]; report: RankReport } {
     const report: RankReport = { fileCount: 0, characters: 0, rows: 0, skipped: [], failures: [] };
     const rows: RankRow[] = [];
 
@@ -92,15 +88,34 @@ export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow
             continue;
         }
 
-        const groupRows: RankRow[] = [];
-        for (const group of GROUPS) {
-            const baseInner = extractArray(raw, group.baseField);
-            let extraInner = extractArray(raw, group.extraField);
+        let forms: RawBaseForm[];
+        try {
+            forms = extractBaseForms(raw) ?? [];
+        } catch (e) {
+            report.failures.push({ file: shortFile, field: 'baseForms', reason: (e as Error).message });
+            forms = [];
+        }
+        // 每组：来源、数组内部原文、出错时报告用的字段名
+        const groups = forms.map((form, i) => ({
+            source: baseSource(i),
+            sourceIndex: i,
+            baseInner: form.data,
+            extraInner: form.data2,
+            baseField: `baseForms[${i}].data`,
+            extraField: `baseForms[${i}].data2`
+        }));
+        groups.push({
+            source: DLC_SOURCE,
+            sourceIndex: -1, // 扫描完所有人物、知道最多形态数后再定
+            baseInner: extractArray(raw, 'dlcData'),
+            extraInner: extractArray(raw, 'dlcData2'),
+            baseField: 'dlcData',
+            extraField: 'dlcData2'
+        });
 
-            // 本传2 特例：postBaseData2 缺失但 postData 存在时，胆识/冷静沿用本传 的 baseData2
-            if (group.source === '本传2' && extraInner === undefined && baseInner !== undefined) {
-                extraInner = extractArray(raw, 'baseData2');
-            }
+        const groupRows: RankRow[] = [];
+        for (const group of groups) {
+            const { baseInner, extraInner } = group;
 
             // 某组两个数组都缺失 → 该组不生成行
             if (baseInner === undefined && extraInner === undefined) continue;
@@ -137,14 +152,19 @@ export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow
         }
 
         if (groupRows.length === 0) {
-            report.skipped.push({ file: shortFile, reason: '无任何属性数组（三组数据全缺）' });
+            report.skipped.push({ file: shortFile, reason: '无任何属性数组（本传、星命诀数据全缺）' });
             continue;
         }
         report.characters++;
         rows.push(...groupRows);
     }
 
-    // 人物按拼音升序；同人物内按 本传 → 本传2 → 星命诀 固定顺序
+    // 星命诀排在全站最多的本传形态之后，保证 sourceIndex 与 sources 下标一一对应
+    const baseCount = rows.reduce((max, r) => (r.source === DLC_SOURCE ? max : Math.max(max, r.sourceIndex + 1)), 0);
+    for (const r of rows) if (r.source === DLC_SOURCE) r.sourceIndex = baseCount;
+    const sources = [...Array.from({ length: baseCount }, (_, i) => baseSource(i)), DLC_SOURCE];
+
+    // 人物按拼音升序；同人物内按 本传 → 本传2 → … → 星命诀 固定顺序
     rows.sort((a, b) => {
         const byName = comparePinyin(a.pinyin, b.pinyin);
         if (byName !== 0) return byName;
@@ -152,5 +172,5 @@ export function buildRankData(rawFiles: Record<string, string>): { rows: RankRow
     });
 
     report.rows = rows.length;
-    return { rows, report };
+    return { rows, sources, report };
 }

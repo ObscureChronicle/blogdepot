@@ -13,9 +13,9 @@ test('extractStringArray: reads single- or double-quoted string arrays, keeping 
     assert.deepEqual(extractStringArray(`intro={'x'}`, 'traitsBase'), []);
 });
 
-test('buildOwners: traitsBase and traitsPost both count as 本传, traitsDLC as 星命诀, without duplicates', () => {
+test('buildOwners: traits of every baseForms form count as 本传, traitsDLC as 星命诀, without duplicates', () => {
     const { traits } = buildOwners({
-        'bio/guanyu.mdx': bio('关羽', `traitsBase={['中原', '国士']}\ntraitsPost={['中原', '桓武*']}\ntraitsDLC={['中原']}`)
+        'bio/guanyu.mdx': bio('关羽', `baseForms={[\n    { name: '甲', traits: ['中原', '国士'] },\n    { name: '乙', traits: ['中原', '桓武*'] }\n  ]}\ntraitsDLC={['中原']}`)
     });
     assert.deepEqual(traits['中原'], { base: ['关羽'], dlc: ['关羽'] });
     assert.deepEqual(traits['桓武*'], { base: ['关羽'], dlc: [] });
@@ -30,16 +30,16 @@ test('buildOwners: collects class owners from baseclass / dlcclass', () => {
 
 test('buildOwners: owner lists follow file name order regardless of input order', () => {
     const files = {
-        'bio/zhoutai_2.mdx': bio('州泰', `traitsBase={['荆扬']}`),
-        'bio/zhoutai.mdx': bio('周泰', `traitsBase={['荆扬']}`),
-        'bio/agui.mdx': bio('阿贵', `traitsBase={['荆扬']}`)
+        'bio/zhoutai_2.mdx': bio('州泰', `baseForms={[{ traits: ['荆扬'] }]}`),
+        'bio/zhoutai.mdx': bio('周泰', `baseForms={[{ traits: ['荆扬'] }]}`),
+        'bio/agui.mdx': bio('阿贵', `baseForms={[{ traits: ['荆扬'] }]}`)
     };
     assert.deepEqual(buildOwners(files).traits['荆扬'].base, ['阿贵', '周泰', '州泰']);
 });
 
 test('buildOwners: uses the per-version display name registered in OWNER_DISPLAY_NAMES', () => {
     const { traits } = buildOwners({
-        'bio/hanxun.mdx': bio('韩荀（韩猛）', `traitsBase={['中原']}\ntraitsDLC={['中原']}`)
+        'bio/hanxun.mdx': bio('韩荀（韩猛）', `baseForms={[{ traits: ['中原'] }]}\ntraitsDLC={['中原']}`)
     });
     assert.deepEqual(traits['中原'], { base: ['韩猛'], dlc: ['韩荀'] });
 });

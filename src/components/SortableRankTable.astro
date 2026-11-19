@@ -6,9 +6,11 @@
  * 表头点击排序逻辑见底部 <script>，通过 data-* 属性选择，
  * 支持同页多个表格实例，不污染全局变量。
  */
-import { getRankRows } from '../utils/rank-data';
+import { DLC_SOURCE } from '../utils/rank-parser';
+import { getRankRows, getRankSources } from '../utils/rank-data';
 
 const rows = getRankRows();
+const sources = getRankSources();
 
 const columns = [
     { key: 'name', label: '人物', numeric: false },
@@ -23,18 +25,15 @@ const columns = [
     { key: 'zonghe', label: '总和', numeric: true }
 ];
 
-// 数据来源标签配色沿用项目既有约定：本传=蓝、星命诀=黄
-const sourceTagClass = [
-    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-];
+// 数据来源标签配色沿用项目既有约定：本传（各形态）=蓝、星命诀=黄
+const sourceTagClass = (source: string) =>
+    source === DLC_SOURCE ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
 ---
 
 <div data-rank-wrapper>
     <div class="flex flex-wrap gap-x-5 gap-y-1 mb-1 text-sm">
         {
-            ['本传', '本传2', '星命诀'].map((label, i) => (
+            sources.map((label, i) => (
                 <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
                     <input type="checkbox" checked data-source-filter={String(i)} class="accent-blue-600" />
                     {label}
@@ -91,7 +90,7 @@ const sourceTagClass = [
                                 </a>
                             </td>
                             <td data-col="source" data-sort={String(row.sourceIndex)}>
-                                <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass[row.sourceIndex]}`}>{row.source}</span>
+                                <span class={`px-1.5 rounded-sm whitespace-nowrap ${sourceTagClass(row.source)}`}>{row.source}</span>
                             </td>
                             {row.values.map((v, i) => (
                                 <td data-col={columns[2 + i].key} data-sort={v === null ? '' : String(v)}>
@@ -133,7 +132,7 @@ const sourceTagClass = [
             });
         };
 
-        // 「最高数值」单选：与三个数据来源复选框互斥；选中时按综合分选出同名人物的最高分行
+        // 「最高数值」单选：与各数据来源复选框互斥；选中时按综合分选出同名人物的最高分行
         const maxRadio = wrapper?.querySelector<HTMLInputElement>('input[data-source-mode="max"]');
         const getCellVal = (tr: HTMLTableRowElement, key: string) => {
             const cell = tr.querySelector(`td[data-col="${key}"]`);
@@ -161,7 +160,7 @@ const sourceTagClass = [
                 tr.style.display = 'none';
             });
             groups.forEach((arr) => {
-                // 同分按当前 DOM 顺序取首项（即构建顺序 本传 → 本传2 → 星命诀）
+                // 同分按当前 DOM 顺序取首项（即构建顺序 本传 → 本传2 → … → 星命诀）
                 arr.sort((a, b) => b.score - a.score);
                 arr[0].tr.style.display = '';
             });

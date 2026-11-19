@@ -40,8 +40,9 @@ bioFiles.forEach(file => {
     const titleMatch = content.match(/title:\s*(.+)/);
     const characterName = titleMatch ? titleMatch[1].trim() : file.replace('.mdx', '');
 
-    const baseMatch = content.match(/traitsBase=\{(\[.*?\])\}/);
-    const postMatch = content.match(/traitsPost=\{(\[.*?\])\}/);
+    // baseForms 块（到首个位于行尾的 "]}" 为止）里每个形态的 traits
+    const formsBlock = content.match(/baseForms=\{\[([\s\S]*?)\]\}\s*$/m);
+    const formTraitMatches = formsBlock ? [...formsBlock[1].matchAll(/\btraits:\s*(\[[^\]]*\])/g)] : [];
     const dlcMatch = content.match(/traitsDLC=\{(\[.*?\])\}/);
 
     const parseTraits = (match) => {
@@ -54,12 +55,10 @@ bioFiles.forEach(file => {
         }
     };
 
-    const baseTraits = parseTraits(baseMatch);
-    const postTraits = parseTraits(postMatch);
     const dlcTraits = parseTraits(dlcMatch);
 
-    // 本传 = traitsBase + traitsPost
-    const allBaseTraits = [...new Set([...baseTraits, ...postTraits])];
+    // 本传 = baseForms 所有形态的 traits
+    const allBaseTraits = [...new Set(formTraitMatches.flatMap(parseTraits))];
 
     allBaseTraits.forEach(trait => {
         const cleanTrait = trait.replace(/\*$/, '');

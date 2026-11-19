@@ -6,7 +6,7 @@ tags:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout2.astro";
+import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
   intro={``}
@@ -42,18 +42,14 @@ import CharacterWiki from "../../../components/BiographyLayout2.astro";
     english: ''
   }
 }}
-  baseData={[72, 70, 77, 69, 84]}
-  postData={[72, 94, 77, 69, 60]}
-  prevDataName={'好气任侠'}
-  postDataName={'仲家一梦'}
+  baseForms={[
+    { name: '好气任侠', data: [72, 70, 77, 69, 84], data2: [6, 3], traits: ["中原", "世家", "侠气"] },
+    { name: '仲家一梦', data: [72, 94, 77, 69, 60], data2: [6, 3], traits: ['中原', '皇图', "荒悖"] }
+  ]}
   AttributeFigure={[0, 0, 0, 0, 0]}
   dlcData={[61, 85, 77, 72, 84]}
   dlcAttributeFigure={[-1, 1, 0, 0, 0]}
-  baseData2={[6, 3]}
-  postBaseData2={[6, 3]}
   dlcData2={[7, 4]}
-  traitsBase={["中原", "世家", "侠气"]}
-  traitsPost={['中原', '皇图', "荒悖"]}
   traitsDLC={["淮泗", "世家", "侠气", "皇图"]}
   biography={`字公路，汝南汝阳人，<a href="../yuanshao/">袁绍</a>之弟，亦是袁逢之嫡子。<a href="../hejin/">何进</a>时被任命为虎贲中郎将，<a href="../dongzhuo/">董卓</a>之乱时离开洛阳，命<a href="../sunjian/">孙坚</a>杀死南阳太守张咨，随后占领南阳。因与<a href="../yuanshao/">袁绍</a>交恶，于是北联<a href="../gongsunzan/">公孙瓒</a>与<a href="../yuanshao/">袁绍</a>对抗。汉建安二年，自恃手握玉玺，于是称帝，建国号为「仲」，但为<a href="../caocao/">曹操</a>所败，想要北上将帝号转送给<a href="../yuanshao/">袁绍</a>，又被<a href="../liubei/">刘备</a>阻拦，最终病死于北上途中，仲家王朝随即覆灭。`}
   baseclass={["刀兵", "重装刀兵"]}

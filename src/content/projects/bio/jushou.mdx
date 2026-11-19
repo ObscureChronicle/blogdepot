@@ -6,7 +6,7 @@ tags:
 
 ---
 
-import CharacterWiki from "../../../components/BiographyLayout2.astro";
+import CharacterWiki from "../../../components/BiographyLayout.astro";
 
 <CharacterWiki
   intro={`主要可操控`}
@@ -42,18 +42,14 @@ import CharacterWiki from "../../../components/BiographyLayout2.astro";
     english: ''
   }
 }}
-  baseData={[90, 43, 61, 97, 77]}
-  postData={[93, 34, 61, 96, 73]}
-  prevDataName={'忠志之士'}
-  postDataName={'监统三军'}
+  baseForms={[
+    { name: '忠志之士', data: [90, 43, 61, 97, 77], data2: [6, 9], traits: ['河北', '赤心', '忠志', '齐心'] },
+    { name: '监统三军', data: [93, 34, 61, 96, 73], data2: [5, 9], traits: ['河北', '景从', '赤心'] }
+  ]}
   AttributeFigure={[3, -2, 0, 1, 0]}
   dlcData={[96, 36, 61, 95, 67]}
   dlcAttributeFigure={[2, -2, 0, 2, 0]}
-  baseData2={[6, 9]}
-  postBaseData2={[5, 9]}
   dlcData2={[5, 9]}
-  traitsBase={['河北', '赤心', '忠志', '齐心']}
-  traitsPost={['河北', '景从', '赤心']}
   traitsDLC={['河北', '镇心', '赤心', '率然', '水鉴']}
   biography={`*剧中取94版《三国演义》电视剧之表字「公与」。
   

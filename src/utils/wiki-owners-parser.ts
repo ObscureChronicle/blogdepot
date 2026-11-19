@@ -1,10 +1,11 @@
 /**
  * 特性 / 兵种「持有人」名单的生成逻辑（纯函数）
  *
- * 从人物 MDX 原始文本里读取 traitsBase / traitsPost / traitsDLC、baseclass / dlcclass，
+ * 从人物 MDX 原始文本里读取 baseForms 各形态的 traits、traitsDLC、baseclass / dlcclass，
  * 反向汇总成「特性或兵种 → 本传 / 星命诀持有人」。不依赖 import.meta.glob，
  * 可以直接用 node:test 测试；读取文件的部分在 wiki-owners.ts。
  */
+import { extractBaseForms } from './bio-forms-parser.ts';
 import { comparePaths, extractTitle } from './wiki-link-parser.ts';
 
 export type OwnerLists = { base: string[]; dlc: string[] };
@@ -27,7 +28,7 @@ export const OWNER_DISPLAY_NAMES: Record<string, Partial<Record<keyof OwnerLists
     '文俶（文鸯）': { base: '文鸯' }
 };
 
-/** 读取 JSX 字符串数组属性，如 traitsBase={['中原', '武库*']} → ['中原', '武库*']；没有该属性返回 [] */
+/** 读取 JSX 字符串数组属性，如 traitsDLC={['中原', '武库*']} → ['中原', '武库*']；没有该属性返回 [] */
 export function extractStringArray(raw: string, field: string): string[] {
     const m = raw.match(new RegExp(`\\b${field}\\s*=\\s*\\{\\s*\\[([^\\]]*)\\]`));
     if (!m) return [];
@@ -36,7 +37,7 @@ export function extractStringArray(raw: string, field: string): string[] {
 
 /**
  * @param rawFiles 人物文件路径 → MDX 原始文本
- * @returns 特性持有人（本传含后期形态 traitsPost）与兵种持有人。
+ * @returns 特性持有人（本传含所有形态的 traits）与兵种持有人。
  *          名单按人物文件名排序，与之前脚本按目录顺序扫描的结果一致。
  */
 export function buildOwners(rawFiles: Record<string, string>): { traits: OwnersByName; classes: OwnersByName } {
@@ -52,7 +53,8 @@ export function buildOwners(rawFiles: Record<string, string>): { traits: OwnersB
     for (const [file, raw] of Object.entries(rawFiles).sort(comparePaths)) {
         const person = extractTitle(raw) ?? file.replace(/\\/g, '/').split('/').pop()!.replace(/\.mdx$/, '');
 
-        for (const trait of [...extractStringArray(raw, 'traitsBase'), ...extractStringArray(raw, 'traitsPost')]) add(traits, trait, 'base', person);
+        // 括号不配对时抛错让构建失败：持有人名单静默缺人比报错更难发现
+        for (const trait of (extractBaseForms(raw) ?? []).flatMap((form) => form.traits)) add(traits, trait, 'base', person);
         for (const trait of extractStringArray(raw, 'traitsDLC')) add(traits, trait, 'dlc', person);
         for (const cls of extractStringArray(raw, 'baseclass')) add(classes, cls, 'base', person);
         for (const cls of extractStringArray(raw, 'dlcclass')) add(classes, cls, 'dlc', person);
