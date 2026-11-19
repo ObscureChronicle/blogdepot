@@ -11,9 +11,11 @@ export type Props = {
     image?: { src: string; alt?: string };
     pageType?: 'website' | 'article';
     breadcrumb?: { items: BreadcrumbItem[]; current: string };
+    /** 不希望被搜索引擎和站内搜索（Algolia 爬虫）收录的页面，如标签列表页 */
+    noindex?: boolean;
 };
 
-const { description = '', image = siteConfig.image, pageType = 'website', breadcrumb } = Astro.props;
+const { description = '', image = siteConfig.image, pageType = 'website', breadcrumb, noindex = false } = Astro.props;
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const resolvedImage = image?.src
     ? {
@@ -57,6 +59,7 @@ function formatCanonicalURL(url: string | URL) {
 <!-- Page Metadata -->
 <link rel="canonical" href={formatCanonicalURL(canonicalURL)} />
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
 
 
 <!-- Open Graph / Facebook -->

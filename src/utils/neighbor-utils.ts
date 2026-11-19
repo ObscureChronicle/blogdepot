@@ -1,6 +1,6 @@
 // 详情页「上一篇 / 下一篇」相关的纯函数。不导入 astro:content 运行时，
 // 因此可以直接用 node:test 测试。
-import { isPinyinIndexTag } from './data-utils.ts';
+import { isPinyinIndexTag, SLUG_TAG_MAP } from './data-utils.ts';
 
 export type WithNeighbors<T> = { item: T; prev: T | null; next: T | null };
 
@@ -28,4 +28,14 @@ export function groupBy<T>(items: T[], keyFn: (item: T) => string): Map<string, 
 /** 百科词条的分类：第一个非 wiki-X 拼音索引标签；没有分类标签时退回词条 id，自成一组 */
 export function getProjectCategory(entry: { id: string; data: { tags: string[] } }): string {
     return entry.data.tags.find((tag) => !isPinyinIndexTag(tag)) ?? entry.id;
+}
+
+/** 词条分类的中文显示名（与 /tags/ 页一致，如 'biography' → '人物'）；分类标签未登记时返回 null */
+export function getProjectCategoryName(entry: { id: string; data: { tags: string[] } }): string | null {
+    return SLUG_TAG_MAP[getProjectCategory(entry)] ?? null;
+}
+
+/** 词条页 <title> 用的标题：带上分类以区分同名词条（如「陈到 · 人物」），没有分类名时保持原标题 */
+export function formatProjectTitle(title: string, categoryName: string | null): string {
+    return categoryName ? `${title} · ${categoryName}` : title;
 }

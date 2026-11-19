@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { getProjectCategory, groupBy, withNeighbors } from '../src/utils/neighbor-utils.ts';
+import { formatProjectTitle, getProjectCategory, getProjectCategoryName, groupBy, withNeighbors } from '../src/utils/neighbor-utils.ts';
 
 test('withNeighbors: first item has no prev, last item has no next', () => {
     const result = withNeighbors(['a', 'b', 'c']);
@@ -34,4 +34,20 @@ test('getProjectCategory: returns the first non wiki-* tag regardless of positio
 test('getProjectCategory: falls back to the entry id when there is no category tag', () => {
     assert.equal(getProjectCategory({ id: 'reference', data: { tags: ['wiki-r'] } }), 'reference');
     assert.equal(getProjectCategory({ id: 'empty', data: { tags: [] } }), 'empty');
+});
+
+test('getProjectCategoryName: maps the category tag to its Chinese display name', () => {
+    assert.equal(getProjectCategoryName({ id: 'bio/chendao', data: { tags: ['biography'] } }), '人物');
+    assert.equal(getProjectCategoryName({ id: 'treasure/chendao', data: { tags: ['equipment'] } }), '兵装与宝物');
+    assert.equal(getProjectCategoryName({ id: 'disambiguation/chendao', data: { tags: ['wiki-c', 'disambiguation'] } }), '消歧义');
+});
+
+test('getProjectCategoryName: returns null when there is no registered category tag', () => {
+    assert.equal(getProjectCategoryName({ id: 'x', data: { tags: ['wiki-x'] } }), null);
+    assert.equal(getProjectCategoryName({ id: 'x', data: { tags: ['not-registered'] } }), null);
+});
+
+test('formatProjectTitle: appends the category with a middle dot, or keeps the title as is', () => {
+    assert.equal(formatProjectTitle('陈到', '人物'), '陈到 · 人物');
+    assert.equal(formatProjectTitle('陈到', null), '陈到');
 });

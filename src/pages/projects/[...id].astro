@@ -4,7 +4,7 @@ import ProjectPreview from '../../components/ProjectPreview.astro';
 import WalineComments from '../../components/WalineComments.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { buildDisambiguationIndex, findDisambiguation } from '../../utils/disambiguation';
-import { getProjectCategory, groupBy, withNeighbors } from '../../utils/neighbor-utils';
+import { formatProjectTitle, getProjectCategory, getProjectCategoryName, groupBy, withNeighbors } from '../../utils/neighbor-utils';
 import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
 export async function getStaticPaths() {
@@ -39,6 +39,10 @@ type Props = {
 const { project, prevProject, nextProject, disambiguationId } = Astro.props;
 const { title, seo, tags } = project.data;
 const { Content } = await render(project);
+// <title> 带上分类（如「陈到 · 人物」），让站内搜索结果、浏览器标签能区分同名词条；页面上的 h1 仍只显示标题
+const categoryName = getProjectCategoryName(project);
+const pageTitle = seo?.title ?? formatProjectTitle(title, categoryName);
+const pageDescription = seo?.description ?? `《后汉稽异录》百科 · ${categoryName ? `${categoryName}词条` : '词条'}：${title}`;
 
 const breadcrumb = {
     items: [
@@ -50,8 +54,8 @@ const breadcrumb = {
 ---
 
 <BaseLayout
-    title={seo?.title ?? title}
-    description={seo?.description}
+    title={pageTitle}
+    description={pageDescription}
     image={seo?.image}
     pageType="article"
     showHeader={false}

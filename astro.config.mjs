@@ -24,5 +24,11 @@ export default defineConfig({
             },
         }),
     },
-    integrations: [mdx(), sitemap(), react()]
+    integrations: [
+        mdx(),
+        // 标签列表页（src/pages/tags/[id]/ 生成的 /tags/<id>/ 及分页）设了 noindex，不放进 sitemap，
+        // 避免「noindex 却在 sitemap 里」的矛盾信号。/tags/ 百科首页和 wiki-index-by-* 两个检索页是独立页面，保留。
+        sitemap({ filter: (page) => !/^\/tags\/(?!wiki-index-by-)[^/]+\//.test(new URL(page).pathname) }),
+        react()
+    ]
 });

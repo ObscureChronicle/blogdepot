@@ -47,6 +47,7 @@ const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'
     description={`Explore a curated collection of blog posts under ${tag.name}`}
     image={{ src: '/title.png', alt: 'The preview of the site' }}
     showHeader={false}
+    noindex
 >
     <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">{tag.name}</h1>
     {
