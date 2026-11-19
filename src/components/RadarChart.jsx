@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import DataToggle from './DataToggle';
 import useChartTheme from './useChartTheme';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
@@ -12,27 +11,24 @@ const VARIANTS = {
 };
 
 /**
- * @param {{ data: number[], postdata?: number[], prevDataName?: string, postDataName?: string, attributefigure: number[], variant?: 'base' | 'dlc' }} props
+ * 多形态之间的切换由调用方（CharacterAbilitySection）负责，这里只画传入的一组数据。
+ * @param {{ data: number[], attributefigure: number[], variant?: 'base' | 'dlc' }} props
  */
-export default function RadarChart({ data, postdata, prevDataName = 'prevDataName', postDataName = 'postDataName', attributefigure, variant = 'base' }) {
+export default function RadarChart({ data, attributefigure, variant = 'base' }) {
     const theme = VARIANTS[variant];
     const colors = useChartTheme();
     const canvasRef = useRef(null);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [hoverLabelIndex, setHoverLabelIndex] = useState(null);
 
-    // 当存在另一组数据的时候，控制显示的雷达图数据
-    const [activeDataType, setActiveDataType] = useState('data');
-    const currentData = activeDataType === 'data' ? data : Array.isArray(postdata) ? postdata : data;
-
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas || !currentData) return;
+        if (!canvas || !data) return;
         const ctx = canvas.getContext('2d');
         const RADIUS = 80;
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const total = currentData.length;
+        const total = data.length;
         const layers = 5;
 
         const points = [];
@@ -101,7 +97,7 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             // 雷达图路径
             ctx.beginPath();
             points.length = 0;
-            currentData.forEach((val, i) => {
+            data.forEach((val, i) => {
                 const angle = (Math.PI * 2 * i) / total;
                 const rate = val / maxValues[i];
                 const x = centerX + RADIUS * rate * Math.sin(angle);
@@ -218,26 +214,10 @@ export default function RadarChart({ data, postdata, prevDataName = 'prevDataNam
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [currentData, hoverIndex, hoverLabelIndex, attributefigure, theme, colors]);
+    }, [data, hoverIndex, hoverLabelIndex, attributefigure, theme, colors]);
 
     return (
-        <>
-            {postdata ? (
-                <DataToggle
-                    className="mt-2"
-                    options={[
-                        { value: 'data', label: prevDataName },
-                        { value: 'postdata', label: postDataName }
-                    ]}
-                    value={activeDataType}
-                    onChange={setActiveDataType}
-                />
-            ) : (
-                    <></>
-                // <div className="mb-[36.25px]"></div>
-            )}
-            {/* 固定绘图尺寸，显示时不超过容器宽度（手机内容区只有 343px） */}
-            <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />
-        </>
+        // 固定绘图尺寸，显示时不超过容器宽度（手机内容区只有 343px）
+        <canvas ref={canvasRef} width={375} height={270} className="mx-auto" style={{ display: 'block', maxWidth: '100%', height: 'auto' }} />
     );
 }
