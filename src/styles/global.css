@@ -376,11 +376,26 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     color: var(--color-blue-800);
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
-    padding-top: calc(var(--spacing) * 1.5);
-    padding-inline: calc(var(--spacing) * 2.5);
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4) calc(var(--spacing) * 1);
     background-color: var(--color-blue-100);
-    border-radius: var(--radius-sm);
     display: inline-block;
+    position: relative;
+}
+
+/* 与 Button.astro 同一套框线：两端满高粗竖条 + 上下内嵌细横线，线色跟随标题文字色（即版本色） */
+.section-title::before,
+.section-title::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+.section-title::before {
+    inset: 0;
+    border-inline: 3px solid currentColor;
+}
+.section-title::after {
+    inset: 3px 7px;
+    border-block: 1px solid currentColor;
 }
 
 /* 不放进 @layer：要压过 prose 对 h2 字号与颜色的设置，因此下面的深色与按版本着色也写成普通规则 */
