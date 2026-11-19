@@ -4,6 +4,7 @@ excerpt: 剧情中廖豪起兵讨伐司马懿的文书，以廖某的性子不�
 publishDate: '2022-10-01'
 tags:
   - wen-yan
+form: letter
 ---
 	
 抔土未干，震霆惊变，益不能寐。
