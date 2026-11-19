@@ -49,7 +49,7 @@ const projectPosts = page.data.filter((item): item is CollectionEntry<'projects'
     showHeader={false}
     noindex
 >
-    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">{tag.name}</h1>
+    <h1 class="mb-12 text-2xl leading-tight font-serif font-semibold sm:mb-16 sm:text-4xl">{tag.name}</h1>
     {
         blogPosts.length > 0 && (
             <div class="space-y-10 sm:space-y-12">

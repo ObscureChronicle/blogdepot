@@ -12,7 +12,7 @@ const wikiTags = allTags.filter((tag) => !tag.id.startsWith('wiki-') && tag.id !
 ---
 
 <BaseLayout title="百科分类检索" description="按分类快速查找百科条目标签" showHeader={false}>
-    <h1 class="mb-12 text-2xl font-serif italic sm:mb-16 sm:text-4xl">百科分类检索</h1>
+    <h1 class="mb-12 text-2xl font-serif font-semibold sm:mb-16 sm:text-4xl">百科分类检索</h1>
     {
         sortTagsByName(wikiTags)
             .map((tag) => {
@@ -25,7 +25,7 @@ const wikiTags = allTags.filter((tag) => !tag.id.startsWith('wiki-') && tag.id !
                             </h2>
                             <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
                         </div>
-                        <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                        <div class="hidden font-serif opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
                             查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
                         </div>
                     </a>

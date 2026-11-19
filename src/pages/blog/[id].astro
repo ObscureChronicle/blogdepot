@@ -78,9 +78,9 @@ const breadcrumb = {
     {
         (prevPost || nextPost) && (
             <div class="my-16 sm:my-24">
-                {prevPost && <h2 class="mb-10 text-xl font-serif italic sm:mb-10 sm:text-2xl">←上一篇</h2>}
+                {prevPost && <h2 class="mb-10 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl">←上一篇</h2>}
                 {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
-                {nextPost && <h2 class="mb-10 text-xl font-serif italic sm:mb-10 sm:text-2xl text-right">下一篇→</h2>}
+                {nextPost && <h2 class="mb-10 text-xl font-serif font-semibold sm:mb-10 sm:text-2xl text-right">下一篇→</h2>}
                 {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
             </div>
         )

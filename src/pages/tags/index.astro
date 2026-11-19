@@ -19,7 +19,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
     description="Explore tag directory for easy navigation and discovery. Find a wide range of topics, articles, and insights organized by tags, making it effortless to locate the content that interests you most."
     showHeader={false}
 >
-    <h1 class="mb-6 text-2xl font-serif italic sm:mb-10 sm:text-4xl">百科</h1>
+    <h1 class="mb-6 text-2xl font-serif font-semibold sm:mb-10 sm:text-4xl">百科</h1>
     <div>
         <AlgoliaSearch class="mb-12" />
         <h2
@@ -39,7 +39,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
                                 </h2>
                                 <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
                             </div>
-                            <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0 lg:hidden">
+                            <div class="hidden font-serif opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0 lg:hidden">
                                 查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
                             </div>
                         </a>
@@ -64,7 +64,7 @@ const nonWikiTags = realTags.filter((tag) => !isPinyinIndexTag(tag.id));
                                 </h2>
                                 <div class="mt-1 text-sm leading-normal">{`共 ${postCount} 篇`}</div>
                             </div>
-                            <div class="hidden font-serif italic opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
+                            <div class="hidden font-serif opacity-0 transition group-hover:opacity-100 sm:inline-flex sm:gap-1 sm:items-center sm:shrink-0">
                                 查看所有文章 <ArrowRight class="fill-current w-4 h-4" />
                             </div>
                         </a>

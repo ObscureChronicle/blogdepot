@@ -23,7 +23,7 @@ const projects = pickFeaturedProjects(featuredProjects, await getCollection('pro
     {
         projects.length > 0 && (
             <div class="mb-16 sm:mb-24">
-                <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">百科</h2>
+                <h2 class="mb-4 text-xl font-serif font-semibold sm:text-2xl">百科</h2>
                 {projects.map((project) => (
                     <ProjectPreview
                         project={project}
@@ -44,7 +44,7 @@ const projects = pickFeaturedProjects(featuredProjects, await getCollection('pro
     {
         posts?.length > 0 && (
             <div class="mb-16 sm:mb-24">
-                <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">日志</h2>
+                <h2 class="mb-4 text-xl font-serif font-semibold sm:text-2xl">日志</h2>
                 {posts.slice(0, 3).map((post) => (
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
@@ -58,7 +58,7 @@ const projects = pickFeaturedProjects(featuredProjects, await getCollection('pro
         )
     }
     <div>
-        <h2 class="mb-4 text-xl font-serif italic sm:text-2xl">攻略+全流程视频</h2>
+        <h2 class="mb-4 text-xl font-serif font-semibold sm:text-2xl">攻略+全流程视频</h2>
         <h3 class="mb-4 text-base font-serif sm:mb-4 sm:text-lg text-center">后汉篇</h3>
         <BiliBiliVideoPlayer aid="113916977877284" bvid="BV1nvFLeNEY6" cid="28504950572" page="1" />
         <h3 class="mb-4 text-base font-serif sm:mb-4 sm:text-lg text-center">三国篇</h3>
