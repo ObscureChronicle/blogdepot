@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import WalineComments from '../../components/WalineComments.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { buildDisambiguationIndex, findDisambiguation } from '../../utils/disambiguation';
 import { getProjectCategory, groupBy, withNeighbors } from '../../utils/neighbor-utils';
 import { sortPostsByTitlePinyin } from '../../utils/sort-by-pinyin';
 
@@ -11,12 +12,19 @@ export async function getStaticPaths() {
     // 上一篇/下一篇限定在同一个分类标签（非 wiki-X 拼音标签）内，
     // 避免人物、装备、关卡等不同类型的词条按全局拼音顺序随机穿插到彼此中间。
     const projects = await getCollection('projects');
+    // 重名词条回链到同名消歧义页（标题完全相同即视为同名）
+    const disambiguationIndex = buildDisambiguationIndex(projects.map((p) => ({ id: p.id, title: p.data.title })));
 
     return [...groupBy(projects, getProjectCategory).values()].flatMap((group) =>
         // 组内按拼音升序：上一篇是拼音更靠前的词条，下一篇更靠后
         withNeighbors(sortPostsByTitlePinyin(group)).map(({ item, prev, next }) => ({
             params: { id: item.id },
-            props: { project: item, prevProject: prev, nextProject: next }
+            props: {
+                project: item,
+                prevProject: prev,
+                nextProject: next,
+                disambiguationId: findDisambiguation({ id: item.id, title: item.data.title }, disambiguationIndex)
+            }
         }))
     );
 }
@@ -25,9 +33,10 @@ type Props = {
     project: CollectionEntry<'projects'>;
     prevProject: CollectionEntry<'projects'> | null;
     nextProject: CollectionEntry<'projects'> | null;
+    disambiguationId: string | null;
 };
 
-const { project, prevProject, nextProject } = Astro.props;
+const { project, prevProject, nextProject, disambiguationId } = Astro.props;
 const { title, seo, tags } = project.data;
 const { Content } = await render(project);
 
@@ -52,6 +61,14 @@ const breadcrumb = {
     <article class="mb-16 sm:mb-24">
         <header class="mb-8">
             <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight">{title}</h1>
+            {
+                disambiguationId && (
+                    <p class="disambiguation-note mt-3 text-sm sm:text-base">
+                        「{title}」另有同名词条，参见
+                        <a href={`/projects/${disambiguationId}/`}>{title}（消歧义）</a>
+                    </p>
+                )
+            }
         </header>
         <div class="max-w-none prose sm:prose-lg font-serif wiki">
             <Content />
@@ -77,3 +94,15 @@ const breadcrumb = {
     }
     <WalineComments />
 </BaseLayout>
+
+<style>
+    /* 消歧义回链：次要文字色 + 百科链接色，颜色取主题变量，亮暗两色自动适配 */
+    .disambiguation-note {
+        color: color-mix(in srgb, var(--text-main) 72%, transparent);
+    }
+    .disambiguation-note a {
+        color: var(--wiki-link);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+</style>
