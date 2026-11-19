@@ -453,3 +453,11 @@ html.dark .section-title--collab {
     color: var(--color-red-300);
     background-color: var(--color-pink-900);
 }
+
+/* KaTeX 公式中星命诀与本传不同的部分：\htmlClass{dlc-diff}{...} */
+.dlc-diff {
+    color: var(--color-red-600);
+}
+html.dark .dlc-diff {
+    color: var(--color-red-400);
+}

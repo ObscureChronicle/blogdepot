@@ -6,7 +6,9 @@ const { math, block = false } = Astro.props;
 const html = katex.renderToString(math, {
     displayMode: block,
     throwOnError: false,
-    strict: false
+    strict: false,
+    // 只放行 \htmlClass：用于给星命诀与本传不同的部分加 dlc-diff 类（颜色在 global.css 里按深浅色定义）
+    trust: (context) => context.command === '\\htmlClass'
 });
 ---
 
