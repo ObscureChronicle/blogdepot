@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { getStaticPaths as getBlogPaths } from '../../src/pages/blog/[...page].astro';
 import { getStaticPaths as getTagsPaths } from '../../src/pages/tags/[id]/[...page].astro';
 import { getStaticPaths as getBlogPostPaths } from '../../src/pages/blog/[id].astro';
+import { getStaticPaths as getBlogCategoryPaths } from '../../src/pages/blog/category/[category]/[...page].astro';
+import { getStaticPaths as getBlogYearPaths } from '../../src/pages/blog/year/[year]/[...page].astro';
 import { getStaticPaths as getProjectPaths } from '../../src/pages/projects/[...id].astro';
 import { getProjectCategory } from '../../src/utils/neighbor-utils.ts';
 import { sortItemsByDateDesc } from '../../src/utils/data-utils.ts';
@@ -56,6 +58,44 @@ describe('blog/[...page].astro getStaticPaths', () => {
         expect(result.length).toBeGreaterThan(1);
         for (const r of result as any[]) {
             expect(r.props.latestSlug).toBe(realPosts[0].id);
+        }
+    });
+});
+
+describe('blog/category/[category]/[...page].astro getStaticPaths', () => {
+    it('puts every blog post into exactly one category, keeping date-descending order within a category', async () => {
+        const realPosts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+        const result = (await getBlogCategoryPaths({ paginate: fakePaginate } as any)) as any[];
+
+        const ids = result.flatMap((r) => r.props.page.data.map((p: any) => p.id));
+        expect([...ids].sort()).toEqual(realPosts.map((p) => p.id).sort());
+
+        for (const category of new Set(result.map((r) => r.params.category))) {
+            const pages = result.filter((r) => r.params.category === category);
+            expect(pages.every((r) => r.props.category.id === category && r.props.category.name)).toBe(true);
+            const postIds: string[] = pages.flatMap((r) => r.props.page.data.map((p: any) => p.id));
+            const expected = realPosts.map((p) => p.id).filter((id) => postIds.includes(id));
+            expect(postIds).toEqual(expected);
+        }
+    });
+
+    it('marks the site-wide latest post as NEW on every category page', async () => {
+        const realPosts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+        const result = (await getBlogCategoryPaths({ paginate: fakePaginate } as any)) as any[];
+        expect(result.every((r) => r.props.latestSlug === realPosts[0].id)).toBe(true);
+    });
+});
+
+describe('blog/year/[year]/[...page].astro getStaticPaths', () => {
+    it('puts every blog post into the page of its UTC publish year', async () => {
+        const realPosts = await getCollection('blog');
+        const result = (await getBlogYearPaths({ paginate: fakePaginate } as any)) as any[];
+
+        const ids = result.flatMap((r) => r.props.page.data.map((p: any) => p.id));
+        expect([...ids].sort()).toEqual(realPosts.map((p) => p.id).sort());
+        for (const r of result) {
+            expect(r.props.year).toBe(r.params.year);
+            for (const p of r.props.page.data) expect(String(p.data.publishDate.getUTCFullYear())).toBe(r.params.year);
         }
     });
 });

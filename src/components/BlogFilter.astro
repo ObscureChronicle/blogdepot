@@ -1,0 +1,84 @@
+---
+import { getSortedBlogPosts } from '../utils/content-utils';
+import { groupBlogPostsByCategory, groupBlogPostsByYear } from '../utils/blog-filter-utils';
+
+// 当前所在的筛选：全部 / 某个类别 / 某个年份。只做单一维度筛选，不做类别 × 年份组合。
+export type BlogFilterActive = { kind: 'all' } | { kind: 'category'; id: string } | { kind: 'year'; year: string };
+
+type Props = { active: BlogFilterActive; class?: string };
+
+const { active, class: className } = Astro.props;
+
+const posts = await getSortedBlogPosts();
+const categories = groupBlogPostsByCategory(posts);
+const years = groupBlogPostsByYear(posts);
+
+const rows = [
+    {
+        label: '类别',
+        items: [
+            { label: '全部', count: posts.length, href: '/blog/', current: active.kind === 'all' },
+            ...categories.map((c) => ({
+                label: c.name,
+                count: c.posts.length,
+                href: `/blog/category/${c.id}/`,
+                current: active.kind === 'category' && active.id === c.id
+            }))
+        ]
+    },
+    {
+        label: '年份',
+        items: years.map((y) => ({
+            label: y.year,
+            count: y.posts.length,
+            href: `/blog/year/${y.year}/`,
+            current: active.kind === 'year' && active.year === y.year
+        }))
+    }
+];
+---
+
+<nav aria-label="日志筛选" class:list={['flex flex-col gap-3 font-serif', className]}>
+    {
+        rows.map((row) => (
+            <div class="flex items-baseline gap-3">
+                <span class="shrink-0 text-sm opacity-70">{row.label}</span>
+                <ul class="flex flex-wrap gap-x-1 gap-y-2">
+                    {row.items.map((item) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                aria-current={item.current ? 'page' : undefined}
+                                class:list={[
+                                    'relative inline-flex items-baseline gap-1 px-3 py-1 transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]',
+                                    item.current && 'filter-frame'
+                                ]}
+                            >
+                                {item.label}
+                                <span class="text-xs opacity-70">{item.count}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ))
+    }
+</nav>
+
+<style>
+    /* 选中项沿用 Button 的框线语言（两端竖条 + 内嵌细横线），按小尺寸缩小线宽与内缩 */
+    .filter-frame::before,
+    .filter-frame::after {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+    }
+    .filter-frame::before {
+        inset: 0;
+        border-inline: 2px solid var(--border-main);
+    }
+    .filter-frame::after {
+        inset: 3px 5px;
+        border-block: 1px solid var(--border-main);
+    }
+</style>

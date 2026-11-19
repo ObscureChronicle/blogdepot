@@ -1,0 +1,42 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro';
+import { type CollectionEntry } from 'astro:content';
+import BlogFilter from '../../../../components/BlogFilter.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import PostPreview from '../../../../components/PostPreview.astro';
+import siteConfig from '../../../../data/site-config';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { groupBlogPostsByYear } from '../../../../utils/blog-filter-utils';
+import { getSortedBlogPosts } from '../../../../utils/content-utils';
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const posts = await getSortedBlogPosts();
+    // NEW 角标标记的是全站最新一篇，与当前筛选无关
+    const latestSlug = posts[0].id;
+    return groupBlogPostsByYear(posts).flatMap(({ year, posts: yearPosts }) =>
+        paginate(yearPosts, {
+            params: { year },
+            props: { year, latestSlug },
+            pageSize: siteConfig.postsPerPage || 4
+        })
+    );
+}
+
+type Props = { page: Page<CollectionEntry<'blog'>>; year: string; latestSlug: string };
+
+const { page, year, latestSlug } = Astro.props;
+---
+
+<BaseLayout title={`日志・${year}年`} description={`${year}年的日志`} image={{ src: '/title.png', alt: '后汉稽异录' }} showHeader={false}>
+    <h1 class="mb-8 text-2xl leading-tight font-serif font-semibold sm:mb-10 sm:text-4xl">日志・{year}年</h1>
+    <BlogFilter active={{ kind: 'year', year }} class="mb-12 sm:mb-16" />
+    {
+        page.data.map((post) => (
+            <div>
+                {post.id === latestSlug && <sup class="inline text-xs text-white bg-gray-500 rounded px-1 py-px">NEW</sup>}
+                <PostPreview post={post} class="mb-10 sm:mb-12" />
+            </div>
+        ))
+    }
+    <Pagination page={page} basePath={`/blog/year/${year}`} class="my-16 sm:my-24" />
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry } from 'astro:content';
+import BlogFilter from '../../components/BlogFilter.astro';
 import Pagination from '../../components/Pagination.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import siteConfig from '../../data/site-config';
@@ -26,7 +27,8 @@ const blog = page.data;
 ---
 
 <BaseLayout title="日志" description="创作手记及更新日志" image={{ src: '/title.png', alt: '后汉稽异录' }} showHeader={false}>
-    <h1 class="mb-12 text-2xl leading-tight font-serif font-semibold sm:mb-16 sm:text-4xl">日志</h1>
+    <h1 class="mb-8 text-2xl leading-tight font-serif font-semibold sm:mb-10 sm:text-4xl">日志</h1>
+    <BlogFilter active={{ kind: 'all' }} class="mb-12 sm:mb-16" />
     {
         blog.map((post) => (
             <div>
