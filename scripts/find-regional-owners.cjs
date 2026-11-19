@@ -11,19 +11,19 @@ const regionalTraitNames = [
 
 // 地域特质映射：特质名 -> {fileName, baseName, dlcName}
 const traitMap = {
-    '中原': { fileName: 'trait_zhongyuan.mdx', baseName: '中原', dlcName: '中原' },
-    '关中': { fileName: 'trait_guanzhong.mdx', baseName: '关中', dlcName: '关陇' },
-    '关陇': { fileName: 'trait_guanzhong.mdx', baseName: '关中', dlcName: '关陇' },
-    '河北': { fileName: 'trait_hebei.mdx', baseName: '河北', dlcName: '河北' },
-    '青徐': { fileName: 'trait_qingxu.mdx', baseName: '青徐', dlcName: '青徐' },
-    '荆扬': { fileName: 'trait_jingyang.mdx', baseName: '荆扬', dlcName: '荆楚' },
-    '荆楚': { fileName: 'trait_jingyang.mdx', baseName: '荆扬', dlcName: '荆楚' },
-    '幽并': { fileName: 'trait_youbing.mdx', baseName: '幽并', dlcName: '幽并' },
-    '巴蜀': { fileName: 'trait_bashu.mdx', baseName: '巴蜀', dlcName: '巴蜀' },
-    '雍凉': { fileName: 'trait_yongliang.mdx', baseName: '雍凉', dlcName: '西凉' },
-    '西凉': { fileName: 'trait_yongliang.mdx', baseName: '雍凉', dlcName: '西凉' },
-    '淮泗': { fileName: 'trait_huaisi.mdx', baseName: null, dlcName: '淮泗' },
-    '吴越': { fileName: 'trait_wuyue.mdx', baseName: null, dlcName: '吴越' },
+    '中原': { fileName: 'zhongyuan.mdx', baseName: '中原', dlcName: '中原' },
+    '关中': { fileName: 'guanzhong.mdx', baseName: '关中', dlcName: '关陇' },
+    '关陇': { fileName: 'guanzhong.mdx', baseName: '关中', dlcName: '关陇' },
+    '河北': { fileName: 'hebei.mdx', baseName: '河北', dlcName: '河北' },
+    '青徐': { fileName: 'qingxu.mdx', baseName: '青徐', dlcName: '青徐' },
+    '荆扬': { fileName: 'jingyang.mdx', baseName: '荆扬', dlcName: '荆楚' },
+    '荆楚': { fileName: 'jingyang.mdx', baseName: '荆扬', dlcName: '荆楚' },
+    '幽并': { fileName: 'youbing.mdx', baseName: '幽并', dlcName: '幽并' },
+    '巴蜀': { fileName: 'bashu.mdx', baseName: '巴蜀', dlcName: '巴蜀' },
+    '雍凉': { fileName: 'yongliang.mdx', baseName: '雍凉', dlcName: '西凉' },
+    '西凉': { fileName: 'yongliang.mdx', baseName: '雍凉', dlcName: '西凉' },
+    '淮泗': { fileName: 'huaisi.mdx', baseName: null, dlcName: '淮泗' },
+    '吴越': { fileName: 'wuyue.mdx', baseName: null, dlcName: '吴越' },
 };
 
 // 按文件分组的持有人

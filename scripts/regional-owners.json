@@ -1,5 +1,5 @@
 {
-  "trait_zhongyuan.mdx": {
+  "zhongyuan.mdx": {
     "base": [
       "曹彪",
       "曹操",
@@ -125,7 +125,7 @@
       "张邈"
     ]
   },
-  "trait_guanzhong.mdx": {
+  "guanzhong.mdx": {
     "base": [
       "成宜",
       "戴陵",
@@ -150,7 +150,7 @@
       "钟繇"
     ]
   },
-  "trait_hebei.mdx": {
+  "hebei.mdx": {
     "base": [
       "白绕",
       "陈宫",
@@ -198,7 +198,7 @@
       "左髭丈八"
     ]
   },
-  "trait_qingxu.mdx": {
+  "qingxu.mdx": {
     "base": [
       "曹髦",
       "昌霸",
@@ -243,7 +243,7 @@
       "臧洪"
     ]
   },
-  "trait_jingyang.mdx": {
+  "jingyang.mdx": {
     "base": [
       "曹仁",
       "曹休",
@@ -306,7 +306,7 @@
     ],
     "dlc": []
   },
-  "trait_youbing.mdx": {
+  "youbing.mdx": {
     "base": [
       "成廉",
       "程普",
@@ -354,7 +354,7 @@
       "邹丹"
     ]
   },
-  "trait_bashu.mdx": {
+  "bashu.mdx": {
     "base": [
       "甘宁",
       "刘禅",
@@ -372,7 +372,7 @@
     ],
     "dlc": []
   },
-  "trait_yongliang.mdx": {
+  "yongliang.mdx": {
     "base": [
       "成公英",
       "韩籁",
@@ -394,7 +394,7 @@
       "麹义"
     ]
   },
-  "trait_huaisi.mdx": {
+  "huaisi.mdx": {
     "base": [],
     "dlc": [
       "曹操",
@@ -412,7 +412,7 @@
       "袁谭"
     ]
   },
-  "trait_wuyue.mdx": {
+  "wuyue.mdx": {
     "base": [],
     "dlc": [
       "蒋奇"

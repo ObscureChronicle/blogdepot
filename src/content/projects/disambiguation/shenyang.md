@@ -12,4 +12,4 @@ tags:
 
 关于该特殊状态，可参照<a href="../../status/shenyang/">神恙（状态）</a>。
 
-关于该个人特性，可参照<a href="../../trait/trait_shenyang/">神恙（个人特性）</a>。
+关于该个人特性，可参照<a href="../../trait/shenyang/">神恙（个人特性）</a>。

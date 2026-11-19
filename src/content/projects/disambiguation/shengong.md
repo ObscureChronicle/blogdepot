@@ -12,4 +12,4 @@ tags:
 
 关于该特殊状态，可参照<a href="../../status/shengong/">神工（状态）</a>。
 
-关于该个人特性，可参照<a href="../../trait/trait_shengong2/">神工（个人特性）</a>。
+关于该个人特性，可参照<a href="../../trait/shengong2/">神工（个人特性）</a>。

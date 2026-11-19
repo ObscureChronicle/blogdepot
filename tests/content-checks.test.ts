@@ -35,19 +35,19 @@ test('contentRoute: lowercases the id and adds a trailing slash; pages live at t
     assert.equal(contentRoute('pages', 'about'), '/about/');
 });
 
-const routes = new Set(['/projects/trait/trait_00_personal/', '/projects/stage/stage_dlc_04/', '/blog/post-1/']);
-const page = '/projects/trait/trait_aoshang/';
+const routes = new Set(['/projects/trait/00_personal/', '/projects/stage/stage_dlc_04/', '/blog/post-1/']);
+const page = '/projects/trait/aoshang/';
 
 test('checkInternalLinks: relative and absolute links to existing pages pass, case-insensitively', () => {
-    const raw = `<a href="../trait_00_personal">x</a> <a href="/projects/stage/stage_DLC_04/">y</a> <a href="/blog/post-1">z</a>`;
+    const raw = `<a href="../00_personal">x</a> <a href="/projects/stage/stage_DLC_04/">y</a> <a href="/blog/post-1">z</a>`;
     assert.deepEqual(checkInternalLinks(raw, page, routes), []);
 });
 
 test('checkInternalLinks: reports a link to a missing page, including escaped quotes inside JSX strings', () => {
-    const raw = `introHtml={'<a href=\\"../trait_missing\\">x</a>'}`;
+    const raw = `introHtml={'<a href=\\"../missing\\">x</a>'}`;
     const findings = checkInternalLinks(raw, page, routes);
     assert.equal(findings.length, 1);
-    assert.match(findings[0].message, /\/projects\/trait\/trait_missing\//);
+    assert.match(findings[0].message, /\/projects\/trait\/missing\//);
 });
 
 test('checkInternalLinks: ignores external links, anchors and paths outside /projects and /blog', () => {
@@ -106,7 +106,7 @@ test('checkLegacyTermHeadings: other headings and terms text are fine', () => {
 });
 
 const bio = { id: 'bio/chendao', title: '陈到', tags: ['biography'] };
-const guard = { id: 'treasure/treasure-chendao', title: '陈到', tags: ['equipment'] };
+const guard = { id: 'treasure/chendao', title: '陈到', tags: ['equipment'] };
 const disambiguationPage = { id: 'disambiguation/chendao', title: '陈到', tags: ['disambiguation', 'wiki-c'] };
 
 test('checkDisambiguation: duplicated titles with a disambiguation page and no pinyin tags pass', () => {
@@ -119,7 +119,7 @@ test('checkDisambiguation: duplicated titles without a disambiguation page warn 
         findings.map((f) => [f.id, f.level]),
         [
             ['bio/chendao', 'warning'],
-            ['treasure/treasure-chendao', 'warning']
+            ['treasure/chendao', 'warning']
         ]
     );
 });

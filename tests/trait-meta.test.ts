@@ -14,7 +14,7 @@ test('TRAIT_MAP: every link points to an existing trait entry', () => {
 });
 
 test('TRAIT_MAP: every trait entry (except overview pages) is listed under its title or each of its「本名（别名）」names', () => {
-    for (const f of files.filter((n) => !n.startsWith('trait_00_'))) {
+    for (const f of files.filter((n) => !n.startsWith('00_'))) {
         const title = fs.readFileSync(`${dir}/${f}`, 'utf8').match(/^title:\s*(.+?)\s*$/m)?.[1] ?? '';
         const m = title.match(/^(.+?)（(.+)）$/);
         const names = m ? [m[1], m[2]] : [title];

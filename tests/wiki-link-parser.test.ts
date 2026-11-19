@@ -16,7 +16,7 @@ test('isOverviewPage: overview pages are excluded, normal entries are not', () =
     assert.equal(isOverviewPage('00_item-type'), true);
     assert.equal(isOverviewPage('equipment-type'), true);
     assert.equal(isOverviewPage('00_total'), true);
-    assert.equal(isOverviewPage('treasure-shemao'), false);
+    assert.equal(isOverviewPage('shemao'), false);
 });
 
 test('namesForTitle: a character title「本名（别名）」is reachable by both names', () => {
@@ -37,9 +37,9 @@ test('namesForTitle: a status title「本名（别名）」is reachable by both 
 test('buildWikiLinkMaps: routes each content dir to its map and skips overview pages', () => {
     const { maps, warnings } = buildWikiLinkMaps({
         '../content/projects/bio/caocao.mdx': mdx('曹操'),
-        '../content/projects/treasure/treasure-shemao.mdx': mdx('蛇矛（丈八蛇矛）'),
+        '../content/projects/treasure/shemao.mdx': mdx('蛇矛（丈八蛇矛）'),
         '../content/projects/treasure/00_item-type.mdx': mdx('宝物'),
-        '../content/projects/equipment/equipment-gedun.mdx': mdx('革盾'),
+        '../content/projects/equipment/gedun.mdx': mdx('革盾'),
         '../content/projects/class/gongbing.mdx': mdx('弓兵'),
         '../content/projects/class/00_total.mdx': mdx('兵种'),
         '../content/projects/status/pibi.mdx': mdx('疲弊（疲惫）'),
@@ -47,10 +47,10 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
     });
     assert.deepEqual(maps.character, { 曹操: '/projects/bio/caocao/' });
     assert.deepEqual(maps.item, {
-        '蛇矛（丈八蛇矛）': '/projects/treasure/treasure-shemao/',
-        蛇矛: '/projects/treasure/treasure-shemao/',
-        丈八蛇矛: '/projects/treasure/treasure-shemao/',
-        革盾: '/projects/equipment/equipment-gedun/'
+        '蛇矛（丈八蛇矛）': '/projects/treasure/shemao/',
+        蛇矛: '/projects/treasure/shemao/',
+        丈八蛇矛: '/projects/treasure/shemao/',
+        革盾: '/projects/equipment/gedun/'
     });
     assert.deepEqual(maps.class, { 弓兵: '/projects/class/gongbing/' });
     assert.deepEqual(maps.status, {
