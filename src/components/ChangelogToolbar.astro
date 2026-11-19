@@ -1,0 +1,405 @@
+---
+// 更新日志页顶部的筛选栏：类别多选、关键词搜索、全部展开 / 收起。放在第一个 ChangelogEntry 之前。
+// 脚本还负责：插入年份分隔、默认展开最新版本（或地址里 #版本号 指向的版本）。
+// 没有 JS 时整个筛选栏保持隐藏，日志照常可读。
+import { CHANGELOG_FILTERS, changelogDotClass } from '../utils/changelog-parser';
+---
+
+<div class="changelog-anchor" data-changelog-anchor></div>
+<div class="changelog-toolbar not-prose" data-changelog-toolbar hidden>
+    <div class="changelog-toolbar__row changelog-toolbar__chips" role="group" aria-label="按类别筛选">
+        <button type="button" class="changelog-chip" aria-pressed="true" data-changelog-all>全部</button>
+        {
+            CHANGELOG_FILTERS.map((name) => (
+                <button type="button" class="changelog-chip" aria-pressed="false" data-changelog-category={name}>
+                    <span class:list={['changelog-chip__dot', changelogDotClass(name)]} aria-hidden="true" />
+                    {name}
+                    <span class="changelog-chip__count" data-changelog-count />
+                </button>
+            ))
+        }
+    </div>
+    <div class="changelog-toolbar__row">
+        <input type="search" class="changelog-toolbar__search" placeholder="搜索更新内容" aria-label="搜索更新内容" data-changelog-search />
+        <button type="button" class="changelog-chip" data-changelog-toggle-all>全部展开</button>
+    </div>
+    <p class="changelog-toolbar__status" aria-live="polite" data-changelog-status></p>
+</div>
+
+<script>
+    import { matchesChangelogFilter, splitByQuery } from '../utils/changelog-parser';
+
+    // 当前页面的状态；ClientRouter 换页后由 init 重新填写
+    const selected = new Set<string>();
+    let query = '';
+    // 开始筛选前各版本的展开状态，清空筛选时恢复
+    let openSnapshot: boolean[] | null = null;
+    let entries: HTMLDetailsElement[] = [];
+    let toolbar: HTMLElement | null = null;
+
+    const isFiltering = () => selected.size > 0 || query.trim() !== '';
+
+    function itemsOf(entry: HTMLElement): HTMLLIElement[] {
+        return [...entry.querySelectorAll<HTMLLIElement>(':scope > ul > li[data-changelog-item]')];
+    }
+
+    function textsOf(item: HTMLElement): HTMLElement[] {
+        return [...item.querySelectorAll<HTMLElement>('[data-changelog-text]')];
+    }
+
+    // 关键词高亮：原文存在 data-raw 里，每次从原文重建，避免 <mark> 叠加
+    function highlight(span: HTMLElement) {
+        const raw = (span.dataset.raw ??= span.textContent ?? '');
+        const parts = splitByQuery(raw, query);
+        if (parts.length === 1 && !parts[0].hit) {
+            if (span.childElementCount > 0) span.textContent = raw;
+            return;
+        }
+        span.replaceChildren(
+            ...parts.map((part) => {
+                if (!part.hit) return document.createTextNode(part.text);
+                const mark = document.createElement('mark');
+                mark.className = 'changelog-mark';
+                mark.textContent = part.text;
+                return mark;
+            })
+        );
+    }
+
+    function updateToggleLabel() {
+        const button = toolbar?.querySelector<HTMLButtonElement>('[data-changelog-toggle-all]');
+        if (!button) return;
+        const visible = entries.filter((e) => !e.hidden);
+        button.textContent = visible.length > 0 && visible.every((e) => e.open) ? '全部收起' : '全部展开';
+    }
+
+    function apply() {
+        if (!toolbar) return;
+        const filtering = isFiltering();
+        const filter = { categories: [...selected], query };
+
+        if (filtering && !openSnapshot) openSnapshot = entries.map((e) => e.open);
+
+        let hitItems = 0;
+        let hitEntries = 0;
+        for (const entry of entries) {
+            let hits = 0;
+            for (const item of itemsOf(entry)) {
+                const spans = textsOf(item);
+                const ok = matchesChangelogFilter(
+                    { tags: (item.dataset.tags ?? '').split(' ').filter(Boolean), texts: spans.map((s) => s.dataset.raw ?? s.textContent ?? '') },
+                    filter
+                );
+                item.hidden = !ok;
+                spans.forEach(highlight);
+                if (ok) hits++;
+            }
+            const meta = entry.querySelector<HTMLElement>('[data-changelog-meta]');
+            const hitLabel = entry.querySelector<HTMLElement>('[data-changelog-hits]');
+            if (meta) meta.hidden = filtering;
+            if (hitLabel) {
+                hitLabel.hidden = !filtering;
+                hitLabel.textContent = `命中 ${hits} 项`;
+            }
+            entry.hidden = filtering && hits === 0;
+            if (filtering) entry.open = hits > 0;
+            if (hits > 0) {
+                hitItems += hits;
+                hitEntries++;
+            }
+        }
+
+        if (!filtering && openSnapshot) {
+            entries.forEach((e, i) => (e.open = openSnapshot?.[i] ?? false));
+            openSnapshot = null;
+        }
+
+        // 某一年的版本全部被筛掉时，年份分隔也隐藏
+        document.querySelectorAll<HTMLElement>('[data-changelog-year]').forEach((divider) => {
+            const year = divider.dataset.changelogYear;
+            divider.hidden = entries.every((e) => e.dataset.year !== year || e.hidden);
+        });
+
+        const status = toolbar.querySelector<HTMLElement>('[data-changelog-status]');
+        if (status) {
+            if (!filtering) status.textContent = `共 ${entries.length} 个版本`;
+            else if (hitItems === 0) status.textContent = '没有符合条件的更新';
+            else status.textContent = `命中 ${hitItems} 项，分布在 ${hitEntries} 个版本`;
+        }
+
+        toolbar.querySelector('[data-changelog-all]')?.setAttribute('aria-pressed', String(selected.size === 0));
+        toolbar.querySelectorAll<HTMLButtonElement>('[data-changelog-category]').forEach((button) => {
+            button.setAttribute('aria-pressed', String(selected.has(button.dataset.changelogCategory ?? '')));
+        });
+        updateToggleLabel();
+    }
+
+    // 筛选栏已经吸顶时，筛选后内容变短，页面会停在奇怪的位置；滚回筛选栏原本的位置，从第一条结果看起
+    function scrollToResults() {
+        const anchor = document.querySelector<HTMLElement>('[data-changelog-anchor]');
+        if (!anchor || !toolbar) return;
+        const navHeight = document.querySelector<HTMLElement>('.nav-bar')?.offsetHeight ?? 0;
+        const top = anchor.getBoundingClientRect().top + window.scrollY - navHeight;
+        if (window.scrollY > top) window.scrollTo({ top });
+    }
+
+    function insertYearDividers() {
+        if (document.querySelector('[data-changelog-year]')) return;
+        let lastYear = '';
+        for (const entry of entries) {
+            const year = entry.dataset.year ?? '';
+            if (year === lastYear) continue;
+            lastYear = year;
+            const divider = document.createElement('div');
+            divider.className = 'changelog-year not-prose';
+            divider.dataset.changelogYear = year;
+            const label = document.createElement('span');
+            label.textContent = year;
+            divider.append(label);
+            entry.before(divider);
+        }
+    }
+
+    function fillCounts() {
+        const counts = new Map<string, number>();
+        for (const entry of entries) {
+            for (const item of itemsOf(entry)) {
+                for (const tag of (item.dataset.tags ?? '').split(' ').filter(Boolean)) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+            }
+        }
+        toolbar?.querySelectorAll<HTMLButtonElement>('[data-changelog-category]').forEach((button) => {
+            const slot = button.querySelector('[data-changelog-count]');
+            if (slot) slot.textContent = String(counts.get(button.dataset.changelogCategory ?? '') ?? 0);
+        });
+    }
+
+    function init() {
+        toolbar = document.querySelector<HTMLElement>('[data-changelog-toolbar]');
+        entries = [...document.querySelectorAll<HTMLDetailsElement>('[data-changelog-entry]')];
+        selected.clear();
+        query = '';
+        openSnapshot = null;
+        if (!toolbar || entries.length === 0) return;
+
+        insertYearDividers();
+        fillCounts();
+
+        // 吸顶位置留出导航栏高度；按实际高度算，导航尺寸以后变了也不用改这里
+        const navHeight = document.querySelector<HTMLElement>('.nav-bar')?.offsetHeight ?? 0;
+        toolbar.style.top = `${navHeight}px`;
+        toolbar.hidden = false;
+
+        toolbar.querySelector('[data-changelog-all]')?.addEventListener('click', () => {
+            selected.clear();
+            apply();
+            scrollToResults();
+        });
+        toolbar.querySelectorAll<HTMLButtonElement>('[data-changelog-category]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const name = button.dataset.changelogCategory ?? '';
+                if (selected.has(name)) selected.delete(name);
+                else selected.add(name);
+                apply();
+                scrollToResults();
+            });
+        });
+
+        let timer = 0;
+        toolbar.querySelector<HTMLInputElement>('[data-changelog-search]')?.addEventListener('input', (event) => {
+            const input = event.currentTarget as HTMLInputElement;
+            window.clearTimeout(timer);
+            timer = window.setTimeout(() => {
+                query = input.value;
+                apply();
+                scrollToResults();
+            }, 150);
+        });
+
+        toolbar.querySelector('[data-changelog-toggle-all]')?.addEventListener('click', () => {
+            const visible = entries.filter((e) => !e.hidden);
+            const open = !visible.every((e) => e.open);
+            visible.forEach((e) => (e.open = open));
+            updateToggleLabel();
+        });
+
+        // 带 #版本号 打开时展开那个版本；否则展开最新版本
+        if (!revealVersion(hashId(location.hash)) && !entries.some((e) => e.open)) entries[0].open = true;
+        apply();
+        // 状态文字填好后筛选栏才是最终高度，这时再设 scroll-padding，跳到 #版本号 时不被导航栏和筛选栏挡住
+        document.documentElement.style.scrollPaddingTop = `${navHeight + toolbar.offsetHeight + 8}px`;
+        if (location.hash) document.getElementById(hashId(location.hash))?.scrollIntoView();
+    }
+
+    const hashId = (hash: string) => decodeURIComponent(hash.slice(1));
+
+    /** 展开指定版本；它被筛选隐藏时先清空筛选。id 不是本页的版本时返回 null */
+    function revealVersion(id: string): HTMLDetailsElement | null {
+        const target = id ? document.getElementById(id) : null;
+        if (!(target instanceof HTMLDetailsElement) || !target.hasAttribute('data-changelog-entry')) return null;
+        if (target.hidden) {
+            selected.clear();
+            query = '';
+            const input = toolbar?.querySelector<HTMLInputElement>('[data-changelog-search]');
+            if (input) input.value = '';
+            apply();
+        }
+        target.open = true;
+        updateToggleLabel();
+        return target;
+    }
+
+    // 以下监听挂在 document 上，模块脚本只执行一次，换页后依然有效
+    document.addEventListener('astro:page-load', init);
+    // ClientRouter 换页时 <html> 节点不变，离开本页前清掉上面设置的 scroll-padding，其他页面需要时会在 page-load 里自己设置
+    document.addEventListener('astro:after-swap', () => {
+        if (toolbar) document.documentElement.style.scrollPaddingTop = '';
+        toolbar = null;
+    });
+    // 页内的 #版本号 链接：ClientRouter 会先 pushState 再跳到锚点，不触发 hashchange，
+    // 所以在捕获阶段（早于路由的点击处理）先展开目标，让它可见，随后的滚动才能到位
+    document.addEventListener(
+        'click',
+        (event) => {
+            if (!toolbar || !(event.target instanceof Element)) return;
+            const link = event.target.closest<HTMLAnchorElement>('a[href*="#"]');
+            if (!link) return;
+            const url = new URL(link.href, location.href);
+            if (url.pathname === location.pathname && url.search === location.search) revealVersion(hashId(url.hash));
+        },
+        true
+    );
+    // 手动修改地址栏里的 #版本号
+    window.addEventListener('hashchange', () => {
+        if (toolbar) revealVersion(hashId(location.hash))?.scrollIntoView();
+    });
+    // 手动展开 / 收起单个版本后同步「全部展开」按钮的文字；toggle 事件不冒泡，所以用捕获
+    document.addEventListener(
+        'toggle',
+        (event) => {
+            if (event.target instanceof HTMLElement && event.target.hasAttribute('data-changelog-entry')) updateToggleLabel();
+        },
+        true
+    );
+</script>
+
+<style is:global>
+    .changelog-toolbar {
+        position: sticky;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0 0 1.5rem;
+        padding: 0.75rem 0;
+        background: var(--bg-main);
+        border-bottom: 1px solid color-mix(in srgb, var(--text-main) 15%, transparent);
+        font-size: 0.875rem;
+        text-indent: 0;
+        text-align: left;
+    }
+    .changelog-toolbar__row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    /* 窄屏吸顶时不能占掉太多屏幕：类别按钮排成一行横向滚动，统计文字隐藏 */
+    @media (max-width: 639px) {
+        .changelog-toolbar__chips {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .changelog-toolbar__chips > .changelog-chip {
+            flex-shrink: 0;
+        }
+        /* 视觉上隐藏，读屏软件仍能播报筛选结果 */
+        .changelog-toolbar__status {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+    }
+    /* 按钮沿用 BlogFilter 的框线语言：选中时两端竖条 + 内嵌细横线 */
+    .changelog-chip {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.625rem;
+        cursor: pointer;
+        transition: background-color 0.15s;
+    }
+    .changelog-chip:hover {
+        background: var(--bg-muted);
+    }
+    .changelog-chip:focus-visible {
+        outline: 2px solid var(--border-main);
+        outline-offset: 2px;
+    }
+    .changelog-chip[aria-pressed='true']::before,
+    .changelog-chip[aria-pressed='true']::after {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+    }
+    .changelog-chip[aria-pressed='true']::before {
+        inset: 0;
+        border-inline: 2px solid var(--border-main);
+    }
+    .changelog-chip[aria-pressed='true']::after {
+        inset: 3px 5px;
+        border-block: 1px solid var(--border-main);
+    }
+    .changelog-chip__dot {
+        width: 0.625rem;
+        height: 0.625rem;
+        border-radius: 9999px;
+    }
+    .changelog-chip__count {
+        font-size: 0.75rem;
+        opacity: 0.6;
+    }
+    .changelog-toolbar__search {
+        flex: 1;
+        min-width: 10rem;
+        padding: 0.3rem 0.625rem;
+        border: 1px solid color-mix(in srgb, var(--text-main) 35%, transparent);
+        background: transparent;
+    }
+    .changelog-toolbar__search:focus-visible {
+        outline: 2px solid var(--border-main);
+        outline-offset: 1px;
+    }
+    .changelog-toolbar__status {
+        font-size: 0.8125rem;
+        opacity: 0.7;
+    }
+
+    /* 年份分隔：接在时间轴竖线上 */
+    .changelog-year {
+        margin-left: 0.375rem;
+        padding: 0.25rem 0 1rem;
+        border-left: 2px solid color-mix(in srgb, var(--text-main) 18%, transparent);
+        text-indent: 0;
+    }
+    .changelog-year span {
+        display: inline-block;
+        margin-left: -0.875rem;
+        padding: 0 0.5rem;
+        background: var(--bg-main);
+        border: 1px solid color-mix(in srgb, var(--text-main) 35%, transparent);
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+    }
+
+    .changelog-mark {
+        background: color-mix(in srgb, #facc15 45%, transparent);
+        color: inherit;
+        border-radius: 0.125rem;
+    }
+</style>
