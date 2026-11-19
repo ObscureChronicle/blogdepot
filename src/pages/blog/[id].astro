@@ -9,6 +9,8 @@ import { getBlogCategory } from '../../utils/blog-filter-utils';
 import { splitBlogTitle } from '../../utils/blog-title';
 import { withNeighbors } from '../../utils/neighbor-utils';
 import WalineComments from '../../components/WalineComments.astro';
+import { getWenyanVariant } from '../../utils/wenyan';
+import '../../styles/wenyan.css';
 
 export async function getStaticPaths() {
     // 按日期从旧到新排列：上一篇是更早发布的文章，下一篇是更新的文章
@@ -24,6 +26,8 @@ type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'> 
 const { post, prevPost, nextPost } = Astro.props;
 const { title, publishDate, updatedDate, excerpt, tags = [], seo, radar } = post.data;
 const { Content } = await render(post);
+// 文存文章用刻本版式（样式见 styles/wenyan.css），其余文章为 null，保持原样
+const wenyanVariant = getWenyanVariant(tags);
 const { eyebrow, main } = splitBlogTitle(title);
 // 更新日志是版本条目 + 筛选工具栏，不是连续阅读的长文：保持整栏宽度，也不加结尾装饰符
 const isReadingPost = getBlogCategory(post)?.id !== 'changelog';
@@ -51,10 +55,11 @@ const neighbors = [
     breadcrumb={breadcrumb}
     breadcrumbOwnTags={tags}
 >
-    <article class="mb-16 sm:mb-24">
-        <header class="mb-8 font-serif sm:mb-10">
+    <article class:list={['mb-16 sm:mb-24', wenyanVariant && 'wenyan']}>
+        <header class:list={['mb-8 font-serif sm:mb-10', wenyanVariant && 'wenyan-header']}>
             {eyebrow && <p class="mb-2 text-sm tracking-widest opacity-70 sm:text-base">{eyebrow}</p>}
             <h1 class="text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{main}</h1>
+            {wenyanVariant && excerpt && <p class="wenyan-excerpt">{excerpt}</p>}
             <div class="mt-4 text-sm opacity-70">
                 <FormattedDate date={publishDate} />
                 {
@@ -70,9 +75,28 @@ const neighbors = [
             </div>
         </header>
         {radar && radar.length > 0 && <NoteCharacterCard radar={radar} class="mb-10 sm:mb-12" />}
-        <div class:list={['prose sm:prose-lg font-serif text-justify indent-[2em]', isReadingPost ? 'mx-auto max-w-[38em]' : 'max-w-none']}>
+        <div
+            class:list={[
+                'prose sm:prose-lg font-serif text-justify indent-[2em]',
+                isReadingPost ? 'mx-auto max-w-[38em]' : 'max-w-none',
+                wenyanVariant && 'wenyan-body'
+            ]}
+        >
             <Content />
-            {isReadingPost && <p class="note-end" aria-hidden="true">◆</p>}
+            {/* 文存以朱印收尾，代替通用的结尾装饰符 */}
+            {
+                wenyanVariant ? (
+                    <p class="wenyan-seal-wrap" aria-hidden="true">
+                        <span class="wenyan-seal">文存</span>
+                    </p>
+                ) : (
+                    isReadingPost && (
+                        <p class="note-end" aria-hidden="true">
+                            ◆
+                        </p>
+                    )
+                )
+            }
         </div>
         {
             tags.length > 0 && (

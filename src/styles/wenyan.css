@@ -1,0 +1,81 @@
+/* 文存（wen-yan 分类）详情页的刻本版式，只在 src/pages/blog/[id].astro 引入。
+   这里是未分层的普通 CSS，优先级高于 Tailwind 的 utilities 层，因此能覆盖页面上的 font-serif 等工具类。
+   楷体只用 local() 引用系统字体，不下载字体文件；设备上没有楷体时退回宋体。 */
+
+:root {
+    --wenyan-font: 'Kaiti SC', 'STKaiti', 'KaiTi', 'BiauKai', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
+    --wenyan-seal: #a32d2d;
+    --wenyan-muted: color-mix(in srgb, var(--text-main) 62%, transparent);
+    --wenyan-rule: color-mix(in srgb, var(--text-main) 45%, transparent);
+}
+
+html.dark {
+    --wenyan-seal: #e0807a;
+}
+
+/* 题头：标题居中，题解小字，下方一道细双线 */
+.wenyan-header {
+    /* 与正文同宽：正文是 sm:prose-lg（18px）下的 max-w-[38em]，换算成 rem 是 42.75rem */
+    max-width: 42.75rem;
+    margin-inline: auto;
+    text-align: center;
+    padding-bottom: 1.25rem;
+    border-bottom: 3px double var(--wenyan-rule);
+}
+
+.wenyan-header h1 {
+    font-family: var(--wenyan-font);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    /* 字距加在每个字后面，最后一个字后也有，用等量的左内边距把标题拉回视觉居中 */
+    padding-left: 0.15em;
+}
+
+.wenyan-excerpt {
+    margin-top: 0.75rem;
+    font-family: var(--wenyan-font);
+    font-size: 0.9375rem;
+    color: var(--wenyan-muted);
+}
+
+/* 正文：楷体、宽行距、略加字距；首行缩进沿用页面上的 indent-[2em] */
+.wenyan-body {
+    font-family: var(--wenyan-font);
+    letter-spacing: 0.05em;
+}
+
+.wenyan-body p {
+    line-height: 2;
+}
+
+/* 书信的抬头（顶格）与落款（右对齐），在正文里用 <p class="wenyan-salute"> / <p class="wenyan-sign"> 标出 */
+.wenyan-body p.wenyan-salute {
+    text-indent: 0;
+}
+
+.wenyan-body p.wenyan-sign {
+    text-indent: 0;
+    text-align: right;
+}
+
+/* 文末朱印 */
+.wenyan-seal-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2.5em;
+    text-indent: 0;
+}
+
+.wenyan-seal {
+    writing-mode: vertical-rl;
+    font-family: var(--wenyan-font);
+    font-size: 1.125rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    padding: 0.4em 0.3em 0.3em;
+    color: var(--wenyan-seal);
+    border: 2px solid var(--wenyan-seal);
+    border-radius: 2px;
+    transform: rotate(-3deg);
+    user-select: none;
+}
