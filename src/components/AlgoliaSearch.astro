@@ -13,7 +13,7 @@ const { class: className } = Astro.props;
 <script>
     import { thirdParty } from '../data/site-config';
 
-    type AlgoliaNetlifyOptions = { appId: string; apiKey: string; siteId: string; branch: string; selector: string };
+    type AlgoliaNetlifyOptions = { appId: string; apiKey: string; siteId: string; branch: string; selector: string; placeholder?: string };
 
     declare global {
         interface Window {
@@ -48,7 +48,7 @@ const { class: className } = Astro.props;
             return;
         }
         const { appId, apiKey, siteId, branch } = thirdParty.algolia;
-        window.algoliasearchNetlify?.({ appId, apiKey, siteId, branch, selector: 'div#search' });
+        window.algoliasearchNetlify?.({ appId, apiKey, siteId, branch, selector: 'div#search', placeholder: '搜索词条…' });
     }
 
     document.addEventListener('astro:page-load', initSearch);
