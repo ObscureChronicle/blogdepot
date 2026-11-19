@@ -47,13 +47,13 @@ describe('Pagination.astro', () => {
 
     it('omits the prev button and data-prev-href on the first page', async () => {
         const html = await render(makePage(1, 10));
-        expect(html).not.toContain('aria-label="Go to page 0 of 10"');
+        expect(html).not.toContain('aria-label="上一页');
         expect(html).not.toContain('data-prev-href');
     });
 
     it('omits the next button and data-next-href on the last page', async () => {
         const html = await render(makePage(10, 10));
-        expect(html).not.toContain('aria-label="Go to page 11 of 10"');
+        expect(html).not.toContain('aria-label="下一页');
         expect(html).not.toContain('data-next-href');
     });
 
@@ -71,15 +71,15 @@ describe('Pagination.astro', () => {
     it('lists every page number with no ellipsis when the total is below the threshold', async () => {
         const html = await render(makePage(2, 5));
         for (let n = 1; n <= 5; n++) {
-            expect(html).toContain(`aria-label="Go to page ${n} of 5"`);
+            expect(html).toContain(`aria-label="第 ${n} 页，共 5 页"`);
         }
         expect(html).not.toContain('…');
     });
 
     it('marks the current page link with aria-current="page"', async () => {
         const html = await render(makePage(3, 5));
-        expect(html).toContain('aria-label="Go to page 3 of 5" aria-current="page"');
-        expect(html).not.toContain('aria-label="Go to page 2 of 5" aria-current="page"');
+        expect(html).toContain('aria-label="第 3 页，共 5 页" aria-current="page"');
+        expect(html).not.toContain('aria-label="第 2 页，共 5 页" aria-current="page"');
     });
 
     it('shows ellipsis and a desktop jump box once the total exceeds the threshold', async () => {
@@ -114,7 +114,7 @@ describe('Pagination.astro', () => {
     it('respects custom siblingCount/boundaryCount to widen the visible page range', async () => {
         const narrow = await render(makePage(10, 30));
         const wide = await render(makePage(10, 30), { siblingCount: 3, boundaryCount: 2 });
-        const countPageLinks = (html: string) => (html.match(/aria-label="Go to page \d+ of 30"/g) || []).length;
+        const countPageLinks = (html: string) => (html.match(/aria-label="第 \d+ 页，共 30 页"/g) || []).length;
         expect(countPageLinks(wide)).toBeGreaterThan(countPageLinks(narrow));
     });
 });

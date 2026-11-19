@@ -31,7 +31,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                 class="absolute left-0 top-1/2 -translate-y-1/2"
                 href={page.url.prev}
                 data-astro-prefetch
-                aria-label={`Go to page ${page.currentPage - 1} of ${page.lastPage}`}
+                aria-label={`上一页：第 ${page.currentPage - 1} 页，共 ${page.lastPage} 页`}
             >
                 <ArrowLeft class="w-5 h-5 fill-current" />
             </IconButton>
@@ -60,7 +60,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                     class="pagination-jump-btn inline-flex h-8 items-center justify-center rounded-full border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                     aria-label="跳转到指定页码"
                 >
-                    Go
+                    跳转
                 </button>
             </div>
         )
@@ -78,7 +78,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                             <a
                                 href={buildPageUrl(basePath, item)}
                                 data-astro-prefetch
-                                aria-label={`Go to page ${item} of ${page.lastPage}`}
+                                aria-label={`第 ${item} 页，共 ${page.lastPage} 页`}
                                 aria-current={item === page.currentPage ? 'page' : undefined}
                                 class:list={[
                                     'inline-flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]',
@@ -111,7 +111,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                                 class="pagination-jump-btn inline-flex h-8 items-center justify-center rounded-full border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                                 aria-label="跳转到指定页码"
                             >
-                                Go
+                                跳转
                             </button>
                         </li>
                     )
@@ -125,7 +125,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                 class="absolute right-0 top-1/2 -translate-y-1/2"
                 href={page.url.next}
                 data-astro-prefetch
-                aria-label={`Go to page ${page.currentPage + 1} of ${page.lastPage}`}
+                aria-label={`下一页：第 ${page.currentPage + 1} 页，共 ${page.lastPage} 页`}
             >
                 <ArrowRight class="w-5 h-5 fill-current" />
             </IconButton>
