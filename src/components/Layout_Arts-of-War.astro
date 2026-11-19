@@ -2,6 +2,7 @@
 // 军略词条布局。本传的军略存在等级（Ⅰ / Ⅱ / Ⅲ …），按等级列出效果；
 // 星命诀的军略不分等级，只有一段描述与效果。
 import { EDITIONS } from '../data/editions';
+import { getSkillRelations } from '../utils/art-of-war-relations';
 import { getWikiLink } from '../utils/wiki-links';
 import SectionTitle from './SectionTitle.astro';
 import TraitNote from './TraitNote.astro';
@@ -63,6 +64,17 @@ const tokenizeEffect = (effect: string) => effect.split(SEPARATOR).filter((part)
 // 只有「附加状态」类军略的效果才是状态名，才需要链到 status 词条
 const isBaseStatusSkill = baseSkillType === '附加状态';
 const dlcEffectLink = dlcSkill?.skillType === '附加状态' ? getWikiLink('status', dlcSkill.effect.trim()) : null;
+
+// 星命诀军略盘上的前置 / 后续 / 互斥关系：词条 id 形如 art-of-war/pozhu，取最后一段对应军略盘 slug
+const relations = getSkillRelations(String(Astro.params.id ?? '').split('/').pop() ?? '');
+const relationRows = relations
+    ? [
+          // 多个前置时习得其一即可（数据中不少军略的几个前置彼此互斥）
+          { label: '前置军略', nodes: relations.prerequisites, hint: relations.prerequisites.length > 1 ? '（满足其一即可）' : null },
+          { label: '后续军略', nodes: relations.unlocks, hint: null },
+          { label: '互斥军略', nodes: relations.exclusives, hint: null }
+      ]
+    : [];
 
 const levelRows = baseLevels.map((row, index) => {
     const previous = index > 0 ? baseLevels[index - 1] : undefined;
@@ -240,6 +252,34 @@ const levelRows = baseLevels.map((row, index) => {
                             </th>
                             <td>{dlcEffectLink ? <a href={dlcEffectLink}>{dlcSkill.effect}</a> : dlcSkill.effect}</td>
                         </tr>
+                        {relations && (
+                            <>
+                                <tr>
+                                    <th scope="row" class="w-28">
+                                        军略盘等级
+                                    </th>
+                                    <td>第 {relations.node.level} 级</td>
+                                </tr>
+                                {relationRows.map(({ label, nodes, hint }) => (
+                                    <tr>
+                                        <th scope="row" class="w-28">
+                                            {label}
+                                        </th>
+                                        <td>
+                                            {nodes.length === 0
+                                                ? EMPTY
+                                                : nodes.map((node, i) => (
+                                                      <>
+                                                          {i > 0 && '、'}
+                                                          <a href={`/projects/art-of-war/${node.slug}/`}>{node.name}</a>
+                                                      </>
+                                                  ))}
+                                            {hint && <span class="ml-1 text-sm opacity-70">{hint}</span>}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </>
+                        )}
                     </tbody>
                 </table>
             )}
