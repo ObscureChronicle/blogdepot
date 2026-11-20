@@ -6,7 +6,7 @@ tags:
   - wiki-m
 ---
 
-<h2 class='section-title section-title--base'>本传</h2>
+<h2 class='edition-title edition-title--base'>本传</h2>
 
 腹心：70~100
 
@@ -16,7 +16,7 @@ tags:
 
 在《后汉稽异录》中，「民心」是一项「施政倾向」，代表平民对政权的反感程度，无论在「军粮所」征收粮草抑或在「校场」征召士兵，均会降低这一数值。「民心」会因某些事件之选择发生改变，此外，荀彧入队后，每战后会根据荀彧的好感度增加一定的民心。
 
-<h2 class='section-title section-title--dlc'>星命诀</h2>
+<h2 class='edition-title edition-title--dlc'>星命诀</h2>
 
 腹心：70~100
 

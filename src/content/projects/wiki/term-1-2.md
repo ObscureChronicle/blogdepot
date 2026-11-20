@@ -5,7 +5,7 @@ tags:
   - wiki-c
 ---
 
-<h2 class='section-title section-title--base'>本传</h2>
+<h2 class='edition-title edition-title--base'>本传</h2>
 
 <table class='wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]'>
   <thead>
@@ -82,7 +82,7 @@ tags:
   </tbody>
 </table>
 
-<h2 class='section-title section-title--dlc'>星命诀</h2>
+<h2 class='edition-title edition-title--dlc'>星命诀</h2>
 
 <table class='wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]'>
   <thead>

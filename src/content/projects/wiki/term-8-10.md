@@ -6,7 +6,7 @@ tags:
   - wiki-y
 ---
 
-<h2 class='section-title section-title--base'>本传</h2>
+<h2 class='edition-title edition-title--base'>本传</h2>
 
 接纳：85~100
 
@@ -18,7 +18,7 @@ tags:
 
 在《后汉稽异录》中，「异族」是一项「施政倾向」，代表主角对非华夏的少数民族的容忍与接纳程度。在第二章中期，对特定队友的依赖与否会直接影响这一数值；同时特定事件亦会影响之。
 
-<h2 class='section-title section-title--dlc'>星命诀</h2>
+<h2 class='edition-title edition-title--dlc'>星命诀</h2>
 
 莫逆：80~100
 
