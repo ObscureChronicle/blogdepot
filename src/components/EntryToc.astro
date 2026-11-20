@@ -232,18 +232,17 @@
         margin-bottom: 0.5rem;
     }
 
-    /* 窄屏悬浮按钮：外观与「回到顶部」一致，叠在它上方 */
+    /* 窄屏悬浮按钮：外观与「回到顶部」一致（朱印，颜色见 global.css 的 --seal-*），叠在它上方 */
     .entry-toc-fab {
         position: fixed;
         right: 2.5rem;
         bottom: calc(2.5rem + 44px + 0.75rem);
-        background: rgba(0, 0, 0, 0.7);
+        background: var(--seal-bg);
+        color: var(--seal-fg);
         border: none;
         padding: 0.75rem;
-        border-radius: 50%;
         cursor: pointer;
         z-index: 1000;
-        backdrop-filter: blur(4px);
         opacity: 0;
         pointer-events: none;
         transform: translateY(20px);
@@ -256,11 +255,18 @@
         pointer-events: auto;
         transform: translateY(0);
     }
+    .entry-toc-fab::after {
+        content: '';
+        position: absolute;
+        inset: 3px;
+        border: 1px solid color-mix(in srgb, var(--seal-fg) 70%, transparent);
+        pointer-events: none;
+    }
     .entry-toc-fab svg {
         width: 20px;
         height: 20px;
         display: block;
-        fill: white;
+        fill: currentColor;
     }
     .entry-toc-panel {
         position: fixed;

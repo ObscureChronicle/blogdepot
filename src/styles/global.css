@@ -60,15 +60,20 @@ html.dark {
     --chart-grid: #444444;
 }
 
+/* 悬浮按钮（回到顶部、窄屏目录）用朱印：朱底白字方印，内缩一道浅色细框（白文印双边），与文存朱印同色 */
+:root {
+    --seal-bg: #a32d2d;
+    --seal-fg: #fcebeb;
+}
+
 .scroll-top {
     position: fixed;
     bottom: 2.5rem;
     right: 2.5rem;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    background: var(--seal-bg);
+    color: var(--seal-fg);
     border: none;
     padding: 0.75rem;
-    border-radius: 50%;
     font-size: 1.25rem;
     cursor: pointer;
     opacity: 0;
@@ -77,7 +82,14 @@ html.dark {
         opacity 0.4s ease,
         transform 0.3s ease;
     z-index: 1000;
-    backdrop-filter: blur(4px);
+}
+
+.scroll-top::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid color-mix(in srgb, var(--seal-fg) 70%, transparent);
+    pointer-events: none;
 }
 
 .scroll-top svg {
@@ -85,7 +97,7 @@ html.dark {
     height: 20px;
     display: block;
     margin: auto;
-    fill: white;
+    fill: currentColor;
 }
 
 .scroll-top.visible {
@@ -305,6 +317,22 @@ html.dark {
             #000 calc(100% - var(--scroll-fade-end)),
             transparent
         );
+    }
+
+    /*
+     * 图标按钮的双框（古籍版框四周双边）：外框用元素自身的 border，::after 画内缩一道细框。
+     * ::after 需要定位上下文；Tailwind v4 构建后这里不会留在 components 层，会压过 absolute 等工具类，
+     * 所以只给本身没定位的元素补 relative。
+     */
+    .icon-frame:not(.absolute, .fixed, .sticky) {
+        position: relative;
+    }
+    .icon-frame::after {
+        content: '';
+        position: absolute;
+        inset: 3px;
+        border: 1px solid var(--border-main);
+        pointer-events: none;
     }
 }
 

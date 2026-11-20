@@ -35,7 +35,7 @@ describe('IconButton.astro', () => {
             slots: { default: 'Icon' }
         });
         expect(html).toContain('absolute left-0');
-        expect(html).toContain('rounded-full');
+        expect(html).toContain('icon-frame');
     });
 
     it('spreads extra passthrough attributes onto the rendered element', async () => {
