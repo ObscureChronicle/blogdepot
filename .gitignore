@@ -25,3 +25,6 @@ pnpm-debug.log*
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# 汇文字体原始 TTF（体积大，只用于 scripts/split-fonts.ts 生成 public/fonts/ 下的分片）
+/fonts-src/

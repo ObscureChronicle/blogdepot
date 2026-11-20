@@ -1,9 +1,10 @@
 /* 文存（wen-yan 分类）详情页的刻本版式，只在 src/pages/blog/[id].astro 引入。
    这里是未分层的普通 CSS，优先级高于 Tailwind 的 utilities 层，因此能覆盖页面上的 font-serif 等工具类。
-   楷体只用 local() 引用系统字体，不下载字体文件；设备上没有楷体时退回宋体。 */
+   楷体优先用自托管的汇文正楷（与全站加粗用的正楷共用同一批分片文件），缺字时依次退回系统楷体、宋体。 */
+@import '../assets/fonts/huiwen-zhengkai/zhengkai-only.css';
 
 :root {
-    --wenyan-font: 'Kaiti SC', 'STKaiti', 'KaiTi', 'BiauKai', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
+    --wenyan-font: 'Huiwen ZhengKai', 'Kaiti SC', 'STKaiti', 'KaiTi', 'BiauKai', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
     --wenyan-seal: #a32d2d;
     --wenyan-muted: color-mix(in srgb, var(--text-main) 62%, transparent);
     --wenyan-rule: color-mix(in srgb, var(--text-main) 45%, transparent);

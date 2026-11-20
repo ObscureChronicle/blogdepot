@@ -1,7 +1,10 @@
 @import '@fontsource-variable/inter' layer(base);
 @import '@fontsource-variable/newsreader' layer(base);
 @import '@fontsource-variable/newsreader/wght-italic.css' layer(base);
-/* 思源宋体可变字体：按 unicode-range 分成约 100 个分片，浏览器只下载页面用到的字，因此不做 preload */
+/* 中文字体都按 unicode-range 分片，浏览器只下载页面用到的字，因此不做 preload。
+   汇文明朝 / 正楷由 scripts/split-fonts.ts 生成；思源宋体作缺字回退 */
+@import '../assets/fonts/huiwen-mincho/result.css' layer(base);
+@import '../assets/fonts/huiwen-zhengkai/result.css' layer(base);
 @import '@fontsource-variable/noto-serif-sc' layer(base);
 
 @import 'tailwindcss';
@@ -112,17 +115,12 @@ html.dark {
     transform: translateY(20px);
 }
 
-/* 全站中文统一用思源宋体可变字体，以粗细区分两种字体：
-   - font-sans（页面默认字体）：用 font-variation-settings 把字重固定为 700，
-     无论元素请求哪个字重都显示同一粗细（沿用原先「加粗宋体」的效果）；
-   - font-serif：英文用 Newsreader，中文回退到思源宋体常规字重。
-     font-serif 的 variation settings 设为 normal，工具类会一并输出，
-     从而清掉从默认字体继承来的 'wght' 700，font-medium 等字重类恢复生效 */
+/* 全站中文用 'Huiwen' 字体族：常规字重显示汇文明朝，字重 600 及以上（font-semibold、font-bold、
+   strong、表头等）自动换成汇文正楷，以楷体代替加粗，不再合成粗体。
+   汇文缺的字（少量符号、注音符号）回退到思源宋体；font-serif 的英文仍用 Newsreader */
 @theme inline {
-    --font-sans: 'Noto Serif SC Variable', serif;
-    --font-sans--font-variation-settings: 'wght' 700;
-    --font-serif: 'Newsreader Variable', 'Noto Serif SC Variable', serif;
-    --font-serif--font-variation-settings: normal;
+    --font-sans: 'Huiwen', 'Noto Serif SC Variable', serif;
+    --font-serif: 'Newsreader Variable', 'Huiwen', 'Noto Serif SC Variable', serif;
     --text-color-main: var(--text-main);
     --background-color-main: var(--bg-main);
     --background-color-muted: var(--bg-muted);
