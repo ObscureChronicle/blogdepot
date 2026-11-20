@@ -570,6 +570,64 @@ html.dark .section-title--collab {
     transform: translateY(-50%) scaleX(-1);
 }
 
+/*
+ * 「」角标：左上、右下两个直角括住文字，用于单选切换按钮（DataToggle，人物页能力区的形态切换）。
+ * 未选中：淡角标 + 次要文字色；选中（aria-pressed）：反色实底 + 实色角标外扩，从外面包住色块。
+ * 角标用 border 画，固定像素，不会有锯齿；外扩 5px，相邻按钮之间至少留 12px。
+ */
+.corner-mark {
+    position: relative;
+    border-radius: 0;
+    color: color-mix(in srgb, var(--text-main) 72%, transparent);
+}
+.corner-mark:hover {
+    color: var(--text-main);
+}
+.corner-mark::before,
+.corner-mark::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 9px;
+    border: 0 solid currentColor;
+    opacity: 0.4;
+    pointer-events: none;
+}
+.corner-mark::before {
+    left: 0;
+    top: 0;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+}
+.corner-mark::after {
+    right: 0;
+    bottom: 0;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+}
+.corner-mark[aria-pressed='true'] {
+    background-color: var(--text-main);
+    color: var(--bg-main);
+    font-weight: 500;
+}
+.corner-mark[aria-pressed='true']::before,
+.corner-mark[aria-pressed='true']::after {
+    border-color: var(--text-main);
+    opacity: 1;
+}
+.corner-mark[aria-pressed='true']::before {
+    left: -5px;
+    top: -5px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+}
+.corner-mark[aria-pressed='true']::after {
+    right: -5px;
+    bottom: -5px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+}
+
 /* KaTeX 公式中星命诀与本传不同的部分：\htmlClass{dlc-diff}{...} */
 .dlc-diff {
     color: var(--color-red-600);
