@@ -1,6 +1,8 @@
 @import '@fontsource-variable/inter' layer(base);
 @import '@fontsource-variable/newsreader' layer(base);
 @import '@fontsource-variable/newsreader/wght-italic.css' layer(base);
+/* 思源宋体可变字体：按 unicode-range 分成约 100 个分片，浏览器只下载页面用到的字，因此不做 preload */
+@import '@fontsource-variable/noto-serif-sc' layer(base);
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
@@ -110,22 +112,17 @@ html.dark {
     transform: translateY(20px);
 }
 
-/* 临时方案：原无衬线（Inter + 系统黑体）改为加粗宋体，以粗细与 font-serif 的常规宋体区分。
-   这是 --font-sans 专用的独立字体族，不与 --font-serif 共用；以后换成楷体等字体时，
-   只需删掉这条 @font-face 并改下方 --font-sans，font-serif 不受影响。
-   用 local() 只引用系统自带的粗体字面，并声明覆盖全部字重，
-   因此无论元素请求哪个字重都显示这一个粗体字面，不再额外合成加粗 */
-@font-face {
-    font-family: 'Songti Bold';
-    src: local('Songti SC Bold'), local('STSongti-SC-Bold'), local('Noto Serif CJK SC Bold'), local('NotoSerifCJKsc-Bold'),
-        local('Source Han Serif SC Bold'), local('SourceHanSerifSC-Bold');
-    font-weight: 100 900;
-    font-style: normal;
-}
-
+/* 全站中文统一用思源宋体可变字体，以粗细区分两种字体：
+   - font-sans（页面默认字体）：用 font-variation-settings 把字重固定为 700，
+     无论元素请求哪个字重都显示同一粗细（沿用原先「加粗宋体」的效果）；
+   - font-serif：英文用 Newsreader，中文回退到思源宋体常规字重。
+     font-serif 的 variation settings 设为 normal，工具类会一并输出，
+     从而清掉从默认字体继承来的 'wght' 700，font-medium 等字重类恢复生效 */
 @theme inline {
-    --font-sans: 'Songti Bold', serif;
-    --font-serif: 'Newsreader Variable', serif;
+    --font-sans: 'Noto Serif SC Variable', serif;
+    --font-sans--font-variation-settings: 'wght' 700;
+    --font-serif: 'Newsreader Variable', 'Noto Serif SC Variable', serif;
+    --font-serif--font-variation-settings: normal;
     --text-color-main: var(--text-main);
     --background-color-main: var(--bg-main);
     --background-color-muted: var(--bg-muted);
