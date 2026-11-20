@@ -503,24 +503,34 @@ html.dark .section-title--collab {
 }
 
 /*
- * 鱼尾：取古籍版心的鱼尾，两端「竖线 + 鱼尾」夹住文字，缺口朝向文字，颜色跟随文字色、高度跟随元素。
- * 用于更新日志的类别标签、筛选按钮选中态、分页当前页等。给元素加 .fishtail 即可，
- * 单侧宽度用 --fishtail-w 调整；更新日志筛选按钮在选中（aria-pressed）时自动套用，不用改脚本。
+ * 鱼尾：取古籍版心的鱼尾，两端「竖线 + 鱼尾」夹住文字，缺口朝向文字，颜色跟随文字色。
+ * 用于更新日志的类别标签、筛选按钮选中态、分页当前页等。给元素加 .fishtail 即可，小字号标签再加 .fishtail--sm；
+ * 更新日志筛选按钮在选中（aria-pressed）时自动套用，不用改脚本。
+ * 鱼尾用固定像素尺寸、垂直居中，不随元素高度拉伸：拉伸会让 V 口斜边接近竖直、小数像素让竖线发虚，锯齿明显。
+ * 两档尺寸的 SVG 都按整数像素画：竖线 2px、间隙 1px，其余是鱼尾。
  */
 :is(.fishtail, .changelog-chip[aria-pressed='true']) {
+    --fishtail-w: 10px;
+    --fishtail-h: 20px;
+    --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20'%3E%3Crect width='2' height='20'/%3E%3Cpolygon points='3,0 10,0 6.5,10 10,20 3,20'/%3E%3C/svg%3E");
     position: relative;
 }
+/* :is() 的优先级取最高参数（0,2,0），修饰类要写成双类名才压得过 */
+.fishtail.fishtail--sm {
+    --fishtail-w: 8px;
+    --fishtail-h: 16px;
+    --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 16'%3E%3Crect width='2' height='16'/%3E%3Cpolygon points='3,0 8,0 5.5,8 8,16 3,16'/%3E%3C/svg%3E");
+}
 .fishtail {
-    padding-inline: calc(var(--fishtail-w, 0.7em) + 0.25em);
+    padding-inline: calc(var(--fishtail-w) + 0.25em);
 }
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::before,
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
-    --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20' preserveAspectRatio='none'%3E%3Crect width='2' height='20'/%3E%3Cpolygon points='3,0 10,0 6.5,10 10,20 3,20'/%3E%3C/svg%3E");
     content: '';
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: var(--fishtail-w, 0.7em);
+    top: 50%;
+    width: var(--fishtail-w);
+    height: var(--fishtail-h);
     background: currentColor;
     -webkit-mask: var(--fishtail-mask) no-repeat 0 0 / 100% 100%;
     mask: var(--fishtail-mask) no-repeat 0 0 / 100% 100%;
@@ -528,10 +538,11 @@ html.dark .section-title--collab {
 }
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::before {
     left: 0;
+    transform: translateY(-50%);
 }
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
     right: 0;
-    transform: scaleX(-1);
+    transform: translateY(-50%) scaleX(-1);
 }
 
 /* KaTeX 公式中星命诀与本传不同的部分：\htmlClass{dlc-diff}{...} */

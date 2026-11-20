@@ -20,7 +20,7 @@ const total = lines.filter((line) => line.kind === 'item').length;
             <span class="changelog-entry__total">{total} 项</span>
             {
                 counts.map((c) => (
-                    <span class:list={['changelog-tag fishtail changelog-entry__count', changelogTagClass(c.name)]}>
+                    <span class:list={['changelog-tag fishtail fishtail--sm changelog-entry__count', changelogTagClass(c.name)]}>
                         {c.name} {c.count}
                     </span>
                 ))
@@ -40,7 +40,7 @@ const total = lines.filter((line) => line.kind === 'item').length;
                         {line.tags.length > 0 && (
                             <span class="changelog-item__tags">
                                 {line.tags.map((tag) => (
-                                    <span class:list={['changelog-tag fishtail', changelogTagClass(tag)]}>{tag}</span>
+                                    <span class:list={['changelog-tag fishtail fishtail--sm', changelogTagClass(tag)]}>{tag}</span>
                                 ))}
                             </span>
                         )}
