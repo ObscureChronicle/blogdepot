@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import drawTooltipBox from './drawTooltipBox';
 import useChartTheme from './useChartTheme';
 
 const labels = ['胆识', '冷静'];
@@ -96,25 +97,18 @@ export default function BarChart({ data }) {
                 const barHeight = (value / maxValue) * chartHeight;
                 const y = margin.top + chartHeight - barHeight;
 
-                // 绘制提示框
-                ctx.fillStyle = 'rgba(255, 255, 255, 0)';
-                ctx.strokeStyle = colors[hoverIndex];
-                ctx.lineWidth = 2;
-                ctx.beginPath();
+                // 绘制提示框（与雷达图同一套直角双框，框线取柱子颜色）
                 const tooltipWidth = 40;
                 const tooltipHeight = 20;
                 const tooltipX = x + barWidth / 2 - tooltipWidth / 2;
                 const tooltipY = y - tooltipHeight - 10;
-                ctx.roundRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight, 4);
-                ctx.fill();
-                ctx.stroke();
+                drawTooltipBox(ctx, tooltipX, tooltipY, tooltipWidth, tooltipHeight, colors[hoverIndex], chart.tooltipBg);
 
-                // 提示框文字
+                // 提示框文字：canvas 不继承 CSS 字体，取正文字体（思源宋体），与页面一致
                 ctx.fillStyle = chart.text;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                // 原写法 'sans-serif' 缺字号是无效值会被忽略，实际沿用的是上面柱标签设置的 14px
-                ctx.font = '14px sans-serif';
+                ctx.font = `14px ${getComputedStyle(canvas).fontFamily || 'serif'}`;
                 ctx.fillText(`${value}`, x + barWidth / 2, tooltipY + tooltipHeight / 2);
             }
         };

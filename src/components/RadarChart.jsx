@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import drawTooltipBox from './drawTooltipBox';
 import useChartTheme from './useChartTheme';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
@@ -9,24 +10,6 @@ const VARIANTS = {
     base: { color: '#1ba784', fill: 'rgba(27, 167, 132, 0.4)', labels: ['统御', '气运', '武勇', '智略', '魅力'], capMultiplier: 1 },
     dlc: { color: '#ffd111', fill: 'rgba(242, 206, 43, 0.4)', labels: ['统御', '运势', '武勇', '智略', '魅力'], capMultiplier: 3 }
 };
-
-/**
- * hover 气泡：直角双框，外框实色、主框 60% 透明度（外框离主框 2px），与全站直角古籍风一致。
- * 坐标取整后偏移 0.5px，让 1px 线正好落在像素格上，不发虚。外框比气泡多出 3px，调用方定位时要留出来。
- */
-function drawTooltipBox(ctx, x, y, w, h, color, bg) {
-    const left = Math.round(x);
-    const top = Math.round(y);
-    ctx.save();
-    ctx.fillStyle = bg;
-    ctx.fillRect(left, top, w, h);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(left - 2.5, top - 2.5, w + 5, h + 5);
-    ctx.globalAlpha = 0.6;
-    ctx.strokeRect(left + 0.5, top + 0.5, w - 1, h - 1);
-    ctx.restore();
-}
 
 /**
  * 多形态之间的切换由调用方（CharacterAbilitySection）负责，这里只画传入的一组数据。
