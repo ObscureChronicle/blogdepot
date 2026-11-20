@@ -11,6 +11,24 @@ const VARIANTS = {
 };
 
 /**
+ * hover 气泡：直角双框，外框实色、主框 60% 透明度（外框离主框 2px），与全站直角古籍风一致。
+ * 坐标取整后偏移 0.5px，让 1px 线正好落在像素格上，不发虚。外框比气泡多出 3px，调用方定位时要留出来。
+ */
+function drawTooltipBox(ctx, x, y, w, h, color, bg) {
+    const left = Math.round(x);
+    const top = Math.round(y);
+    ctx.save();
+    ctx.fillStyle = bg;
+    ctx.fillRect(left, top, w, h);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(left - 2.5, top - 2.5, w + 5, h + 5);
+    ctx.globalAlpha = 0.6;
+    ctx.strokeRect(left + 0.5, top + 0.5, w - 1, h - 1);
+    ctx.restore();
+}
+
+/**
  * 多形态之间的切换由调用方（CharacterAbilitySection）负责，这里只画传入的一组数据。
  * @param {{ data: number[], attributefigure?: number[], variant?: 'base' | 'dlc' }} props
  */
@@ -30,6 +48,8 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
         const centerY = canvas.height / 2;
         const total = data.length;
         const layers = 5;
+        // canvas 不继承 CSS 字体，气泡文字取正文字体（思源宋体），与页面一致
+        const tooltipFont = getComputedStyle(canvas).fontFamily || 'serif';
 
         const points = [];
         const labelPositions = [];
@@ -126,16 +146,10 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
             if (hoverIndex !== null) {
                 const p = points[hoverIndex];
                 ctx.save(); // 保存当前绘图状态
-                ctx.fillStyle = colors.tooltipBg;
-                ctx.strokeStyle = theme.color;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.roundRect(p.x + 10, p.y - 20, 40, 20, 4);
-                ctx.fill();
-                ctx.stroke();
+                drawTooltipBox(ctx, p.x + 10, p.y - 20, 40, 20, theme.color, colors.tooltipBg);
 
                 ctx.fillStyle = theme.color;
-                ctx.font = '12px sans-serif';
+                ctx.font = `12px ${tooltipFont}`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(`${p.value}`, p.x + 30, p.y - 10);
@@ -147,20 +161,16 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
                 const labelPos = labelPositions.find((p) => p.index === hoverLabelIndex);
                 if (labelPos && attributefigure[hoverLabelIndex] !== 0) {
                     ctx.save();
-                    ctx.fillStyle = colors.tooltipBg;
-                    ctx.strokeStyle = theme.color;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.roundRect(labelPos.cx + 10, labelPos.cy - 30, 80, 40, 6);
-                    ctx.fill();
-                    ctx.stroke();
+                    drawTooltipBox(ctx, labelPos.cx + 10, labelPos.cy - 30, 80, 40, theme.color, colors.tooltipBg);
 
                     ctx.fillStyle = colors.text;
-                    ctx.font = '12px sans-serif';
+                    ctx.font = `12px ${tooltipFont}`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     const addValue = attributefigure[hoverLabelIndex];
                     ctx.fillText(theme.labels[hoverLabelIndex] + '上限' + (addValue < 0 ? '' : '+') + theme.capMultiplier * addValue, labelPos.cx + 50, labelPos.cy - 18);
+                    // 第二行是附带说明，用次要文字色拉开层次
+                    ctx.fillStyle = colors.textMuted;
                     ctx.fillText('加点消耗' + (addValue > 0 ? '' : '+') + -1 * addValue, labelPos.cx + 50, labelPos.cy - 4);
 
                     ctx.restore();
