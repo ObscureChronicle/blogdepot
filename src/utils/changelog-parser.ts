@@ -18,16 +18,16 @@ export const CHANGELOG_FILTERS: readonly string[] = [...CHANGELOG_CATEGORIES, '�
 
 // 类名必须整段写在源码里，Tailwind 才能扫描到
 const TAG_CLASS: Record<string, string> = {
-    剧情: 'bg-purple-100 text-purple-900 dark:bg-purple-900/60 dark:text-purple-100',
-    平衡: 'bg-amber-100 text-amber-900 dark:bg-amber-900/60 dark:text-amber-100',
-    功能: 'bg-sky-100 text-sky-900 dark:bg-sky-900/60 dark:text-sky-100',
-    补完: 'bg-emerald-100 text-emerald-900 dark:bg-emerald-900/60 dark:text-emerald-100',
-    修正: 'bg-rose-100 text-rose-900 dark:bg-rose-900/60 dark:text-rose-100',
-    系统: 'bg-stone-200 text-stone-800 dark:bg-stone-700 dark:text-stone-100'
+    剧情: 'text-purple-800 dark:text-purple-300',
+    平衡: 'text-amber-800 dark:text-amber-300',
+    功能: 'text-sky-800 dark:text-sky-300',
+    补完: 'text-emerald-800 dark:text-emerald-300',
+    修正: 'text-rose-800 dark:text-rose-300',
+    系统: 'text-stone-700 dark:text-stone-300'
 };
 
-// 次级标签（本地化、测试等）和未登记的标签：只描边，不抢主要类别的颜色
-const SECONDARY_TAG_CLASS = 'border border-stone-400 text-stone-700 dark:border-stone-500 dark:text-stone-300';
+// 次级标签（本地化、测试等）和未登记的标签：用浅一档的灰，不抢主要类别的颜色
+const SECONDARY_TAG_CLASS = 'text-stone-500 dark:text-stone-400';
 
 export function changelogTagClass(tag: string): string {
     return TAG_CLASS[tag] ?? SECONDARY_TAG_CLASS;

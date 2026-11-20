@@ -20,7 +20,7 @@ const total = lines.filter((line) => line.kind === 'item').length;
             <span class="changelog-entry__total">{total} 项</span>
             {
                 counts.map((c) => (
-                    <span class:list={['changelog-tag changelog-entry__count', changelogTagClass(c.name)]}>
+                    <span class:list={['changelog-tag fishtail changelog-entry__count', changelogTagClass(c.name)]}>
                         {c.name} {c.count}
                     </span>
                 ))
@@ -40,7 +40,7 @@ const total = lines.filter((line) => line.kind === 'item').length;
                         {line.tags.length > 0 && (
                             <span class="changelog-item__tags">
                                 {line.tags.map((tag) => (
-                                    <span class:list={['changelog-tag', changelogTagClass(tag)]}>{tag}</span>
+                                    <span class:list={['changelog-tag fishtail', changelogTagClass(tag)]}>{tag}</span>
                                 ))}
                             </span>
                         )}
@@ -140,8 +140,7 @@ const total = lines.filter((line) => line.kind === 'item').length;
     .changelog-tag {
         display: inline-block;
         flex-shrink: 0;
-        padding: 0.0625rem 0.375rem;
-        border-radius: 0.25rem;
+        padding-block: 0.0625rem;
         font-size: 0.75rem;
         line-height: 1.25rem;
         white-space: nowrap;

@@ -502,6 +502,38 @@ html.dark .section-title--collab {
     color: var(--color-red-300);
 }
 
+/*
+ * 鱼尾：取古籍版心的鱼尾，两端「竖线 + 鱼尾」夹住文字，缺口朝向文字，颜色跟随文字色、高度跟随元素。
+ * 用于更新日志的类别标签、筛选按钮选中态、分页当前页等。给元素加 .fishtail 即可，
+ * 单侧宽度用 --fishtail-w 调整；更新日志筛选按钮在选中（aria-pressed）时自动套用，不用改脚本。
+ */
+:is(.fishtail, .changelog-chip[aria-pressed='true']) {
+    position: relative;
+}
+.fishtail {
+    padding-inline: calc(var(--fishtail-w, 0.7em) + 0.25em);
+}
+:is(.fishtail, .changelog-chip[aria-pressed='true'])::before,
+:is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
+    --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20' preserveAspectRatio='none'%3E%3Crect width='2' height='20'/%3E%3Cpolygon points='3,0 10,0 6.5,10 10,20 3,20'/%3E%3C/svg%3E");
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--fishtail-w, 0.7em);
+    background: currentColor;
+    -webkit-mask: var(--fishtail-mask) no-repeat 0 0 / 100% 100%;
+    mask: var(--fishtail-mask) no-repeat 0 0 / 100% 100%;
+    pointer-events: none;
+}
+:is(.fishtail, .changelog-chip[aria-pressed='true'])::before {
+    left: 0;
+}
+:is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
+    right: 0;
+    transform: scaleX(-1);
+}
+
 /* KaTeX 公式中星命诀与本传不同的部分：\htmlClass{dlc-diff}{...} */
 .dlc-diff {
     color: var(--color-red-600);

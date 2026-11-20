@@ -48,7 +48,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                     step="1"
                     min="1"
                     max={page.lastPage}
-                    class="pagination-jump-input h-8 w-12 rounded-full border border-main bg-main px-1 text-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
+                    class="pagination-jump-input h-8 w-12 border border-main bg-main px-1 text-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                     placeholder={String(page.currentPage)}
                     aria-label={`输入页码跳转，共 ${page.lastPage} 页`}
                     data-current-page={page.currentPage}
@@ -57,7 +57,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                 />
                 <button
                     type="button"
-                    class="pagination-jump-btn inline-flex h-8 items-center justify-center rounded-full border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
+                    class="pagination-jump-btn inline-flex h-8 items-center justify-center border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                     aria-label="跳转到指定页码"
                 >
                     跳转
@@ -81,8 +81,8 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                                 aria-label={`第 ${item} 页，共 ${page.lastPage} 页`}
                                 aria-current={item === page.currentPage ? 'page' : undefined}
                                 class:list={[
-                                    'inline-flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]',
-                                    item === page.currentPage ? 'border border-main bg-muted' : 'hover:bg-muted'
+                                    'inline-flex h-8 min-w-8 items-center justify-center px-2 text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]',
+                                    item === page.currentPage ? 'fishtail' : 'hover:bg-muted'
                                 ]}
                             >
                                 {item}
@@ -99,7 +99,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                                 step="1"
                                 min="1"
                                 max={page.lastPage}
-                                class="pagination-jump-input h-8 w-12 rounded-full border border-main bg-main px-1 text-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
+                                class="pagination-jump-input h-8 w-12 border border-main bg-main px-1 text-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                                 placeholder={String(page.currentPage)}
                                 aria-label={`输入页码跳转，共 ${page.lastPage} 页`}
                                 data-current-page={page.currentPage}
@@ -108,7 +108,7 @@ const items = getPaginationRange(page.currentPage, page.lastPage, siblingCount, 
                             />
                             <button
                                 type="button"
-                                class="pagination-jump-btn inline-flex h-8 items-center justify-center rounded-full border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
+                                class="pagination-jump-btn inline-flex h-8 items-center justify-center border border-main px-2 text-sm transition hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]"
                                 aria-label="跳转到指定页码"
                             >
                                 跳转

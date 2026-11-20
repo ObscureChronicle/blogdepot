@@ -323,13 +323,13 @@ import { CHANGELOG_FILTERS, changelogDotClass } from '../utils/changelog-parser'
             white-space: nowrap;
         }
     }
-    /* 按钮沿用 BlogFilter 的框线语言：选中时两端竖条 + 内嵌细横线 */
+    /* 选中时两端套鱼尾（规则在 global.css 的 .fishtail）；左右 padding 常驻预留鱼尾宽度，选中时宽度不跳动 */
     .changelog-chip {
         position: relative;
         display: inline-flex;
         align-items: center;
         gap: 0.3rem;
-        padding: 0.25rem 0.625rem;
+        padding: 0.25rem calc(0.7em + 0.25em);
         cursor: pointer;
         transition: background-color 0.15s;
     }
@@ -339,20 +339,6 @@ import { CHANGELOG_FILTERS, changelogDotClass } from '../utils/changelog-parser'
     .changelog-chip:focus-visible {
         outline: 2px solid var(--border-main);
         outline-offset: 2px;
-    }
-    .changelog-chip[aria-pressed='true']::before,
-    .changelog-chip[aria-pressed='true']::after {
-        content: '';
-        position: absolute;
-        pointer-events: none;
-    }
-    .changelog-chip[aria-pressed='true']::before {
-        inset: 0;
-        border-inline: 2px solid var(--border-main);
-    }
-    .changelog-chip[aria-pressed='true']::after {
-        inset: 3px 5px;
-        border-block: 1px solid var(--border-main);
     }
     .changelog-chip__dot {
         width: 0.625rem;
