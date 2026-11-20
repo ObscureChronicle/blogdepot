@@ -124,7 +124,7 @@ const levelRows = baseLevels.map((row, index) => {
 {
     hasBase && (
         <>
-            <SectionTitle tone="base">{EDITIONS.base.shortName}</SectionTitle>
+            <SectionTitle edition="base">{EDITIONS.base.shortName}</SectionTitle>
             {(baseType || baseCategory || baseSkillType) && (
                 <p class="text-base leading-relaxed">
                     {[baseType && `类型：${baseType}`, baseCategory && `分类：${baseCategory}`, baseSkillType && `军略小类：${baseSkillType}`]
@@ -193,7 +193,7 @@ const levelRows = baseLevels.map((row, index) => {
 {
     hasDlc && (
         <>
-            <SectionTitle tone="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
+            <SectionTitle edition="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
             {dlcDescription && <p set:html={dlcDescription} class="text-base leading-relaxed" />}
             {dlcSkill && (
                 <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">

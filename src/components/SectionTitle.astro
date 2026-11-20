@@ -1,13 +1,25 @@
 ---
-// 词条的区块标题（蓝底大字）。样式在 global.css 的 .section-title；
-// tone 用于兵种页按版本分区时给标题着色。
+// 词条的区块标题，样式在 global.css。
+// 传 edition：版本标题（本传 / 星命诀 / 联动），底色框线盒子 .edition-title；
+// 否则：分区标题 .section-title（文武线），tone 用于兵种页按版本分区时给标题着色。
 import type { Edition } from '../data/editions';
 
 type Props = {
     tone?: Edition;
+    edition?: Edition;
 };
 
-const { tone } = Astro.props as Props;
+const { tone, edition } = Astro.props as Props;
 ---
 
-<h2 class:list={['section-title', tone && `section-title--${tone}`]}><slot /></h2>
+{
+    edition ? (
+        <h2 class:list={['edition-title', `edition-title--${edition}`]}>
+            <slot />
+        </h2>
+    ) : (
+        <h2 class:list={['section-title', tone && `section-title--${tone}`]}>
+            <slot />
+        </h2>
+    )
+}

@@ -56,18 +56,29 @@ export function contentRoute(collection: CollectionName, id: string): string {
     return collection === 'pages' ? `/${slug}/` : `/${collection}/${slug}/`;
 }
 
-/** 版本分区标题：星命诀必须带 section-title--dlc，本传必须带 section-title--base */
+/**
+ * 版本标题与分区标题的 class：
+ * - 文字恰好是「本传」「星命诀」「联动」的版本标题必须用 edition-title，不能用分区标题的 section-title；
+ * - 文字含星命诀 / 本传的标题（无论版本标题还是分区标题）必须带对应的 --dlc / --base 变体类。
+ */
+const EDITION_HEADING_TEXTS = new Set(['本传', '星命诀', '联动']);
+
 export function checkEditionSectionTitles(raw: string): Finding[] {
     const findings: Finding[] = [];
     for (const [, classList, inner] of raw.matchAll(/<h2\b[^>]*\bclass\s*=\s*['"]([^'"]*)['"][^>]*>([\s\S]*?)<\/h2>/g)) {
         const classes = classList.split(/\s+/).filter(Boolean);
-        if (!classes.includes('section-title')) continue;
+        const family = classes.includes('edition-title') ? 'edition-title' : classes.includes('section-title') ? 'section-title' : null;
+        if (!family) continue;
         const text = inner.replace(/<[^>]*>/g, '').trim();
-        if (text.includes('星命诀') && !classes.includes('section-title--dlc')) {
-            findings.push({ level: 'error', message: `标题「${text}」缺少 section-title--dlc` });
+        if (family === 'section-title' && EDITION_HEADING_TEXTS.has(text)) {
+            findings.push({ level: 'error', message: `版本标题「${text}」应使用 edition-title，而不是 section-title` });
+            continue;
         }
-        if (text.includes('本传') && !classes.includes('section-title--base')) {
-            findings.push({ level: 'error', message: `标题「${text}」缺少 section-title--base` });
+        if (text.includes('星命诀') && !classes.includes(`${family}--dlc`)) {
+            findings.push({ level: 'error', message: `标题「${text}」缺少 ${family}--dlc` });
+        }
+        if (text.includes('本传') && !classes.includes(`${family}--base`)) {
+            findings.push({ level: 'error', message: `标题「${text}」缺少 ${family}--base` });
         }
     }
     return findings;

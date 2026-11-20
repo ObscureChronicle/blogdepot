@@ -76,7 +76,7 @@ const hasDlc = Boolean(dlcDescription) || dlcFields.length > 0;
 {
     hasBase && (
         <>
-            <SectionTitle tone="base">{EDITIONS.base.shortName}</SectionTitle>
+            <SectionTitle edition="base">{EDITIONS.base.shortName}</SectionTitle>
             {baseDescription && <p set:html={baseDescription} class="text-base leading-relaxed" />}
             {baseFields.length > 0 && (
                 <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
@@ -99,7 +99,7 @@ const hasDlc = Boolean(dlcDescription) || dlcFields.length > 0;
 {
     hasDlc && (
         <>
-            <SectionTitle tone="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
+            <SectionTitle edition="dlc">{EDITIONS.dlc.shortName}</SectionTitle>
             {dlcDescription && <p set:html={dlcDescription} class="text-base leading-relaxed" />}
             {dlcFields.length > 0 && (
                 <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">

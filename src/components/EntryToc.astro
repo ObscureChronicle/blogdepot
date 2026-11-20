@@ -121,11 +121,11 @@
         const side = document.querySelector<HTMLElement>('[data-entry-toc-side]');
         if (!toc || !side) return;
 
-        const found = [...document.querySelectorAll<HTMLHeadingElement>('article .wiki h2:is(.section-title, .edition-frame)')];
+        const found = [...document.querySelectorAll<HTMLHeadingElement>('article .wiki h2:is(.section-title, .edition-title, .edition-frame)')];
         if (found.length < MIN_HEADINGS) return;
 
         const { items, ids } = buildToc(
-            found.map((h) => ({ text: h.textContent ?? '', kind: h.classList.contains('edition-frame') ? 'group' : 'section', id: h.id || undefined }))
+            found.map((h) => ({ text: h.textContent ?? '', kind: h.matches('.edition-frame, .edition-title') ? 'group' : 'section', id: h.id || undefined }))
         );
         found.forEach((h, i) => (h.id = ids[i]));
         headings = found;

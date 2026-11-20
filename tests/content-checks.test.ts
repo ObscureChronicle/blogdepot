@@ -64,8 +64,9 @@ test('checkInternalLinks: ignores external links, anchors and paths outside /pro
 
 test('checkEditionSectionTitles: version headings with the right variant class pass', () => {
     const raw = [
-        `<h2 class="section-title section-title--base">本传</h2>`,
-        `<h2 class="section-title section-title--dlc">星命诀</h2>`,
+        `<h2 class="edition-title edition-title--base">本传</h2>`,
+        `<h2 class="edition-title edition-title--dlc">星命诀</h2>`,
+        `<h2 class="edition-title edition-title--collab">联动</h2>`,
         `<h2  class='section-title section-title--base'>术语（本传）</h2>`,
         `<h2 class='section-title section-title--dlc'>术语（星命诀）</h2>`,
         `<h2 class='section-title'>初始设定</h2>`
@@ -73,18 +74,31 @@ test('checkEditionSectionTitles: version headings with the right variant class p
     assert.deepEqual(checkEditionSectionTitles(raw), []);
 });
 
-test('checkEditionSectionTitles: version headings missing the variant class are errors', () => {
+test('checkEditionSectionTitles: headings missing the variant class are errors', () => {
     const raw = [
-        `<h2 class='section-title'>本传</h2>`,
-        `<h2 class='section-title'>星命诀</h2>`,
+        `<h2 class='edition-title'>本传</h2>`,
+        `<h2 class='edition-title'>星命诀</h2>`,
         `<h2 class='section-title'>术语（本传）</h2>`,
         `<h2 class='section-title'>术语（星命诀）</h2>`
     ].join('\n');
     const findings = checkEditionSectionTitles(raw);
     assert.equal(findings.length, 4);
     assert.ok(findings.every((f) => f.level === 'error'));
+    assert.ok(findings.some((f) => f.message.includes('edition-title--base')));
+    assert.ok(findings.some((f) => f.message.includes('edition-title--dlc')));
     assert.ok(findings.some((f) => f.message.includes('section-title--base')));
     assert.ok(findings.some((f) => f.message.includes('section-title--dlc')));
+});
+
+test('checkEditionSectionTitles: version headings written with section-title are errors', () => {
+    const raw = [
+        `<h2 class='section-title section-title--base'>本传</h2>`,
+        `<h2 class="section-title section-title--dlc">星命诀</h2>`,
+        `<h2 class='section-title'>联动</h2>`
+    ].join('\n');
+    const findings = checkEditionSectionTitles(raw);
+    assert.equal(findings.length, 3);
+    assert.ok(findings.every((f) => f.level === 'error' && f.message.includes('应使用 edition-title')));
 });
 
 test('checkEditionSectionTitles: ignores h2 elements that are not section titles', () => {

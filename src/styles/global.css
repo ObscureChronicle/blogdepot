@@ -385,7 +385,11 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     padding-inline-start: 0.75em;
 }
 
-.section-title {
+/*
+ * 版本标题（本传 / 星命诀 / 联动）：底色 + 框线盒子。
+ * MDX 里写 <h2 class="edition-title edition-title--base">，组件里用 <SectionTitle edition="base">。
+ */
+.edition-title {
     color: var(--color-blue-800);
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -397,23 +401,23 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
 
 /*
  * 与 Button.astro 同一套框线：两端满高粗竖条 + 上下内嵌细横线，线色跟随文字色（即版本色）。
- * 分区标题自带；兵种页的版本大标题、版本小标签（editions.ts）用 .edition-frame 套用，
+ * 版本标题自带；兵种页的版本大标题、版本小标签（editions.ts）用 .edition-frame 套用，
  * 小标签再加 .edition-frame--sm 缩小线条比例。
  */
 .edition-frame {
     position: relative;
 }
-:is(.section-title, .edition-frame)::before,
-:is(.section-title, .edition-frame)::after {
+:is(.edition-title, .edition-frame)::before,
+:is(.edition-title, .edition-frame)::after {
     content: '';
     position: absolute;
     pointer-events: none;
 }
-:is(.section-title, .edition-frame)::before {
+:is(.edition-title, .edition-frame)::before {
     inset: 0;
     border-inline: var(--frame-bar, 3px) solid currentColor;
 }
-:is(.section-title, .edition-frame)::after {
+:is(.edition-title, .edition-frame)::after {
     inset: var(--frame-inset-y, 3px) var(--frame-inset-x, 7px);
     border-block: 1px solid currentColor;
 }
@@ -423,35 +427,79 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     --frame-inset-x: 4px;
 }
 
-/* 不放进 @layer：要压过 prose 对 h2 字号与颜色的设置，因此下面的深色与按版本着色也写成普通规则 */
-html.dark .section-title {
-    background-color: var(--color-blue-200);
+/*
+ * 分区标题（版本标题之下的战前、说明、兵种参数……）：无底色，下方铺满整行的「文武线」
+ * （古籍版框的外粗内细双线），线色跟随文字色。
+ */
+.section-title {
+    color: var(--color-blue-800);
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+    padding-bottom: calc(var(--spacing) * 2.5);
+    display: block;
+    position: relative;
+}
+.section-title::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 5px;
+    border-top: 2px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    pointer-events: none;
 }
 
-/* 兵种页按版本分区时的标题配色，与 editions.ts 中的版本标签一致 */
-.section-title--base {
+/* 不放进 @layer：要压过 prose 对 h2 字号与颜色的设置，因此下面的深色与按版本着色也写成普通规则 */
+html.dark .edition-title {
+    background-color: var(--color-blue-200);
+}
+html.dark .section-title {
+    color: var(--color-blue-300);
+}
+
+/* 按版本着色，与 editions.ts 中的版本标签一致 */
+.edition-title--base {
     color: var(--color-blue-800);
     background-color: var(--color-blue-100);
 }
-.section-title--dlc {
+.edition-title--dlc {
     color: var(--color-yellow-800);
     background-color: var(--color-yellow-100);
 }
-.section-title--collab {
+.edition-title--collab {
     color: var(--color-red-800);
     background-color: var(--color-pink-100);
 }
-html.dark .section-title--base {
+html.dark .edition-title--base {
     color: var(--color-blue-300);
     background-color: var(--color-blue-900);
 }
-html.dark .section-title--dlc {
+html.dark .edition-title--dlc {
     color: var(--color-yellow-300);
     background-color: var(--color-yellow-900);
 }
-html.dark .section-title--collab {
+html.dark .edition-title--collab {
     color: var(--color-red-300);
     background-color: var(--color-pink-900);
+}
+.section-title--base {
+    color: var(--color-blue-800);
+}
+.section-title--dlc {
+    color: var(--color-yellow-800);
+}
+.section-title--collab {
+    color: var(--color-red-800);
+}
+html.dark .section-title--base {
+    color: var(--color-blue-300);
+}
+html.dark .section-title--dlc {
+    color: var(--color-yellow-300);
+}
+html.dark .section-title--collab {
+    color: var(--color-red-300);
 }
 
 /* KaTeX 公式中星命诀与本传不同的部分：\htmlClass{dlc-diff}{...} */
