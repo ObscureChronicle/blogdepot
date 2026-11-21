@@ -1,0 +1,51 @@
+---
+// 同一词条几组内容之间的切换按钮（如宝物同名多诗「其一 / 其二」），外观与人物页的 DataToggle（React）一致，
+// 但用普通 <script> 实现，避免为一个按钮在宝物页引入 React island。
+//
+// 用法：按钮的 group 与内容块的 data-variant-group 相同，内容块用 data-variant-index 标序号，
+// 非首个内容块默认加 hidden。点击时只切换同一个 [data-variant-root] 内、同一 group 的内容块。
+type Props = {
+    group: string;
+    labels: string[];
+    class?: string;
+};
+
+const { group, labels, class: className = '' } = Astro.props as Props;
+---
+
+<div role="group" class:list={['flex justify-end gap-3 py-[5px]', className]} data-variant-toggle={group}>
+    {
+        labels.map((label, i) => (
+            <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-variant-index={i} class="corner-mark cursor-pointer px-[11px] py-1 text-sm transition-colors">
+                {label}
+            </button>
+        ))
+    }
+</div>
+
+<script>
+    function initVariantToggles() {
+        document.querySelectorAll<HTMLElement>('[data-variant-toggle]').forEach((toggle) => {
+            if (toggle.dataset.variantReady) return;
+            toggle.dataset.variantReady = 'true';
+            const group = toggle.dataset.variantToggle;
+            const root = toggle.closest('[data-variant-root]') ?? document;
+
+            toggle.addEventListener('click', (event) => {
+                const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-variant-index]');
+                if (!button) return;
+                const index = button.dataset.variantIndex;
+
+                // 同一 group 可能有多组按钮（如说明、效果各一组），全部同步选中态
+                root.querySelectorAll<HTMLElement>(`[data-variant-toggle="${group}"] button[data-variant-index]`).forEach((b) => {
+                    b.setAttribute('aria-pressed', String(b.dataset.variantIndex === index));
+                });
+                root.querySelectorAll<HTMLElement>(`[data-variant-group="${group}"]`).forEach((block) => {
+                    block.hidden = block.dataset.variantIndex !== index;
+                });
+            });
+        });
+    }
+
+    document.addEventListener('astro:page-load', initVariantToggles);
+</script>

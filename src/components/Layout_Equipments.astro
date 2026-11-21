@@ -6,11 +6,27 @@ type EquipmentData = {
     damageReduction?: Record<string, number>;
 };
 
+/**
+ * 同名宝物的一首附诗及其对应的效果（如青釭的三首诗）。多首时在「说明」上方显示「其一 / 其二」切换按钮，
+ * 说明、效果、正主、素材一起切换。owner / materials 省略时沿用顶层的 baseOwner / baseMaterials（dlc 同理）。
+ */
+type TreasureVariant = {
+    /** 切换按钮文字，省略时按顺序为「其一」「其二」… */
+    label?: string;
+    description: string;
+    equipment: EquipmentData;
+    owner?: string[];
+    materials?: string[];
+};
+
 type EquipmentWikiProps = {
     baseDescription?: string;
     dlcDescription?: string;
     baseEquipment?: EquipmentData;
     dlcEquipment?: EquipmentData;
+    /** 有多首附诗时代替 baseDescription / baseEquipment，两种写法不要混用 */
+    baseVariants?: TreasureVariant[];
+    dlcVariants?: TreasureVariant[];
     baseOwner?: string[];
     dlcOwner?: string[];
     baseMaterials?: string[];
@@ -23,6 +39,8 @@ const {
     dlcDescription,
     baseEquipment,
     dlcEquipment,
+    baseVariants,
+    dlcVariants,
     baseOwner = [],
     dlcOwner = [],
     baseMaterials = [],
@@ -35,6 +53,7 @@ import SectionTitle from './SectionTitle.astro';
 import EquipmentStats from './EquipmentStats.jsx';
 import TraitNote from './TraitNote.astro';
 import WikiLink from './WikiLink.astro';
+import VariantToggle from './VariantToggle.astro';
 import { STATUS_MAP } from '../utils/wiki-links';
 import { linkStatusNames, linkStatusTokens, type StatusTextPart } from '../utils/status-link-parts';
 
@@ -66,22 +85,57 @@ const buildLinkedValues = (equipment?: EquipmentData): Record<string, StatusText
     return result;
 };
 
-const baseLinkedValues = buildLinkedValues(baseEquipment);
-const dlcLinkedValues = buildLinkedValues(dlcEquipment);
+const CHINESE_NUMERALS = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const defaultLabel = (i: number) => `其${CHINESE_NUMERALS[i] ?? i + 1}`;
 
+type ResolvedVariant = {
+    label: string;
+    description: string;
+    equipment?: EquipmentData;
+    linkedValues: Record<string, StatusTextPart[]>;
+    owner: string[];
+    materials: string[];
+};
+
+// 单首附诗的旧写法也统一成只有一个元素的数组，渲染时不用分两套
+const resolveVariants = (
+    variants: TreasureVariant[] | undefined,
+    description: string | undefined,
+    equipment: EquipmentData | undefined,
+    owner: string[],
+    materials: string[]
+): ResolvedVariant[] => {
+    const list = variants && variants.length > 0 ? variants : [{ description: description ?? '', equipment, owner, materials }];
+    return list.map((v, i) => ({
+        label: ('label' in v && v.label) || defaultLabel(i),
+        description: v.description,
+        equipment: v.equipment,
+        linkedValues: buildLinkedValues(v.equipment),
+        owner: v.owner ?? owner,
+        materials: v.materials ?? materials
+    }));
+};
+
+const base = resolveVariants(baseVariants, baseDescription, baseEquipment, baseOwner, baseMaterials);
+const dlc = resolveVariants(dlcVariants, dlcDescription, dlcEquipment, dlcOwner, dlcMaterials);
+const editions = { base, dlc } as const;
+type Edition = keyof typeof editions;
 
 const hasEquipment = (e?: EquipmentData) => !!e && Object.values(e).some((v) => !!v && Object.keys(v).length > 0);
-const hasOwner = (o?: string[]) => !!o && o.length > 0;
-const hasMaterials = (m?: string[]) => !!m && m.length > 0;
+const some = (list: ResolvedVariant[], pick: (v: ResolvedVariant) => boolean) => list.some(pick);
 
-const showBaseDesc = !!baseDescription && baseDescription.length > 0;
-const showDlcDesc = !!dlcDescription && dlcDescription.length > 0;
-const showBaseEquip = hasEquipment(baseEquipment);
-const showDlcEquip = hasEquipment(dlcEquipment);
-const showBaseOwner = hasOwner(baseOwner);
-const showDlcOwner = hasOwner(dlcOwner);
-const showBaseMaterials = hasMaterials(baseMaterials);
-const showDlcMaterials = hasMaterials(dlcMaterials);
+const showBaseDesc = some(base, (v) => v.description.length > 0);
+const showDlcDesc = some(dlc, (v) => v.description.length > 0);
+const showBaseEquip = some(base, (v) => hasEquipment(v.equipment));
+const showDlcEquip = some(dlc, (v) => hasEquipment(v.equipment));
+const showBaseOwner = some(base, (v) => v.owner.length > 0);
+const showDlcOwner = some(dlc, (v) => v.owner.length > 0);
+const showBaseMaterials = some(base, (v) => v.materials.length > 0);
+const showDlcMaterials = some(dlc, (v) => v.materials.length > 0);
+
+// 多首附诗时每个内容块带上分组属性，非首个默认隐藏；只有一首时不加属性，输出与原来一致
+const variantAttrs = (edition: Edition, i: number) =>
+    editions[edition].length > 1 ? { 'data-variant-group': `treasure-${edition}`, 'data-variant-index': String(i), hidden: i > 0 } : {};
 ---
 
 {/* ==================== 说明 ==================== */}
@@ -90,8 +144,16 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
         <>
             <SectionTitle>说明</SectionTitle>
             <EditionSplit showBase={showBaseDesc} showDlc={showDlcDesc}>
-                <p slot="base" class="whitespace-pre-line text-base leading-relaxed">{baseDescription}</p>
-                <p slot="dlc" class="whitespace-pre-line text-base leading-relaxed">{dlcDescription}</p>
+                {(['base', 'dlc'] as const).map((edition) => (
+                    <Fragment slot={edition}>
+                        {editions[edition].length > 1 && <VariantToggle group={`treasure-${edition}`} labels={editions[edition].map((v) => v.label)} />}
+                        {editions[edition].map((v, i) => (
+                            <p class="whitespace-pre-line text-base leading-relaxed" {...variantAttrs(edition, i)}>
+                                {v.description}
+                            </p>
+                        ))}
+                    </Fragment>
+                ))}
             </EditionSplit>
         </>
     )
@@ -103,8 +165,19 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
         <>
             <SectionTitle>效果</SectionTitle>
             <EditionSplit showBase={showBaseEquip} showDlc={showDlcEquip}>
-                <EquipmentStats slot="base" equipment={baseEquipment} linkedValues={baseLinkedValues} />
-                <EquipmentStats slot="dlc" equipment={dlcEquipment} linkedValues={dlcLinkedValues} />
+                {(['base', 'dlc'] as const).map((edition) => (
+                    <Fragment slot={edition}>
+                        {editions[edition].map((v, i) =>
+                            editions[edition].length > 1 ? (
+                                <div {...variantAttrs(edition, i)}>
+                                    {hasEquipment(v.equipment) && <EquipmentStats equipment={v.equipment} linkedValues={v.linkedValues} />}
+                                </div>
+                            ) : (
+                                hasEquipment(v.equipment) && <EquipmentStats equipment={v.equipment} linkedValues={v.linkedValues} />
+                            )
+                        )}
+                    </Fragment>
+                ))}
             </EditionSplit>
         </>
     )
@@ -116,12 +189,17 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
         <>
             <SectionTitle>正主</SectionTitle>
             <EditionSplit showBase={showBaseOwner} showDlc={showDlcOwner}>
-                <div slot="base" class="flex flex-col items-start gap-1">
-                    {baseOwner.map((name) => <WikiLink kind="character" name={name} />)}
-                </div>
-                <div slot="dlc" class="flex flex-col items-start gap-1">
-                    {dlcOwner.map((name) => <WikiLink kind="character" name={name} />)}
-                </div>
+                {(['base', 'dlc'] as const).map((edition) => (
+                    <Fragment slot={edition}>
+                        {editions[edition].map((v, i) => (
+                            <div class="flex flex-col items-start gap-1" {...variantAttrs(edition, i)}>
+                                {v.owner.map((name) => (
+                                    <WikiLink kind="character" name={name} />
+                                ))}
+                            </div>
+                        ))}
+                    </Fragment>
+                ))}
             </EditionSplit>
         </>
     )
@@ -133,28 +211,23 @@ const showDlcMaterials = hasMaterials(dlcMaterials);
         <>
             <SectionTitle>素材</SectionTitle>
             <EditionSplit showBase={showBaseMaterials} showDlc={showDlcMaterials}>
-                <table slot="base" class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]">
-                    <tbody>
-                        {baseMaterials.map((item) => (
-                            <tr>
-                                <td>
-                                    <WikiLink kind="item" name={item} bare />
-                                </td>
-                            </tr>
+                {(['base', 'dlc'] as const).map((edition) => (
+                    <Fragment slot={edition}>
+                        {editions[edition].map((v, i) => (
+                            <table class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]" {...variantAttrs(edition, i)}>
+                                <tbody>
+                                    {v.materials.map((item) => (
+                                        <tr>
+                                            <td>
+                                                <WikiLink kind="item" name={item} bare />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         ))}
-                    </tbody>
-                </table>
-                <table slot="dlc" class="wiki-table wiki-table--list not-prose mt-2 max-w-[20rem]">
-                    <tbody>
-                        {dlcMaterials.map((item) => (
-                            <tr>
-                                <td>
-                                    <WikiLink kind="item" name={item} bare />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    </Fragment>
+                ))}
             </EditionSplit>
         </>
     )

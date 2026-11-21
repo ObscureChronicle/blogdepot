@@ -127,6 +127,20 @@ export function checkLegacyTraitOwners(raw: string): Finding[] {
 }
 
 /**
+ * 宝物有多首附诗时用 baseVariants / dlcVariants，每首自带 description / equipment；
+ * 同一版本再写非空的 Description / Equipment 不会显示，按错误拦截。空值（{''}、{{}}）不算混用。
+ */
+export function checkTreasureVariants(raw: string): Finding[] {
+    return (['base', 'dlc'] as const).flatMap((edition): Finding[] => {
+        if (!new RegExp(`^\\s*${edition}Variants\\s*=`, 'm').test(raw)) return [];
+        const legacy = new RegExp(`^\\s*${edition}(Description|Equipment)\\s*=\\s*\\{(?!\\s*(''|""|\\{\\s*\\})\\s*\\})`, 'm');
+        return legacy.test(raw)
+            ? [{ level: 'error', message: `写了 ${edition}Variants 时不要再写 ${edition}Description / ${edition}Equipment，附诗和效果写进各首的 description / equipment` }]
+            : [];
+    });
+}
+
+/**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。
  * @param knownRoutes 全部内容页面的路径（contentRoute 的结果）

@@ -13,6 +13,7 @@ import {
     checkLegacyAttributeFigure,
     checkLegacyTermHeadings,
     checkLegacyTraitOwners,
+    checkTreasureVariants,
     contentRoute
 } from '../scripts/content-checks.ts';
 import { extractBaseClassRelations, type ClassRelations } from '../src/utils/class-relations.ts';
@@ -238,4 +239,21 @@ test('checkLegacyTraitOwners: hand-written baseOwner / dlcOwner on a trait entry
 
 test('checkLegacyTraitOwners: a trait entry without owner props is fine', () => {
     assert.deepEqual(checkLegacyTraitOwners(`<TraitWiki\n  level={3}\n  dlcDescription={'x'}\n/>`), []);
+});
+
+test('checkTreasureVariants: variants mixed with a non-empty description or equipment are errors', () => {
+    const raw = `<EquipmentWiki\n  baseDescription={'诗'}\n  baseEquipment={{ base: { 武勇: '+3' } }}\n  baseVariants={[{ description: 'a', equipment: {} }]}\n/>`;
+    const findings = checkTreasureVariants(raw);
+    assert.equal(findings.length, 1);
+    assert.ok(findings[0].level === 'error' && findings[0].message.includes('baseVariants'));
+});
+
+test('checkTreasureVariants: empty placeholders and the other edition are fine', () => {
+    const raw = `<EquipmentWiki\n  baseVariants={[{ description: 'a', equipment: {} }]}\n  dlcDescription={'诗'}\n  dlcEquipment={{ base: { 武勇: '+3' } }}\n/>`;
+    assert.deepEqual(checkTreasureVariants(raw), []);
+    assert.deepEqual(checkTreasureVariants(`<EquipmentWiki\n  dlcVariants={[]}\n  dlcDescription={''}\n  dlcEquipment={{}}\n/>`), []);
+});
+
+test('checkTreasureVariants: entries without variants are fine', () => {
+    assert.deepEqual(checkTreasureVariants(`<EquipmentWiki\n  baseDescription={'诗'}\n/>`), []);
 });
