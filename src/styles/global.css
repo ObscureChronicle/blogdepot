@@ -42,6 +42,8 @@
     --chart-text-muted: #555555;
     --chart-grid: #cccccc;
     --chart-tooltip-bg: var(--bg-main);
+    /* 默认的800blue太现代，饱和度太高了，晃眼。先这样看要不要回撤 */
+    --color-blue-800: #15559a;
 }
 
 html.dark {
@@ -130,6 +132,7 @@ html.dark {
 }
 
 @layer base {
+
     /* 中文回退字体（宋体等）没有斜体字面，浏览器会把字形硬掰斜；禁止合成斜体后中文直立，
        Newsreader 自带真斜体，英文仍正常显示为斜体 */
     html {
@@ -165,11 +168,11 @@ html.dark {
         vertical-align: top;
     }
 
-    .wiki-table :where(tbody tr) > * {
+    .wiki-table :where(tbody tr)>* {
         border-bottom: 1px solid var(--wiki-rule);
     }
 
-    .wiki-table :where(tbody tr:last-child) > * {
+    .wiki-table :where(tbody tr:last-child)>* {
         border-bottom: 0;
     }
 
@@ -207,13 +210,13 @@ html.dark {
         white-space: nowrap;
     }
 
-    .wiki-table--hover tbody tr > *,
-    .wiki-table--merged tbody tr > * {
+    .wiki-table--hover tbody tr>*,
+    .wiki-table--merged tbody tr>* {
         transition: background-color 150ms ease-out;
     }
 
     @media (hover: hover) {
-        .wiki-table--hover tbody tr:not(:has(> th[colspan])):is(:hover, :focus-within, .is-hl) > * {
+        .wiki-table--hover tbody tr:not(:has(> th[colspan])):is(:hover, :focus-within, .is-hl)>* {
             background-color: var(--bg-muted);
         }
     }
@@ -228,7 +231,7 @@ html.dark {
         font-size: 0.875rem;
     }
 
-    .wiki-table--merged tbody tr.cat-start:not(:first-child) > * {
+    .wiki-table--merged tbody tr.cat-start:not(:first-child)>* {
         border-top: 1px solid var(--wiki-rule-strong);
     }
 
@@ -246,20 +249,18 @@ html.dark {
     }
 
     @media (hover: hover) {
-        .wiki-table--merged tbody tr:is(:hover, :focus-within) > *,
-        .wiki-table--merged
-            tr.cls-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cls-start:is(:hover, :focus-within), ~ tr.cls-start ~ tr:is(:hover, :focus-within)))
-            > .cls-cell,
-        .wiki-table--merged
-            tr.cat-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cat-start:is(:hover, :focus-within), ~ tr.cat-start ~ tr:is(:hover, :focus-within)))
-            > .cat-cell,
-        .wiki-table--merged tr.cls-start:has(> .cls-cell:hover) ~ tr:not(.cls-start):not(tr.cls-start:has(> .cls-cell:hover) ~ tr.cls-start ~ tr) > *,
-        .wiki-table--merged tr.cat-start:has(> .cat-cell:hover) ~ tr:not(.cat-start):not(tr.cat-start:has(> .cat-cell:hover) ~ tr.cat-start ~ tr) > * {
+
+        .wiki-table--merged tbody tr:is(:hover, :focus-within)>*,
+        .wiki-table--merged tr.cls-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cls-start:is(:hover, :focus-within), ~ tr.cls-start ~ tr:is(:hover, :focus-within)))>.cls-cell,
+        .wiki-table--merged tr.cat-start:has(~ tr:is(:hover, :focus-within)):not(:has(~ tr.cat-start:is(:hover, :focus-within), ~ tr.cat-start ~ tr:is(:hover, :focus-within)))>.cat-cell,
+        .wiki-table--merged tr.cls-start:has(> .cls-cell:hover)~tr:not(.cls-start):not(tr.cls-start:has(> .cls-cell:hover) ~ tr.cls-start ~ tr)>*,
+        .wiki-table--merged tr.cat-start:has(> .cat-cell:hover)~tr:not(.cat-start):not(tr.cat-start:has(> .cat-cell:hover) ~ tr.cat-start ~ tr)>* {
             background-color: var(--bg-muted);
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
+
         /* 悬停过渡规则的选择器更具体，这里用 !important 统一关闭 */
         .wiki-table :where(th, td) {
             transition: none !important;
@@ -290,11 +291,13 @@ html.dark {
         --scroll-fade-start: 0px;
         --scroll-fade-end: 2rem;
     }
+
     8%,
     92% {
         --scroll-fade-start: 2rem;
         --scroll-fade-end: 2rem;
     }
+
     to {
         --scroll-fade-start: 2rem;
         --scroll-fade-end: 0px;
@@ -305,13 +308,11 @@ html.dark {
     .wiki .overflow-x-auto {
         animation: scroll-fade linear both;
         animation-timeline: scroll(self inline);
-        mask-image: linear-gradient(
-            to right,
-            transparent,
-            #000 var(--scroll-fade-start),
-            #000 calc(100% - var(--scroll-fade-end)),
-            transparent
-        );
+        mask-image: linear-gradient(to right,
+                transparent,
+                #000 var(--scroll-fade-start),
+                #000 calc(100% - var(--scroll-fade-end)),
+                transparent);
     }
 
     /*
@@ -322,6 +323,7 @@ html.dark {
     .icon-frame:not(.absolute, .fixed, .sticky) {
         position: relative;
     }
+
     .icon-frame::after {
         content: '';
         position: absolute;
@@ -358,7 +360,7 @@ html.dark {
     }
 
     @media (hover: hover) {
-        .prose :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *)):hover > * {
+        .prose :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *)):hover>* {
             background-color: var(--bg-muted);
         }
     }
@@ -430,20 +432,24 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
 .edition-frame {
     position: relative;
 }
+
 :is(.edition-title, .edition-frame)::before,
 :is(.edition-title, .edition-frame)::after {
     content: '';
     position: absolute;
     pointer-events: none;
 }
+
 :is(.edition-title, .edition-frame)::before {
     inset: 0;
     border-inline: var(--frame-bar, 3px) solid currentColor;
 }
+
 :is(.edition-title, .edition-frame)::after {
     inset: var(--frame-inset-y, 3px) var(--frame-inset-x, 7px);
     border-block: 1px solid currentColor;
 }
+
 .edition-frame--sm {
     --frame-bar: 2px;
     --frame-inset-y: 2px;
@@ -462,6 +468,7 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
     display: block;
     position: relative;
 }
+
 .section-title::after {
     content: '';
     position: absolute;
@@ -477,6 +484,7 @@ td:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-pro
 html.dark .edition-title {
     background-color: var(--color-blue-200);
 }
+
 html.dark .section-title {
     color: var(--color-blue-300);
 }
@@ -486,41 +494,52 @@ html.dark .section-title {
     color: var(--color-blue-800);
     background-color: var(--color-blue-100);
 }
+
 .edition-title--dlc {
     color: var(--color-yellow-800);
     background-color: var(--color-yellow-100);
 }
+
 .edition-title--collab {
     color: var(--color-red-800);
     background-color: var(--color-pink-100);
 }
+
 html.dark .edition-title--base {
     color: var(--color-blue-300);
     background-color: var(--color-blue-900);
 }
+
 html.dark .edition-title--dlc {
     color: var(--color-yellow-300);
     background-color: var(--color-yellow-900);
 }
+
 html.dark .edition-title--collab {
     color: var(--color-red-300);
     background-color: var(--color-pink-900);
 }
+
 .section-title--base {
     color: var(--color-blue-800);
 }
+
 .section-title--dlc {
     color: var(--color-yellow-800);
 }
+
 .section-title--collab {
     color: var(--color-red-800);
 }
+
 html.dark .section-title--base {
     color: var(--color-blue-300);
 }
+
 html.dark .section-title--dlc {
     color: var(--color-yellow-300);
 }
+
 html.dark .section-title--collab {
     color: var(--color-red-300);
 }
@@ -538,15 +557,18 @@ html.dark .section-title--collab {
     --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 20'%3E%3Crect width='2' height='20'/%3E%3Cpolygon points='3,0 10,0 6.5,10 10,20 3,20'/%3E%3C/svg%3E");
     position: relative;
 }
+
 /* :is() 的优先级取最高参数（0,2,0），修饰类要写成双类名才压得过 */
 .fishtail.fishtail--sm {
     --fishtail-w: 8px;
     --fishtail-h: 16px;
     --fishtail-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 16'%3E%3Crect width='2' height='16'/%3E%3Cpolygon points='3,0 8,0 5.5,8 8,16 3,16'/%3E%3C/svg%3E");
 }
+
 .fishtail {
     padding-inline: calc(var(--fishtail-w) + 0.25em);
 }
+
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::before,
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
     content: '';
@@ -559,10 +581,12 @@ html.dark .section-title--collab {
     mask: var(--fishtail-mask) no-repeat 0 0 / 100% 100%;
     pointer-events: none;
 }
+
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::before {
     left: 0;
     transform: translateY(-50%);
 }
+
 :is(.fishtail, .changelog-chip[aria-pressed='true'])::after {
     right: 0;
     transform: translateY(-50%) scaleX(-1);
@@ -578,9 +602,11 @@ html.dark .section-title--collab {
     border-radius: 0;
     color: color-mix(in srgb, var(--text-main) 72%, transparent);
 }
+
 .corner-mark:hover {
     color: var(--text-main);
 }
+
 .corner-mark::before,
 .corner-mark::after {
     content: '';
@@ -591,34 +617,40 @@ html.dark .section-title--collab {
     opacity: 0.4;
     pointer-events: none;
 }
+
 .corner-mark::before {
     left: 0;
     top: 0;
     border-top-width: 1.5px;
     border-left-width: 1.5px;
 }
+
 .corner-mark::after {
     right: 0;
     bottom: 0;
     border-bottom-width: 1.5px;
     border-right-width: 1.5px;
 }
+
 .corner-mark[aria-pressed='true'] {
     background-color: var(--text-main);
     color: var(--bg-main);
     font-weight: 500;
 }
+
 .corner-mark[aria-pressed='true']::before,
 .corner-mark[aria-pressed='true']::after {
     border-color: var(--text-main);
     opacity: 1;
 }
+
 .corner-mark[aria-pressed='true']::before {
     left: -5px;
     top: -5px;
     border-top-width: 2px;
     border-left-width: 2px;
 }
+
 .corner-mark[aria-pressed='true']::after {
     right: -5px;
     bottom: -5px;
@@ -630,6 +662,7 @@ html.dark .section-title--collab {
 .dlc-diff {
     color: var(--color-red-600);
 }
+
 html.dark .dlc-diff {
     color: var(--color-red-400);
 }
