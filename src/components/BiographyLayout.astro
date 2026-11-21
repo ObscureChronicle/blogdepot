@@ -4,7 +4,7 @@ import CharacterNameTable from './Table_CharacterName.jsx';
 import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import EditionBadge from './EditionBadge.astro';
 import SectionTitle from './SectionTitle.astro';
-import { EDITIONS } from '../data/editions';
+import { EDITIONS, type Edition } from '../data/editions';
 import WikiLink from './WikiLink.astro';
 
 /** 本传的一个形态；多个形态时 name 是切换按钮文字 */
@@ -17,6 +17,24 @@ type BaseForm = {
     traits: string[];
     /** 各属性的上限加成，顺序同 data；省略则雷达图不显示上限标记 */
     figure?: number[];
+};
+
+/** 初始设定表格的一行 */
+type InitialSetupRow = {
+    label: string;
+    value: string;
+};
+
+/** 初始设定按版本分组的表格内容 */
+type InitialSetupGroup = {
+    edition: Edition;
+    rows: InitialSetupRow[];
+};
+
+/** 军略：军略名与习得时机 */
+type ArtOfWarEntry = {
+    name: string;
+    learnedAt: string;
 };
 
 type CharacterWikiProps = {
@@ -35,6 +53,16 @@ type CharacterWikiProps = {
     equipments: string[];
     links: { label: string; href: string }[];
     nameTableData: {};
+    /** 初始设定：按版本分组的表格 */
+    initialSetup?: InitialSetupGroup[];
+    /** 初始设定表格下方的脚注 */
+    initialSetupNote?: string;
+    /** 入队装备，与「关联装备」一样按物品名生成词条链接 */
+    initialEquipments?: string[];
+    /** 军略：军略名 + 习得时机 */
+    artsOfWar?: ArtOfWarEntry[];
+    /** 因缘：其他人物名称，按人物名生成词条链接 */
+    bonds?: string[];
 };
 
 const {
@@ -51,7 +79,12 @@ const {
     battlesDLC,
     equipments,
     links,
-    nameTableData
+    nameTableData,
+    initialSetup,
+    initialSetupNote,
+    initialEquipments,
+    artsOfWar,
+    bonds
 } = Astro.props as CharacterWikiProps;
 
 const hasBase = (baseForms?.length ?? 0) > 0;
@@ -131,6 +164,74 @@ const dlcname_short = EDITIONS.dlc.shortName;
             </div>
         </>
     )
+}
+{
+    initialSetup && initialSetup.length > 0 ? (
+        <>
+            <SectionTitle>初始设定</SectionTitle>
+            <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                <tbody>
+                    {initialSetup.map((group) => (
+                        <>
+                            <tr>
+                                <th scope="rowgroup" colspan="2">
+                                    {EDITIONS[group.edition].shortName}
+                                </th>
+                            </tr>
+                            {group.rows.map((row) => (
+                                <tr>
+                                    <th scope="row" class="w-28">
+                                        {row.label}
+                                    </th>
+                                    <td class="text-right">{row.value}</td>
+                                </tr>
+                            ))}
+                        </>
+                    ))}
+                </tbody>
+            </table>
+            {initialSetupNote && <p class="text-base leading-relaxed">{initialSetupNote}</p>}
+        </>
+    ) : null
+}
+{
+    initialEquipments && initialEquipments.length > 0 ? (
+        <>
+            <SectionTitle>入队装备</SectionTitle>
+            <div class="flex flex-col pl-4">{initialEquipments.map((e) => <WikiLink kind="item" name={e} linkClass="" />)}</div>
+        </>
+    ) : null
+}
+{
+    artsOfWar && artsOfWar.length > 0 ? (
+        <>
+            <SectionTitle>军略</SectionTitle>
+            <table class="wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]">
+                <thead>
+                    <tr>
+                        <th scope="col">军略名</th>
+                        <th scope="col">习得时机</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {artsOfWar.map((entry) => (
+                        <tr>
+                            <th scope="row">{entry.name}</th>
+                            <td class="text-right">{entry.learnedAt}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </>
+    ) : null
+}
+{
+    bonds && bonds.length > 0 ? (
+        <>
+            <SectionTitle>因缘</SectionTitle>
+            <div class="flex flex-col pl-4">{bonds.map((name) => <WikiLink kind="character" name={name} />)}</div>
+        </>
+    ) : null
 }
 {
     equipments && equipments.length > 0 ? (

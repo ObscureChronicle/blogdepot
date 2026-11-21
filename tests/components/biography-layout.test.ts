@@ -78,3 +78,54 @@ describe('BiographyLayout.astro 能力区', () => {
         expect(html).not.toContain('>能力</h2>');
     });
 });
+
+describe('BiographyLayout.astro 可操控人物的数据栏目', () => {
+    it('renders none of the four sections when the new props are omitted', async () => {
+        const html = await render({ baseForms: [form('初期', 1, ['甲特性'])] });
+        for (const title of ['初始设定', '入队装备', '军略', '因缘']) {
+            expect(html).not.toContain(`>${title}</h2>`);
+        }
+    });
+
+    it('renders 初始设定 grouped by edition, with right-aligned values and a footnote', async () => {
+        const html = await render({
+            baseForms: [form('初期', 1, [])],
+            initialSetup: [
+                { edition: 'base', rows: [{ label: '兵力', value: '1000' }] },
+                { edition: 'dlc', rows: [{ label: '秩级', value: '比三百石' }] }
+            ],
+            initialSetupNote: '*脚注'
+        });
+        expect(html).toContain('>初始设定</h2>');
+        expect(html).toContain(EDITIONS.base.shortName);
+        expect(html).toContain(EDITIONS.dlc.shortName);
+        expect(html).toContain('scope="rowgroup"');
+        expect(html).toContain('兵力');
+        expect(html).toContain('<td class="text-right">1000</td>');
+        expect(html).toContain('*脚注');
+    });
+
+    it('renders 入队装备 as item links, like 关联装备', async () => {
+        const html = await render({ baseForms: [form('初期', 1, [])], initialEquipments: ['穷奇'] });
+        expect(html).toContain('>入队装备</h2>');
+        expect(html).toContain('href="/projects/treasure/qiongqi/"');
+    });
+
+    it('renders 军略 as a two-column table', async () => {
+        const html = await render({
+            baseForms: [form('初期', 1, [])],
+            artsOfWar: [{ name: '强攻', learnedAt: '初始习得' }]
+        });
+        expect(html).toContain('>军略</h2>');
+        expect(html).toContain('军略名');
+        expect(html).toContain('习得时机');
+        expect(html).toContain('<th scope="row">强攻</th>');
+        expect(html).toContain('<td class="text-right">初始习得</td>');
+    });
+
+    it('renders 因缘 as character links', async () => {
+        const html = await render({ baseForms: [form('初期', 1, [])], bonds: ['曹操'] });
+        expect(html).toContain('>因缘</h2>');
+        expect(html).toContain('href="/projects/bio/caocao/"');
+    });
+});
