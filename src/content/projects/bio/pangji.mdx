@@ -64,6 +64,16 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
       ["官渡之战", "盟军", "弓兵", "特定情况下"]
     ]
   }
+  initialSetup={[
+    { edition: 'dlc', rows: [
+      { label: '秩级', value: '比三百石' },
+      { label: '兵力', value: '1617' },
+      { label: '兵种', value: '弓兵' },
+      { label: '要职', value: '主簿' },
+      { label: '关联', value: '兵装所*' }
+    ] }
+  ]}
+  initialSetupNote="*田丰离队后。"
   equipments={['穷奇']}
   links={
     [
@@ -72,34 +82,3 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
     ]
   }
 />
-
-<h2 class="section-title">初始设定</h2>
-
-<table class='wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]'>
-  <tbody>
-    <tr>
-      <th scope='rowgroup' colspan='2'>星命诀</th>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>秩级</th>
-      <td class='text-right'>比三百石</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>兵力</th>
-      <td class='text-right'>1617</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>兵种</th>
-      <td class='text-right'>弓兵</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>要职</th>
-      <td class='text-right'>主簿</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>关联</th>
-      <td class='text-right'>兵装所*</td>
-    </tr>
-  </tbody>
-</table>
-*田丰离队后。

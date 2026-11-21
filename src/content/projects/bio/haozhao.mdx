@@ -51,6 +51,23 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
       ["成都平叛战", "我军", "", "战后离队"]
     ]
   }
+  initialSetup={[
+    { edition: 'base', rows: [
+      { label: '兵力', value: '500' },
+      { label: '兵种', value: '刀兵' },
+      { label: '入队', value: '潼关之战（上）' },
+      { label: '离队', value: '成都平叛战' }
+    ] }
+  ]}
+  artsOfWar={
+    [
+      { name: '坚壁1', learnedAt: '1' },
+      { name: '坚壁2', learnedAt: '12' },
+      { name: '坚壁3', learnedAt: '30' },
+      { name: '奋起1', learnedAt: '5' },
+      { name: '奋起2', learnedAt: '16' },
+    ]
+  }
   links={
     [
       {label: "创作手记", href: "../../../blog/post-haozhao/"},

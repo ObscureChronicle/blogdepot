@@ -56,6 +56,17 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
       ["邺城之战", "敌军", "井阑", "主将"]
     ]
   }
+  initialSetup={[
+    { edition: 'dlc', rows: [
+      { label: '秩级', value: '比百石' },
+      { label: '兵力', value: '2403' },
+      { label: '兵种', value: '民兵' },
+      { label: '要职', value: '治中' },
+      { label: '关联', value: '攻具所' },
+      { label: '关联', value: '锻造所*' }
+    ] }
+  ]}
+  initialSetupNote="*仅关联出售种类。"
   equipments={['五火神焰扇', '司命']}
   links={
     [
@@ -64,40 +75,3 @@ import CharacterWiki from "../../../components/BiographyLayout.astro";
     ]
   }
 />
-
-
-<h2 class="section-title">初始设定</h2>
-
-
-<table class='wiki-table wiki-table--hover not-prose mt-2 max-w-[30rem]'>
-  <tbody>
-    <tr>
-      <th scope='rowgroup' colspan='2'>星命诀</th>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>秩级</th>
-      <td class='text-right'>比百石</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>兵力</th>
-      <td class='text-right'>2403</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>兵种</th>
-      <td class='text-right'>民兵</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>要职</th>
-      <td class='text-right'>治中</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>关联</th>
-      <td class='text-right'>攻具所</td>
-    </tr>
-    <tr>
-      <th scope='row' class='w-28'>关联</th>
-      <td class='text-right'>锻造所*</td>
-    </tr>
-  </tbody>
-</table>
-*仅关联出售种类。
