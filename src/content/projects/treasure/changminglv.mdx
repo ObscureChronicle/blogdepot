@@ -11,16 +11,53 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 长命缕是《后汉稽异录》中的一件<a href="../00_treasure-type/">配饰</a>。
 
 <EquipmentWiki
-  baseDescription={'溯洄从之，道阻且长。'}
-  dlcDescription={''}
-  baseEquipment={{
-    base: {
-      好感度: '+10',
-      效果: ['阻止本回合前二次败退'],
-      适用: '陈泰、荀溯之',
-      免疫: '濒死'
+  baseVariants={[
+    {
+      description: ['「莫失莫忘，长生未央。」'],
+      equipment: {
+       base: {
+          好感度: '+10',
+          效果: ['阻止本回合前二次败退'],
+          适用: '陈泰、荀溯之',
+          免疫: '濒死'
+        }
+      }
+    },    
+    {
+      description: ['溯洄从之，道阻且长。'],
+      equipment: {
+        base: {
+          好感度: '+10',
+          效果: ['阻止本回合前二次败退'],
+          适用: '陈泰、荀溯之',
+          免疫: '濒死'
+        }
+      }
+    },    
+    {
+      description: ['无物结同心，烟花不堪剪。'],
+      equipment: {
+        base: {
+          好感度: '+10',
+          效果: ['阻止本回合前二次败退'],
+          适用: '陈泰、荀溯之',
+          免疫: '濒死'
+        }
+      }
+    },    
+    {
+      description: ['愿天无霜雪，梧子结千年。'],
+      equipment: {
+        base: {
+          好感度: '+10',
+          效果: ['阻止本回合前二次败退'],
+          适用: '陈泰、荀溯之',
+          免疫: '濒死'
+        }
+      }
     }
-  }}
+  ]}
+  dlcDescription={''}
   dlcEquipment={{}}
   baseOwner={['荀溯之', '陈泰']}
 />

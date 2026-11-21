@@ -11,15 +11,39 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 青釭是《后汉稽异录》与《后汉稽异录外传：星命诀》中的一件<a href="../00_treasure-type/">配饰</a>。在彩蛋关卡中，青釭被定位为单兵状态的赵云的武器。
 
 <EquipmentWiki
-  baseDescription={'明明日月光，何所不光昭。'}
-  dlcDescription={'明明日月光，何所不光昭。'}
-  baseEquipment={{
-    base: {
-      武勇: '+3',
-      效果: ['遭受骑兵近战攻击时减免损伤'],
-      适用: '刀兵、亲卫、车兵、有盾步兵'
+  baseVariants={[
+    {
+      description: ['明明日月光，何所不光昭。'],
+      equipment: {
+        base: {
+          武勇: '+3',
+          效果: ['遭受骑兵近战攻击时减免损伤'],
+          适用: '刀兵、亲卫、车兵、有盾步兵'
+        }
+      }
+    },
+    {
+      description: ['登高眺所思，举袂当朝阳。'],
+      equipment: {
+        base: {
+          武勇: '+3',
+          效果: ['遭受骑兵近战攻击时减免损伤'],
+          适用: '刀兵、亲卫、车兵、有盾步兵'
+        }
+      }
+    },
+    {
+      description: ['丹青不知老将至，富贵于我如浮云。'],
+      equipment: {
+        base: {
+          武勇: '+3',
+          效果: ['遭受骑兵近战攻击时减免损伤'],
+          适用: '刀兵、亲卫、车兵、有盾步兵'
+        }
+      }
     }
-  }}
+  ]}
+  dlcDescription={'明明日月光，何所不光昭。'}
   dlcEquipment={{
     base: {
       武勇: '+3',
@@ -33,11 +57,16 @@ import EquipmentWiki from '../../../components/Layout_Equipments.astro';
 
 <h2 class='section-title section-title--base'>单兵武器</h2>
 
-| 说明 | 古来冲阵扶危主，惟有常山赵子龙。 |
+### 说明
+
+古来冲阵扶危主，惟有常山赵子龙。
+
+| 项目 |  |
+|--|--|
 | 类型 | 刀类 |
 | 价格 | 7880 |
 | 威力 | 2 |
 | 命中 | 13 |
 | 必杀 | 7 |
 | 范围 | 1 |
-| 效果 | 刺击类 龙胆 禁止交换' |
+| 效果 | 刺击类 龙胆 禁止交换 |
