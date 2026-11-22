@@ -18,6 +18,16 @@ export type ParsedTreasurePoem = {
     dlc: string[];
 };
 
+/** 附诗的本地化文本，写在词条自身的 poemLocalization 里 */
+export type TreasurePoemLocalization = {
+    /** 繁體字 */
+    hant?: string;
+    /** 日本語 */
+    ja?: string;
+    /** English */
+    en?: string;
+};
+
 /** 从 start（指向某个开括号）开始找到配对的闭括号；字符串里的括号不计 */
 function findClosingBracket(text: string, start: number): number {
     const open = text[start];
@@ -98,4 +108,39 @@ export function parseTreasurePoem(raw: string): ParsedTreasurePoem {
     const base = normalizePoems([readStringProp(raw, 'baseDescription'), ...readVariantDescriptions(raw, 'baseVariants')]);
     const dlc = normalizePoems([readStringProp(raw, 'dlcDescription'), ...readVariantDescriptions(raw, 'dlcVariants')]);
     return { title: extractTitle(raw) ?? '', base, dlc };
+}
+
+/**
+ * 读取词条自身的附诗本地化（poemLocalization={{ hant: '…', ja: '…', en: '…' }}）。
+ * 没有该属性时返回 null；有属性但某项缺失/为空时，该项为空字符串。
+ */
+export function parseTreasurePoemLocalization(raw: string): TreasurePoemLocalization | null {
+    const block = readPropBlock(raw, 'poemLocalization');
+    if (block === null) return null;
+
+    const result: TreasurePoemLocalization = {};
+    for (const key of ['hant', 'ja', 'en'] as const) {
+        const match = new RegExp(`\\b${key}\\s*:\\s*('(?:[^'\\\\]|\\\\.)*'|"(?:[^"\\\\]|\\\\.)*"|\`(?:[^\`\\\\]|\\\\.)*\`)`).exec(block);
+        result[key] = match ? unquote(match[1]) : '';
+    }
+    return result;
+}
+
+export type TreasurePoemRow = ParsedTreasurePoem &
+    TreasurePoemLocalization & {
+        slug: string;
+    };
+
+/** 从 MDX 原文集合里收集写了 poemLocalization 的词条，按 slug 排序 */
+export function buildTreasurePoemRows(files: Record<string, string>): TreasurePoemRow[] {
+    return Object.entries(files)
+        .map(([file, raw]) => {
+            const localization = parseTreasurePoemLocalization(raw);
+            if (!localization) return null;
+            const parts = file.replace(/\\/g, '/').split('/');
+            const slug = parts[parts.length - 1].replace(/\.mdx$/, '');
+            return { slug, ...parseTreasurePoem(raw), ...localization };
+        })
+        .filter((row): row is TreasurePoemRow => row !== null)
+        .sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
 }

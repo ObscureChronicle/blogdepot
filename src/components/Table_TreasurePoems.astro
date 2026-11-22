@@ -1,11 +1,12 @@
 ---
 // 配饰附诗总览表：名称 / 附诗（原文、本地化）。
-// 原文在构建时从词条 MDX 读取；本地化按 hant / ja / en 三份文本渲染，
-// 用 radio + CSS 切换，不引入水合脚本，缺省文本显示「—」。
+// 构建时扫描写了 poemLocalization 的词条；原文与本地化都从词条 MDX 读取，
+// 本地化按 hant / ja / en 三份文本渲染，用 radio + CSS 切换，不引入水合脚本，
+// 缺省文本显示「—」。
 import EditionBadge from './EditionBadge.astro';
 import { getTreasurePoemRows, type TreasurePoemRow } from '../utils/treasure-poems-data';
 
-// 类型页没有附诗，只作为本地化占位数据保留，不进入表格
+// 写了 poemLocalization 但没有附诗的类型页不进入表格
 const rows = getTreasurePoemRows().filter((row) => row.base.length > 0 || row.dlc.length > 0);
 
 const samePoems = (a: string[], b: string[]) => a.length === b.length && a.every((poem, i) => poem === b[i]);

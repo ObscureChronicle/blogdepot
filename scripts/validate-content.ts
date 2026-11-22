@@ -66,7 +66,13 @@ const classRelations = new Map(
 );
 const classTreeIssues: Issue[] = checkClassTree(classTreeCards, classRelations).map((f) => ({ ...f, file: 'src/data/class-tree.ts' }));
 
-const allIssues: Issue[] = [...perFileIssues, ...disambiguationIssues, ...classTreeIssues];
+// 附诗本地化写在词条自身的 poemLocalization，不再维护集中清单
+const legacyPoemData = path.join('src', 'data', 'treasure-poems.ts');
+const legacyPoemDataIssues: Issue[] = fs.existsSync(legacyPoemData)
+    ? [{ level: 'error', file: legacyPoemData, message: '附诗本地化已改为写在词条自身的 poemLocalization 字段，请删除集中清单' }]
+    : [];
+
+const allIssues: Issue[] = [...perFileIssues, ...disambiguationIssues, ...classTreeIssues, ...legacyPoemDataIssues];
 
 const errors = allIssues.filter((i) => i.level === 'error');
 const warnings = allIssues.filter((i) => i.level === 'warning');

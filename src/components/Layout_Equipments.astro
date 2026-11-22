@@ -31,6 +31,8 @@ type EquipmentWikiProps = {
     dlcOwner?: string[];
     baseMaterials?: string[];
     dlcMaterials?: string[];
+    /** 附诗的本地化文本；只在配饰附诗总览表里使用，本组件不渲染 */
+    poemLocalization?: { hant?: string; ja?: string; en?: string };
     noteHtml?: string;
 };
 
