@@ -24,9 +24,6 @@ export type TreasurePoemEntry = TreasurePoemLocalization & {
 };
 
 export const TREASURE_POEMS: TreasurePoemEntry[] = [
-    { slug: '00_item-type', hant: '', ja: '', en: '' }, // 类型页：宝物
-    { slug: '00_military-book', hant: '', ja: '', en: '' }, // 类型页：兵法书
-    { slug: '00_treasure-type', hant: '', ja: '', en: '' }, // 类型页：配饰
     { slug: 'anlegongyin', hant: '', ja: '', en: '' }, // 安乐公印
     { slug: 'baihong', hant: '', ja: '', en: '' }, // 白虹
     { slug: 'baili', hant: '', ja: '', en: '' }, // 百里
