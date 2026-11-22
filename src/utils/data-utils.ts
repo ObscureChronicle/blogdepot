@@ -15,20 +15,25 @@ export function sortItemsByDateDesc(itemA: CollectionEntry<'blog' | 'projects'>,
 
 // 分类标签：中文名 → 英文 slug。新增分类标签时在这里登记，否则 check:content 会报 warning。
 const CATEGORY_TAG_SLUGS = {
+    // 日志
     参考文献: 'reference',
     创作手记: 'diary',
     更新日志: 'changelog',
-    游戏术语: 'term',
-    事典: 'encyclopedia',
     文存: 'wen-yan',
-    人物: 'biography',
-    兵装与宝物: 'equipment',
-    列表: 'list',
-    特性: 'trait',
-    军略: 'art-of-war',
-    关卡: 'stage',
-    状态: 'status',
+
+    // wiki
     兵种: 'class',
+    兵装: 'equipment',
+    关卡: 'stage',
+    技能: 'skill',
+    军略: 'art-of-war',
+    列表: 'list',
+    人物: 'biography',
+    事典: 'encyclopedia',
+    特性: 'trait',
+    游戏术语: 'term',
+    物品: 'item',
+    状态: 'status',
     消歧义: 'disambiguation'
 } as const;
 

@@ -1,5 +1,5 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 import { formatProjectTitle, getProjectCategory, getProjectCategoryName, groupBy, pickFeaturedProjects, withNeighbors } from '../src/utils/neighbor-utils.ts';
 
 test('withNeighbors: first item has no prev, last item has no next', () => {
@@ -38,7 +38,7 @@ test('getProjectCategory: falls back to the entry id when there is no category t
 
 test('getProjectCategoryName: maps the category tag to its Chinese display name', () => {
     assert.equal(getProjectCategoryName({ id: 'bio/chendao', data: { tags: ['biography'] } }), '人物');
-    assert.equal(getProjectCategoryName({ id: 'treasure/chendao', data: { tags: ['equipment'] } }), '兵装与宝物');
+    assert.equal(getProjectCategoryName({ id: 'treasure/chendao', data: { tags: ['equipment'] } }), '兵装');
     assert.equal(getProjectCategoryName({ id: 'disambiguation/chendao', data: { tags: ['wiki-c', 'disambiguation'] } }), '消歧义');
 });
 

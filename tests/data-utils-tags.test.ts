@@ -1,6 +1,6 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { countPostsByTag, getAllTags, isPinyinIndexTag, sortTagsByName, SLUG_TAG_MAP, TAG_SLUG_MAP } from '../src/utils/data-utils.ts';
+import { test } from 'node:test';
+import { countPostsByTag, getAllTags, isPinyinIndexTag, SLUG_TAG_MAP, sortTagsByName, TAG_SLUG_MAP } from '../src/utils/data-utils.ts';
 import { projectEntry } from './helpers/fixtures.ts';
 
 function post(tags?: string[]) {
@@ -37,10 +37,10 @@ test('getAllTags: posts with no tags or empty tags array produce no entries', ()
 });
 
 test('getAllTags: multiple distinct recognized tags are all returned, each once', () => {
-    const result = getAllTags([post(['人物', '兵装与宝物']), post(['人物'])]);
+    const result = getAllTags([post(['人物', '兵装']), post(['人物'])]);
     assert.deepEqual(result, [
         { name: '人物', id: 'biography' },
-        { name: '兵装与宝物', id: 'equipment' }
+        { name: '兵装', id: 'equipment' }
     ]);
 });
 
