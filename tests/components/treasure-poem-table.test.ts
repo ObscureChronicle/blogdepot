@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('../../src/utils/treasure-poems-data', () => ({
     getTreasurePoemRows: () => [
         { slug: 'yitian', title: '倚天', base: ['东到蓬莱山，上至天之门。'], dlc: ['东到蓬莱山，上至天之门。'], hant: '', ja: '', en: '' },
-        { slug: 'li', title: '离', base: ['昔年江畔，共谁策马？'], dlc: ['日中见沬，折其右肱。'], hant: '昔年江畔，共誰策馬？', ja: '昔年江畔、共に誰と策馬したか？', en: 'By the river years ago, who rode with me?' }
+        { slug: 'li', title: '离', base: ['昔年江畔，共谁策马？'], dlc: ['日中见沬，折其右肱。'], hant: '昔年江畔，共誰策馬？', ja: '昔年江畔、共に誰と策馬したか？', en: 'By the river years ago, who rode with me?' },
+        { slug: '00_treasure-type', title: '配饰', base: [], dlc: [], hant: '', ja: '', en: '' }
     ]
 }));
 
@@ -50,5 +51,10 @@ describe('Table_TreasurePoems.astro', () => {
         expect(html).toContain('星命诀');
         expect(html).toContain('昔年江畔，共谁策马？');
         expect(html).toContain('日中见沬，折其右肱。');
+    });
+
+    it('skips type pages that have no poem', async () => {
+        const html = await render();
+        expect(html).not.toContain('href="/projects/treasure/00_treasure-type/"');
     });
 });

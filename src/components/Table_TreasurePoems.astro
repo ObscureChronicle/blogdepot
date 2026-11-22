@@ -5,7 +5,8 @@
 import EditionBadge from './EditionBadge.astro';
 import { getTreasurePoemRows, type TreasurePoemRow } from '../utils/treasure-poems-data';
 
-const rows = getTreasurePoemRows();
+// 类型页没有附诗，只作为本地化占位数据保留，不进入表格
+const rows = getTreasurePoemRows().filter((row) => row.base.length > 0 || row.dlc.length > 0);
 
 const samePoems = (a: string[], b: string[]) => a.length === b.length && a.every((poem, i) => poem === b[i]);
 const editionsDiffer = (row: TreasurePoemRow) => row.base.length > 0 && row.dlc.length > 0 && !samePoems(row.base, row.dlc);
