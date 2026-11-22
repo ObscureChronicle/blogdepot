@@ -10,10 +10,14 @@ type EquipmentData = {
  * 同名宝物的一首附诗及其对应的效果（如青釭的三首诗）。多首时在「说明」上方显示「其一 / 其二」切换按钮，
  * 说明、效果、正主、素材一起切换。owner / materials 省略时沿用顶层的 baseOwner / baseMaterials（dlc 同理）。
  */
+type PoemLocalization = { hant?: string; ja?: string; en?: string };
+
 type TreasureVariant = {
     /** 切换按钮文字，省略时按顺序为「其一」「其二」… */
     label?: string;
     description: string;
+    /** 这首附诗的本地化文本；只在配饰附诗总览表里使用，本组件不渲染 */
+    localization?: PoemLocalization;
     equipment: EquipmentData;
     owner?: string[];
     materials?: string[];
@@ -31,8 +35,9 @@ type EquipmentWikiProps = {
     dlcOwner?: string[];
     baseMaterials?: string[];
     dlcMaterials?: string[];
-    /** 附诗的本地化文本；只在配饰附诗总览表里使用，本组件不渲染 */
-    poemLocalization?: { hant?: string; ja?: string; en?: string };
+    /** 单首附诗的本地化文本；只在配饰附诗总览表里使用，本组件不渲染 */
+    baseLocalization?: PoemLocalization;
+    dlcLocalization?: PoemLocalization;
     noteHtml?: string;
 };
 

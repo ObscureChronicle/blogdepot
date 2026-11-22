@@ -11,6 +11,7 @@ import {
     checkFrontmatter,
     checkInternalLinks,
     checkLegacyAttributeFigure,
+    checkLegacyPoemLocalization,
     checkLegacyTermHeadings,
     checkLegacyTraitOwners,
     checkTreasureVariants,
@@ -252,6 +253,11 @@ test('checkTreasureVariants: empty placeholders and the other edition are fine',
     const raw = `<EquipmentWiki\n  baseVariants={[{ description: 'a', equipment: {} }]}\n  dlcDescription={'诗'}\n  dlcEquipment={{ base: { 武勇: '+3' } }}\n/>`;
     assert.deepEqual(checkTreasureVariants(raw), []);
     assert.deepEqual(checkTreasureVariants(`<EquipmentWiki\n  dlcVariants={[]}\n  dlcDescription={''}\n  dlcEquipment={{}}\n/>`), []);
+});
+
+test('checkLegacyPoemLocalization: the old per-entry field is an error, per-poem fields are fine', () => {
+    assert.equal(checkLegacyPoemLocalization(`  poemLocalization={{ hant: '', ja: '', en: '' }}`).length, 1);
+    assert.deepEqual(checkLegacyPoemLocalization(`  baseLocalization={{ hant: '', ja: '', en: '' }}\n  localization: { hant: '', ja: '', en: '' },`), []);
 });
 
 test('checkTreasureVariants: entries without variants are fine', () => {

@@ -141,6 +141,16 @@ export function checkTreasureVariants(raw: string): Finding[] {
 }
 
 /**
+ * 附诗本地化已下沉到每首附诗：单首写 baseLocalization / dlcLocalization，
+ * 多首写在各形态的 localization 里。顶层的 poemLocalization 不再使用。
+ */
+export function checkLegacyPoemLocalization(raw: string): Finding[] {
+    return /^\s*poemLocalization\s*=/m.test(raw)
+        ? [{ level: 'error', message: '附诗本地化已改为每首一组：单首写 baseLocalization / dlcLocalization，多首写在各自形态的 localization 里' }]
+        : [];
+}
+
+/**
  * 正文里指向百科 / 日志页面的站内链接，目标页面必须存在。
  * 相对链接按带结尾斜杠的页面地址解析；比较时不区分大小写（线上会把大写地址重定向到小写）。
  * @param knownRoutes 全部内容页面的路径（contentRoute 的结果）

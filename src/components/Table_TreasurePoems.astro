@@ -1,18 +1,24 @@
 ---
 // 配饰附诗总览表：名称 / 附诗（原文、本地化）。
-// 构建时扫描写了 poemLocalization 的词条；原文与本地化都从词条 MDX 读取，
+// 构建时扫描写了本地化的词条；每首附诗单独成行，本地化跟行不跟词条。
 // 本地化按 hant / ja / en 三份文本渲染，用 radio + CSS 切换，不引入水合脚本，
 // 缺省文本显示「—」。
 import EditionBadge from './EditionBadge.astro';
-import { getTreasurePoemRows, type TreasurePoemRow } from '../utils/treasure-poems-data';
+import { getTreasurePoemGroups, type TreasurePoemGroup } from '../utils/treasure-poems-data';
 
-// 写了 poemLocalization 但没有附诗的类型页不进入表格
-const rows = getTreasurePoemRows().filter((row) => row.base.length > 0 || row.dlc.length > 0);
+const groups = getTreasurePoemGroups().filter((group) => group.rows.length > 0);
 
-const samePoems = (a: string[], b: string[]) => a.length === b.length && a.every((poem, i) => poem === b[i]);
-const editionsDiffer = (row: TreasurePoemRow) => row.base.length > 0 && row.dlc.length > 0 && !samePoems(row.base, row.dlc);
+const rowsOf = (group: TreasurePoemGroup, edition: 'base' | 'dlc') => group.rows.filter((row) => row.editions.includes(edition));
+
+// 本传与星命诀都有附诗、且不是每行都同时属于两版时，用版本标签区分
+const showEditions = (group: TreasurePoemGroup) => {
+    const base = rowsOf(group, 'base');
+    const dlc = rowsOf(group, 'dlc');
+    if (base.length === 0 || dlc.length === 0) return false;
+    return !(base.length === dlc.length && group.rows.every((row) => row.editions.length === 2));
+};
+
 const localized = (text?: string) => (text && text.trim() ? text.trim() : '—');
-const poemsOf = (row: TreasurePoemRow) => (row.base.length > 0 ? row.base : row.dlc);
 ---
 
 <div class="treasure-poems not-prose my-4">
@@ -46,42 +52,40 @@ const poemsOf = (row: TreasurePoemRow) => (row.base.length > 0 ? row.base : row.
             </thead>
             <tbody>
                 {
-                    rows.map((row) => (
-                        <tr>
-                            <th scope="row" class="whitespace-nowrap">
-                                <a href={`/projects/treasure/${row.slug}/`} class="hover:underline">
-                                    {row.title || row.slug}
-                                </a>
-                            </th>
-                            <td>
-                                {editionsDiffer(row) ? (
-                                    <div class="space-y-2">
-                                        <div>
-                                            <EditionBadge edition="base" />
-                                            <p class="mt-1 whitespace-pre-line">{row.base.join('\n')}</p>
-                                        </div>
-                                        <div>
-                                            <EditionBadge edition="dlc" />
-                                            <p class="mt-1 whitespace-pre-line">{row.dlc.join('\n')}</p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <p class="whitespace-pre-line">{poemsOf(row).join('\n')}</p>
+                    groups.map((group) =>
+                        group.rows.map((row, index) => (
+                            <tr>
+                                {index === 0 && (
+                                    <th scope="row" rowspan={group.rows.length} class="whitespace-nowrap align-top">
+                                        <a href={`/projects/treasure/${group.slug}/`} class="hover:underline">
+                                            {group.title || group.slug}
+                                        </a>
+                                    </th>
                                 )}
-                            </td>
-                            <td>
-                                <span data-poem-lang="hant" class="whitespace-pre-line">
-                                    {localized(row.hant)}
-                                </span>
-                                <span data-poem-lang="ja" class="whitespace-pre-line">
-                                    {localized(row.ja)}
-                                </span>
-                                <span data-poem-lang="en" class="whitespace-pre-line">
-                                    {localized(row.en)}
-                                </span>
-                            </td>
-                        </tr>
-                    ))
+                                <td>
+                                    {showEditions(group) && (
+                                        <div class="mb-1 flex flex-wrap gap-1">
+                                            {row.editions.map((edition) => (
+                                                <EditionBadge edition={edition} />
+                                            ))}
+                                        </div>
+                                    )}
+                                    <p class="whitespace-pre-line">{row.text}</p>
+                                </td>
+                                <td>
+                                    <span data-poem-lang="hant" class="whitespace-pre-line">
+                                        {localized(row.hant)}
+                                    </span>
+                                    <span data-poem-lang="ja" class="whitespace-pre-line">
+                                        {localized(row.ja)}
+                                    </span>
+                                    <span data-poem-lang="en" class="whitespace-pre-line">
+                                        {localized(row.en)}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))
+                    )
                 }
             </tbody>
         </table>

@@ -1,24 +1,15 @@
 /**
- * 配饰附诗原文的解析（纯函数）。
+ * 配饰附诗原文与本地化的解析（纯函数）。
  *
  * 宝物词条的附诗写在 Layout_Equipments 的 props 里，没有进 frontmatter，
  * 所以构建时直接读 MDX 原文解析。支持两种写法：
- *   baseDescription={'…'} / dlcDescription={'…'}
- *   baseVariants={[{ description: ['…'], … }]} / dlcVariants={…}
- * 同名多诗时每个形态各有一句，按原文顺序返回。
+ *   baseDescription={'…'} + baseLocalization={{ hant: '…', ja: '…', en: '…' }}
+ *   baseVariants={[{ description: ['…'], localization: { hant: '…', … }, … }]}
+ * 多首附诗时每首各自带一组本地化，表格里每首单独成行。
  */
 
 import { extractTitle } from './wiki-link-parser.ts';
 
-export type ParsedTreasurePoem = {
-    title: string;
-    /** 本传原文，按出现顺序；没有则为空数组 */
-    base: string[];
-    /** 星命诀原文，按出现顺序；没有则为空数组 */
-    dlc: string[];
-};
-
-/** 附诗的本地化文本，写在词条自身的 poemLocalization 里 */
 export type TreasurePoemLocalization = {
     /** 繁體字 */
     hant?: string;
@@ -26,6 +17,36 @@ export type TreasurePoemLocalization = {
     ja?: string;
     /** English */
     en?: string;
+};
+
+export type Edition = 'base' | 'dlc';
+
+/** 一首附诗及其本地化文本 */
+export type ParsedPoem = {
+    text: string;
+    localization: TreasurePoemLocalization;
+};
+
+export type ParsedTreasurePoem = {
+    title: string;
+    /** 本传附诗，按出现顺序 */
+    base: ParsedPoem[];
+    /** 星命诀附诗，按出现顺序 */
+    dlc: ParsedPoem[];
+    /** 词条里是否写了任意一组本地化；没写的词条不进附诗总览 */
+    hasLocalization: boolean;
+};
+
+/** 总览表的一行：一首附诗及其对应的本地化 */
+export type TreasurePoemRow = TreasurePoemLocalization & {
+    text: string;
+    editions: Edition[];
+};
+
+export type TreasurePoemGroup = {
+    slug: string;
+    title: string;
+    rows: TreasurePoemRow[];
 };
 
 /** 从 start（指向某个开括号）开始找到配对的闭括号；字符串里的括号不计 */
@@ -57,6 +78,15 @@ function readPropBlock(raw: string, prop: string): string | null {
     return end === -1 ? null : raw.slice(start + 1, end);
 }
 
+/** 读取对象字段 `field: {…}` 内部原文；没有该字段时返回 null */
+function readFieldBlock(text: string, field: string): string | null {
+    const m = new RegExp(`\\b${field}\\s*:\\s*\\{`).exec(text);
+    if (!m) return null;
+    const start = text.indexOf('{', m.index);
+    const end = findClosingBracket(text, start);
+    return end === -1 ? null : text.slice(start + 1, end);
+}
+
 /** 去掉字符串字面量两端的引号并还原常见转义 */
 function unquote(literal: string): string {
     return literal
@@ -76,48 +106,9 @@ function readStringProp(raw: string, prop: string): string {
     return end > 0 ? unquote(block.slice(0, end + 1)) : '';
 }
 
-/** 读取多形态写法里的 description；数组内每个字符串是一首诗 */
-function readVariantDescriptions(raw: string, prop: string): string[] {
-    const block = readPropBlock(raw, prop);
-    if (!block) return [];
-
-    const result: string[] = [];
-    const re = /description\s*:\s*(\[[^\]]*\]|'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")/g;
-    for (const match of block.matchAll(re)) {
-        const value = match[1].trim();
-        const literals = value.startsWith('[') ? [...value.matchAll(/'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"/g)].map((x) => x[0]) : [value];
-        for (const literal of literals) result.push(unquote(literal));
-    }
-    return result;
-}
-
-/** 去空白、去空串、去重，保留首次出现的顺序 */
-function normalizePoems(list: string[]): string[] {
-    const seen = new Set<string>();
-    const result: string[] = [];
-    for (const item of list) {
-        const text = item.trim();
-        if (!text || seen.has(text)) continue;
-        seen.add(text);
-        result.push(text);
-    }
-    return result;
-}
-
-export function parseTreasurePoem(raw: string): ParsedTreasurePoem {
-    const base = normalizePoems([readStringProp(raw, 'baseDescription'), ...readVariantDescriptions(raw, 'baseVariants')]);
-    const dlc = normalizePoems([readStringProp(raw, 'dlcDescription'), ...readVariantDescriptions(raw, 'dlcVariants')]);
-    return { title: extractTitle(raw) ?? '', base, dlc };
-}
-
-/**
- * 读取词条自身的附诗本地化（poemLocalization={{ hant: '…', ja: '…', en: '…' }}）。
- * 没有该属性时返回 null；有属性但某项缺失/为空时，该项为空字符串。
- */
-export function parseTreasurePoemLocalization(raw: string): TreasurePoemLocalization | null {
-    const block = readPropBlock(raw, 'poemLocalization');
-    if (block === null) return null;
-
+/** 读取本地化对象里的 hant / ja / en；缺项按空字符串处理 */
+function readLocalization(block: string | null): TreasurePoemLocalization {
+    if (block === null) return {};
     const result: TreasurePoemLocalization = {};
     for (const key of ['hant', 'ja', 'en'] as const) {
         const match = new RegExp(`\\b${key}\\s*:\\s*('(?:[^'\\\\]|\\\\.)*'|"(?:[^"\\\\]|\\\\.)*"|\`(?:[^\`\\\\]|\\\\.)*\`)`).exec(block);
@@ -126,21 +117,119 @@ export function parseTreasurePoemLocalization(raw: string): TreasurePoemLocaliza
     return result;
 }
 
-export type TreasurePoemRow = ParsedTreasurePoem &
-    TreasurePoemLocalization & {
-        slug: string;
+/** 把 variants 数组切成每个形态对象的内部原文 */
+function variantBodies(block: string): string[] {
+    const start = block.indexOf('[');
+    if (start === -1) return [];
+    const bodies: string[] = [];
+    let i = start + 1;
+    while (i < block.length) {
+        if (block[i] === '{') {
+            const end = findClosingBracket(block, i);
+            if (end === -1) break;
+            bodies.push(block.slice(i + 1, end));
+            i = end + 1;
+        } else {
+            i++;
+        }
+    }
+    return bodies;
+}
+
+/** 读取形态里的 description，字符串或字符串数组都支持 */
+function readDescriptionTexts(body: string): string[] {
+    const m = /\bdescription\s*:\s*/.exec(body);
+    if (!m) return [];
+    let i = m.index + m[0].length;
+    while (i < body.length && /\s/.test(body[i])) i++;
+
+    if (body[i] === '[') {
+        const end = findClosingBracket(body, i);
+        if (end === -1) return [];
+        return [...body.slice(i + 1, end).matchAll(/'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"/g)].map((x) => unquote(x[0]));
+    }
+    if (body[i] === "'" || body[i] === '"' || body[i] === '`') {
+        const match = /^('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*`)/.exec(body.slice(i));
+        return match ? [unquote(match[1])] : [];
+    }
+    return [];
+}
+
+/** 去空白、去空串、按原文与本地化去重，保留首次出现的顺序 */
+function normalizePoems(poems: ParsedPoem[]): ParsedPoem[] {
+    const seen = new Set<string>();
+    const result: ParsedPoem[] = [];
+    for (const poem of poems) {
+        const text = poem.text.trim();
+        if (!text) continue;
+        const key = JSON.stringify([text, poem.localization.hant, poem.localization.ja, poem.localization.en]);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        result.push({ text, localization: poem.localization });
+    }
+    return result;
+}
+
+export function parseTreasurePoem(raw: string): ParsedTreasurePoem {
+    let hasLocalization = false;
+
+    const parseEdition = (edition: Edition): ParsedPoem[] => {
+        const variantsBlock = readPropBlock(raw, `${edition}Variants`);
+        const poems: ParsedPoem[] = [];
+
+        if (variantsBlock !== null) {
+            for (const body of variantBodies(variantsBlock)) {
+                const localizationBlock = readFieldBlock(body, 'localization');
+                if (localizationBlock !== null) hasLocalization = true;
+                const localization = readLocalization(localizationBlock);
+                for (const text of readDescriptionTexts(body)) poems.push({ text, localization });
+            }
+            return normalizePoems(poems);
+        }
+
+        const text = readStringProp(raw, `${edition}Description`);
+        const localizationBlock = readPropBlock(raw, `${edition}Localization`);
+        if (localizationBlock !== null) hasLocalization = true;
+        if (text.trim()) poems.push({ text, localization: readLocalization(localizationBlock) });
+        return normalizePoems(poems);
     };
 
-/** 从 MDX 原文集合里收集写了 poemLocalization 的词条，按 slug 排序 */
-export function buildTreasurePoemRows(files: Record<string, string>): TreasurePoemRow[] {
+    return { title: extractTitle(raw) ?? '', base: parseEdition('base'), dlc: parseEdition('dlc'), hasLocalization };
+}
+
+function slugOf(file: string): string {
+    const parts = file.replace(/\\/g, '/').split('/');
+    return parts[parts.length - 1].replace(/\.mdx$/, '');
+}
+
+const rowKey = (text: string, localization: TreasurePoemLocalization) =>
+    JSON.stringify([text, localization.hant, localization.ja, localization.en]);
+
+/**
+ * 从 MDX 原文集合里收集写了本地化的词条，每首附诗一行；
+ * 本传与星命诀原文、本地化都相同的同一首诗合并为一行。
+ */
+export function buildTreasurePoemGroups(files: Record<string, string>): TreasurePoemGroup[] {
     return Object.entries(files)
         .map(([file, raw]) => {
-            const localization = parseTreasurePoemLocalization(raw);
-            if (!localization) return null;
-            const parts = file.replace(/\\/g, '/').split('/');
-            const slug = parts[parts.length - 1].replace(/\.mdx$/, '');
-            return { slug, ...parseTreasurePoem(raw), ...localization };
+            const parsed = parseTreasurePoem(raw);
+            if (!parsed.hasLocalization) return null;
+
+            const rows: TreasurePoemRow[] = [];
+            const add = (poem: ParsedPoem, edition: Edition) => {
+                const key = rowKey(poem.text, poem.localization);
+                const row = rows.find((r) => rowKey(r.text, r) === key);
+                if (row) {
+                    if (!row.editions.includes(edition)) row.editions.push(edition);
+                    return;
+                }
+                rows.push({ text: poem.text, editions: [edition], ...poem.localization });
+            };
+            parsed.base.forEach((poem) => add(poem, 'base'));
+            parsed.dlc.forEach((poem) => add(poem, 'dlc'));
+
+            return rows.length > 0 ? { slug: slugOf(file), title: parsed.title, rows } : null;
         })
-        .filter((row): row is TreasurePoemRow => row !== null)
+        .filter((group): group is TreasurePoemGroup => group !== null)
         .sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
 }

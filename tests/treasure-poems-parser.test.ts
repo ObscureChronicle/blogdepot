@@ -1,67 +1,92 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildTreasurePoemRows, parseTreasurePoem, parseTreasurePoemLocalization } from '../src/utils/treasure-poems-parser.ts';
+import { buildTreasurePoemGroups, parseTreasurePoem } from '../src/utils/treasure-poems-parser.ts';
 
-const mdx = (props: string) => `---\ntitle: 倚天\ntags:\n  - equipment\n\n---\n\n<EquipmentWiki\n${props}\n/>\n`;
+const mdx = (props: string) => `---\ntitle: 倚天\ntags:\n  - item\n\n---\n\n<EquipmentWiki\n${props}\n/>\n`;
 
-test('parseTreasurePoem: 读取本传与星命诀相同的单首附诗', () => {
-    const parsed = parseTreasurePoem(mdx(`baseDescription={'东到蓬莱山，上至天之门。'}\ndlcDescription={'东到蓬莱山，上至天之门。'}`));
-    assert.equal(parsed.title, '倚天');
-    assert.deepEqual(parsed.base, ['东到蓬莱山，上至天之门。']);
-    assert.deepEqual(parsed.dlc, ['东到蓬莱山，上至天之门。']);
-});
-
-test('parseTreasurePoem: 两版不同时分别返回', () => {
-    const parsed = parseTreasurePoem(mdx(`baseDescription={'昔年江畔，共谁策马？'}\ndlcDescription={'日中见沬，折其右肱。'}`));
-    assert.deepEqual(parsed.base, ['昔年江畔，共谁策马？']);
-    assert.deepEqual(parsed.dlc, ['日中见沬，折其右肱。']);
-});
-
-test('parseTreasurePoem: 本传为空时只返回星命诀文本', () => {
-    const parsed = parseTreasurePoem(mdx(`baseDescription={''}\ndlcDescription={'平明寻白羽，没在石棱中。'}`));
-    assert.deepEqual(parsed.base, []);
-    assert.deepEqual(parsed.dlc, ['平明寻白羽，没在石棱中。']);
-});
-
-test('parseTreasurePoem: 读取 baseVariants / dlcVariants 里的多首附诗', () => {
+test('parseTreasurePoem: 单首附诗各自读取本传与星命诀的本地化', () => {
     const parsed = parseTreasurePoem(
-        mdx(
-            `baseVariants={[\n  { description: ['明明日月光，何所不光昭。'], equipment: {} },\n  { description: ['登高眺所思，举袂当朝阳。'], equipment: {} }\n]}\ndlcDescription={'明明日月光，何所不光昭。'}`
-        )
+        mdx(`baseDescription={'昔年江畔，共谁策马？'}\nbaseLocalization={{ hant: '昔年江畔，共誰策馬？', ja: '昔年江畔', en: 'By the river' }}\ndlcDescription={'日中见沬，折其右肱。'}\ndlcLocalization={{ hant: '', ja: '日中', en: '' }}`)
     );
-    assert.deepEqual(parsed.base, ['明明日月光，何所不光昭。', '登高眺所思，举袂当朝阳。']);
-    assert.deepEqual(parsed.dlc, ['明明日月光，何所不光昭。']);
+    assert.equal(parsed.hasLocalization, true);
+    assert.deepEqual(parsed.base, [{ text: '昔年江畔，共谁策马？', localization: { hant: '昔年江畔，共誰策馬？', ja: '昔年江畔', en: 'By the river' } }]);
+    assert.deepEqual(parsed.dlc, [{ text: '日中见沬，折其右肱。', localization: { hant: '', ja: '日中', en: '' } }]);
 });
 
-test('parseTreasurePoem: 去空串、去重并保留顺序', () => {
-    const parsed = parseTreasurePoem(mdx(`baseDescription={'甲'}\nbaseVariants={[{ description: ['甲', '乙', ''] }]}`));
-    assert.deepEqual(parsed.base, ['甲', '乙']);
+test('parseTreasurePoem: 多首附诗时本地化逐首对应', () => {
+    const parsed = parseTreasurePoem(
+        mdx(`baseVariants={[
+  { description: ['甲诗'], localization: { hant: '甲繁', ja: '甲日', en: '甲英' }, equipment: {} },
+  { description: ['乙诗'], localization: { hant: '乙繁', ja: '', en: '' }, equipment: {} }
+]}`)
+    );
+    assert.equal(parsed.hasLocalization, true);
+    assert.deepEqual(
+        parsed.base.map((p) => [p.text, p.localization.hant]),
+        [
+            ['甲诗', '甲繁'],
+            ['乙诗', '乙繁']
+        ]
+    );
+    assert.deepEqual(parsed.base[0].localization, { hant: '甲繁', ja: '甲日', en: '甲英' });
 });
 
-test('parseTreasurePoemLocalization: 读取词条自身的三语文本', () => {
-    const parsed = parseTreasurePoemLocalization(mdx(`poemLocalization={{ hant: '昔年江畔，共誰策馬？', ja: '昔年江畔、共に誰と策馬したか？', en: 'Who rode with me?' }}`));
-    assert.deepEqual(parsed, { hant: '昔年江畔，共誰策馬？', ja: '昔年江畔、共に誰と策馬したか？', en: 'Who rode with me?' });
+test('parseTreasurePoem: 本传多首与星命诀单首分开对应，不串行', () => {
+    const parsed = parseTreasurePoem(
+        mdx(`baseVariants={[
+  { description: ['甲诗'], localization: { hant: '甲繁', ja: '', en: '' }, equipment: {} },
+  { description: ['乙诗'], localization: { hant: '乙繁', ja: '', en: '' }, equipment: {} }
+]}\ndlcDescription={'丙诗'}\ndlcLocalization={{ hant: '丙繁', ja: '', en: '' }}`)
+    );
+    assert.deepEqual(
+        parsed.base.map((p) => p.localization.hant),
+        ['甲繁', '乙繁']
+    );
+    assert.deepEqual(
+        parsed.dlc.map((p) => [p.text, p.localization.hant]),
+        [['丙诗', '丙繁']]
+    );
 });
 
-test('parseTreasurePoemLocalization: 空字符串原样保留，缺项补空字符串', () => {
-    assert.deepEqual(parseTreasurePoemLocalization(mdx(`poemLocalization={{ hant: '', ja: '' }}`)), { hant: '', ja: '', en: '' });
+test('parseTreasurePoem: 没有本地化时 hasLocalization 为 false，但原文仍解析', () => {
+    const parsed = parseTreasurePoem(mdx(`baseDescription={'甲'}\ndlcDescription={'乙'}`));
+    assert.equal(parsed.hasLocalization, false);
+    assert.deepEqual(
+        parsed.base.map((p) => p.text),
+        ['甲']
+    );
 });
 
-test('parseTreasurePoemLocalization: 没有该属性时返回 null', () => {
-    assert.equal(parseTreasurePoemLocalization(mdx(`baseDescription={'甲'}`)), null);
+test('parseTreasurePoem: 空的 description 不产出附诗行', () => {
+    const parsed = parseTreasurePoem(mdx(`baseDescription={'甲'}\nbaseLocalization={{ hant: '', ja: '', en: '' }}\ndlcDescription={''}`));
+    assert.equal(parsed.base.length, 1);
+    assert.deepEqual(parsed.dlc, []);
 });
 
-test('buildTreasurePoemRows: 只收录写了 poemLocalization 的词条，并按 slug 排序', () => {
-    const rows = buildTreasurePoemRows({
-        'src\\content\\projects\\treasure\\yitian.mdx': mdx(`baseDescription={'东到蓬莱山，上至天之门。'}\npoemLocalization={{ hant: '', ja: '', en: '' }}`),
-        'src\\content\\projects\\treasure\\li.mdx': mdx(`dlcDescription={'日中见沬，折其右肱。'}\npoemLocalization={{ hant: '甲', ja: '', en: '' }}`),
-        'src\\content\\projects\\treasure\\no-local.mdx': mdx(`baseDescription={'无本地化'}`)
+test('buildTreasurePoemGroups: 只收录写了本地化的词条，每首一行，两版相同则合并', () => {
+    const groups = buildTreasurePoemGroups({
+        'src\\content\\projects\\treasure\\yitian.mdx': mdx(`baseDescription={'甲'}\nbaseLocalization={{ hant: '', ja: '', en: '' }}\ndlcDescription={'甲'}\ndlcLocalization={{ hant: '', ja: '', en: '' }}`),
+        'src\\content\\projects\\treasure\\li.mdx': mdx(`baseDescription={'乙'}\nbaseLocalization={{ hant: '', ja: '', en: '' }}\ndlcDescription={'丙'}\ndlcLocalization={{ hant: '', ja: '', en: '' }}`),
+        'src\\content\\projects\\treasure\\no-local.mdx': mdx(`baseDescription={'丁'}`)
     });
     assert.deepEqual(
-        rows.map((r) => [r.slug, r.title, r.dlc[0], r.hant]),
+        groups.map((g) => [g.slug, g.rows.map((r) => [r.text, r.editions])]),
         [
-            ['li', '倚天', '日中见沬，折其右肱。', '甲'],
-            ['yitian', '倚天', undefined, '']
+            ['li', [['乙', ['base']], ['丙', ['dlc']]]],
+            ['yitian', [['甲', ['base', 'dlc']]]]
+        ]
+    );
+});
+
+test('buildTreasurePoemGroups: 原文相同但本地化不同时不合并', () => {
+    const groups = buildTreasurePoemGroups({
+        'src\\content\\projects\\treasure\\same.mdx': mdx(`baseDescription={'甲'}\nbaseLocalization={{ hant: '甲繁', ja: '', en: '' }}\ndlcDescription={'甲'}\ndlcLocalization={{ hant: '', ja: '', en: '' }}`)
+    });
+    assert.deepEqual(
+        groups[0].rows.map((r) => [r.text, r.editions, r.hant]),
+        [
+            ['甲', ['base'], '甲繁'],
+            ['甲', ['dlc'], '']
         ]
     );
 });
