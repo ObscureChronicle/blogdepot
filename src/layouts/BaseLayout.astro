@@ -22,6 +22,13 @@ const { showHeader = true, breadcrumb, breadcrumbOwnTags = [], ...head } = Astro
                 document.documentElement.classList.add('dark');
             }
         </script>
+        <script>
+            // 竖向滚动条占用的宽度（触控板 / 手机上的悬浮滚动条为 0），供 global.css 的 .full-bleed 扣除
+            const measureScrollbar = () =>
+                document.documentElement.style.setProperty('--scrollbar-width', `${window.innerWidth - document.documentElement.clientWidth}px`);
+            document.addEventListener('astro:page-load', measureScrollbar);
+            window.addEventListener('resize', measureScrollbar, { passive: true });
+        </script>
         <ClientRouter />
         <script is:inline src="/cursor-click.js" defer></script>
         <!-- Google tag (gtag.js) -->

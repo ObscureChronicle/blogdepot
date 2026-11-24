@@ -81,8 +81,8 @@ const showJumpBar = !inline && cards.length > 1;
 const cardId = (card: ClassTreeCard) => `ctree-${card.root}`;
 ---
 
-{/* 撑满视口宽度：宽度扣掉竖向滚动条（--scrollbar-width 由下方脚本测量），否则 100vw 会多出滚动条宽度，产生横向滚动 */}
-<div class:list={['class-tree not-prose my-4', !inline && 'class-tree--bleed']}>
+{/* 非 inline 时撑满视口宽度（full-bleed 见 global.css） */}
+<div class:list={['class-tree not-prose my-4', !inline && 'full-bleed']}>
     {
         showJumpBar && (
             <nav aria-label="跳到基础兵种" class="mx-auto mb-4 flex max-w-[96rem] flex-wrap gap-x-3 gap-y-1 px-4 text-base sm:px-10">
@@ -204,10 +204,6 @@ const cardId = (card: ClassTreeCard) => `ctree-${card.root}`;
 </div>
 
 <style>
-    .class-tree--bleed {
-        width: calc(100vw - var(--scrollbar-width, 0px));
-        margin-inline: calc(50% - (100vw - var(--scrollbar-width, 0px)) / 2);
-    }
     .ctree-jump {
         color: var(--wiki-link);
     }
@@ -246,12 +242,6 @@ const cardId = (card: ClassTreeCard) => `ctree-${card.root}`;
 </style>
 
 <script>
-    // 竖向滚动条占用的宽度（触控板 / 手机上的悬浮滚动条为 0），供全宽卡片扣除
-    const measureScrollbar = () =>
-        document.documentElement.style.setProperty('--scrollbar-width', `${window.innerWidth - document.documentElement.clientWidth}px`);
-    document.addEventListener('astro:page-load', measureScrollbar);
-    window.addEventListener('resize', measureScrollbar, { passive: true });
-
     // 悬停 / 聚焦某个兵种时，只保留同一卡片里与它直接相连的兵种和连线；
     // 并与同一联动范围（data-ctree-scope）里的转职条件表行互相高亮。
     // 卡片容器是一个范围；中阶兵种页由 ClassTree 再包一层，让卡片之后的那一行表格联动全部卡片。

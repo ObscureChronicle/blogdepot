@@ -53,8 +53,8 @@ export default function ArtOfWarTree() {
     }, [active]);
 
     return (
-        // full-bleed 撑破正文 max-w-3xl 限制，让军略盘占满视口宽度（设上限避免超宽屏过宽）
-        <div className="not-prose my-4 mx-[calc(50%-50vw)] w-screen">
+        // full-bleed（见 global.css）撑破正文 max-w-3xl 限制，让军略盘占满视口宽度（设上限避免超宽屏过宽）
+        <div className="not-prose my-4 full-bleed">
             <div className="mx-auto max-w-[134rem] px-10">
                 <div className="overflow-x-auto pb-2">
                     <svg role="img" aria-label="军略盘：七个等级的军略前置与互斥关系" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>

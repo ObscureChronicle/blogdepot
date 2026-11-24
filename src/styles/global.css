@@ -395,6 +395,13 @@ html.dark {
     }
 }
 
+/* 撑满视口宽度、突破正文栏（兵种树、军略盘）。100vw 含竖向滚动条，直接用会多出横向滚动，
+   所以扣掉 BaseLayout 脚本测得的 --scrollbar-width（触控板 / 手机的悬浮滚动条为 0） */
+.full-bleed {
+    width: calc(100vw - var(--scrollbar-width, 0px));
+    margin-inline: calc(50% - (100vw - var(--scrollbar-width, 0px)) / 2);
+}
+
 /* 不在 @layer 里，会盖过链接上的 text-* 工具类；需要别的颜色的链接要用内联样式（见 Table_ClassOwners） */
 .wiki a {
     color: var(--wiki-link);
