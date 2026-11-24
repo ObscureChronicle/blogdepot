@@ -137,6 +137,7 @@ export const TRAIT_MAP: Record<string, TraitInfo> = {
     '裂缯': { link: '/projects/trait/liezeng/' },
     '凛然': { link: '/projects/trait/linran/' },
     '凌弱': { link: '/projects/trait/lingruo/' },
+    '乱战': { link: '/projects/trait/luanzhan/' },
     '勠力': { link: '/projects/trait/luli/' },
     '率然': { link: '/projects/trait/shuairan/' },
     '庙算': { link: '/projects/trait/miaosuan/' },
