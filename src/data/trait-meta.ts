@@ -159,6 +159,7 @@ export const TRAIT_MAP: Record<string, TraitInfo> = {
     '夙慧': { link: '/projects/trait/suhui/' },
     '素心': { link: '/projects/trait/suxin/' },
     '宿将': { link: '/projects/trait/sujiang/' },
+    '天禄': { link: '/projects/trait/tianlu/' },
     '天启': { link: '/projects/trait/tianqi/' },
     '天佑': { link: '/projects/trait/tianyou/' },
     '天予': { link: '/projects/trait/tianyu/' },
