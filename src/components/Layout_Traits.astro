@@ -19,18 +19,20 @@ import TraitEffect from './TraitEffect.astro';
 import TraitIntro from './TraitIntro.astro';
 import TraitNote from './TraitNote.astro';
 import TraitOwner from './TraitOwner.astro';
-import { getTraitEntryOwners } from '../utils/wiki-owners';
+import { getTraitEntryEnhanced, getTraitEntryOwners } from '../utils/wiki-owners';
 
 // 持有人不再写在词条里，按页面地址（/projects/trait/<slug>/）从人物的 baseForms / traitsDLC 汇总
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? '';
 const { base: baseOwner, dlc: dlcOwner } = getTraitEntryOwners(slug);
+// 使用强化别名（带 *）的持有人，在名单里的人名后标 *
+const { base: baseEnhanced, dlc: dlcEnhanced } = getTraitEntryEnhanced(slug);
 
 const hasBase = baseOwner.length > 0 || (baseDescription && baseDescription.length > 0);
 const hasDlc = dlcOwner.length > 0 || (dlcDescription && dlcDescription.length > 0);
 ---
 
 <TraitIntro baseData={introHtml ? true : hasBase || undefined} dlcData={introHtml ? true : hasDlc || undefined} level={level} introHtml={introHtml} />
-<TraitOwner baseOwner={baseOwner} dlcOwner={dlcOwner} />
+<TraitOwner baseOwner={baseOwner} dlcOwner={dlcOwner} baseEnhanced={baseEnhanced} dlcEnhanced={dlcEnhanced} />
 <TraitDescription baseDescription={baseDescription || ''} dlcDescription={dlcDescription || ''} />
 <TraitEffect effect={effect || ''} dlcEffect={dlcEffect} />
 <TraitNote noteHtml={noteHtml} />

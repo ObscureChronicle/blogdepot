@@ -18,7 +18,18 @@ test('buildOwners: traits of every baseForms form count as 本传, traitsDLC as 
         'bio/guanyu.mdx': bio('关羽', `baseForms={[\n    { name: '甲', traits: ['中原', '国士'] },\n    { name: '乙', traits: ['中原', '桓武*'] }\n  ]}\ntraitsDLC={['中原']}`)
     });
     assert.deepEqual(traits['中原'], { base: ['关羽'], dlc: ['关羽'] });
-    assert.deepEqual(traits['桓武*'], { base: ['关羽'], dlc: [] });
+    // 强化别名归一化到去星后的名字，不单独成行
+    assert.deepEqual(traits['桓武'], { base: ['关羽'], dlc: [] });
+    assert.equal(traits['桓武*'], undefined);
+});
+
+test('buildOwners: enhanced aliases are merged into the base name and recorded separately', () => {
+    const { traits, enhancedTraits } = buildOwners({
+        'bio/liaohao.mdx': bio('廖豪', `baseForms={[{ traits: ['豪桀*'] }]}\ntraitsDLC={['豪桀*']}`),
+        'bio/caimao.mdx': bio('蔡瑁', `baseForms={[{ traits: ['豪桀'] }]}`)
+    });
+    assert.deepEqual(traits['豪桀'], { base: ['蔡瑁', '廖豪'], dlc: ['廖豪'] });
+    assert.deepEqual(enhancedTraits['豪桀'], { base: ['廖豪'], dlc: ['廖豪'] });
 });
 
 test('buildOwners: collects class owners from baseclass / dlcclass', () => {

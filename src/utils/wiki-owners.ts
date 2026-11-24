@@ -14,14 +14,21 @@ const rawFiles = import.meta.glob('../content/projects/bio/*.mdx', {
     eager: true
 }) as Record<string, string>;
 
-const { traits, classes } = buildOwners(rawFiles);
+const { traits, classes, enhancedTraits } = buildOwners(rawFiles);
 
 export const TRAIT_OWNERS = traits;
 export const CLASS_OWNERS = classes;
+/** 强化别名（带 *）持有人，键已归一化为去星后的特性名 */
+export const TRAIT_ENHANCED = enhancedTraits;
 
 const TRAIT_LINKS = Object.fromEntries(Object.entries(TRAIT_MAP).map(([name, info]) => [name, info.link]));
 
 /** 特性词条（按文件名 slug）的持有人，供 Layout_Traits.astro 使用 */
 export function getTraitEntryOwners(slug: string): OwnerLists {
     return ownersOfTraitEntry(slug, TRAIT_LINKS, traits);
+}
+
+/** 特性词条中属于强化别名（带 *）的持有人，供 Layout_Traits.astro 在人名后标 * */
+export function getTraitEntryEnhanced(slug: string): OwnerLists {
+    return ownersOfTraitEntry(slug, TRAIT_LINKS, enhancedTraits);
 }

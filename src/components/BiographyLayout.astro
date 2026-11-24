@@ -5,6 +5,7 @@ import CharacterAbilitySection from './CharacterAbilitySection.jsx';
 import EditionBadge from './EditionBadge.astro';
 import SectionTitle from './SectionTitle.astro';
 import { EDITIONS, type Edition } from '../data/editions';
+import { TRAIT_LEVELS } from '../utils/trait-levels';
 import WikiLink from './WikiLink.astro';
 
 /** 本传的一个形态；多个形态时 name 是切换按钮文字 */
@@ -113,6 +114,7 @@ const dlcname_short = EDITIONS.dlc.shortName;
             dlcAttributeFigure={dlcAttributeFigure}
             dlcname_short={dlcname_short}
             traitsDLC={traitsDLC}
+            traitLevels={TRAIT_LEVELS}
         />
     )
 }

@@ -28,6 +28,19 @@ export const OWNER_DISPLAY_NAMES: Record<string, Partial<Record<keyof OwnerLists
     '文俶（文鸯）': { base: '文鸯' }
 };
 
+/**
+ * 强化别名归一化：带结尾星号的名字（如「豪桀*」）按去星后的词条聚合，
+ * 星号只用来标记持有人的强化形态，不单独成行。
+ */
+export function normalizeTraitName(name: string): string {
+    return name.replace(/\*+$/, '');
+}
+
+/** 是否为强化别名（结尾带 *） */
+export function isEnhancedTraitName(name: string): boolean {
+    return /\*+$/.test(name);
+}
+
 /** 读取 JSX 字符串数组属性，如 traitsDLC={['中原', '武库*']} → ['中原', '武库*']；没有该属性返回 [] */
 export function extractStringArray(raw: string, field: string): string[] {
     const m = raw.match(new RegExp(`\\b${field}\\s*=\\s*\\{\\s*\\[([^\\]]*)\\]`));
@@ -37,12 +50,18 @@ export function extractStringArray(raw: string, field: string): string[] {
 
 /**
  * @param rawFiles 人物文件路径 → MDX 原始文本
- * @returns 特性持有人（本传含所有形态的 traits）与兵种持有人。
+ * @returns 特性持有人（本传含所有形态的 traits）、兵种持有人，
+ *          以及强化别名持有人（记录哪些人在该特性上用了带 * 的名字）。
  *          名单按人物文件名排序，与之前脚本按目录顺序扫描的结果一致。
  */
-export function buildOwners(rawFiles: Record<string, string>): { traits: OwnersByName; classes: OwnersByName } {
+export function buildOwners(rawFiles: Record<string, string>): {
+    traits: OwnersByName;
+    classes: OwnersByName;
+    enhancedTraits: OwnersByName;
+} {
     const traits: OwnersByName = {};
     const classes: OwnersByName = {};
+    const enhancedTraits: OwnersByName = {};
 
     const add = (owners: OwnersByName, key: string, side: keyof OwnerLists, person: string) => {
         const lists = (owners[key] ??= { base: [], dlc: [] });
@@ -50,17 +69,23 @@ export function buildOwners(rawFiles: Record<string, string>): { traits: OwnersB
         if (!lists[side].includes(name)) lists[side].push(name);
     };
 
+    const addTrait = (rawName: string, side: keyof OwnerLists, person: string) => {
+        add(traits, normalizeTraitName(rawName), side, person);
+        // 强化别名额外记一份持有人，供词条页在人名后标 *
+        if (isEnhancedTraitName(rawName)) add(enhancedTraits, normalizeTraitName(rawName), side, person);
+    };
+
     for (const [file, raw] of Object.entries(rawFiles).sort(comparePaths)) {
         const person = extractTitle(raw) ?? file.replace(/\\/g, '/').split('/').pop()!.replace(/\.mdx$/, '');
 
         // 括号不配对时抛错让构建失败：持有人名单静默缺人比报错更难发现
-        for (const trait of (extractBaseForms(raw) ?? []).flatMap((form) => form.traits)) add(traits, trait, 'base', person);
-        for (const trait of extractStringArray(raw, 'traitsDLC')) add(traits, trait, 'dlc', person);
+        for (const trait of (extractBaseForms(raw) ?? []).flatMap((form) => form.traits)) addTrait(trait, 'base', person);
+        for (const trait of extractStringArray(raw, 'traitsDLC')) addTrait(trait, 'dlc', person);
         for (const cls of extractStringArray(raw, 'baseclass')) add(classes, cls, 'base', person);
         for (const cls of extractStringArray(raw, 'dlcclass')) add(classes, cls, 'dlc', person);
     }
 
-    return { traits, classes };
+    return { traits, classes, enhancedTraits };
 }
 
 /**

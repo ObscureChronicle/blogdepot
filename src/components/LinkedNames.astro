@@ -6,16 +6,19 @@ import WikiLink from './WikiLink.astro';
 type Props = {
     kind: WikiLinkKind;
     names: string[];
+    /** 使用强化别名（带 *）的名字：保留干净名字做链接，在链接后标 * */
+    enhanced?: string[];
 };
 
-const { kind, names } = Astro.props as Props;
+const { kind, names, enhanced = [] } = Astro.props as Props;
+const enhancedSet = new Set(enhanced);
 ---
 
 {
     names.map((name, index) => (
         <span>
             {index > 0 && '、'}
-            <WikiLink kind={kind} name={name} />
+            <WikiLink kind={kind} name={name} />{enhancedSet.has(name) && <sup>*</sup>}
         </span>
     ))
 }

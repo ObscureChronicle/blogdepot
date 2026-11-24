@@ -22,10 +22,11 @@ import { editionBadgeClass } from '../data/editions';
  *   dlcData2?: number[],
  *   dlcAttributeFigure?: number[],
  *   dlcname_short: string,
- *   traitsDLC?: string[]
+ *   traitsDLC?: string[],
+ *   traitLevels?: Record<string, number>
  * }} props
  */
-export default function CharacterAbilitySection({ baseForms = [], basename_short, dlcData, dlcData2, dlcAttributeFigure, dlcname_short, traitsDLC }) {
+export default function CharacterAbilitySection({ baseForms = [], basename_short, dlcData, dlcData2, dlcAttributeFigure, dlcname_short, traitsDLC, traitLevels = {} }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const current = baseForms[activeIndex];
     const toggleOptions = baseForms.map((form, i) => ({ value: String(i), label: form.name ?? `形态${i + 1}` }));
@@ -39,7 +40,7 @@ export default function CharacterAbilitySection({ baseForms = [], basename_short
                     {hasToggle && <DataToggle className="mt-2" options={toggleOptions} value={String(activeIndex)} onChange={(v) => setActiveIndex(Number(v))} />}
                     <RadarChart data={current.data} attributefigure={current.figure} />
                     <BarChart data={current.data2} />
-                    <FiveStringTable data={current.traits} />
+                    <FiveStringTable data={current.traits} traitLevels={traitLevels} />
                 </div>
             )}
             {dlcData && (
@@ -53,7 +54,7 @@ export default function CharacterAbilitySection({ baseForms = [], basename_short
                     )}
                     <RadarChart variant="dlc" data={dlcData} attributefigure={dlcAttributeFigure} />
                     <BarChart data={dlcData2} />
-                    <FiveStringTable data={traitsDLC} />
+                    <FiveStringTable data={traitsDLC} traitLevels={traitLevels} />
                 </div>
             )}
         </div>

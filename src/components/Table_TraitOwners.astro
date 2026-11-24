@@ -1,6 +1,7 @@
 ---
-import { TRAIT_OWNERS as traitOwners } from '../utils/wiki-owners';
-import { TRAIT_MAP, TraitColor } from '../data/trait-meta';
+import { TRAIT_OWNERS as traitOwners, TRAIT_ENHANCED as traitEnhanced } from '../utils/wiki-owners';
+import { TRAIT_LEVELS } from '../utils/trait-levels';
+import { TRAIT_MAP, TraitColor, traitColorFromLevel } from '../data/trait-meta';
 import OwnerRows from './OwnerRows.astro';
 
 type Props = {
@@ -11,15 +12,18 @@ const { mode } = Astro.props as Props;
 
 const getTraitInfo = (trait: string) => TRAIT_MAP[trait] ?? null;
 
+// 特质颜色：强化别名（带 *）用 TRAIT_MAP 登记的配色，其余按词条 level 派生；普通特质不染色
+const getTraitColor = (trait: string) => getTraitInfo(trait)?.color ?? traitColorFromLevel(TRAIT_LEVELS[trait]);
+
 // 地域特性：TRAIT_MAP 中带 region（所属地区）的条目
 const isRegional = (trait: string) => !!TRAIT_MAP[trait]?.region;
 
-// 个人特性排序：顶级(Ordinary) → 专属(Super) → 普通 → 负面(Bad)，同级按拼音
+// 个人特性排序：顶级(level 1) → 专属(level 2) → 普通(不设) → 负面(level 3)，同级按拼音
 const tierOrder = (trait: string) => {
-    const color = getTraitInfo(trait)?.color;
-    if (color === TraitColor.Ordinary) return 0;
-    if (color === TraitColor.Super) return 1;
-    if (color === TraitColor.Bad) return 3;
+    const level = TRAIT_LEVELS[trait];
+    if (level === 1) return 0;
+    if (level === 2) return 1;
+    if (level === 3) return 3;
     return 2;
 };
 
@@ -58,9 +62,9 @@ if (mode === 'regional') {
     }
 }
 
-// 特质名样式：颜色 + 顶级(Ordinary)发光（与 Table_Traits.jsx 一致）
+// 特质名样式：颜色 + 顶级发光（与 Table_Traits.jsx 一致）
 const traitStyle = (trait: string) => {
-    const color = getTraitInfo(trait)?.color;
+    const color = getTraitColor(trait);
     const glow = color === TraitColor.Ordinary ? `; text-shadow: 0 0 8px ${color}, 0 0 12px ${color}` : '';
     return color ? `color: ${color}${glow}` : 'color: inherit';
 };
@@ -80,11 +84,18 @@ const traitStyle = (trait: string) => {
             {
                 sortedTraits.map((trait, traitIndex) => {
                     const data = traitOwners[trait] ?? {};
+                    const enhanced = traitEnhanced[trait] ?? {};
                     const info = getTraitInfo(trait);
                     const region = getRegion(trait);
                     const isFirstInRegion = mode === 'regional' && (traitIndex === 0 || getRegion(sortedTraits[traitIndex - 1]) !== region);
                     return (
-                        <OwnerRows base={data.base ?? []} dlc={data.dlc ?? []} groupRowspan={isFirstInRegion ? regionRowspan.get(region) : undefined}>
+                        <OwnerRows
+                            base={data.base ?? []}
+                            dlc={data.dlc ?? []}
+                            baseEnhanced={enhanced.base ?? []}
+                            dlcEnhanced={enhanced.dlc ?? []}
+                            groupRowspan={isFirstInRegion ? regionRowspan.get(region) : undefined}
+                        >
                             <Fragment slot="group">{region}</Fragment>
                             <Fragment slot="entity">
                                 {info?.link ? (
@@ -92,7 +103,7 @@ const traitStyle = (trait: string) => {
                                         {trait}
                                     </a>
                                 ) : (
-                                    <span style={info?.color ? traitStyle(trait) : undefined}>{trait}</span>
+                                    <span style={getTraitColor(trait) ? traitStyle(trait) : undefined}>{trait}</span>
                                 )}
                             </Fragment>
                         </OwnerRows>

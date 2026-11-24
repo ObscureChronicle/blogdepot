@@ -7,6 +7,9 @@ import LinkedNames from './LinkedNames.astro';
 type Props = {
     base: string[];
     dlc: string[];
+    /** 本传 / 星命诀中使用强化别名（带 *）的持有人，在人名后标 * */
+    baseEnhanced?: string[];
+    dlcEnhanced?: string[];
     /** 本条目是所在分组的第一项时传入分组总行数，渲染合并的分组单元格 */
     groupRowspan?: number;
     /** 是否有条目单元格；大类视图只有分组没有条目 */
@@ -16,7 +19,7 @@ type Props = {
     emptyPlaceholder?: string;
 };
 
-const { base, dlc, groupRowspan, hasEntity = true, entityCellClass = 'cls-cell', emptyPlaceholder } = Astro.props as Props;
+const { base, dlc, baseEnhanced = [], dlcEnhanced = [], groupRowspan, hasEntity = true, entityCellClass = 'cls-cell', emptyPlaceholder } = Astro.props as Props;
 
 const hasBase = base.length > 0;
 const hasDlc = dlc.length > 0;
@@ -43,7 +46,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
             )}
             <td class={srcBaseClass}>本体</td>
             <td>
-                <LinkedNames kind="character" names={base} />
+                <LinkedNames kind="character" names={base} enhanced={baseEnhanced} />
             </td>
         </tr>
     )
@@ -63,7 +66,7 @@ const rowClass = (...names: (string | false)[]) => names.filter(Boolean).join(' 
             )}
             <td class={srcDlcClass}>星命诀</td>
             <td>
-                <LinkedNames kind="character" names={dlc} />
+                <LinkedNames kind="character" names={dlc} enhanced={dlcEnhanced} />
             </td>
         </tr>
     )

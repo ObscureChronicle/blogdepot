@@ -3,9 +3,12 @@ type Props = {
     baseOwner: string[];
     dlcOwner: string[];
     collabOwner?: string[];
+    /** 使用强化别名（带 *）的持有人，在人名后标 * */
+    baseEnhanced?: string[];
+    dlcEnhanced?: string[];
 };
 
-const { baseOwner, dlcOwner, collabOwner } = Astro.props as Props;
+const { baseOwner, dlcOwner, collabOwner, baseEnhanced = [], dlcEnhanced = [] } = Astro.props as Props;
 
 import SectionTitle from './SectionTitle.astro';
 import EditionBadge from './EditionBadge.astro';
@@ -21,7 +24,7 @@ import LinkedNames from './LinkedNames.astro';
                     <div class="flex flex-col items-start">
                         <EditionBadge edition="base" />
                         <p class="text-base leading-relaxed">
-                            <LinkedNames kind="character" names={baseOwner} />
+                            <LinkedNames kind="character" names={baseOwner} enhanced={baseEnhanced} />
                         </p>
                     </div>
                 )}
@@ -29,7 +32,7 @@ import LinkedNames from './LinkedNames.astro';
                     <div class="flex flex-col items-start">
                         <EditionBadge edition="dlc" />
                         <p class="text-base leading-relaxed">
-                            <LinkedNames kind="character" names={dlcOwner} />
+                            <LinkedNames kind="character" names={dlcOwner} enhanced={dlcEnhanced} />
                         </p>
                     </div>
                 )}

@@ -1,6 +1,6 @@
-import { TRAIT_MAP, TraitColor } from '../data/trait-meta';
+import { TRAIT_MAP, TraitColor, traitColorFromLevel } from '../data/trait-meta';
 
-export default function FiveStringTable({ data }) {
+export default function FiveStringTable({ data = [], traitLevels = {} }) {
     // 确保数据最多包含五个元素，并过滤掉空值
     const tableData = [...data]
         .filter(val => val !== undefined && val !== null && val !== '')
@@ -14,9 +14,9 @@ export default function FiveStringTable({ data }) {
     const regionTraitLink = '/projects/trait/00_regional/';
     const personalTraitLink = '/projects/trait/00_personal/';
 
-    // 获取特质颜色（如果存在）；普通特质沿用正文颜色
+    // 获取特质颜色：强化别名（带 *）用 TRAIT_MAP 登记的配色，其余按词条 level 派生；普通特质沿用正文颜色
     const getTraitColor = (trait) => {
-        return TRAIT_MAP[trait]?.color || 'inherit';
+        return TRAIT_MAP[trait]?.color ?? traitColorFromLevel(traitLevels[trait]) ?? 'inherit';
     };
 
     // 获取特质链接（如果存在）
@@ -37,10 +37,9 @@ export default function FiveStringTable({ data }) {
                     {tableData.map((value, index) => {
                         const hasLink = getTraitLink(value);
                         const traitColor = getTraitColor(value);
-                        const traitInfo = TRAIT_MAP[value];
 
-                        // 判断是否为 Ordinary 级别，决定是否添加发光效果
-                        const isGlow = traitInfo?.color === TraitColor.Ordinary;
+                        // 顶级（level 1）带发光；强化别名不是顶级，不会触发
+                        const isGlow = traitColor === TraitColor.Ordinary;
                         const glowStyle = isGlow
                             ? { textShadow: `0 0 8px ${traitColor}, 0 0 12px ${traitColor}` }
                             : {};
