@@ -30,6 +30,23 @@ function readTheme() {
     };
 }
 
+/**
+ * canvas 不继承 CSS 字体，且网页字体按 unicode-range 分片、只在用到时才下载：
+ * 画布上的字如果页面里还没出现过，首次绘制会落到回退字体。
+ * 这里主动加载 text 所需的分片，加载完成后调用 onReady 重画；返回的函数用于在 effect 清理时取消回调。
+ */
+export function whenChartFontReady(font, text, onReady) {
+    if (typeof document === 'undefined' || !document.fonts?.load) return () => {};
+    let active = true;
+    document.fonts.load(font, text).then(
+        () => active && onReady(),
+        () => {}
+    );
+    return () => {
+        active = false;
+    };
+}
+
 export default function useChartTheme() {
     const [theme, setTheme] = useState(readTheme);
 

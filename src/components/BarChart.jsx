@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import drawTooltipBox from './drawTooltipBox';
-import useChartTheme from './useChartTheme';
+import useChartTheme, { whenChartFontReady } from './useChartTheme';
 
 const labels = ['胆识', '冷静'];
 const maxValue = 10;
@@ -27,6 +27,8 @@ export default function BarChart({ data }) {
         const barCount = 2;
         const barWidth = 20;
         const barSpacing = (chartWidth - barWidth * barCount) / (barCount + 1);
+        // canvas 不继承 CSS 字体，文字统一取正文字体，与页面一致
+        const font = getComputedStyle(canvas).fontFamily || 'serif';
 
         const render = () => {
             ctx.clearRect(0, 0, width, height);
@@ -43,7 +45,7 @@ export default function BarChart({ data }) {
             // 绘制网格线和刻度
             ctx.strokeStyle = chart.grid;
             ctx.lineWidth = 0.5;
-            ctx.font = '12px sans-serif';
+            ctx.font = `12px ${font}`;
             ctx.fillStyle = chart.text;
 
             // Y轴刻度和网格线
@@ -79,7 +81,7 @@ export default function BarChart({ data }) {
                 ctx.fillStyle = chart.text;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
-                ctx.font = '14px sans-serif';
+                ctx.font = `14px ${font}`;
                 ctx.fillText(labels[i], x + barWidth / 2, margin.top + chartHeight + 10);
 
                 // 显示数值（在柱子顶部）
@@ -108,12 +110,13 @@ export default function BarChart({ data }) {
                 ctx.fillStyle = chart.text;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.font = `14px ${getComputedStyle(canvas).fontFamily || 'serif'}`;
+                ctx.font = `14px ${font}`;
                 ctx.fillText(`${value}`, x + barWidth / 2, tooltipY + tooltipHeight / 2);
             }
         };
 
         render();
+        const cancelFontWait = whenChartFontReady(`14px ${font}`, labels.join(''), render);
 
         // 鼠标事件处理
         const handleMouseMove = (e) => {
@@ -150,6 +153,7 @@ export default function BarChart({ data }) {
         canvas.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
+            cancelFontWait();
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };

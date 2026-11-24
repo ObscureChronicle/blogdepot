@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import drawTooltipBox from './drawTooltipBox';
-import useChartTheme from './useChartTheme';
+import useChartTheme, { whenChartFontReady } from './useChartTheme';
 
 // 放在组件外：若在组件内每次渲染都新建数组，放进 effect 依赖后会导致每次渲染都重跑 effect
 const maxValues = [100, 100, 100, 100, 100];
@@ -31,7 +31,7 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
         const centerY = canvas.height / 2;
         const total = data.length;
         const layers = 5;
-        // canvas 不继承 CSS 字体，气泡文字取正文字体（思源宋体），与页面一致
+        // canvas 不继承 CSS 字体，标签和气泡文字都取正文字体，与页面一致
         const tooltipFont = getComputedStyle(canvas).fontFamily || 'serif';
 
         const points = [];
@@ -70,7 +70,7 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
 
                 // 文字标签
                 if (theme.labels?.[i]) {
-                    ctx.font = '16px sans-serif';
+                    ctx.font = `16px ${tooltipFont}`;
                     ctx.fillStyle = colors.text;
                     if (attributefigure?.[i] > 0) {
                         ctx.fillStyle = colors.pos;
@@ -162,6 +162,7 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
         };
 
         render();
+        const cancelFontWait = whenChartFontReady(`16px ${tooltipFont}`, (theme.labels ?? []).join('') + '加点消耗', render);
 
         // 鼠标事件监听
         const handleMouseMove = (e) => {
@@ -204,6 +205,7 @@ export default function RadarChart({ data, attributefigure, variant = 'base' }) 
         canvas.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
+            cancelFontWait();
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
         };
