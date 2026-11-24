@@ -1,0 +1,70 @@
+/* Algolia 搜索（百科首页的搜索框、顶栏的全屏搜索面板）配色跟随站点主题。
+   官方样式表（thirdParty.algolia.styleUrl）是运行时插入的、排在本站样式之后，
+   所以这里的选择器都比官方多一层 html，靠优先级而不是先后顺序盖过它。
+   样式分两层：
+   - autocomplete-theme-classic 的 --aa-* 变量，定义在 :root 上，值是「r,g,b」三元组，不能直接引用 hex 变量；
+   - Netlify 前端包自己的 --color-* 变量，定义在 .aa-Autocomplete / .aa-Panel / .aa-DetachedContainer 上。
+   官方的暗色只认 body.dark，本站的暗色是 html.dark，所以要自己写一份。
+   升级 Algolia 前端包后要确认这些变量名和下面几个选择器仍然存在。 */
+
+/* 三元组与 global.css 的 --text-main / --bg-main / --wiki-link 对应 */
+html:root {
+    --aa-text-color-rgb: 23, 23, 23;
+    --aa-background-color-rgb: 242, 241, 236;
+    --aa-input-background-color-rgb: 242, 241, 236;
+    --aa-primary-color-rgb: 39, 117, 182;
+    /* 占位文字、次要文字：正文色 72%，纸色底上约 6.5:1 */
+    --aa-muted-color-rgb: 23, 23, 23;
+    --aa-muted-color-alpha: 0.72;
+    --aa-icon-color-rgb: 23, 23, 23;
+    --aa-icon-color-alpha: 0.72;
+    --aa-input-border-color-rgb: 23, 23, 23;
+    --aa-input-border-color-alpha: 0.5;
+    --aa-panel-border-color-rgb: 23, 23, 23;
+    --aa-panel-border-color-alpha: 0.25;
+    --aa-selected-color-rgb: 23, 23, 23;
+    --aa-selected-color-alpha: 0.06;
+    --aa-overlay-color-rgb: 23, 23, 23;
+    --aa-overlay-color-alpha: 0.4;
+    --aa-scrollbar-track-background-color-rgb: 234, 233, 225;
+}
+
+html.dark:root {
+    --aa-text-color-rgb: 242, 241, 236;
+    --aa-background-color-rgb: 23, 23, 23;
+    --aa-input-background-color-rgb: 23, 23, 23;
+    --aa-primary-color-rgb: 106, 168, 224;
+    --aa-muted-color-rgb: 242, 241, 236;
+    --aa-icon-color-rgb: 242, 241, 236;
+    --aa-input-border-color-rgb: 242, 241, 236;
+    --aa-panel-border-color-rgb: 242, 241, 236;
+    --aa-selected-color-rgb: 242, 241, 236;
+    --aa-selected-color-alpha: 0.08;
+    --aa-overlay-color-rgb: 0, 0, 0;
+    --aa-overlay-color-alpha: 0.6;
+    --aa-description-highlight-background-color-rgb: 122, 90, 0;
+    --aa-panel-shadow: 0 0 0 1px rgba(242, 241, 236, 0.15), 0 6px 16px -4px rgba(0, 0, 0, 0.6);
+    --aa-scrollbar-track-background-color-rgb: 36, 36, 36;
+}
+
+html .aa-Autocomplete,
+html .aa-Panel,
+html .aa-DetachedContainer {
+    --color-mark: var(--wiki-link);
+    --color-background: var(--bg-main);
+    --color-selected: var(--bg-muted);
+    --color-text: var(--text-main);
+    --color-input-icon: color-mix(in srgb, var(--text-main) 72%, var(--bg-main));
+    --color-source-icon: color-mix(in srgb, var(--text-main) 45%, var(--bg-main));
+}
+
+/* 这两处官方写死了浅灰色（#797979、#969faf），12px 小字在纸色底上不到 4.5:1，暗色下更暗 */
+html .aa-Item .aa-ItemDescription,
+html .aa-powered-by {
+    color: color-mix(in srgb, var(--text-main) 72%, var(--bg-main));
+}
+
+/* 全屏面板默认 z-index 只有 10，会被吸顶导航（30）和悬浮按钮（1000）盖住，提到它们之上 */
+body .aa-DetachedOverlay {
+    z-index: 1100;
+}

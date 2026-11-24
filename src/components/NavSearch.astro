@@ -1,6 +1,8 @@
 ---
 // 顶栏的全局搜索按钮。第一次点击时才加载 Algolia，并用它自带的全屏面板（detached 模式）显示搜索框，
-// 平时页面上不加载任何搜索相关的脚本和样式。
+// 平时页面上不加载 Algolia 的脚本和样式表。
+// 搜索界面的配色覆盖放在 algolia.css：顶栏每页都有，百科首页的搜索框也一并生效。
+import '../styles/algolia.css';
 ---
 
 <button type="button" class="nav-search w-8 h-8 flex items-center justify-center cursor-pointer" aria-label="搜索词条" data-nav-search>
@@ -49,11 +51,3 @@
         if (trigger) void openSearch(trigger);
     });
 </script>
-
-<style is:global>
-    /* Algolia 全屏面板默认 z-index 只有 10，会被吸顶导航（30）和悬浮按钮（1000）盖住，提到它们之上。
-       它的样式表是运行时才插入的、排在本站样式之后，所以选择器多加一层 body 提高优先级 */
-    body .aa-DetachedOverlay {
-        z-index: 1100;
-    }
-</style>
