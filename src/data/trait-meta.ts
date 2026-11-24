@@ -66,6 +66,7 @@ export const TRAIT_MAP: Record<string, TraitInfo> = {
     '雏凤': { link: '/projects/trait/chufeng/' },
     '摧破': { link: '/projects/trait/cuipo/' },
     '飞将': { link: '/projects/trait/feijiang/' },
+    '辅弼*': { color: TraitColor.Super, link: '/projects/trait/fubi/' },
     '贯午': { link: '/projects/trait/guanwu/' },
     '国士': { link: '/projects/trait/guoshi/' },
     '豪桀*': { color: TraitColor.Super, link: '/projects/trait/haojie/' },
