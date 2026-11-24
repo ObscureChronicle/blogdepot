@@ -42,6 +42,9 @@
     --chart-text-muted: #555555;
     --chart-grid: #cccccc;
     --chart-tooltip-bg: var(--bg-main);
+    /* 胆识 / 冷静界格（BarChart.jsx）：朱砂与靛青，填满的格子是非文字图形，对米色底 ≥3:1 */
+    --chart-dan: #a32d2d;
+    --chart-leng: #24507a;
     /* 默认的800blue太现代，饱和度太高了，晃眼。先这样看要不要回撤 */
     --color-blue-800: #15559a;
 }
@@ -65,6 +68,62 @@ html.dark {
     --wiki-link: #6aa8e0;
     --chart-text-muted: #b5b4ae;
     --chart-grid: #444444;
+    --chart-dan: #e0665c;
+    --chart-leng: #6f9fd2;
+}
+
+/* 胆识 / 冷静界格（BarChart.jsx）：双线版框内两行界行，十格为满，填几格即几；数值以汉字写在格后 */
+.stat-grid {
+    display: inline-block;
+    margin: 0.75rem auto 1.25rem;
+    padding: 3px;
+    border: 1.5px solid var(--text-main);
+}
+
+.stat-grid__inner {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    border: 0.5px solid var(--text-main);
+}
+
+.stat-grid__row {
+    display: contents;
+}
+
+.stat-grid__row > * {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+}
+
+.stat-grid__row + .stat-grid__row > * {
+    border-top: 0.5px solid var(--text-main);
+}
+
+.stat-grid__label {
+    border-right: 0.5px solid var(--text-main);
+}
+
+.stat-grid__cells {
+    gap: 2px;
+}
+
+.stat-grid__cell {
+    width: 11px;
+    height: 18px;
+    border: 0.5px solid var(--chart-text-muted);
+}
+
+.stat-grid__cell.is-filled {
+    background: var(--stat-color);
+    border-color: var(--stat-color);
+}
+
+.stat-grid__value {
+    min-width: 2em;
+    justify-content: center;
+    padding-left: 0;
+    color: var(--stat-color);
 }
 
 /* 悬浮按钮（回到顶部、窄屏目录）用朱印：朱底白字方印，内缩一道浅色细框（白文印双边），与文存朱印同色 */

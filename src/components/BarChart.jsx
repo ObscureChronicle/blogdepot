@@ -1,173 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
-import drawTooltipBox from './drawTooltipBox';
-import useChartTheme, { whenChartFontReady } from './useChartTheme';
+// 胆识 / 冷静界格：取值为 0–10 的整数，以「十格为满、填几格即几」的刻本界格表示，数值写成汉字。
+// 纯 JSX + CSS（样式在 global.css 的 .stat-grid），服务端直接渲染，文字继承页面字体。
+const MAX = 10;
+const HAN = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const STATS = [
+    { label: '胆识', color: 'var(--chart-dan)' },
+    { label: '冷静', color: 'var(--chart-leng)' }
+];
 
-const labels = ['胆识', '冷静'];
-const maxValue = 10;
-const colors = ['#de1c31', '#2775b6']; // 胆识(红)和冷静(蓝绿)的颜色
+/** 0–10 的整数写成汉字，其他值（数据异常时）保留原样 */
+const toHan = (value) => (Number.isInteger(value) && value >= 0 && value <= MAX ? HAN[value] : String(value));
 
 export default function BarChart({ data }) {
-    const canvasRef = useRef(null);
-    const [hoverIndex, setHoverIndex] = useState(null);
-    const chart = useChartTheme();
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas || !data) return;
-        const ctx = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
-
-        // 图表绘制区域参数
-        const margin = { top: 50, right: 20, bottom: 40, left: 40 };
-        const chartWidth = width - margin.left - margin.right;
-        const chartHeight = height - margin.top - margin.bottom;
-
-        // 柱状图参数
-        const barCount = 2;
-        const barWidth = 20;
-        const barSpacing = (chartWidth - barWidth * barCount) / (barCount + 1);
-        // canvas 不继承 CSS 字体，文字统一取正文字体，与页面一致
-        const font = getComputedStyle(canvas).fontFamily || 'serif';
-
-        const render = () => {
-            ctx.clearRect(0, 0, width, height);
-
-            // 绘制坐标轴
-            ctx.beginPath();
-            ctx.moveTo(margin.left, margin.top);
-            ctx.lineTo(margin.left, margin.top + chartHeight);
-            ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight);
-            ctx.strokeStyle = chart.text;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-
-            // 绘制网格线和刻度
-            ctx.strokeStyle = chart.grid;
-            ctx.lineWidth = 0.5;
-            ctx.font = `12px ${font}`;
-            ctx.fillStyle = chart.text;
-
-            // Y轴刻度和网格线
-            const ySteps = 5;
-            for (let i = 0; i <= ySteps; i++) {
-                const y = margin.top + chartHeight - (i * chartHeight / ySteps);
-                ctx.beginPath();
-                ctx.moveTo(margin.left, y);
-                ctx.lineTo(margin.left + chartWidth, y);
-                ctx.stroke();
-
-                ctx.textAlign = 'right';
-                ctx.textBaseline = 'middle';
-                ctx.fillText((i * maxValue / ySteps).toString(), margin.left - 5, y);
-            }
-
-            // 绘制柱子
-            data.forEach((value, i) => {
-                const x = margin.left + barSpacing + i * (barWidth + barSpacing);
-                const barHeight = (value / maxValue) * chartHeight;
-                const y = margin.top + chartHeight - barHeight;
-
-                // 柱子主体
-                ctx.fillStyle = hoverIndex === i ? `${colors[i]}CC` : colors[i];
-                ctx.fillRect(x, y, barWidth, barHeight);
-
-                // 柱子边框
-                ctx.strokeStyle = chart.text;
-                ctx.lineWidth = 1;
-                ctx.strokeRect(x, y, barWidth, barHeight);
-
-                // 柱子标签
-                ctx.fillStyle = chart.text;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'top';
-                ctx.font = `14px ${font}`;
-                ctx.fillText(labels[i], x + barWidth / 2, margin.top + chartHeight + 10);
-
-                // 显示数值（在柱子顶部）
-                if (hoverIndex !== i || hoverIndex === null) {
-                    ctx.fillStyle = hoverIndex === i ? chart.text : chart.textMuted;
-                    ctx.textBaseline = 'bottom';
-                    ctx.fillText(value, x + barWidth / 2, y - 5);
-                }
-            });
-
-            // 悬停提示框
-            if (hoverIndex !== null) {
-                const value = data[hoverIndex];
-                const x = margin.left + barSpacing + hoverIndex * (barWidth + barSpacing);
-                const barHeight = (value / maxValue) * chartHeight;
-                const y = margin.top + chartHeight - barHeight;
-
-                // 绘制提示框（与雷达图同一套直角双框，框线取柱子颜色）
-                const tooltipWidth = 40;
-                const tooltipHeight = 20;
-                const tooltipX = x + barWidth / 2 - tooltipWidth / 2;
-                const tooltipY = y - tooltipHeight - 10;
-                drawTooltipBox(ctx, tooltipX, tooltipY, tooltipWidth, tooltipHeight, colors[hoverIndex], chart.tooltipBg);
-
-                // 提示框文字：canvas 不继承 CSS 字体，取正文字体（思源宋体），与页面一致
-                ctx.fillStyle = chart.text;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.font = `14px ${font}`;
-                ctx.fillText(`${value}`, x + barWidth / 2, tooltipY + tooltipHeight / 2);
-            }
-        };
-
-        render();
-        const cancelFontWait = whenChartFontReady(`14px ${font}`, labels.join(''), render);
-
-        // 鼠标事件处理
-        const handleMouseMove = (e) => {
-            // 画布在窄屏上会按容器宽度缩小显示，鼠标坐标要换算回画布自身的坐标
-            const rect = canvas.getBoundingClientRect();
-            const scale = canvas.width / rect.width;
-            const mx = (e.clientX - rect.left) * scale;
-            const my = (e.clientY - rect.top) * scale;
-
-            let found = null;
-            data.forEach((_, i) => {
-                const x = margin.left + barSpacing + i * (barWidth + barSpacing);
-                const barHeight = (data[i] / maxValue) * chartHeight;
-                const y = margin.top + chartHeight - barHeight;
-
-                if (mx >= x && mx <= x + barWidth &&
-                    my >= y && my <= margin.top + chartHeight) {
-                    found = i;
-                }
-            });
-
-            if (found !== hoverIndex) {
-                setHoverIndex(found);
-                render();
-            }
-        };
-
-        const handleMouseLeave = () => {
-            setHoverIndex(null);
-            render();
-        };
-
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-            cancelFontWait();
-            canvas.removeEventListener('mousemove', handleMouseMove);
-            canvas.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, [data, hoverIndex, chart]);
+    if (!data) return null;
+    const label = STATS.map((s, i) => `${s.label} ${data[i]}／${MAX}`).join('，');
 
     return (
-        <div className="bar-chart-container">
-            <canvas
-                ref={canvasRef}
-                width={300}
-                height={250}
-                className="mx-auto"
-                style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
-            />
+        <div className="stat-grid" role="img" aria-label={label}>
+            <div className="stat-grid__inner">
+                {STATS.map((stat, i) => {
+                    const value = data[i];
+                    const filled = Math.max(0, Math.min(MAX, Math.round(Number(value) || 0)));
+                    return (
+                        <div key={stat.label} className="stat-grid__row" style={{ '--stat-color': stat.color }}>
+                            <span className="stat-grid__label">{stat.label}</span>
+                            <span className="stat-grid__cells">
+                                {Array.from({ length: MAX }, (_, k) => (
+                                    <span key={k} className={k < filled ? 'stat-grid__cell is-filled' : 'stat-grid__cell'} />
+                                ))}
+                            </span>
+                            <span className="stat-grid__value">{toHan(value)}</span>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }

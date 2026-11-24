@@ -72,6 +72,17 @@ describe('BiographyLayout.astro 能力区', () => {
         expect(html).not.toContain('aria-hidden="true" class="invisible');
     });
 
+    it('renders 胆识 / 冷静 as ten-cell grids with 汉字 values and an accessible label', async () => {
+        const html = await render({ baseForms: [{ data: [1, 1, 1, 1, 1], data2: [8, 10], traits: [] }] });
+        const rendered = html.slice(html.indexOf('await-children>'));
+        expect(rendered).toContain('aria-label="胆识 8／10，冷静 10／10"');
+        // 每行十格，填满的格数等于数值：两行共 20 格，其中 8 + 10 格填满
+        expect(rendered.match(/class="stat-grid__cell( is-filled)?"/g)).toHaveLength(20);
+        expect(rendered.match(/class="stat-grid__cell is-filled"/g)).toHaveLength(18);
+        expect(rendered).toContain('<span class="stat-grid__value">八</span>');
+        expect(rendered).toContain('<span class="stat-grid__value">十</span>');
+    });
+
     it('treats a character with neither base nor 星命诀 data as a background character', async () => {
         const html = await render({});
         expect(html).toContain('背景人物。');
