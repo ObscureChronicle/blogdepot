@@ -96,7 +96,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
   - 分区标题（文武线，版本标题之下的战前、说明、兵种参数等）：写 `<h2 class="section-title">…</h2>`，需要按版本着色时加 `section-title--base` / `--dlc`；组件内用 `<SectionTitle>` / `<SectionTitle tone="dlc">`。
   - `check:content` 会拦截用 `section-title` 写的版本标题，以及含本传 / 星命诀字样却缺对应变体类的标题。
 - 兵种词条的术语性说明写进对应版本的 `terms` 字段（`ClassData.terms`，字符串数组，逐段渲染在 `description` 摘要之后），不要再单开「术语（本传）」「术语（星命诀）」h2 分区；`check:content` 会拦截这类回流。
-- 个人特性的颜色与排序由特性词条的 `level` 派生（1 顶级带发光、2 专属、3 负面、不设=普通），`src/data/trait-meta.ts` 不登记普通特性的颜色；唯一例外是三条强化别名 `豪桀*` / `桓武*` / `武库*`（保留 `Super` 配色）。带 `*` 的名字在聚合层归一化为去星后的词条、合并成同一行，星号只标在「持有人」的人名后（上标）；人物词条仍写带 `*` 的名字，链接用去星后的干净名字。`level` 由 `src/utils/trait-levels.ts` 构建期扫描词条生成，经 `BiographyLayout` 以 props 下发给浏览器端的 `Table_Traits`，服务端总特质表复用同一映射。`tests/trait-meta.test.ts` 会检查颜色白名单，以及有 `level` 的名字与派生颜色一致。
+- 个人特性的颜色与排序由特性词条的 `level` 派生（1 顶级带发光、2 专属、3 负面、不设=普通），`src/data/trait-meta.ts` 不登记普通特性的颜色；唯一例外是名字以 `*` 结尾的强化别名（登记 `Super` 配色，且其对应词条不设 `level`）。带 `*` 的名字在聚合层归一化为去星后的词条、合并成同一行，星号只标在「持有人」的人名后（上标）；人物词条仍写带 `*` 的名字，链接用去星后的干净名字。`level` 由 `src/utils/trait-levels.ts` 构建期扫描词条生成，经 `BiographyLayout` 以 props 下发给浏览器端的 `Table_Traits`，服务端总特质表复用同一映射。`tests/trait-meta.test.ts` 会检查带 `*` 的名字必为 `Super` 且对应词条不设 `level`，不带 `*` 的名字不得硬编码颜色。
 - Prettier：4 空格缩进、单引号、printWidth 160、无尾逗号；`md`/`mdx`/`yaml` 为 2 空格。
 
 ## 改动守则

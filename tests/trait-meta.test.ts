@@ -9,8 +9,8 @@ const dir = 'src/content/projects/trait';
 const files = fs.readdirSync(dir).filter((f) => f.endsWith('.mdx'));
 const slugOf = (link: string) => link.replace('/projects/trait/', '').replace(/\/$/, '');
 
-/** 允许硬编码颜色的强化别名（带 *）白名单 */
-const ENHANCED_ALIASES = new Set(['豪桀*', '桓武*', '武库*']);
+/** 强化别名：名字以 * 结尾（如「辅弼*」），颜色固定为 Super，对应词条不得设 level */
+const isEnhancedAlias = (name: string) => name.endsWith('*');
 
 test('TRAIT_MAP: every link points to an existing trait entry', () => {
     const slugs = new Set(files.map((f) => f.replace(/\.mdx$/, '')));
@@ -26,15 +26,14 @@ test('TRAIT_MAP: every trait entry (except overview pages) is listed under its t
     }
 });
 
-test('Trait color: only the three enhanced aliases carry a hard-coded color', () => {
+test('Trait color: 带 * 的名字必为 Super，不带 * 的名字不得硬编码颜色', () => {
     for (const [name, info] of Object.entries(TRAIT_MAP)) {
-        if (ENHANCED_ALIASES.has(name)) {
+        if (isEnhancedAlias(name)) {
             assert.equal(info.color, TraitColor.Super, `${name} 应为强化配色`);
         } else {
             assert.equal(info.color, undefined, `${name} 不应硬编码颜色，应由词条 level 派生`);
         }
     }
-    for (const name of ENHANCED_ALIASES) assert.ok(TRAIT_MAP[name], `${name} 未登记`);
 });
 
 test('traitColorFromLevel: 1 顶级 / 2 专属 / 3 负面 / 不设与其他值都是普通', () => {
@@ -44,25 +43,13 @@ test('traitColorFromLevel: 1 顶级 / 2 专属 / 3 负面 / 不设与其他值�
     for (const level of [undefined, 0, 4, -1]) assert.equal(traitColorFromLevel(level), undefined, String(level));
 });
 
-test('Trait color: 有 level 的非 * 名字不硬编码颜色；三个 * 别名对应的词条不设 level', () => {
-    for (const f of files) {
-        if (f.startsWith('00_')) continue;
-        const raw = fs.readFileSync(`${dir}/${f}`, 'utf8');
-        const level = extractTraitLevel(raw);
-        const title = raw.match(/^title:\s*(.+?)\s*$/m)?.[1] ?? '';
-        const m = title.match(/^(.+?)（(.+)）$/);
-        const names = m ? [m[1], m[2]] : [title];
-        for (const name of names) {
-            const info = TRAIT_MAP[name];
-            if (!info) continue;
-            // 强化别名是唯一允许保留颜色的名字，且其词条本身不设 level（颜色来自白名单）
-            if (ENHANCED_ALIASES.has(name)) {
-                assert.equal(level, undefined, `${name} 的词条不应设置 level（颜色来自白名单）`);
-                assert.equal(info.color, TraitColor.Super, name);
-                continue;
-            }
-            // 其余名字（无论有没有 level）都不硬编码颜色，渲染时由 traitColorFromLevel 派生
-            assert.equal(info.color, undefined, `${name} 不应硬编码颜色`);
-        }
+test('Trait color: 强化别名对应的词条不设 level（颜色来自 * 后缀）', () => {
+    const rawBySlug = new Map(files.map((f) => [f.replace(/\.mdx$/, ''), fs.readFileSync(`${dir}/${f}`, 'utf8')]));
+    for (const [name, info] of Object.entries(TRAIT_MAP)) {
+        if (!isEnhancedAlias(name)) continue;
+        const slug = slugOf(info.link);
+        const raw = rawBySlug.get(slug);
+        assert.ok(raw, `${name} → ${info.link} 的词条不存在`);
+        assert.equal(extractTraitLevel(raw), undefined, `${name} 的词条 ${slug} 不应设置 level`);
     }
 });

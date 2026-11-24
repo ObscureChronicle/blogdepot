@@ -1,4 +1,4 @@
-// 特性元数据：词条链接、地域特性所属地区，以及三条强化别名（带 *）的专属配色。
+// 特性元数据：词条链接、地域特性所属地区，以及强化别名（带 *）的专属配色。
 // 普通个人特性不再登记颜色：颜色与排序等级由词条自身的 level 派生（见 traitColorFromLevel），
 // level 的构建期扫描在 src/utils/trait-levels.ts。
 // Table_Traits.jsx（浏览器端也会运行）与 Table_TraitOwners.astro 共用，所以保持为静态数据，
