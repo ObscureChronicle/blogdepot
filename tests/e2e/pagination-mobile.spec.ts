@@ -8,10 +8,10 @@ test.describe('移动端分页布局', () => {
     test.beforeEach(() => onlyOn('mobile', '只在 mobile project 下有意义'));
 
     test('移动端显示"第 X 页，共 Y 页"文案，桌面端页码列表隐藏', async ({ page }) => {
-        await page.goto('/tags/biography/20/');
+        await page.goto('/tags/biography/10/');
         // 总页数不写死具体数字，只验证当前页码对、且格式正确——biography 标签
         // 下的内容以后增减，总页数会变，测试不该跟着报错。
-        await expect(page.getByText(/第 20 页，共 \d+ 页/)).toBeVisible();
+        await expect(page.getByText(/第 10 页，共 \d+ 页/)).toBeVisible();
         await expect(page.locator('ul.hidden.sm\\:inline-flex')).toBeHidden();
     });
 

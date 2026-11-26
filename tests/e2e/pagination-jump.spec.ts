@@ -3,6 +3,8 @@ import { expectNoNavigation, onlyOn } from './helpers';
 
 // biography 标签下有 400+ 篇内容，稳定跨很多页，用来测跳转框最合适。
 const TAG_PATH = '/tags/biography/';
+// 用例里的页码都取靠前的中间页（≤ 12），只要求 biography 不少于 12 页，内容增减不会让它们失效
+const MID_PAGE = 10;
 
 // 页面上跳转框其实有两份（移动端一份、桌面端一份），用 ul 限定桌面端这一份，
 // 避免选中被 CSS（sm:hidden）藏起来、不可交互的移动端副本。两份背后是同一段
@@ -14,17 +16,17 @@ test.describe('分页跳转输入框（桌面端）', () => {
     test('输入合法页码并按 Enter，跳转到对应页', async ({ page }) => {
         await page.goto(TAG_PATH);
         const input = page.locator('ul .pagination-jump-input');
-        await input.fill('20');
+        await input.fill('12');
         await input.press('Enter');
-        await expect(page).toHaveURL(/\/tags\/biography\/20\/?$/);
+        await expect(page).toHaveURL(/\/tags\/biography\/12\/?$/);
     });
 
     test('输入合法页码并点击 Go，跳转到对应页', async ({ page }) => {
         await page.goto(TAG_PATH);
         const jumpContainer = page.locator('ul .pagination-jump');
-        await jumpContainer.locator('.pagination-jump-input').fill('15');
+        await jumpContainer.locator('.pagination-jump-input').fill('8');
         await jumpContainer.locator('.pagination-jump-btn').click();
-        await expect(page).toHaveURL(/\/tags\/biography\/15\/?$/);
+        await expect(page).toHaveURL(/\/tags\/biography\/8\/?$/);
     });
 
     test('输入超出范围的页码，跳转会被 clamp 到最后一页', async ({ page }) => {
@@ -40,14 +42,14 @@ test.describe('分页跳转输入框（桌面端）', () => {
     });
 
     test('空输入按 Enter 不会触发跳转', async ({ page }) => {
-        await page.goto(`${TAG_PATH}20/`);
+        await page.goto(`${TAG_PATH}${MID_PAGE}/`);
         const input = page.locator('ul .pagination-jump-input');
         await input.fill('');
         await expectNoNavigation(page, () => input.press('Enter'));
     });
 
     test('非整数输入按 Enter 不会触发跳转，输入框会有错误提示样式', async ({ page }) => {
-        await page.goto(`${TAG_PATH}20/`);
+        await page.goto(`${TAG_PATH}${MID_PAGE}/`);
         const input = page.locator('ul .pagination-jump-input');
         await input.fill('3.5');
         await expectNoNavigation(page, () => input.press('Enter'));
