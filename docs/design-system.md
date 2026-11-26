@@ -297,15 +297,16 @@
 
 ## 7. 交互与动效
 
-| 项目         | 规范                                                                                                       |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| 悬停反馈     | 首选「底色变 `bg-muted`」或「出现下划线」；不做放大、位移、阴影                                            |
-| 时长         | 底色 / 透明度 150–300ms；页面级淡入（轮播）300ms；悬浮按钮出现 300–400ms                                   |
-| 缓动         | `ease-out`（简单过渡）或 `cubic-bezier(0.4, 0, 0.2, 1)`（菜单）                                            |
-| 焦点         | 统一写 `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]` |
-| 只在鼠标设备 | 悬停效果包在 `@media (hover: hover)` 里，避免触屏「粘住」                                                  |
-| 减少动态效果 | 所有过渡和自动播放都要有 `prefers-reduced-motion: reduce` 的关闭分支                                       |
-| 换页         | ClientRouter；客户端脚本在 `astro:page-load` 里初始化                                                      |
+| 项目         | 规范                                                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| 悬停反馈     | 首选「底色变 `bg-muted`」或「出现下划线」；不做放大、位移、阴影                                                                |
+| 时长         | 底色 / 透明度 150–300ms；页面级淡入（轮播）300ms；悬浮按钮出现 300–400ms                                                       |
+| 缓动         | `ease-out`（简单过渡）或 `cubic-bezier(0.4, 0, 0.2, 1)`（菜单）                                                                |
+| 焦点         | 统一写 `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]`                     |
+| 只在鼠标设备 | 悬停效果包在 `@media (hover: hover)` 里，避免触屏「粘住」                                                                      |
+| 状态旋转     | 只用于主题切换的太极图标：深色时 `rotate: 180deg`，由 `html.dark` 驱动，300ms `cubic-bezier(0.4, 0, 0.2, 1)`；其他图标不做旋转 |
+| 减少动态效果 | 所有过渡和自动播放都要有 `prefers-reduced-motion: reduce` 的关闭分支                                                           |
+| 换页         | ClientRouter；客户端脚本在 `astro:page-load` 里初始化                                                                          |
 
 ---
 
@@ -357,7 +358,6 @@
 | `ClassTreeDiagram.astro`                                          | 卡片 `rounded-md border-neutral-200`；节点色写死 hex | 圆角；颜色不走 token                             |
 | `ClassTree.astro`                                                 | 版本小标签手写 `rounded-sm` + 调色板                 | 没用 `editionBadgeClass()`，与其他版本标签不一致 |
 | 日志列表「NEW」角标                                               | `rounded bg-gray-500 text-white`，英文               | 圆角、调色板灰、英文                             |
-| `ThemeToggle.astro`                                               | 用 emoji「☯」作图标                                  | 图标应为 SVG；emoji 在各平台渲染不一致           |
 | `Header.astro`                                                    | `text-theme-foreground`                              | 这个类没有定义，不起作用（实际继承 `text-main`） |
 | `Button.astro` 外链图标                                           | `/up-right-arrow.png` 位图                           | 不跟随文字色，暗色下可能看不清；应为 SVG         |
 | `.dlc-diff`、分页输入错误态                                       | `red-600` / `red-400`、`border-red-500`              | 直接用调色板，未纳入语义 token                   |

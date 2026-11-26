@@ -1,13 +1,23 @@
 ---
-
+import Taiji from '../icons/Taiji.astro';
 ---
 
-<button id="theme-toggle" class="w-8 h-8 -mr-2 flex items-center justify-center cursor-pointer text-[20px]" aria-label="切换深色模式">
-    <!-- <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="8" cy="8" r="8"></circle>
-    </svg> -->
-    ☯
+<button id="theme-toggle" class="w-8 h-8 -mr-2 flex items-center justify-center cursor-pointer" aria-label="切换深色模式">
+    <Taiji class="theme-toggle-icon w-5 h-5 fill-current" aria-hidden="true" />
 </button>
+
+<style>
+    /* 深色模式下太极转半圈，阴阳互换位置；状态由 <html>.dark 驱动，刷新或换页时直接落在终态 */
+    :global(html.dark) .theme-toggle-icon {
+        rotate: 180deg;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .theme-toggle-icon {
+            transition: rotate 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    }
+</style>
 
 <script>
     document.addEventListener('astro:page-load', () => {

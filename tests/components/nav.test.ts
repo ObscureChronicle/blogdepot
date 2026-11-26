@@ -26,6 +26,6 @@ describe('Nav.astro', () => {
         expect(html).toContain('href="/"');
         expect(html).toContain('href="/tags/"');
         expect(html).toContain('href="/blog/"');
-        expect(html).toContain('☯');
+        expect(html).toMatch(/<button id="theme-toggle"[^>]*aria-label="切换深色模式"[^>]*><svg[^>]*theme-toggle-icon/);
     });
 });
