@@ -62,7 +62,9 @@ const navLinks = siteConfig.headerNavLinks || [];
         }
     }
 
-    @media (max-width: 960px) {
+    /* 与汉堡按钮的 md:hidden、菜单面板的 max-md:* 用同一个条件（Tailwind md = 48rem），
+       否则两者之间会出现「菜单已隐藏、按钮也不显示」或「面板样式生效却没隐藏」的宽度区间 */
+    @media (width < 48rem) {
         .menu {
             @apply invisible opacity-0;
             width: calc(100% + 1.25rem);

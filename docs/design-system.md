@@ -176,15 +176,15 @@
 
 ## 4. 布局
 
-| 项目         | 值                                                                                         |
-| ------------ | ------------------------------------------------------------------------------------------ |
-| 内容栏宽度   | `max-w-3xl`（768px），导航、面包屑、页眉、`main`、页脚统一                                 |
-| 长文阅读宽度 | `max-w-[38em]`（日志文章，约 42.75rem），文存题头同宽                                      |
-| 页面左右边距 | `px-4`（16px）→ `md:px-8`（32px）                                                          |
-| 断点         | 以 `sm`（640px）为主切换点；导航在 `md`（768px）以下收成汉堡菜单（现有代码不一致，见 §11） |
-| 撑满视口     | `.full-bleed`：扣除 `--scrollbar-width`，**不要**直接写 `w-screen` / `100vw`               |
-| 宽表格       | 放进 `.overflow-x-auto`，词条正文里会自动出现两侧淡出提示                                  |
-| 吸顶导航     | `z-30`，背景纸色 92% + `blur(8px)`；手机上下内边距 12px，桌面 32px                         |
+| 项目         | 值                                                                                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 内容栏宽度   | `max-w-3xl`（768px），导航、面包屑、页眉、`main`、页脚统一                                                                                        |
+| 长文阅读宽度 | `max-w-[38em]`（日志文章，约 42.75rem），文存题头同宽                                                                                             |
+| 页面左右边距 | `px-4`（16px）→ `md:px-8`（32px）                                                                                                                 |
+| 断点         | 以 `sm`（640px）为主切换点；导航在 `md`（768px）以下收成汉堡菜单；手写媒体查询要用与 Tailwind 相同的 `(width < 48rem)`，不要写 `max-width: 767px` |
+| 撑满视口     | `.full-bleed`：扣除 `--scrollbar-width`，**不要**直接写 `w-screen` / `100vw`                                                                      |
+| 宽表格       | 放进 `.overflow-x-auto`，词条正文里会自动出现两侧淡出提示                                                                                         |
+| 吸顶导航     | `z-30`，背景纸色 92% + `blur(8px)`；手机上下内边距 12px，桌面 32px                                                                                |
 
 **层级（z-index）**：导航 30 → 悬浮按钮 1000 → 搜索全屏面板 1100。
 
@@ -349,17 +349,16 @@
 
 以下是整理时发现的、与上述规范不一致的现有代码，**本文只记录，不代表已决定要改**。处理掉一项就从这里删掉。
 
-| 位置                                                              | 现状                                                                 | 与规范的差距                                                                               |
-| ----------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `Nav.astro` 断点                                                  | 菜单在 `max-width: 960px` 时隐藏，汉堡按钮却在 `md`（768px）以上隐藏 | **功能缺陷**：768–960px 宽度下导航链接和汉堡按钮都看不到（2026-11-26 在 860px 下实测确认） |
-| `--wiki-link`（亮色）、`algolia.css` 的 primary                   | `#2775B6`，纸色底 4.31:1，`bg-muted` 上 4.0:1                        | 低于 4.5:1。第四轮评估建议调到约 `#1F6AA5`                                                 |
-| `WikiLink.astro`、`SortableRankTable.astro`、`EquipmentStats.jsx` | `text-blue-600 hover:text-blue-800`                                  | 绕开了 `--wiki-link` token，亮色同样不足 4.5:1                                             |
-| `EntryToc.astro` 浮层                                             | `border-radius: 0.5rem` + 投影                                       | 圆角违背直角原则（投影属于允许的浮层例外）                                                 |
-| `ClassTreeDiagram.astro`                                          | 卡片 `rounded-md border-neutral-200`；节点色写死 hex                 | 圆角；颜色不走 token                                                                       |
-| `ClassTree.astro`                                                 | 版本小标签手写 `rounded-sm` + 调色板                                 | 没用 `editionBadgeClass()`，与其他版本标签不一致                                           |
-| 日志列表「NEW」角标                                               | `rounded bg-gray-500 text-white`，英文                               | 圆角、调色板灰、英文                                                                       |
-| `ThemeToggle.astro`                                               | 用 emoji「☯」作图标                                                  | 图标应为 SVG；emoji 在各平台渲染不一致                                                     |
-| `Header.astro`                                                    | `text-theme-foreground`                                              | 这个类没有定义，不起作用（实际继承 `text-main`）                                           |
-| `Button.astro` 外链图标                                           | `/up-right-arrow.png` 位图                                           | 不跟随文字色，暗色下可能看不清；应为 SVG                                                   |
-| `.dlc-diff`、分页输入错误态                                       | `red-600` / `red-400`、`border-red-500`                              | 直接用调色板，未纳入语义 token                                                             |
-| `--color-blue-800` 注释                                           | 「先这样看要不要回撤」                                               | 值已全站生效，建议定案后改掉注释                                                           |
+| 位置                                                              | 现状                                                 | 与规范的差距                                     |
+| ----------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| `--wiki-link`（亮色）、`algolia.css` 的 primary                   | `#2775B6`，纸色底 4.31:1，`bg-muted` 上 4.0:1        | 低于 4.5:1。第四轮评估建议调到约 `#1F6AA5`       |
+| `WikiLink.astro`、`SortableRankTable.astro`、`EquipmentStats.jsx` | `text-blue-600 hover:text-blue-800`                  | 绕开了 `--wiki-link` token，亮色同样不足 4.5:1   |
+| `EntryToc.astro` 浮层                                             | `border-radius: 0.5rem` + 投影                       | 圆角违背直角原则（投影属于允许的浮层例外）       |
+| `ClassTreeDiagram.astro`                                          | 卡片 `rounded-md border-neutral-200`；节点色写死 hex | 圆角；颜色不走 token                             |
+| `ClassTree.astro`                                                 | 版本小标签手写 `rounded-sm` + 调色板                 | 没用 `editionBadgeClass()`，与其他版本标签不一致 |
+| 日志列表「NEW」角标                                               | `rounded bg-gray-500 text-white`，英文               | 圆角、调色板灰、英文                             |
+| `ThemeToggle.astro`                                               | 用 emoji「☯」作图标                                  | 图标应为 SVG；emoji 在各平台渲染不一致           |
+| `Header.astro`                                                    | `text-theme-foreground`                              | 这个类没有定义，不起作用（实际继承 `text-main`） |
+| `Button.astro` 外链图标                                           | `/up-right-arrow.png` 位图                           | 不跟随文字色，暗色下可能看不清；应为 SVG         |
+| `.dlc-diff`、分页输入错误态                                       | `red-600` / `red-400`、`border-red-500`              | 直接用调色板，未纳入语义 token                   |
+| `--color-blue-800` 注释                                           | 「先这样看要不要回撤」                               | 值已全站生效，建议定案后改掉注释                 |

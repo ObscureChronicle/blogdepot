@@ -46,3 +46,24 @@ test.describe('移动端导航菜单', () => {
         await expect(menu).not.toHaveClass(/is-visible/);
     });
 });
+
+test.describe('导航断点', () => {
+    // 回归：菜单曾在 ≤960px 隐藏、汉堡按钮却在 ≥768px 隐藏，768–960px 之间两者都看不到
+    test.beforeEach(() => onlyOn('desktop', '只需在一个 project 下按不同视口宽度检查'));
+
+    for (const width of [768, 860]) {
+        test(`宽度 ${width}px：直接显示导航链接，不显示汉堡按钮`, async ({ page }) => {
+            await page.setViewportSize({ width, height: 800 });
+            await page.goto('/');
+            await expect(page.locator('.menu-toggle')).toBeHidden();
+            await expect(page.locator('#menu-items a').first()).toBeVisible();
+        });
+    }
+
+    test('宽度 767px：显示汉堡按钮，菜单默认收起', async ({ page }) => {
+        await page.setViewportSize({ width: 767, height: 800 });
+        await page.goto('/');
+        await expect(page.locator('.menu-toggle')).toBeVisible();
+        await expect(page.locator('#menu-items a').first()).toBeHidden();
+    });
+});
