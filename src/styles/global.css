@@ -441,7 +441,7 @@ html.dark {
     }
 }
 
-/* public/cursor-click.js 的点击飘字动画 */
+/* CursorClick.astro 的点击飘字动画 */
 @keyframes floatUp {
     0% {
         transform: translateY(0);

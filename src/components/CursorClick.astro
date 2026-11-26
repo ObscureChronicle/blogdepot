@@ -1,0 +1,42 @@
+---
+import Taiji from '../icons/Taiji.astro';
+---
+
+{/* 点击飘字的图形模板：每次点击克隆一份，图形与主题切换按钮共用 Taiji.astro */}
+<template data-cursor-click>
+    <span class="cursor-click" aria-hidden="true">
+        <Taiji class="w-full h-full fill-current" />
+    </span>
+</template>
+
+<style>
+    .cursor-click {
+        position: fixed;
+        z-index: 9999;
+        width: 24px;
+        height: 24px;
+        color: var(--text-main);
+        pointer-events: none;
+        user-select: none;
+        /* floatUp 定义在 global.css */
+        animation: floatUp 1s ease-out forwards;
+    }
+</style>
+
+<script>
+    // 模块脚本只执行一次，监听挂在 document 上，ClientRouter 换页后依然有效；
+    // 模板随 body 一起被替换，所以每次点击都重新查找。
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    document.addEventListener('click', (event) => {
+        if (reducedMotion.matches) return;
+        const template = document.querySelector<HTMLTemplateElement>('template[data-cursor-click]');
+        const symbol = template?.content.firstElementChild?.cloneNode(true);
+        if (!(symbol instanceof HTMLElement)) return;
+
+        symbol.style.left = `${event.clientX}px`;
+        symbol.style.top = `${event.clientY}px`;
+        symbol.addEventListener('animationend', () => symbol.remove(), { once: true });
+        document.body.appendChild(symbol);
+    });
+</script>

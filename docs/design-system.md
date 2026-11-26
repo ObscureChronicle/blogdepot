@@ -297,16 +297,17 @@
 
 ## 7. 交互与动效
 
-| 项目         | 规范                                                                                                                           |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| 悬停反馈     | 首选「底色变 `bg-muted`」或「出现下划线」；不做放大、位移、阴影                                                                |
-| 时长         | 底色 / 透明度 150–300ms；页面级淡入（轮播）300ms；悬浮按钮出现 300–400ms                                                       |
-| 缓动         | `ease-out`（简单过渡）或 `cubic-bezier(0.4, 0, 0.2, 1)`（菜单）                                                                |
-| 焦点         | 统一写 `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]`                     |
-| 只在鼠标设备 | 悬停效果包在 `@media (hover: hover)` 里，避免触屏「粘住」                                                                      |
-| 状态旋转     | 只用于主题切换的太极图标：深色时 `rotate: 180deg`，由 `html.dark` 驱动，300ms `cubic-bezier(0.4, 0, 0.2, 1)`；其他图标不做旋转 |
-| 减少动态效果 | 所有过渡和自动播放都要有 `prefers-reduced-motion: reduce` 的关闭分支                                                           |
-| 换页         | ClientRouter；客户端脚本在 `astro:page-load` 里初始化                                                                          |
+| 项目         | 规范                                                                                                                                           |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 悬停反馈     | 首选「底色变 `bg-muted`」或「出现下划线」；不做放大、位移、阴影                                                                                |
+| 时长         | 底色 / 透明度 150–300ms；页面级淡入（轮播）300ms；悬浮按钮出现 300–400ms                                                                       |
+| 缓动         | `ease-out`（简单过渡）或 `cubic-bezier(0.4, 0, 0.2, 1)`（菜单）                                                                                |
+| 焦点         | 统一写 `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-main)]`                                     |
+| 只在鼠标设备 | 悬停效果包在 `@media (hover: hover)` 里，避免触屏「粘住」                                                                                      |
+| 状态旋转     | 只用于主题切换的太极图标：深色时 `rotate: 180deg`，由 `html.dark` 驱动，300ms `cubic-bezier(0.4, 0, 0.2, 1)`；其他图标不做旋转                 |
+| 点击飘字     | 全站点击时飘出太极（`CursorClick.astro`，图形复用 `Taiji.astro`）：24px 墨色，`floatUp` 上移 100px 并淡出，1s `ease-out`；减少动态效果时不生成 |
+| 减少动态效果 | 所有过渡和自动播放都要有 `prefers-reduced-motion: reduce` 的关闭分支                                                                           |
+| 换页         | ClientRouter；客户端脚本在 `astro:page-load` 里初始化                                                                                          |
 
 ---
 
