@@ -91,6 +91,7 @@ npm run check:links      # 扫描 dist/ 的站内链接（需先 build）：缺�
 ## 约定
 
 - Commit message 用中文 Conventional Commits：内容变更用 `docs:`，组件/脚本用 `feat:` / `refactor:` 等，可带 scope（如 `refactor(bio):`）。
+- 视觉风格（配色 token、字体、线条、组件模式、动效）的规范在 `docs/design-system.md`：改样式或新增组件前先查它，改了 token 或模式要同步更新该文档。
 - 标题分两级，统一用语义类，配色与 `src/data/editions.ts` 保持一致，不要另写 Tailwind 字号、字重或颜色：
   - 版本标题（底色框线）：本传写 `<h2 class="edition-title edition-title--base">本传</h2>`，星命诀写 `<h2 class="edition-title edition-title--dlc">星命诀</h2>`；组件内用 `<SectionTitle edition="base">` / `<SectionTitle edition="dlc">`。
   - 分区标题（文武线，版本标题之下的战前、说明、兵种参数等）：写 `<h2 class="section-title">…</h2>`，需要按版本着色时加 `section-title--base` / `--dlc`；组件内用 `<SectionTitle>` / `<SectionTitle tone="dlc">`。
