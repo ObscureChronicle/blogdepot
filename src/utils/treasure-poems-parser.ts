@@ -70,7 +70,7 @@ function findClosingBracket(text: string, start: number): number {
 }
 
 /** 读取 `prop={…}` 花括号内部的原文；没有该属性或括号不配对时返回 null */
-function readPropBlock(raw: string, prop: string): string | null {
+export function readPropBlock(raw: string, prop: string): string | null {
     const m = new RegExp(`\\b${prop}\\s*=\\s*\\{`).exec(raw);
     if (!m) return null;
     const start = raw.indexOf('{', m.index);
