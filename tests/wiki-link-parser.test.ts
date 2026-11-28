@@ -40,6 +40,8 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
         '../content/projects/treasure/shemao.mdx': mdx('蛇矛（丈八蛇矛）'),
         '../content/projects/treasure/00_item-type.mdx': mdx('宝物'),
         '../content/projects/equipment/gedun.mdx': mdx('革盾'),
+        '../content/projects/weapon/zhugeliannu.mdx': mdx('诸葛连弩'),
+        '../content/projects/weapon/00_weapon-type.mdx': mdx('武器'),
         '../content/projects/class/gongbing.mdx': mdx('弓兵'),
         '../content/projects/class/00_total.mdx': mdx('兵种'),
         '../content/projects/status/pibi.mdx': mdx('疲弊（疲惫）'),
@@ -50,7 +52,8 @@ test('buildWikiLinkMaps: routes each content dir to its map and skips overview p
         '蛇矛（丈八蛇矛）': '/projects/treasure/shemao/',
         蛇矛: '/projects/treasure/shemao/',
         丈八蛇矛: '/projects/treasure/shemao/',
-        革盾: '/projects/equipment/gedun/'
+        革盾: '/projects/equipment/gedun/',
+        诸葛连弩: '/projects/weapon/zhugeliannu/'
     });
     assert.deepEqual(maps.class, { 弓兵: '/projects/class/gongbing/' });
     assert.deepEqual(maps.status, {
@@ -82,7 +85,7 @@ test('buildWikiLinkMaps: warns about entries without a title instead of silently
 test('buildWikiLinkMaps (real content): every entry is reachable by its own title, with no warnings', () => {
     const root = 'src/content/projects';
     const rawFiles: Record<string, string> = {};
-    for (const dir of ['bio', 'treasure', 'equipment', 'class', 'status']) {
+    for (const dir of ['bio', 'treasure', 'equipment', 'weapon', 'class', 'status']) {
         for (const f of fs.readdirSync(path.join(root, dir)).filter((n) => n.endsWith('.mdx'))) {
             rawFiles[`${root}/${dir}/${f}`] = fs.readFileSync(path.join(root, dir, f), 'utf8');
         }
@@ -94,6 +97,7 @@ test('buildWikiLinkMaps (real content): every entry is reachable by its own titl
         bio: 'character',
         treasure: 'item',
         equipment: 'item',
+        weapon: 'item',
         class: 'class',
         status: 'status'
     };

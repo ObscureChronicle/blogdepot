@@ -15,6 +15,7 @@ const DIR_KIND: Record<string, WikiLinkKind> = {
     bio: 'character',
     treasure: 'item',
     equipment: 'item',
+    weapon: 'item',
     class: 'class',
     status: 'status'
 };
@@ -40,7 +41,7 @@ export function extractTitle(raw: string): string | null {
     return title || null;
 }
 
-/** 宝物 / 配饰 / 兵装 / 兵种的总览页（00_item-type、equipment-type、00_total 等）不参与映射 */
+/** 宝物 / 配饰 / 兵装 / 武器 / 兵种的总览页（00_item-type、equipment-type、00_weapon-type、00_total 等）不参与映射 */
 export function isOverviewPage(slug: string): boolean {
     return slug.startsWith('00_') || slug.endsWith('-type');
 }
