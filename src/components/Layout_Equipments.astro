@@ -35,6 +35,8 @@ type EquipmentWikiProps = {
     dlcOwner?: string[];
     baseMaterials?: string[];
     dlcMaterials?: string[];
+    /** 正主以外的关联人物（不分版本）；人物页的「关联装备」由正主和这里反查生成，同一人不要两处都写 */
+    relatedPeople?: string[];
     /** 单首附诗的本地化文本；只在配饰附诗总览表里使用，本组件不渲染 */
     baseLocalization?: PoemLocalization;
     dlcLocalization?: PoemLocalization;
@@ -52,6 +54,7 @@ const {
     dlcOwner = [],
     baseMaterials = [],
     dlcMaterials = [],
+    relatedPeople = [],
     noteHtml
 } = Astro.props as EquipmentWikiProps;
 
@@ -208,6 +211,20 @@ const variantAttrs = (edition: Edition, i: number) =>
                     </Fragment>
                 ))}
             </EditionSplit>
+        </>
+    )
+}
+
+{/* ==================== 关联人物 ==================== */}
+{
+    relatedPeople.length > 0 && (
+        <>
+            <SectionTitle>关联人物</SectionTitle>
+            <div class="flex flex-col items-start gap-1">
+                {relatedPeople.map((name) => (
+                    <WikiLink kind="character" name={name} />
+                ))}
+            </div>
         </>
     )
 }

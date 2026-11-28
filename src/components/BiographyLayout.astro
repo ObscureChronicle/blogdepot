@@ -6,6 +6,8 @@ import EditionBadge from './EditionBadge.astro';
 import SectionTitle from './SectionTitle.astro';
 import { EDITIONS, type Edition } from '../data/editions';
 import { TRAIT_LEVELS } from '../utils/trait-levels';
+import { getRelatedItems } from '../utils/item-relations';
+import { ownerNote } from '../utils/item-relations-parser';
 import WikiLink from './WikiLink.astro';
 
 /** 本传的一个形态；多个形态时 name 是切换按钮文字 */
@@ -51,14 +53,13 @@ type CharacterWikiProps = {
     dlcclass: string[];
     battlesBase: [string, string][];
     battlesDLC: [string, string][];
-    equipments: string[];
     links: { label: string; href: string }[];
     nameTableData: {};
     /** 初始设定：按版本分组的表格 */
     initialSetup?: InitialSetupGroup[];
     /** 初始设定表格下方的脚注 */
     initialSetupNote?: string;
-    /** 入队装备，与「关联装备」一样按物品名生成词条链接 */
+    /** 入队装备，按物品名生成词条链接 */
     initialEquipments?: string[];
     /** 军略：军略名 + 习得时机 */
     artsOfWar?: ArtOfWarEntry[];
@@ -78,7 +79,6 @@ const {
     dlcclass,
     battlesBase,
     battlesDLC,
-    equipments,
     links,
     nameTableData,
     initialSetup,
@@ -89,6 +89,9 @@ const {
 } = Astro.props as CharacterWikiProps;
 
 const hasBase = (baseForms?.length ?? 0) > 0;
+
+// 关联装备不写在人物词条里，按页面地址从物品词条的正主（baseOwner / dlcOwner）和 relatedPeople 反查
+const relatedItems = getRelatedItems(Astro.url.pathname);
 
 const basename = EDITIONS.base.name;
 const dlcname = EDITIONS.dlc.name;
@@ -236,10 +239,20 @@ const dlcname_short = EDITIONS.dlc.shortName;
     ) : null
 }
 {
-    equipments && equipments.length > 0 ? (
+    relatedItems.length > 0 ? (
         <>
             <SectionTitle>关联装备</SectionTitle>
-            <div class="flex flex-col pl-4">{equipments.map((e) => <WikiLink kind="item" name={e} linkClass="" />)}</div>
+            <div class="flex flex-col pl-4">
+                {relatedItems.map((item) => {
+                    const note = ownerNote(item.owner);
+                    return (
+                        <span>
+                            <a href={item.href}>{item.name}</a>
+                            {note && <span class="text-(--wiki-label)">（{note}）</span>}
+                        </span>
+                    );
+                })}
+            </div>
         </>
     ) : null
 }

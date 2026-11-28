@@ -70,3 +70,18 @@ describe('Layout_Equipments.astro 多首附诗', () => {
         expect(html).not.toContain('<button');
     });
 });
+
+describe('Layout_Equipments.astro 关联人物', () => {
+    it('renders relatedPeople as character links below 正主', async () => {
+        const html = await render({ baseOwner: ['曹髦'], relatedPeople: ['曹操', '无名氏'] });
+        expect(html).toContain('>关联人物</h2>');
+        expect(html.indexOf('>正主</h2>')).toBeLessThan(html.indexOf('>关联人物</h2>'));
+        expect(html).toContain('href="/projects/bio/caocao/"');
+        expect(html).toContain('<span>无名氏</span>');
+    });
+
+    it('renders no section without relatedPeople', async () => {
+        const html = await render({ baseOwner: ['曹髦'] });
+        expect(html).not.toContain('关联人物');
+    });
+});

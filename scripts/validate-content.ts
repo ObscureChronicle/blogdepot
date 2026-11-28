@@ -4,12 +4,16 @@ import matter from 'gray-matter';
 import { blogSchema, COLLECTION_BASES, CONTENT_PATTERN, pagesSchema, projectsSchema, type CollectionName } from '../src/content-schemas.ts';
 import { classTreeCards } from '../src/data/class-tree.ts';
 import { extractBaseClassRelations } from '../src/utils/class-relations.ts';
+import { ITEM_DIRS } from '../src/utils/item-relations-parser.ts';
+import { buildWikiLinkMaps } from '../src/utils/wiki-link-parser.ts';
 import {
     checkClassTree,
     checkDisambiguation,
     checkEditionSectionTitles,
     checkFrontmatter,
     checkInternalLinks,
+    checkItemRelatedPeople,
+    checkLegacyBioEquipments,
     checkLegacyAttributeFigure,
     checkLegacyPoemLocalization,
     checkLegacyTermHeadings,
@@ -39,13 +43,20 @@ const parsed = entries.map((entry) => {
     return { ...entry, raw, data: matter(raw).data };
 });
 
+// 人名 → 人物词条链接，供 relatedPeople 校验
+const characterMap = buildWikiLinkMaps(
+    Object.fromEntries(parsed.filter((e) => e.collection === 'projects' && e.id.startsWith('bio/')).map((e) => [e.file, e.raw]))
+).maps.character;
+const isItemEntry = (id: string) => (ITEM_DIRS as readonly string[]).includes(id.split('/')[0]);
+
 const perFileIssues: Issue[] = parsed.flatMap(({ collection, file, id, raw, data }) => {
     const findings = [
         ...checkFrontmatter(collection, SCHEMAS[collection], data),
         ...checkEditionSectionTitles(raw),
         ...(collection === 'projects' && id.startsWith('class/') ? checkLegacyTermHeadings(raw) : []),
-        ...(collection === 'projects' && id.startsWith('bio/') ? checkLegacyAttributeFigure(raw) : []),
+        ...(collection === 'projects' && id.startsWith('bio/') ? [...checkLegacyAttributeFigure(raw), ...checkLegacyBioEquipments(raw)] : []),
         ...(collection === 'projects' && id.startsWith('trait/') ? checkLegacyTraitOwners(raw) : []),
+        ...(collection === 'projects' && isItemEntry(id) ? checkItemRelatedPeople(raw, characterMap) : []),
         ...(collection === 'projects' && id.startsWith('treasure/') ? [...checkTreasureVariants(raw), ...checkLegacyPoemLocalization(raw)] : []),
         ...checkInternalLinks(raw, contentRoute(collection, id), knownRoutes)
     ];

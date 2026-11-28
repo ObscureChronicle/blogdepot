@@ -140,3 +140,30 @@ describe('BiographyLayout.astro 可操控人物的数据栏目', () => {
         expect(html).toContain('href="/projects/bio/caocao/"');
     });
 });
+
+describe('BiographyLayout.astro 关联装备', () => {
+    // 关联装备按页面地址从物品词条反查，这里用真实内容渲染曹操页
+    const renderAt = (pathname: string) =>
+        container.renderToString(BiographyLayout, {
+            props: { intro: '主要', nameTableData: {}, baseForms: [form('初期', 1, [])] },
+            request: new Request(`https://example.com${pathname}`)
+        });
+
+    it('lists owner items first with an edition note, then the other related items', async () => {
+        const html = await renderAt('/projects/bio/caocao/');
+        const section = html.slice(html.indexOf('>关联装备</h2>'));
+        const items = [...section.matchAll(/<a href="(\/projects\/(?:treasure|equipment|weapon)\/[^"]+)">([^<]+)<\/a>(?:<span[^>]*>（([^）]+)）<\/span>)?/g)].map((m) => [
+            m[2],
+            m[3] ?? null
+        ]);
+        expect(items).toContainEqual(['倚天', '正主']);
+        expect(items).toContainEqual(['青釭', null]);
+        const firstPlain = items.findIndex(([, note]) => note === null);
+        expect(items.slice(firstPlain).every(([, note]) => note === null)).toBe(true);
+    });
+
+    it('renders no section for a person without related items', async () => {
+        const html = await renderAt('/projects/bio/nobody/');
+        expect(html).not.toContain('关联装备');
+    });
+});

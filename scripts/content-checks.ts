@@ -3,6 +3,7 @@ import type { ZodObject } from 'astro/zod';
 import type { CollectionName } from '../src/content-schemas.ts';
 import type { ClassRelations } from '../src/utils/class-relations.ts';
 import { isPinyinIndexTag, resolveTag } from '../src/utils/data-utils.ts';
+import { extractItemPeople } from '../src/utils/item-relations-parser.ts';
 
 export type Finding = { level: 'error' | 'warning'; message: string };
 
@@ -124,6 +125,35 @@ export function checkLegacyTraitOwners(raw: string): Finding[] {
     return /^\s*(base|dlc)Owner\s*=/m.test(raw)
         ? [{ level: 'error', message: '特性词条不再写 baseOwner / dlcOwner，持有人由人物的 baseForms / traitsDLC 自动生成' }]
         : [];
+}
+
+/**
+ * 人物页的「关联装备」改由物品词条的正主（baseOwner / dlcOwner）和 relatedPeople 反查生成，
+ * 布局组件已不接收 equipments，写了也不会显示，所以按错误拦截。
+ */
+export function checkLegacyBioEquipments(raw: string): Finding[] {
+    return /^\s*equipments\s*=/m.test(raw)
+        ? [{ level: 'error', message: '人物词条不再写 equipments，关联装备由物品词条的 baseOwner / dlcOwner 和 relatedPeople 自动生成' }]
+        : [];
+}
+
+/**
+ * 物品词条的 relatedPeople 只写正主以外的人物：同一人物同时是正主会在人物页重复，按错误拦截；
+ * 解析不到人物词条的名字不会出现在任何人物页上，提示为警告。
+ * @param characterMap 人名（含别名）→ 人物词条链接
+ */
+export function checkItemRelatedPeople(raw: string, characterMap: Record<string, string>): Finding[] {
+    const { owner, related } = extractItemPeople(raw);
+    const ownerKeys = new Set([...owner.base, ...owner.dlc].map((name) => characterMap[name] ?? name));
+    return related.flatMap((name): Finding[] => {
+        if (ownerKeys.has(characterMap[name] ?? name)) {
+            return [{ level: 'error', message: `「${name}」已是正主，不要再写进 relatedPeople` }];
+        }
+        if (!characterMap[name]) {
+            return [{ level: 'warning', message: `relatedPeople 里的「${name}」没有对应的人物词条，不会出现在人物页的关联装备里` }];
+        }
+        return [];
+    });
 }
 
 /**

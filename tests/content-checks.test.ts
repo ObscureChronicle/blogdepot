@@ -13,6 +13,8 @@ import {
     checkLegacyAttributeFigure,
     checkLegacyPoemLocalization,
     checkLegacyTermHeadings,
+    checkItemRelatedPeople,
+    checkLegacyBioEquipments,
     checkLegacyTraitOwners,
     checkTreasureVariants,
     contentRoute
@@ -262,4 +264,27 @@ test('checkLegacyPoemLocalization: the old per-entry field is an error, per-poem
 
 test('checkTreasureVariants: entries without variants are fine', () => {
     assert.deepEqual(checkTreasureVariants(`<EquipmentWiki\n  baseDescription={'诗'}\n/>`), []);
+});
+
+test('checkLegacyBioEquipments: hand-written equipments on a bio entry is an error', () => {
+    const findings = checkLegacyBioEquipments(`<CharacterWiki\n  equipments={['倚天']}\n/>`);
+    assert.equal(findings.length, 1);
+    assert.ok(findings[0].level === 'error' && findings[0].message.includes('relatedPeople'));
+    assert.deepEqual(checkLegacyBioEquipments(`<CharacterWiki\n  initialEquipments={['倚天']}\n/>`), []);
+});
+
+test('checkItemRelatedPeople: an owner repeated in relatedPeople is an error, resolving aliases', () => {
+    const map = { '韩荀（韩猛）': '/projects/bio/hanxun/', 韩荀: '/projects/bio/hanxun/', 韩猛: '/projects/bio/hanxun/', 曹操: '/projects/bio/caocao/' };
+    const findings = checkItemRelatedPeople(`<EquipmentWiki\n  dlcOwner={['韩荀']}\n  relatedPeople={['韩猛', '曹操']}\n/>`, map);
+    assert.deepEqual(
+        findings.map((f) => f.level),
+        ['error']
+    );
+    assert.ok(findings[0].message.includes('韩猛'));
+});
+
+test('checkItemRelatedPeople: a name without a bio entry is a warning', () => {
+    const findings = checkItemRelatedPeople(`<EquipmentWiki\n  relatedPeople={['无名氏']}\n/>`, {});
+    assert.equal(findings.length, 1);
+    assert.equal(findings[0].level, 'warning');
 });
